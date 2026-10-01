@@ -72,7 +72,7 @@ export const about: AboutContent = {
   legal: {
     heading: "Legal name",
     name: "Medsafar India, a division of Travgrub Private Limited",
-    body: "Registered address and registration number to be supplied.",
+    body: `Registered office: ${site.company.registeredAddress}. GSTIN ${site.company.gstin}.`,
   },
   note: "This page is a placeholder until Medsafar supplies its own text.",
   pending: true,
@@ -94,10 +94,14 @@ export const contact: ContactContent = {
       { label: "WhatsApp", value: site.contact.whatsapp.display, href: whatsappHref },
       { label: "Phone", value: site.contact.phone.display, href: phoneHref },
       { label: "Email", value: site.contact.email, href: emailHref },
-      { label: "Office", value: "Office address to be supplied", href: null, pending: true },
+      {
+        label: "Office",
+        value: site.company.registeredAddress ?? "",
+        href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("NEO Corporate Plaza, Ramchandra Lane, Mumbai 400064")}`,
+      },
       { label: "Working hours", value: "Working hours to be supplied", href: null, pending: true },
     ],
-    note: "The office address and working hours are still to be supplied.",
+    note: "Working hours are still to be supplied.",
   },
   pending: true,
 };

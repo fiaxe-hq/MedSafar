@@ -53,9 +53,10 @@ export const site: SiteContent = {
   },
 
   company: {
-    // Supplied later. The footer shows each one as soon as it is filled in.
-    registeredAddress: null,
-    gstin: null,
+    // The footer shows each one while it is filled in; set it to null to hide it.
+    registeredAddress:
+      "Office No. 222, 2nd Floor, NEO Corporate Plaza, Ramchandra Lane, Mumbai, Maharashtra 400064, India",
+    gstin: "27AAHCT0016D1ZU",
   },
 
   mobileBar: {

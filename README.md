@@ -202,7 +202,5 @@ in place for the translation pass:
 
 - Real hospitals, accreditations, patient stories and photos.
 - Trust figures Medsafar can prove. Enter and publish them in `/admin/stats`.
-- The registered address and GSTIN. Set `site.company.registeredAddress` and
-  `site.company.gstin` and the footer shows them.
 - Header links for Treatments and Doctors point at sections of this page until
   those pages exist; change the `href` in `site.nav.items`.
