@@ -13,8 +13,9 @@ npm run dev
 
 - `/` — the home page, which is also the template for every country page.
 - `/ng` — Nigeria.
+- `/iq`, `/bd`, `/ke`, `/ge`, `/uz` — Iraq, Bangladesh, Kenya, Georgia and Uzbekistan.
 
-Both pages use the same component, `components/CountryPage.tsx`, with the same
+Every page uses the same component, `components/CountryPage.tsx`, with the same
 sections in the same order. Only the content file changes.
 
 ## Content
@@ -26,7 +27,7 @@ No copy and no image path lives in a component. Everything is in `content/`:
 | `content/site.ts` | Header, footer, buttons and every label in the enquiry form — the text that is the same in every country. |
 | `content/dial-codes.ts` | The country codes in the phone field. |
 | `content/countries/global.ts` | The home page. |
-| `content/countries/ng.ts` | Nigeria. |
+| `content/countries/ng.ts` | Nigeria. The other country files follow the same pattern. |
 | `content/types.ts` | The shape all of the above must follow. |
 
 ### Adding a country

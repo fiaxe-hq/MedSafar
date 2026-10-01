@@ -43,6 +43,12 @@ Found by searching for `pending: true` pictures and every `<Figure>`.
 | 8 | Patient story portraits, Nigeria | `content/countries/ng.ts` → `Stories.tsx` | square, small | 3 | **No** |
 | 9 | Doctor portraits | `data/doctors.ts` → `DoctorCard.tsx`, `app/doctors/[slug]/page.tsx` | square card, 4:5 detail | 4 | **No** |
 | 10 | Team portraits | `content/pages.ts` → `app/about/page.tsx` | square, small | 3 | **No** |
+| 11 | Iraq hero | `content/countries/iq.ts` → `Hero.tsx` | as slot 1 | 1 | Yes |
+| 12 | Bangladesh hero | `content/countries/bd.ts` → `Hero.tsx` | as slot 1 | 1 | Yes |
+| 13 | Kenya hero | `content/countries/ke.ts` → `Hero.tsx` | as slot 1 | 1 | Yes |
+| 14 | Georgia hero | `content/countries/ge.ts` → `Hero.tsx` | as slot 1 | 1 | Yes |
+| 15 | Uzbekistan hero | `content/countries/uz.ts` → `Hero.tsx` | as slot 1 | 1 | Yes |
+| 16 | Patient story portraits, Iraq, Bangladesh, Kenya, Georgia, Uzbekistan | the five country files → `Stories.tsx` | square, small | 3 each, 15 in all | **No** |
 
 ---
 
@@ -140,6 +146,70 @@ Paid:
 
 - [Nurse with male doctor examining patient on ICU bed](https://www.istockphoto.com/search/2/image?phrase=1419003142) (iStock 1419003142). Indian ICU team. 1 or 3 credits.
 
+## 11–15. New country heroes
+
+**Brief for each**: a patient from that country with their family, hopeful
+rather than unwell, ideally in or near a hospital. It must read as that
+nationality, not as a generic "Middle Eastern", "Asian" or "African" face.
+
+Free stock for these is mostly street and travel photography, not medical
+scenes. The picks below are the closest; a short commissioned shoot with real
+patients (with consent) will look better for every one of them.
+
+### 11. Iraq
+
+Free:
+
+1. [Father with children on a colourful mat, Tima Miroshnichenko](https://www.pexels.com/photo/5988678/) (Pexels). Warm family scene, not medical.
+2. [Grandma and baby, Eslames1](https://www.pexels.com/photo/27593286/) (Pexels). Family, indoors.
+
+Paid:
+
+- [Muslim nurse talking to a senior patient at the hospital](https://www.istockphoto.com/photo/muslim-nurse-talking-to-a-senior-patient-at-the-hospital-gm1404912379-456993026) (iStock). Hospital setting, Middle Eastern patient. 1 or 3 credits.
+
+### 12. Bangladesh
+
+Free:
+
+1. [Happy family relaxing by the river in Chittagong, Minhaj Ahmed Ahyan](https://www.pexels.com/photo/34935084/) (Pexels). Clearly Bangladeshi, not medical.
+2. [Traditional Bangladeshi family portrait outdoors, Sagor Bormon](https://www.pexels.com/photo/28977852/) (Pexels).
+3. [Happy family walking outdoors in traditional attire, Ornob Sadi](https://www.pexels.com/photo/38974355/) (Pexels).
+
+Paid:
+
+- [Mid adult Indian doctor consulting with patient](https://www.istockphoto.com/photo/mid-adult-indian-doctor-consulting-with-patient-gm2187596869-606169311) (iStock). South Asian consultation; check the patient reads as Bangladeshi before buying. 1 or 3 credits.
+
+### 13. Kenya
+
+Free:
+
+1. [A joyful mother and child in colourful traditional Kenyan clothing, Riccardo Parretti](https://www.pexels.com/photo/10628608/) (Pexels).
+2. [Father and children on a camping trip in a Kenyan forest, Kim Jackson](https://www.pexels.com/photo/8374651/) (Pexels).
+3. [A woman and a child on airport terminal chairs, Gylain Omer](https://unsplash.com/photos/woman-and-child-in-airport-terminal-bZg_EjTYMTM) (Unsplash). Travel; if not already used on the home page.
+
+Paid:
+
+- [Father and son drawing together in a hospital room](https://www.istockphoto.com/search/2/image?phrase=687000700) (iStock 687000700). Calm hospital family scene; check the family fits before buying. 1 or 3 credits.
+
+### 14. Georgia
+
+Free: no suitable photos of Georgian patients or families found on Unsplash
+or Pexels; results are almost all Tbilisi landmarks. A landmark is the wrong
+subject for this slot.
+
+Paid: no specific match found on iStock. Commission a shoot, or use a
+generic hospital family photo and keep the brief honest.
+
+### 15. Uzbekistan
+
+Free:
+
+1. [Two women in traditional scarves smiling indoors, RDNE](https://www.pexels.com/photo/7158617/) (Pexels). Warm, indoors, not medical.
+2. [A woman in traditional Uzbek dress outside a historic building, Aksioart](https://www.pexels.com/photo/30133166/) (Pexels). Clearly Uzbek, not medical.
+
+Paid: no specific match found on iStock. Commission a shoot, or use a generic
+hospital family photo.
+
 ## Slots that must not use stock
 
 These slots claim to show a specific, real person. A stock face there would
@@ -148,7 +218,7 @@ would mislead patients.
 
 | Slot | What to use instead |
 | --- | --- |
-| 7, 8. Patient story portraits | The real patient's photo, with written consent. Until then keep the placeholder, or show initials. |
+| 7, 8, 16. Patient story portraits | The real patient's photo, with written consent. Until then keep the placeholder, or show initials. |
 | 9. Doctor portraits | The doctor's own photo, supplied by the hospital. |
 | 10. Team portraits | The Medsafar team's own photos. A phone portrait against a plain wall is enough. |
 
@@ -156,16 +226,19 @@ No stock suggestions are given for these, so they cost nothing on either route.
 
 ## Totals
 
-Images to license: slots 1–6, one image each, so **6 images**. Slot 3 is
-needed only until the hospitals send their own photos.
+Images to license: slots 1–6 and 11–15, one image each, so **11 images**.
+Slot 3 is needed only until the hospitals send their own photos. For Georgia
+and Uzbekistan no good paid match was found, so the paid count assumes a
+generic image for those two.
 
 | Route | Images | Cost |
 | --- | --- | --- |
-| Free (Unsplash and Pexels) | 6 | **$0** |
-| Paid (iStock, all Essentials) | 6 credits | **$60** (one 6-credit pack) |
-| Paid (iStock, all Signature) | 18 credits | **about $175** (a 12-credit and a 6-credit pack, $115 + $60) |
+| Free (Unsplash and Pexels) | 11 | **$0** |
+| Paid (iStock, all Essentials) | 11 credits | **$115** (one 12-credit pack) |
+| Paid (iStock, all Signature) | 33 credits | **about $325** (two 12-credit packs, a 6 and a 3: $115 + $115 + $60 + $33) |
 
-The real paid total sits between $60 and $175, depending on how many of the
-six chosen images are Signature. A mix of free and paid works too: for
-example, pay only for the two heroes (slots 1 and 2), where a good match
-matters most, and use free photos for the gallery. That costs $24 to $72.
+The real paid total sits between $115 and about $325, depending on how many
+of the chosen images are Signature. A mix of free and paid works too: for
+example, pay only for the seven country heroes (slots 1, 2 and 11–15) and use
+free photos for the hospital gallery. That costs $72 to $208 (7 credits as a
+6-credit pack plus 1, up to 21 credits as a 12, a 6 and a 3).
