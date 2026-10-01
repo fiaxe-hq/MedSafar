@@ -1,18 +1,13 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import path from "node:path";
-import { randomUUID } from "node:crypto";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 /**
- * Local stub store for enquiries.
+ * Enquiry store.
  *
- * Everything lands in .data/ next to the project. The CRM, the email alert and
- * the WhatsApp hook replace this file later — nothing else has to change,
- * because the rest of the app only calls the four functions below.
+ * Leads live in the D1 database (LEADS_DB) and uploaded reports in the R2
+ * bucket (REPORTS). The CRM, the email alert and the WhatsApp hook plug in here
+ * later — nothing else has to change, because the rest of the app only calls
+ * the functions below.
  */
-
-const dataDir = path.join(process.cwd(), ".data");
-const leadsFile = path.join(dataDir, "leads.json");
-const uploadsDir = path.join(dataDir, "uploads");
 
 export type Lead = {
   id: string;
@@ -35,18 +30,62 @@ export type Lead = {
   completedAt?: string;
 };
 
-async function readAll(): Promise<Lead[]> {
-  try {
-    const raw = await readFile(leadsFile, "utf8");
-    return JSON.parse(raw) as Lead[];
-  } catch {
-    return [];
-  }
+type LeadRow = {
+  id: string;
+  phone: string;
+  phone_iso: string;
+  source: string;
+  created_at: string;
+  updated_at: string;
+  name: string | null;
+  email: string | null;
+  country: string | null;
+  treatment: string | null;
+  timeline: string | null;
+  notes: string | null;
+  report_file: string | null;
+  consent: number | null;
+  completed_at: string | null;
+};
+
+/** Lead fields that step 2 may set, mapped to their column names. */
+const patchColumns = {
+  phone: "phone",
+  phoneIso: "phone_iso",
+  source: "source",
+  name: "name",
+  email: "email",
+  country: "country",
+  treatment: "treatment",
+  timeline: "timeline",
+  notes: "notes",
+  reportFile: "report_file",
+  consent: "consent",
+  completedAt: "completed_at",
+} as const;
+
+function env() {
+  return getCloudflareContext().env;
 }
 
-async function writeAll(leads: Lead[]): Promise<void> {
-  await mkdir(dataDir, { recursive: true });
-  await writeFile(leadsFile, JSON.stringify(leads, null, 2), "utf8");
+function toLead(row: LeadRow): Lead {
+  return {
+    id: row.id,
+    phone: row.phone,
+    phoneIso: row.phone_iso,
+    source: row.source,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    name: row.name ?? undefined,
+    email: row.email ?? undefined,
+    country: row.country ?? undefined,
+    treatment: row.treatment ?? undefined,
+    timeline: row.timeline ?? undefined,
+    notes: row.notes ?? undefined,
+    reportFile: row.report_file ?? undefined,
+    consent: row.consent === null ? undefined : row.consent === 1,
+    completedAt: row.completed_at ?? undefined,
+  };
 }
 
 /** Step 1. Called the moment a mobile number is submitted. */
@@ -56,10 +95,13 @@ export async function createLead(input: {
   source: string;
 }): Promise<Lead> {
   const now = new Date().toISOString();
-  const lead: Lead = { id: randomUUID(), ...input, createdAt: now, updatedAt: now };
-  const leads = await readAll();
-  leads.push(lead);
-  await writeAll(leads);
+  const lead: Lead = { id: crypto.randomUUID(), ...input, createdAt: now, updatedAt: now };
+  await env()
+    .LEADS_DB.prepare(
+      "INSERT INTO leads (id, phone, phone_iso, source, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+    )
+    .bind(lead.id, lead.phone, lead.phoneIso, lead.source, now, now)
+    .run();
   return lead;
 }
 
@@ -68,19 +110,28 @@ export async function updateLead(
   id: string,
   patch: Partial<Omit<Lead, "id" | "createdAt">>,
 ): Promise<Lead | null> {
-  const leads = await readAll();
-  const index = leads.findIndex((l) => l.id === id);
-  if (index === -1) return null;
-  leads[index] = { ...leads[index], ...patch, updatedAt: new Date().toISOString() };
-  await writeAll(leads);
-  return leads[index];
+  const sets = ["updated_at = ?"];
+  const values: (string | number | null)[] = [new Date().toISOString()];
+  for (const [key, column] of Object.entries(patchColumns)) {
+    const value = patch[key as keyof typeof patchColumns];
+    if (value === undefined) continue;
+    sets.push(`${column} = ?`);
+    values.push(typeof value === "boolean" ? Number(value) : value);
+  }
+
+  const row = await env()
+    .LEADS_DB.prepare(`UPDATE leads SET ${sets.join(", ")} WHERE id = ? RETURNING *`)
+    .bind(...values, id)
+    .first<LeadRow>();
+  return row ? toLead(row) : null;
 }
 
 /** Stores an uploaded medical report and returns the stored file name. */
 export async function saveReport(leadId: string, file: File): Promise<string> {
-  await mkdir(uploadsDir, { recursive: true });
   const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
   const stored = `${leadId}-${safeName}`;
-  await writeFile(path.join(uploadsDir, stored), Buffer.from(await file.arrayBuffer()));
+  await env().REPORTS.put(stored, await file.arrayBuffer(), {
+    httpMetadata: { contentType: file.type },
+  });
   return stored;
 }

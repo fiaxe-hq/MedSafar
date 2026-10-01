@@ -1,0 +1,39 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "medsafar",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "medsafar"
+    }
+  ],
+  "images": {
+    "binding": "IMAGES"
+  },
+  // Enquiries (lib/leads.ts).
+  "d1_databases": [
+    {
+      "binding": "LEADS_DB",
+      "database_name": "medsafar-leads",
+      "database_id": "1f060500-cd57-4656-9547-2fc89ffc2f57",
+      "migrations_dir": "migrations"
+    }
+  ],
+  // Uploaded medical reports (lib/leads.ts).
+  "r2_buckets": [
+    {
+      "binding": "REPORTS",
+      "bucket_name": "medsafar-reports"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

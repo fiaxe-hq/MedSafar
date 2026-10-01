@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
 const nextConfig: NextConfig = {
   experimental: {
@@ -9,3 +10,6 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+// Gives `next dev` access to the Cloudflare bindings (D1, R2) through local emulators.
+initOpenNextCloudflareForDev();
