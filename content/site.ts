@@ -39,11 +39,23 @@ export const site: SiteContent = {
     whatsapp: "WhatsApp",
   },
 
-  whatsapp: {
-    // No WhatsApp number supplied yet. While this is null the WhatsApp
-    // buttons open the enquiry form instead of a dead link.
-    number: null,
-    display: "WhatsApp number to be supplied",
+  contact: {
+    whatsapp: {
+      number: "919820322088",
+      display: "+91 98203 22088",
+      message: "Hello Medsafar, I would like help with treatment in India.",
+    },
+    phone: {
+      number: "+919820322088",
+      display: "+91 98203 22088",
+    },
+    email: "care@medsafar.com",
+  },
+
+  company: {
+    // Supplied later. The footer shows each one as soon as it is filled in.
+    registeredAddress: null,
+    gstin: null,
   },
 
   mobileBar: {
@@ -85,16 +97,14 @@ export const site: SiteContent = {
         label: "Treatment needed",
         placeholder: "Select or describe below",
         options: [
-          "Heart surgery or cardiology",
-          "Cancer care or oncology",
-          "Bone marrow or organ transplant",
-          "Orthopaedics, knee or hip",
-          "Spine and neurosurgery",
-          "Kidney and urology",
+          "Organ transplant (all types)",
+          "Cancer care (oncology)",
+          "Neurology and neurosurgery",
+          "Weight loss surgery",
           "Fertility and IVF",
-          "Eye care",
-          "Children's treatment",
-          "Health check-up",
+          "Orthopaedics",
+          "Cardiology and heart surgery",
+          "Cosmetic and plastic surgery",
           "Something else",
           "Not sure yet",
         ],
@@ -177,7 +187,17 @@ export const site: SiteContent = {
         ],
       },
     ],
-    note: "Address, registration number and contact details to be supplied.",
+    contact: {
+      heading: "Talk to us",
+      whatsapp: "WhatsApp",
+      phone: "Call",
+      email: "Email",
+    },
+    company: {
+      registeredAddress: "Registered office",
+      gstin: "GSTIN",
+    },
+    parentLogoAlt: "Travgrub Private Limited",
     copyright: "All rights reserved.",
   },
 

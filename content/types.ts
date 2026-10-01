@@ -49,10 +49,27 @@ export type SiteContent = {
     secondary: string;
     whatsapp: string;
   };
-  whatsapp: {
-    /** Real number, digits only, no "+". null until supplied. */
-    number: string | null;
-    display: string;
+  contact: {
+    whatsapp: {
+      /** Digits only, country code first, no "+". Used in wa.me links. */
+      number: string;
+      display: string;
+      /** Prefilled in the chat, so the visitor only has to press send. */
+      message: string;
+    };
+    phone: {
+      /** E.164, used in tel: links. */
+      number: string;
+      display: string;
+    };
+    /** For every patient enquiry. */
+    email: string;
+  };
+  company: {
+    /** Shown in the footer once supplied; hidden while null. */
+    registeredAddress: string | null;
+    /** Shown in the footer once supplied; hidden while null. */
+    gstin: string | null;
   };
   mobileBar: {
     plan: string;
@@ -64,7 +81,17 @@ export type SiteContent = {
     lines: string[];
     /** A link that starts with "#" points at a section of the home page. */
     columns: { heading: string; items: NavItem[] }[];
-    note: string;
+    contact: {
+      heading: string;
+      whatsapp: string;
+      phone: string;
+      email: string;
+    };
+    company: {
+      registeredAddress: string;
+      gstin: string;
+    };
+    parentLogoAlt: string;
     copyright: string;
   };
   notFound: {

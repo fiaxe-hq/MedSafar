@@ -4,6 +4,8 @@ import type {
   LegalContent,
   Picture,
 } from "./types";
+import { site } from "./site";
+import { emailHref, phoneHref, whatsappHref } from "@/lib/contact";
 
 /**
  * Text for About, Contact, Privacy and Terms. Shared pages: one copy for
@@ -87,15 +89,15 @@ export const contact: ContactContent = {
   intro: "The quickest way is to leave your mobile number. A case manager comes back to you.",
   details: {
     heading: "Other ways to reach us",
-    intro: "Contact details to be supplied by Medsafar.",
+    intro: "Message us on WhatsApp, call, or write. Every patient enquiry reaches a case manager.",
     items: [
-      { label: "WhatsApp", value: "WhatsApp number to be supplied", href: null, pending: true },
-      { label: "Phone", value: "Phone number to be supplied", href: null, pending: true },
-      { label: "Email", value: "Email address to be supplied", href: null, pending: true },
+      { label: "WhatsApp", value: site.contact.whatsapp.display, href: whatsappHref },
+      { label: "Phone", value: site.contact.phone.display, href: phoneHref },
+      { label: "Email", value: site.contact.email, href: emailHref },
       { label: "Office", value: "Office address to be supplied", href: null, pending: true },
       { label: "Working hours", value: "Working hours to be supplied", href: null, pending: true },
     ],
-    note: "None of these details are real yet. Until they are, use the form above.",
+    note: "The office address and working hours are still to be supplied.",
   },
   pending: true,
 };

@@ -22,27 +22,30 @@
 :root {
   color-scheme: only light;
 
-  /* Calm cyan with a health green for the one action that matters. */
+  /* Built on the logo green, #0e9475. That exact green is --brand, kept for
+     marks, rules and icons (3.8:1 on white, fine for non-text). Text and
+     buttons use --accent, a darker cut of the same green that passes WCAG AA
+     on every surface below, including --accent-soft (4.8:1). */
   --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #ecfeff;
-  --ink: #164e63;
-  --ink-2: #475569;
-  --ink-3: #5b6b7f;
-  --hairline: #c5ecf3;
-  --line: #94c9d4;
-  --brand: #0891b2;
-  --accent: #0e7490;
-  --accent-hover: #155e75;
+  --surface-2: #f1f8f5;
+  --ink: #0d3b30;
+  --ink-2: #3f544e;
+  --ink-3: #55665f;
+  --hairline: #d3e7df;
+  --line: #97bfb0;
+  --brand: #0e9475;
+  --accent: #09745b;
+  --accent-hover: #075c48;
   --accent-ink: #ffffff;
-  --accent-soft: #cffafe;
-  --accent-quiet: #ecfeff;
-  --cta: #047857;
-  --cta-hover: #065f46;
+  --accent-soft: #d8f0e7;
+  --accent-quiet: #eef8f4;
+  --cta: #09745b;
+  --cta-hover: #075c48;
   --cta-ink: #ffffff;
 
-  --elevation-card: 0 1px 2px rgb(22 78 99 / 0.06), 0 4px 12px -6px rgb(22 78 99 / 0.12);
-  --elevation-lift: 0 1px 2px rgb(22 78 99 / 0.06), 0 16px 32px -16px rgb(22 78 99 / 0.22);
+  --elevation-card: 0 1px 2px rgb(13 59 48 / 0.06), 0 4px 12px -6px rgb(13 59 48 / 0.12);
+  --elevation-lift: 0 1px 2px rgb(13 59 48 / 0.06), 0 16px 32px -16px rgb(13 59 48 / 0.22);
 }
 
 @theme inline {
@@ -212,7 +215,7 @@ html:has(dialog[open]) {
 }
 
 .consultation-dialog::backdrop {
-  background-color: rgb(22 78 99 / 0);
+  background-color: rgb(13 59 48 / 0);
   backdrop-filter: blur(0);
   transition:
     background-color 0.2s ease-out,
@@ -222,13 +225,13 @@ html:has(dialog[open]) {
 }
 
 .consultation-dialog[open]::backdrop {
-  background-color: rgb(22 78 99 / 0.45);
+  background-color: rgb(13 59 48 / 0.45);
   backdrop-filter: blur(3px);
 }
 
 @starting-style {
   .consultation-dialog[open]::backdrop {
-    background-color: rgb(22 78 99 / 0);
+    background-color: rgb(13 59 48 / 0);
     backdrop-filter: blur(0);
   }
 }

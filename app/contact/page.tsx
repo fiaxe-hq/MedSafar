@@ -37,6 +37,8 @@ export default function Page() {
                 {item.href ? (
                   <a
                     href={item.href}
+                    target={item.href.startsWith("https:") ? "_blank" : undefined}
+                    rel={item.href.startsWith("https:") ? "noopener" : undefined}
                     className="font-medium text-accent underline-offset-4 transition-colors hover:text-accent-hover hover:underline"
                   >
                     {item.value}

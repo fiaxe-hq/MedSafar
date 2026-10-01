@@ -49,16 +49,44 @@ No prices appear anywhere. Each patient gets an individual quote.
 ## Design
 
 Tokens live in `app/globals.css` as semantic CSS variables (`--ink`,
-`--surface`, `--accent`), mapped into Tailwind through `@theme inline`. Light
-and dark are one pair of values; no section inverts on its own.
+`--surface`, `--accent`), mapped into Tailwind through `@theme inline`. The
+theme is light only; no section inverts on its own.
 
-Shape rule, applied everywhere: buttons are pills, cards are `rounded-3xl`,
-inputs are `rounded-2xl`.
+Colour is built on the logo green, `#0E9475`, sampled from
+`public/brand/medsafar-logo.png`:
+
+| Token | Value | Use |
+| --- | --- | --- |
+| `--brand` | `#0E9475` | The exact logo green. Marks, rules and icons only (3.8:1 on white, enough for non-text, not for small text). |
+| `--accent`, `--cta` | `#09745B` | Links, small accent text and buttons. A darker cut of the logo green so it passes WCAG AA: 5.7:1 on white, 4.8:1 on `--accent-soft`. |
+| `--accent-hover`, `--cta-hover` | `#075C48` | Hover state. |
+| `--accent-soft` | `#D8F0E7` | Tinted panels, numbered steps, photo placeholders. |
+| `--accent-quiet` | `#EEF8F4` | Selected options, notices. |
+| `--ink`, `--ink-2`, `--ink-3` | `#0D3B30`, `#3F544E`, `#55665F` | Text. Lowest pair is `--ink-3` on `--accent-soft` at 5.1:1. |
+| `--surface-2` | `#F1F8F5` | Quiet sections, the footer. |
+| `--hairline`, `--line` | `#D3E7DF`, `#97BFB0` | Dividers and control borders. |
+
+Every text and background pair above passes WCAG AA for body text.
+
+Travgrub's red (`#EC3237`) and grey (`#555557`) appear only in the Travgrub
+logo in the footer, never as tokens.
+
+Shape rule, applied everywhere: buttons and inputs are `rounded-md`, cards are
+`rounded-lg`.
 
 Motion is the native scroll-driven `animation-timeline: view()`, so reveals
 cost no JavaScript and no download. The hidden start state sits inside an
 `@supports` block, so a browser without scroll timelines simply shows the
 content, and everything collapses under `prefers-reduced-motion`.
+
+### Brand files
+
+- `public/brand/medsafar-logo.png` — the header logo (420×177, transparent).
+- `public/brand/medsafar-mark-square.png` — the square version. The favicon
+  and app icons in `app/` are cropped from it to the heartbeat "M".
+- `public/brand/travgrub-logo.png` — the parent company logo, footer only.
+- `docs/brand-reference/` — a photo of the printed poster, kept for colour
+  reference. Not shipped.
 
 ## Enquiry form
 
@@ -91,9 +119,8 @@ in place for the translation pass:
 
 ## Still to supply
 
-- A WhatsApp number. Until `site.whatsapp.number` is set, the WhatsApp button
-  opens the enquiry form rather than a dead link.
 - Real hospitals, accreditations, patient stories, photos and numbers.
-- Company address and registration details for the footer.
+- The registered address and GSTIN. Set `site.company.registeredAddress` and
+  `site.company.gstin` and the footer shows them.
 - Header links for Treatments and Doctors point at sections of this page until
   those pages exist; change the `href` in `site.nav.items`.
