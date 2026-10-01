@@ -22,26 +22,27 @@
 :root {
   color-scheme: only light;
 
-  /* Built on the logo green, #0e9475. That exact green is --brand, kept for
-     marks, rules and icons (3.8:1 on white, fine for non-text). Text and
-     buttons use --accent, a darker cut of the same green that passes WCAG AA
-     on every surface below, including --accent-soft (4.8:1). */
+  /* Every shade is the logo green, #0e9475, at its exact hue (166°): only
+     lightness and saturation change. --brand is the logo colour itself, kept
+     for marks, rules and icons (3.8:1 on white, fine for non-text). Text and
+     buttons use --accent, the same green darkened only as far as WCAG AA
+     needs: 5.0:1 on white, 4.6:1 on --accent-soft. */
   --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #f1f8f5;
-  --ink: #0d3b30;
-  --ink-2: #3f544e;
-  --ink-3: #55665f;
-  --hairline: #d3e7df;
-  --line: #97bfb0;
+  --surface-2: #f4fbf9;
+  --ink: #0b3d31;
+  --ink-2: #415853;
+  --ink-3: #566c67;
+  --hairline: #d9ede8;
+  --line: #8ec2b6;
   --brand: #0e9475;
-  --accent: #09745b;
-  --accent-hover: #075c48;
+  --accent: #0c7e63;
+  --accent-hover: #09644f;
   --accent-ink: #ffffff;
-  --accent-soft: #d8f0e7;
-  --accent-quiet: #eef8f4;
-  --cta: #09745b;
-  --cta-hover: #075c48;
+  --accent-soft: #e8f7f4;
+  --accent-quiet: #eef9f7;
+  --cta: #0c7e63;
+  --cta-hover: #09644f;
   --cta-ink: #ffffff;
 
   /* Errors and destructive actions, used in /admin. 7:1 on white. */
@@ -49,8 +50,8 @@
   --danger-soft: #fdeeee;
   --danger-line: #e8b4b4;
 
-  --elevation-card: 0 1px 2px rgb(13 59 48 / 0.06), 0 4px 12px -6px rgb(13 59 48 / 0.12);
-  --elevation-lift: 0 1px 2px rgb(13 59 48 / 0.06), 0 16px 32px -16px rgb(13 59 48 / 0.22);
+  --elevation-card: 0 1px 2px rgb(11 61 49 / 0.06), 0 4px 12px -6px rgb(11 61 49 / 0.12);
+  --elevation-lift: 0 1px 2px rgb(11 61 49 / 0.06), 0 16px 32px -16px rgb(11 61 49 / 0.22);
 }
 
 @theme inline {
@@ -223,7 +224,7 @@ html:has(dialog[open]) {
 }
 
 .consultation-dialog::backdrop {
-  background-color: rgb(13 59 48 / 0);
+  background-color: rgb(11 61 49 / 0);
   backdrop-filter: blur(0);
   transition:
     background-color 0.2s ease-out,
@@ -233,13 +234,13 @@ html:has(dialog[open]) {
 }
 
 .consultation-dialog[open]::backdrop {
-  background-color: rgb(13 59 48 / 0.45);
+  background-color: rgb(11 61 49 / 0.45);
   backdrop-filter: blur(3px);
 }
 
 @starting-style {
   .consultation-dialog[open]::backdrop {
-    background-color: rgb(13 59 48 / 0);
+    background-color: rgb(11 61 49 / 0);
     backdrop-filter: blur(0);
   }
 }

@@ -55,18 +55,20 @@ Tokens live in `app/globals.css` as semantic CSS variables (`--ink`,
 theme is light only; no section inverts on its own.
 
 Colour is built on the logo green, `#0E9475`, sampled from
-`public/brand/medsafar-logo.png`:
+`public/brand/medsafar-logo.png`. Every shade below keeps the logo's exact hue
+(166°); only lightness and saturation change, so tints and darks read as the
+same green as the logo.
 
 | Token | Value | Use |
 | --- | --- | --- |
 | `--brand` | `#0E9475` | The exact logo green. Marks, rules and icons only (3.8:1 on white, enough for non-text, not for small text). |
-| `--accent`, `--cta` | `#09745B` | Links, small accent text and buttons. A darker cut of the logo green so it passes WCAG AA: 5.7:1 on white, 4.8:1 on `--accent-soft`. |
-| `--accent-hover`, `--cta-hover` | `#075C48` | Hover state. |
-| `--accent-soft` | `#D8F0E7` | Tinted panels, numbered steps, photo placeholders. |
-| `--accent-quiet` | `#EEF8F4` | Selected options, notices. |
-| `--ink`, `--ink-2`, `--ink-3` | `#0D3B30`, `#3F544E`, `#55665F` | Text. Lowest pair is `--ink-3` on `--accent-soft` at 5.1:1. |
-| `--surface-2` | `#F1F8F5` | Quiet sections, the footer. |
-| `--hairline`, `--line` | `#D3E7DF`, `#97BFB0` | Dividers and control borders. |
+| `--accent`, `--cta` | `#0C7E63` | Links, small accent text and buttons. The logo green darkened only as far as WCAG AA needs: 5.0:1 on white, 4.6:1 on `--accent-soft`, 5.0:1 under white button text. |
+| `--accent-hover`, `--cta-hover` | `#09644F` | Hover state. |
+| `--accent-soft` | `#E8F7F4` | Tinted panels, numbered steps, photo placeholders. |
+| `--accent-quiet` | `#EEF9F7` | Selected options, notices. |
+| `--ink`, `--ink-2`, `--ink-3` | `#0B3D31`, `#415853`, `#566C67` | Text. Lowest pair is `--ink-3` on `--accent-soft` at 5.1:1. |
+| `--surface-2` | `#F4FBF9` | Quiet sections, the footer. |
+| `--hairline`, `--line` | `#D9EDE8`, `#8EC2B6` | Dividers and control borders. |
 
 Every text and background pair above passes WCAG AA for body text.
 
@@ -85,7 +87,7 @@ content, and everything collapses under `prefers-reduced-motion`.
 
 - `public/brand/medsafar-logo.png` — the header logo (420×177, transparent).
 - `public/brand/medsafar-mark-square.png` — the square version. The favicon
-  and app icons in `app/` are cropped from it to the heartbeat "M".
+  and app icons in `app/` are cropped from it to the heartbeat "M", widened 1.3 times so it reads as an M, not a tall spike, at tab size.
 - `public/brand/travgrub-logo.png` — the parent company logo, footer only.
 - `docs/brand-reference/` — a photo of the printed poster, kept for colour
   reference. Not shipped.
