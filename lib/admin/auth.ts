@@ -3,16 +3,15 @@ import { redirect } from "next/navigation";
 import { env } from "@/lib/cloudflare";
 
 /**
- * Admin sign-in, second layer.
+ * Admin sign-in.
  *
- * In production Cloudflare Access sits in front of /admin (see README), so
- * only the team's own email addresses reach these pages at all. Behind it,
- * every admin page, Server Action and download also needs this session: a
- * shared password (the ADMIN_PASSWORD Worker secret) exchanged for a signed,
- * httpOnly cookie.
+ * Every admin page, Server Action and download needs this session: a shared
+ * password (the ADMIN_PASSWORD Worker secret) exchanged for a signed,
+ * httpOnly cookie. Cloudflare Access can sit in front of /admin as well once
+ * the site is on a custom domain (see README).
  *
  * The cookie is signed with the password itself, so changing the secret signs
- * everyone out. With no secret set, nobody can sign in.
+ * everyone out. With no usable secret, nobody can sign in.
  */
 
 const COOKIE = "medsafar_admin";
