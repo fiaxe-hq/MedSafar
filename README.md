@@ -146,7 +146,8 @@ Two layers:
    or more). Signing in sets a signed, httpOnly cookie for 12 hours, limited to
    `/admin`. Every admin page, Server Action and report download checks it
    (`lib/admin/auth.ts`). Changing the secret signs everyone out. With no
-   secret set, nobody can sign in.
+   secret set, or one shorter than 12 characters, nobody can sign in, and the
+   sign-in page says so.
 
 Locally: copy `.dev.vars.example` to `.dev.vars`, set `ADMIN_PASSWORD`, run
 `npm run db:migrate:local`, then `npm run dev` and open `/admin`.

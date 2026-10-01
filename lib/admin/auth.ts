@@ -17,12 +17,19 @@ import { env } from "@/lib/cloudflare";
 
 const COOKIE = "medsafar_admin";
 const MAX_AGE_SECONDS = 12 * 60 * 60;
+export const MIN_PASSWORD_LENGTH = 12;
 
 const encoder = new TextEncoder();
 
-function secret(): string | null {
+/** Whether the ADMIN_PASSWORD secret is usable, so a bad setup is reported, not mistaken for a wrong password. */
+export function passwordSetup(): "ok" | "missing" | "too-short" {
   const value = env().ADMIN_PASSWORD;
-  return typeof value === "string" && value.length >= 12 ? value : null;
+  if (typeof value !== "string" || value.trim() === "") return "missing";
+  return value.trim().length < MIN_PASSWORD_LENGTH ? "too-short" : "ok";
+}
+
+function secret(): string | null {
+  return passwordSetup() === "ok" ? String(env().ADMIN_PASSWORD).trim() : null;
 }
 
 async function hmacKey(key: string) {
@@ -91,7 +98,7 @@ export async function requireAdmin(): Promise<void> {
 /** Checks the password and, if it matches, sets the session cookie. */
 export async function signIn(password: string): Promise<boolean> {
   const expected = secret();
-  if (!expected || !(await passwordMatches(password, expected))) return false;
+  if (!expected || !(await passwordMatches(password.trim(), expected))) return false;
 
   const expires = Date.now() + MAX_AGE_SECONDS * 1000;
   const signature = toBase64Url(await sessionSignature(expected, expires));
