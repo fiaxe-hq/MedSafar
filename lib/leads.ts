@@ -84,19 +84,49 @@ function toLead(row: LeadRow): Lead {
   };
 }
 
+/** New enquiries allowed from one connection or one phone number per window. */
+export const LEAD_LIMIT = 3;
+const LEAD_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * One-way hash of the visitor's IP address, so the rate limit works without
+ * storing the address itself.
+ */
+export async function hashIp(ip: string): Promise<string> {
+  const bytes = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(`medsafar-leads:${ip}`),
+  );
+  return Array.from(new Uint8Array(bytes), (b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+/** True once this connection or this number has sent LEAD_LIMIT enquiries in 24 hours. */
+export async function overLeadLimit(phone: string, ipHash: string | null): Promise<boolean> {
+  const since = new Date(Date.now() - LEAD_WINDOW_MS).toISOString();
+  const row = await env()
+    .LEADS_DB.prepare(
+      "SELECT COUNT(*) AS n FROM leads WHERE created_at > ? AND (phone = ? OR (? IS NOT NULL AND ip_hash = ?))",
+    )
+    .bind(since, phone, ipHash, ipHash)
+    .first<{ n: number }>();
+  return (row?.n ?? 0) >= LEAD_LIMIT;
+}
+
 /** Step 1. Called the moment a mobile number is submitted. */
 export async function createLead(input: {
   phone: string;
   phoneIso: string;
   source: string;
+  ipHash: string | null;
 }): Promise<Lead> {
   const now = new Date().toISOString();
-  const lead: Lead = { id: crypto.randomUUID(), ...input, createdAt: now, updatedAt: now };
+  const { ipHash, ...rest } = input;
+  const lead: Lead = { id: crypto.randomUUID(), ...rest, createdAt: now, updatedAt: now };
   await env()
     .LEADS_DB.prepare(
-      "INSERT INTO leads (id, phone, phone_iso, source, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+      "INSERT INTO leads (id, phone, phone_iso, source, created_at, updated_at, ip_hash) VALUES (?, ?, ?, ?, ?, ?, ?)",
     )
-    .bind(lead.id, lead.phone, lead.phoneIso, lead.source, now, now)
+    .bind(lead.id, lead.phone, lead.phoneIso, lead.source, now, now, ipHash)
     .run();
   return lead;
 }

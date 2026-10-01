@@ -2,7 +2,8 @@
 
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import type { CountryCode } from "libphonenumber-js";
-import { createLead, saveReport, updateLead } from "@/lib/leads";
+import { headers } from "next/headers";
+import { createLead, hashIp, overLeadLimit, saveReport, updateLead } from "@/lib/leads";
 
 /**
  * Enquiry handling. Phone validation runs here rather than in the browser, so
@@ -11,7 +12,7 @@ import { createLead, saveReport, updateLead } from "@/lib/leads";
 
 export type ActionResult =
   | { ok: true; leadId: string }
-  | { ok: false; error: "phone" | "name" | "email" | "consent" | "file" | "generic" };
+  | { ok: false; error: "phone" | "name" | "email" | "consent" | "file" | "limit" | "generic" };
 
 /**
  * Both actions take the previous state as their first argument so the form can
@@ -42,10 +43,15 @@ export async function saveNumber(
     const parsed = parsePhoneNumberFromString(digits, iso as CountryCode);
     if (!parsed || !parsed.isValid()) return { ok: false, error: "phone" };
 
+    const ip = (await headers()).get("cf-connecting-ip");
+    const ipHash = ip ? await hashIp(ip) : null;
+    if (await overLeadLimit(parsed.number, ipHash)) return { ok: false, error: "limit" };
+
     const lead = await createLead({
       phone: parsed.number,
       phoneIso: parsed.country ?? iso,
       source,
+      ipHash,
     });
     return { ok: true, leadId: lead.id };
   } catch {

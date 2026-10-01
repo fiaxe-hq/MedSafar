@@ -20,10 +20,11 @@ export const iq: CountryContent = {
     headline: "Treatment in India, arranged for you from Iraq.",
     support:
       "Send your reports from Baghdad, Basra, Erbil or anywhere in Iraq. We come back with a doctor's opinion and a written cost estimate.",
+    // Stock photo, illustration only: Pexels 27593286, Eslames1. Pexels Licence.
     picture: {
-      src: null,
-      alt: "An Iraqi patient and their family, photographed with permission",
-      pending: true,
+      src: "/photos/hero-iq.jpg",
+      alt: "A grandmother holding a young child, both smiling",
+      pending: false,
     },
   },
 

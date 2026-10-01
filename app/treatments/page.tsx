@@ -13,6 +13,7 @@ import { Note, Section } from "@/components/ui/Section";
 export const metadata: Metadata = {
   title: catalog.treatments.meta.title,
   description: catalog.treatments.meta.description,
+  alternates: { canonical: "/treatments" },
 };
 
 export default async function Page() {

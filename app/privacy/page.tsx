@@ -5,6 +5,7 @@ import { LegalPage } from "@/components/catalog/LegalPage";
 export const metadata: Metadata = {
   title: privacy.meta.title,
   description: privacy.meta.description,
+  alternates: { canonical: "/privacy" },
 };
 
 export default function Page() {

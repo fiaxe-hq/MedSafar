@@ -20,10 +20,11 @@ export const uz: CountryContent = {
     headline: "Treatment in India, arranged for you from Uzbekistan.",
     support:
       "Send your reports from Tashkent, Samarkand, Bukhara or anywhere in Uzbekistan. We come back with a doctor's opinion and a written cost estimate.",
+    // Stock photo, illustration only: Pexels 7158617, RDNE. Pexels Licence.
     picture: {
-      src: null,
-      alt: "An Uzbek patient and their family, photographed with permission",
-      pending: true,
+      src: "/photos/hero-uz.jpg",
+      alt: "Two smiling women in headscarves",
+      pending: false,
     },
   },
 

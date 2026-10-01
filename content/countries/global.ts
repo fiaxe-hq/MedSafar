@@ -20,10 +20,11 @@ export const global: CountryContent = {
     headline: "Treatment in India, arranged from start to finish.",
     support:
       "Send your reports. We come back with a doctor's opinion, a written cost estimate and a travel plan.",
+    // Stock photo, illustration only: Pexels 31499386, Adarsh MP. Pexels Licence.
     picture: {
-      src: null,
-      alt: "Patients and their families from the countries Medsafar serves, arriving in India",
-      pending: true,
+      src: "/photos/hero-global.jpg",
+      alt: "Two nurses talking in a hospital corridor in India",
+      pending: false,
     },
   },
 

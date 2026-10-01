@@ -14,6 +14,7 @@ import { Note, Section, SectionHead } from "@/components/ui/Section";
 export const metadata: Metadata = {
   title: contact.meta.title,
   description: contact.meta.description,
+  alternates: { canonical: "/contact" },
 };
 
 export default function Page() {
@@ -52,7 +53,7 @@ export default function Page() {
           }))}
         />
 
-        <Note>{details.note}</Note>
+        {details.note ? <Note>{details.note}</Note> : null}
       </Section>
     </PageShell>
   );

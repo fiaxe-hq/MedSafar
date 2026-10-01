@@ -20,10 +20,11 @@ export const bd: CountryContent = {
     headline: "Treatment in India, arranged for you from Bangladesh.",
     support:
       "Send your reports from Dhaka, Chittagong, Sylhet or anywhere in Bangladesh. We come back with a doctor's opinion and a written cost estimate.",
+    // Stock photo, illustration only: Pexels 34935084, Minhaj Ahmed Ahyan. Pexels Licence.
     picture: {
-      src: null,
-      alt: "A Bangladeshi patient and their family, photographed with permission",
-      pending: true,
+      src: "/photos/hero-bd.jpg",
+      alt: "A family laughing together by the river in Chittagong",
+      pending: false,
     },
   },
 

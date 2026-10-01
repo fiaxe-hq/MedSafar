@@ -113,7 +113,11 @@ export function EnquiryForm({
 
         {numberState && !numberState.ok ? (
           <p role="alert" className="text-sm font-medium text-red-700">
-            {numberState.error === "phone" ? text.errors.phone : text.errors.generic}
+            {numberState.error === "phone"
+              ? text.errors.phone
+              : numberState.error === "limit"
+                ? text.errors.limit
+                : text.errors.generic}
           </p>
         ) : null}
 

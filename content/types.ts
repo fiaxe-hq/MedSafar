@@ -149,6 +149,7 @@ export type FormContent = {
     email: string;
     consent: string;
     file: string;
+    limit: string;
     generic: string;
   };
   sending: string;
@@ -412,14 +413,15 @@ export type AboutContent = Pending & {
   who: { heading: string; body: string[] };
   does: { heading: string; items: string[] };
   doesNot: { heading: string; items: string[] };
-  selection: { heading: string; body: string };
-  team: {
+  selection: Pending & { heading: string; body: string };
+  /** Left out until Medsafar supplies names, roles and photos. */
+  team?: {
     heading: string;
     intro: string;
     members: (Pending & { name: string; role: string; picture: Picture })[];
   };
   legal: { heading: string; name: string; body: string };
-  note: string;
+  note?: string;
 };
 
 export type ContactContent = Pending & {
@@ -432,15 +434,15 @@ export type ContactContent = Pending & {
     intro: string;
     /** `href` stays null until the real number or address is supplied. */
     items: (Pending & { label: string; value: string; href: string | null })[];
-    note: string;
+    note?: string;
   };
 };
 
-/** Privacy and Terms. Headings only until Medsafar supplies the legal text. */
+/** Privacy and Terms. A section body is one paragraph, or several. */
 export type LegalContent = Pending & {
   meta: PageMeta;
   heading: string;
   intro: string;
   updated: { label: string; value: string };
-  sections: { heading: string; body: string }[];
+  sections: { heading: string; body: string | string[] }[];
 };

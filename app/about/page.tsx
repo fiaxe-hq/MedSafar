@@ -13,6 +13,7 @@ import { Note, Section, SectionHead } from "@/components/ui/Section";
 export const metadata: Metadata = {
   title: about.meta.title,
   description: about.meta.description,
+  alternates: { canonical: "/about" },
 };
 
 export default function Page() {
@@ -56,42 +57,42 @@ export default function Page() {
 
       <Section>
         <SectionHead heading={about.selection.heading} intro={about.selection.body} />
-        <Mark className="mt-6" />
-
-        <SectionHead
-          heading={about.team.heading}
-          intro={about.team.intro}
-          className="mt-20 lg:mt-24"
-        />
-        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {about.team.members.map((member, i) => (
-            <li
-              key={i}
-              className="reveal flex items-start gap-5 rounded-lg border border-hairline bg-surface p-6 sm:p-7"
-            >
-              <Figure
-                picture={member.picture}
-                ratio="aspect-square"
-                rounded="rounded-md"
-                className="size-16 shrink-0"
-                sizes="64px"
-                compact
-              />
-              <div className="min-w-0">
-                <h3 className="text-xl font-semibold tracking-[-0.02em]">{member.name}</h3>
-                <p className="mt-2 text-base text-ink-2">{member.role}</p>
-                {member.pending ? <Mark className="mt-5" /> : null}
-              </div>
-            </li>
-          ))}
-        </ul>
+        {about.selection.pending ? <Mark className="mt-6" /> : null}
       </Section>
+
+      {about.team ? (
+        <Section>
+          <SectionHead heading={about.team.heading} intro={about.team.intro} />
+          <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {about.team.members.map((member, i) => (
+              <li
+                key={i}
+                className="reveal lift flex items-start gap-5 rounded-lg border border-hairline bg-surface p-6 sm:p-7"
+              >
+                <Figure
+                  picture={member.picture}
+                  ratio="aspect-square"
+                  rounded="rounded-md"
+                  className="size-16 shrink-0"
+                  sizes="64px"
+                  compact
+                />
+                <div className="min-w-0">
+                  <h3 className="text-xl font-semibold tracking-[-0.02em]">{member.name}</h3>
+                  <p className="mt-2 text-base text-ink-2">{member.role}</p>
+                  {member.pending ? <Mark className="mt-5" /> : null}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
 
       <Section tone="quiet">
         <SectionHead heading={about.legal.heading} />
         <p className="mt-5 max-w-[60ch] text-lg text-ink">{about.legal.name}</p>
         <p className="mt-3 max-w-[60ch] text-base text-ink-2">{about.legal.body}</p>
-        <Note>{about.note}</Note>
+        {about.note ? <Note>{about.note}</Note> : null}
       </Section>
 
       <EnquiryBlock content={{ enquiry: catalog.enquiry }} source="/about" />

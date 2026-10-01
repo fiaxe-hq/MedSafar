@@ -3,6 +3,8 @@ import { Figtree, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import { global } from "@/content/countries";
 import { site } from "@/content/site";
+import { jsonLd, organizationJsonLd, siteUrl } from "@/lib/seo";
+import { analyticsToken } from "@/lib/analytics";
 
 /**
  * Noto Sans for reading, Figtree for headings: a clean, legible pair that
@@ -24,9 +26,16 @@ const figtree = Figtree({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: global.meta.title,
   description: global.meta.description,
   applicationName: site.brand.name,
+  openGraph: {
+    type: "website",
+    siteName: "Medsafar India",
+    locale: "en",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {
@@ -40,7 +49,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   // dir is set here so switching a language later flips the whole layout.
   return (
     <html lang="en" dir="ltr" data-scroll-behavior="smooth" className={`${noto.variable} ${figtree.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col overflow-x-clip">{children}</body>
+      <body className="flex min-h-full flex-col overflow-x-clip">
+        {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd(organizationJsonLd) }}
+        />
+        {analyticsToken ? (
+          <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: analyticsToken })}
+          />
+        ) : null}
+      </body>
     </html>
   );
 }

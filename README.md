@@ -144,7 +144,11 @@ the JavaScript has loaded. The phone number is checked on the server.
 
 Enquiries are stored by `lib/leads.ts`: the details in the D1 database
 (`LEADS_DB`, table `leads`) and uploaded reports in the R2 bucket (`REPORTS`).
-The team reads them in `/admin/enquiries`. Nobody is alerted when one arrives
+The team reads them in `/admin/enquiries`.
+
+Spam limit: one connection or one phone number can start at most 3 enquiries
+in 24 hours (`overLeadLimit` in `lib/leads.ts`). The IP address is never
+stored, only a one-way hash of it (`migrations/0003_add_lead_rate_limit.sql`). Nobody is alerted when one arrives
 yet; an email or WhatsApp alert would plug into `lib/leads.ts`.
 
 ## Admin
@@ -236,6 +240,24 @@ Shared form styles are in `components/admin/ui.tsx`. For hospitals and doctors,
 `lib/catalog.ts` then reads from the new `lib/` file instead of `data/`, and no
 public page has to change.
 
+## Search and analytics
+
+- `lib/seo.ts` holds the site address (`siteUrl`) and the organisation data
+  for search engines. Change `siteUrl` when the site moves to its own domain.
+- `app/sitemap.ts` and `app/robots.ts` build `/sitemap.xml` and `/robots.txt`.
+  Hospital, doctor and blog pages stay out of the sitemap while they are
+  placeholders. `/admin` is blocked.
+- `app/opengraph-image.png` is the preview shown when a link is shared.
+- Cloudflare Web Analytics loads only once a site token is pasted into
+  `lib/analytics.ts` (Cloudflare dashboard → Web Analytics → Add a site). No
+  cookies, so no consent banner.
+
+## Photos
+
+Country heroes are free stock photos in `public/photos/`, chosen from
+`docs/stock-photos.md`. Each one's source and licence is in a comment next to
+it in the country file. They illustrate; none claims to show a real patient.
+
 ## Later: other languages
 
 The site is English only. Four things are already in place for translation:
@@ -249,13 +271,12 @@ The site is English only. Four things are already in place for translation:
 
 ## Still to supply
 
-- Privacy and Terms text.
+- Sign-off on the draft Privacy and Terms, and the answers they depend on.
 - Partner hospitals and doctors, and their accreditations.
 - Treatment descriptions, stays, recovery times and FAQs, written or checked by
   a doctor.
-- Patient stories, with written consent, and photos (see
-  `docs/stock-photos.md`).
+- Patient stories, with written consent, and their photos.
+- A Georgia-specific hero photo (it shows a hospital room for now).
 - Trust figures Medsafar can prove. Enter and publish them in `/admin/stats`.
-- Working hours for `/contact`.
-- The team, and how hospitals are chosen, for `/about`.
+- The team, for `/about` (the section is hidden until then).
 - Real blog articles.

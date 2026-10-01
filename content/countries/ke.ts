@@ -20,10 +20,11 @@ export const ke: CountryContent = {
     headline: "Treatment in India, arranged for you from Kenya.",
     support:
       "Send your reports from Nairobi, Mombasa, Kisumu or anywhere in Kenya. We come back with a doctor's opinion and a written cost estimate.",
+    // Stock photo, illustration only: Pexels 10628608, Riccardo Parretti. Pexels Licence.
     picture: {
-      src: null,
-      alt: "A Kenyan patient and their family, photographed with permission",
-      pending: true,
+      src: "/photos/hero-ke.jpg",
+      alt: "A smiling mother with her baby, both in colourful clothes",
+      pending: false,
     },
   },
 

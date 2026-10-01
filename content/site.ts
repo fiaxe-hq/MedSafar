@@ -144,6 +144,8 @@ export const site: SiteContent = {
       email: "Please enter a valid email address.",
       consent: "Please tick the box so we can share your case with a doctor.",
       file: "That file is too large or not a supported type. Use a PDF or photo under 8 MB.",
+      limit:
+        "We already have your enquiries from today. A case manager will contact you. For anything urgent, message us on WhatsApp.",
       generic: "Something went wrong. Please try again, or reach us on WhatsApp.",
     },
     sending: "Sending",

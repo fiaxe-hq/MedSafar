@@ -20,10 +20,11 @@ export const ge: CountryContent = {
     headline: "Treatment in India, arranged for you from Georgia.",
     support:
       "Send your reports from Tbilisi, Batumi, Kutaisi or anywhere in Georgia. We come back with a doctor's opinion and a written cost estimate.",
+    // Stock photo, illustration only: Unsplash 3EIraOmufG4, Irshad Pathan. Unsplash Licence.
     picture: {
-      src: null,
-      alt: "A Georgian patient and their family, photographed with permission",
-      pending: true,
+      src: "/photos/hero-ge.jpg",
+      alt: "A clean, empty patient room in a hospital in India",
+      pending: false,
     },
   },
 

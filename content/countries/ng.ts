@@ -20,10 +20,11 @@ export const ng: CountryContent = {
     headline: "Treatment in India, arranged for you from Nigeria.",
     support:
       "Send your reports from anywhere in Nigeria. We come back with a doctor's opinion and a written cost estimate.",
+    // Stock photo, illustration only: Pexels 30678208, NinthGrid. Pexels Licence.
     picture: {
-      src: null,
-      alt: "A Nigerian patient and their family, photographed with permission",
-      pending: true,
+      src: "/photos/hero-ng.jpg",
+      alt: "A clinician taking a man's blood pressure in a consulting room",
+      pending: false,
     },
   },
 
