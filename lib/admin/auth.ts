@@ -17,7 +17,7 @@ import { env } from "@/lib/cloudflare";
 
 const COOKIE = "medsafar_admin";
 const MAX_AGE_SECONDS = 12 * 60 * 60;
-export const MIN_PASSWORD_LENGTH = 12;
+export const MIN_PASSWORD_LENGTH = 8;
 
 const encoder = new TextEncoder();
 

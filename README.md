@@ -142,11 +142,11 @@ Two layers:
 
 1. **Cloudflare Access** in front of `/admin` in production, so only the
    team's own email addresses reach it (set up below).
-2. **A shared password**, the `ADMIN_PASSWORD` Worker secret (12 characters
+2. **A shared password**, the `ADMIN_PASSWORD` Worker secret (8 characters
    or more). Signing in sets a signed, httpOnly cookie for 12 hours, limited to
    `/admin`. Every admin page, Server Action and report download checks it
    (`lib/admin/auth.ts`). Changing the secret signs everyone out. With no
-   secret set, or one shorter than 12 characters, nobody can sign in, and the
+   secret set, or one shorter than 8 characters, nobody can sign in, and the
    sign-in page says so.
 
 Locally: copy `.dev.vars.example` to `.dev.vars`, set `ADMIN_PASSWORD`, run
