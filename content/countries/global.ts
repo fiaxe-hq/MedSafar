@@ -51,13 +51,7 @@ export const global: CountryContent = {
         pending: true,
       },
     ],
-    stats: [
-      { value: "To be supplied", label: "Patients helped", pending: true },
-      { value: "To be supplied", label: "Partner hospitals", pending: true },
-      { value: "To be supplied", label: "Cities in India", pending: true },
-      { value: "To be supplied", label: "Countries served", pending: true },
-    ],
-    note: "Numbers and accreditations appear here once Medsafar has supplied figures it can prove.",
+    note: "Accreditations appear here once Medsafar has supplied certificates it can prove.",
   },
 
   howItWorks: {

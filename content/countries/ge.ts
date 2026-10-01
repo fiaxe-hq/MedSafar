@@ -51,13 +51,7 @@ export const ge: CountryContent = {
         pending: true,
       },
     ],
-    stats: [
-      { value: "To be supplied", label: "Patients helped from Georgia", pending: true },
-      { value: "To be supplied", label: "Partner hospitals", pending: true },
-      { value: "To be supplied", label: "Cities in India", pending: true },
-      { value: "To be supplied", label: "Treatments arranged", pending: true },
-    ],
-    note: "Numbers and accreditations appear here once Medsafar has supplied figures it can prove.",
+    note: "Accreditations appear here once Medsafar has supplied certificates it can prove.",
   },
 
   howItWorks: {

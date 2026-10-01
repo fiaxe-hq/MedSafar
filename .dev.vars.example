@@ -1,0 +1,5 @@
+# Local secrets for `npm run dev` and `wrangler dev`. Copy to .dev.vars.
+# Never commit .dev.vars.
+
+# Password for /admin. At least 12 characters.
+ADMIN_PASSWORD=change-me-to-a-long-random-string

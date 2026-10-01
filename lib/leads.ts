@@ -1,4 +1,4 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { env } from "./cloudflare";
 
 /**
  * Enquiry store.
@@ -63,10 +63,6 @@ const patchColumns = {
   consent: "consent",
   completedAt: "completed_at",
 } as const;
-
-function env() {
-  return getCloudflareContext().env;
-}
 
 function toLead(row: LeadRow): Lead {
   return {
@@ -134,4 +130,28 @@ export async function saveReport(leadId: string, file: File): Promise<string> {
     httpMetadata: { contentType: file.type },
   });
   return stored;
+}
+
+// Admin
+
+/** Newest first, for the read-only list in /admin/enquiries. */
+export async function listLeads(limit = 200): Promise<Lead[]> {
+  const { results } = await env()
+    .LEADS_DB.prepare("SELECT * FROM leads ORDER BY created_at DESC LIMIT ?")
+    .bind(limit)
+    .all<LeadRow>();
+  return results.map(toLead);
+}
+
+/**
+ * An uploaded report, but only one that belongs to a lead: a stored file name
+ * that no lead points at is never served.
+ */
+export async function getReport(file: string): Promise<R2ObjectBody | null> {
+  const owner = await env()
+    .LEADS_DB.prepare("SELECT id FROM leads WHERE report_file = ? LIMIT 1")
+    .bind(file)
+    .first<{ id: string }>();
+  if (!owner) return null;
+  return env().REPORTS.get(file);
 }

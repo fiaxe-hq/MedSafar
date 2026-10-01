@@ -172,8 +172,6 @@ export type Story = Pending & {
   picture: Picture;
 };
 
-export type Stat = Pending & { value: string; label: string };
-
 export type Faq = { question: string; answer: string };
 
 export type Handled = {
@@ -206,7 +204,6 @@ export type CountryContent = {
     heading: string;
     promises: string[];
     accreditations: (Pending & { name: string; body: string })[];
-    stats: Stat[];
     note: string;
   };
   howItWorks: {

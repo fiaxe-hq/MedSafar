@@ -3,10 +3,15 @@ import { SealCheckIcon } from "@phosphor-icons/react/dist/ssr/SealCheck";
 import type { CountryContent } from "@/content/types";
 import { Section, Note } from "@/components/ui/Section";
 import { Mark } from "@/components/ui/Pending";
+import { getPublishedStats } from "@/lib/stats";
 
-export function TrustStrip({ content }: { content: CountryContent }) {
+/**
+ * The figures come from D1 and are managed in /admin. Until one is
+ * published, the figures row is not rendered at all.
+ */
+export async function TrustStrip({ content }: { content: CountryContent }) {
   const { trust } = content;
-  const pendingStats = trust.stats.some((s) => s.pending);
+  const stats = await getPublishedStats(content.slug || null);
 
   return (
     <Section id="trust" tone="quiet">
@@ -46,23 +51,19 @@ export function TrustStrip({ content }: { content: CountryContent }) {
             ))}
           </ul>
 
-          <dl className="reveal mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {trust.stats.map((stat) => (
-              <div key={stat.label} className="rounded-md border border-hairline bg-surface p-4">
-                <dd className={stat.pending ? "" : "numeral text-accent"}>
-                  {stat.pending ? (
-                    <span className="block text-sm text-ink-3">
-                      {stat.value}
-                    </span>
-                  ) : (
-                    stat.value
-                  )}
-                </dd>
-                <dt className="mt-2 text-sm font-medium text-ink">{stat.label}</dt>
-              </div>
-            ))}
-          </dl>
-          {pendingStats ? <Mark className="mt-6" /> : null}
+          {stats.length > 0 ? (
+            <dl className="reveal mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {stats.map((stat) => (
+                <div
+                  key={stat.key}
+                  className="flex flex-col-reverse rounded-md border border-hairline bg-surface p-4"
+                >
+                  <dt className="mt-2 text-sm font-medium text-ink">{stat.label}</dt>
+                  <dd className="numeral text-accent">{stat.value}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
         </div>
       </div>
 
