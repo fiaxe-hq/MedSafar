@@ -19,7 +19,7 @@ export default function ComingSoon() {
         <Container>
           <h1 className="display-2">Coming soon</h1>
           <p className="mt-5 max-w-[46ch] text-lg text-ink-2">
-            This page is built and will open soon. For now, take a look at the home page designs.
+            This page is being built right now and will be live soon. For now, take a look at the home page designs.
           </p>
           <Link href="/design-lab" className={`${btnPrimary} mt-8`}>
             Back to the home page
