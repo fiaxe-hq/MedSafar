@@ -1,4 +1,5 @@
-/** Label and value rows, for the plain facts on a detail page. */
+/** Label and value rows, for the plain facts on a detail page. A row with no
+ *  value is left out. */
 export function Facts({
   items,
   className = "",
@@ -8,10 +9,10 @@ export function Facts({
 }) {
   return (
     <dl className={`border-t border-hairline ${className}`}>
-      {items.map((item) => (
+      {items.filter((item) => item.value).map((item) => (
         <div
           key={item.label}
-          className="grid gap-1 border-b border-hairline py-4 sm:grid-cols-[11rem_1fr] sm:gap-6"
+          className="reveal grid gap-1 border-b border-hairline py-4 sm:grid-cols-[11rem_1fr] sm:gap-6"
         >
           <dt className="text-sm text-ink-3 sm:pt-0.5">{item.label}</dt>
           <dd className="text-base text-ink">{item.value}</dd>

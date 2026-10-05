@@ -55,7 +55,7 @@ export default async function Page({ params }: Props) {
         back={{ href: "/doctors", label: text.back }}
         label={speciality}
         heading={doctor.name}
-        intro={hospital?.name}
+        intro={doctor.role}
         pending={doctor.pending}
         cta
       />
@@ -90,12 +90,22 @@ export default async function Page({ params }: Props) {
                     </Link>
                   ) : null,
                 },
+                { label: text.detail.otherPractice, value: doctor.otherPractice },
                 { label: text.detail.experience, value: doctor.experience },
                 {
-                  label: text.detail.qualifications,
-                  value: <Lines items={doctor.qualifications} />,
+                  label: text.detail.expertise,
+                  value: doctor.expertise.length ? <Lines items={doctor.expertise} /> : null,
                 },
-                { label: text.detail.languages, value: <Lines items={doctor.languages} /> },
+                {
+                  label: text.detail.qualifications,
+                  value: doctor.qualifications.length ? (
+                    <Lines items={doctor.qualifications} />
+                  ) : null,
+                },
+                {
+                  label: text.detail.languages,
+                  value: doctor.languages.length ? <Lines items={doctor.languages} /> : null,
+                },
               ]}
             />
           </div>

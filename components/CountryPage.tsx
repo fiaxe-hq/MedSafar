@@ -23,7 +23,7 @@ export function CountryPage({ content }: { content: CountryContent }) {
     <>
       <Header home={source} iso={content.iso} countryName={content.countryName ?? ""} />
       {/* Room at the foot of the page for the fixed bar on phones. */}
-      <main className="w-full max-w-full overflow-x-clip pb-24 lg:pb-0">
+      <main className="page-in w-full max-w-full overflow-x-clip pb-24 lg:pb-0">
         <Hero content={content} source={source} />
         <TrustStrip content={content} />
         <HowItWorks content={content} />

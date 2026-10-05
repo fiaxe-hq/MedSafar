@@ -258,12 +258,22 @@ export type Speciality = {
   name: string;
 };
 
+/** A video on a hospital page: a YouTube video, or a file in public/. */
+export type Video = { title: string } & (
+  | { youtube: string }
+  | { src: string; poster: string }
+);
+
 export type Hospital = Pending & {
   slug: string;
   name: string;
   city: string;
+  /** Street address, shown on the hospital's own page. */
+  address?: string;
   accreditation: string;
   overview: string;
+  /** Departments the hospital names as its centres of excellence. */
+  centres?: string[];
   /** Speciality slugs. */
   specialities: string[];
   /** Slugs of the treatments offered here. */
@@ -273,6 +283,7 @@ export type Hospital = Pending & {
   picture: Picture;
   /** Further photo slots, shown on the hospital's own page. */
   gallery: Picture[];
+  videos?: Video[];
 };
 
 export type Doctor = Pending & {
@@ -280,13 +291,19 @@ export type Doctor = Pending & {
   name: string;
   /** Speciality slug. */
   speciality: string;
+  /** Job title at the hospital, as the hospital gives it. */
+  role: string;
   /** Hospital slug. */
   hospital: string;
+  /** Somewhere else the doctor sees patients, written out. */
+  otherPractice?: string;
   /** Written out, for example "18 years". Not a number, so it can stay a
    *  placeholder until it is confirmed. */
   experience: string;
+  /** Rows left empty are not shown. */
   qualifications: string[];
   languages: string[];
+  expertise: string[];
   /** Slugs of the treatments this doctor performs. */
   treatments: string[];
   profile: string;
@@ -332,6 +349,9 @@ export type Post = Pending & {
   summary: string;
   /** One entry per paragraph. */
   body: string[];
+  picture?: Picture;
+  /** Where the facts in the post come from. */
+  sources?: { label: string; href: string }[];
   /** Slugs of treatments and hospitals the post is about. */
   treatments: string[];
   hospitals: string[];
@@ -342,7 +362,6 @@ export type CatalogContent = {
   filters: {
     heading: string;
     all: string;
-    apply: string;
     clear: string;
     empty: string;
     /** Follows the number of results: "1 result", "3 results". */
@@ -355,8 +374,11 @@ export type CatalogContent = {
       overview: string;
       accreditation: string;
       specialities: string;
+      address: string;
+      centres: string;
       services: string;
       photos: string;
+      videos: string;
       doctors: string;
       treatments: string;
     };
@@ -370,6 +392,8 @@ export type CatalogContent = {
       experience: string;
       qualifications: string;
       languages: string;
+      expertise: string;
+      otherPractice: string;
       procedures: string;
       worksAt: string;
     };
@@ -391,6 +415,7 @@ export type CatalogContent = {
     undated: string;
     detail: {
       related: string;
+      sources: string;
       treatments: string;
       hospitals: string;
     };

@@ -93,7 +93,7 @@ export function Footer({ home = "/" }: { home?: string }) {
                     <li key={item.label}>
                       <Link
                         href={resolveHref(item.href, home)}
-                        className="flex min-h-11 items-center text-base text-ink-2 transition-colors hover:text-ink"
+                        className="flex min-h-11 w-fit items-center text-base text-ink-2 transition-[color,translate] duration-300 ease-(--ease-soft) hover:translate-x-1 hover:text-ink rtl:hover:-translate-x-1"
                       >
                         {item.label}
                       </Link>

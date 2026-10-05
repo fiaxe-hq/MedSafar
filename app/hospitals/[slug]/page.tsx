@@ -20,6 +20,7 @@ import { TreatmentCard } from "@/components/catalog/TreatmentCard";
 import { EnquiryBlock } from "@/components/sections/EnquiryBlock";
 import { Figure } from "@/components/ui/Pending";
 import { Section, SectionHead } from "@/components/ui/Section";
+import { VideoEmbed } from "@/components/ui/VideoEmbed";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -69,6 +70,7 @@ export default async function Page({ params }: Props) {
             <Facts
               className="mt-10"
               items={[
+                { label: text.detail.address, value: hospital.address },
                 { label: text.detail.accreditation, value: hospital.accreditation },
                 {
                   label: text.detail.specialities,
@@ -78,7 +80,7 @@ export default async function Page({ params }: Props) {
                         <li key={s}>
                           <Link
                             href={`/treatments#${s}`}
-                            className="inline-flex min-h-11 items-center rounded-md border border-hairline bg-surface px-4 text-sm text-ink-2 transition-colors hover:border-line hover:text-ink"
+                            className="inline-flex min-h-11 items-center rounded-md border border-hairline bg-surface px-4 text-sm text-ink-2 transition-[color,border-color,translate] duration-300 ease-(--ease-soft) hover:-translate-y-0.5 hover:border-line hover:text-ink"
                           >
                             {nameOf(specialities, s)}
                           </Link>
@@ -103,8 +105,18 @@ export default async function Page({ params }: Props) {
       </Section>
 
       <Section>
-        <SectionHead heading={text.detail.services} />
-        <CheckList items={hospital.services} className="mt-10 max-w-3xl" />
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+          <div className="min-w-0">
+            <SectionHead heading={text.detail.services} />
+            <CheckList items={hospital.services} className="mt-10" />
+          </div>
+          {hospital.centres?.length ? (
+            <div className="min-w-0">
+              <SectionHead heading={text.detail.centres} />
+              <CheckList items={hospital.centres} className="mt-10" />
+            </div>
+          ) : null}
+        </div>
 
         <h2 className="reveal mt-16 text-2xl font-semibold tracking-[-0.02em] lg:mt-20">
           {text.detail.photos}
@@ -120,6 +132,19 @@ export default async function Page({ params }: Props) {
             />
           ))}
         </div>
+
+        {hospital.videos?.length ? (
+          <>
+            <h2 className="reveal mt-16 text-2xl font-semibold tracking-[-0.02em] lg:mt-20">
+              {text.detail.videos}
+            </h2>
+            <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {hospital.videos.map((video) => (
+                <VideoEmbed key={video.title} video={video} />
+              ))}
+            </div>
+          </>
+        ) : null}
       </Section>
 
       {doctors.length ? (

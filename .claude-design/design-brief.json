@@ -1,0 +1,29 @@
+{
+  "scope": "page",
+  "isRedesign": true,
+  "targetPath": "app/page.tsx (components/CountryPage.tsx + components/sections/*)",
+  "targetName": "Home page",
+  "variantCount": 3,
+  "painPoints": ["None stated - user wants distinct directions to compare"],
+  "inspiration": {
+    "visual": ["Apple", "Stripe", "Notion", "Linear"],
+    "functional": []
+  },
+  "brand": {
+    "adjectives": ["trustworthy", "minimal", "warm"],
+    "density": "comfortable",
+    "darkMode": false
+  },
+  "persona": {
+    "primary": "End consumer (patients abroad and their families)",
+    "context": "both, phone-heavy",
+    "keyTasks": ["Leave a mobile number / start an enquiry", "Understand what Medsafar handles", "Trust the hospitals and the process"]
+  },
+  "constraints": {
+    "mustKeep": ["Stay close to the current green colour scheme (slight deviation ok)"],
+    "technical": ["No new dependencies", "Reuse existing content files and EnquiryForm", "Other pages untouched"]
+  },
+  "framework": "nextjs-app (16.3)",
+  "packageManager": "pnpm",
+  "stylingSystem": "tailwind v4 with CSS variable tokens (app/globals.css)"
+}

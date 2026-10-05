@@ -11,10 +11,11 @@ import type { Speciality } from "@/content/types";
 export const specialities: Speciality[] = [
   { slug: "organ-transplant", name: "Organ transplant" },
   { slug: "oncology", name: "Oncology" },
+  { slug: "haematology-bmt", name: "Haematology and bone marrow transplant" },
   { slug: "neurology-neurosurgery", name: "Neurology and neurosurgery" },
   { slug: "bariatric-surgery", name: "Weight loss (bariatric) surgery" },
   { slug: "fertility-ivf", name: "Fertility and IVF" },
   { slug: "orthopaedics", name: "Orthopaedics" },
   { slug: "cardiology", name: "Cardiology and heart surgery" },
-  { slug: "cosmetic-plastic-surgery", name: "Cosmetic and plastic surgery" },
+  { slug: "cosmetic-plastic-surgery", name: "Plastic, reconstructive and cosmetic surgery" },
 ];

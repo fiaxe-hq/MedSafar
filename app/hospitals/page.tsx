@@ -56,14 +56,21 @@ export default async function Page({ searchParams }: Props) {
         <ResultCount count={hospitals.length} />
 
         {hospitals.length ? (
-          <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div
+            className={`mt-4 grid gap-5 ${hospitals.length > 1 ? "sm:grid-cols-2 lg:grid-cols-3" : ""}`}
+          >
             {hospitals.map((hospital) => (
               <HospitalCard
                 key={hospital.slug}
                 hospital={hospital}
                 specialities={hospital.specialities.map((s) => nameOf(specialities, s)).join(", ")}
                 heading="h2"
-                sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
+                wide={hospitals.length === 1}
+                sizes={
+                  hospitals.length === 1
+                    ? "(min-width: 1024px) 56vw, 100vw"
+                    : "(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
+                }
               />
             ))}
           </div>

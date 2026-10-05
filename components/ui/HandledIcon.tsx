@@ -5,7 +5,7 @@ import { TranslateIcon } from "@phosphor-icons/react/dist/ssr/Translate";
 import { StethoscopeIcon } from "@phosphor-icons/react/dist/ssr/Stethoscope";
 import type { Handled } from "@/content/types";
 
-const icons = {
+export const handledIcons = {
   visa: IdentificationCardIcon,
   pickup: CarIcon,
   stay: BedIcon,
@@ -15,9 +15,9 @@ const icons = {
 
 /** Rendered on the server, so these icons cost no client JavaScript. */
 export function HandledIcon({ name }: { name: Handled["icon"] }) {
-  const Glyph = icons[name];
+  const Glyph = handledIcons[name];
   return (
-    <span className="grid size-12 place-items-center rounded-md border border-hairline bg-surface">
+    <span className="grid size-12 place-items-center rounded-md border border-hairline bg-surface transition-[background-color,border-color] duration-300 ease-(--ease-soft) group-hover:border-line group-hover:bg-accent-soft">
       <Glyph size={22} weight="regular" className="text-accent" aria-hidden />
     </span>
   );

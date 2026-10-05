@@ -6,8 +6,8 @@
  * Theme: light only, driven by semantic CSS variables. No section inverts
  * on its own.
  *
- * Surfaces are flat: a hairline separates, a shadow is kept for the form
- * and for menus only.
+ * Surfaces are flat: a hairline separates, a shadow is kept for the form,
+ * for menus, and for a card lifted under the pointer.
  *
  * Shape system, applied everywhere:
  *   buttons  -> rounded-md (6px)
@@ -45,6 +45,11 @@
   --cta-hover: #09644f;
   --cta-ink: #ffffff;
 
+  /* The deep band behind the hero, the services and the closing form, and the
+     mint that lights icons on it (9.6:1 on --deep). */
+  --deep: #06291f;
+  --glow: #5ee0bd;
+
   /* Errors and destructive actions, used in /admin. 7:1 on white. */
   --danger: #a61b1b;
   --danger-soft: #fdeeee;
@@ -52,6 +57,9 @@
 
   --elevation-card: 0 1px 2px rgb(11 61 49 / 0.06), 0 4px 12px -6px rgb(11 61 49 / 0.12);
   --elevation-lift: 0 1px 2px rgb(11 61 49 / 0.06), 0 16px 32px -16px rgb(11 61 49 / 0.22);
+
+  /* One easing for every hover and reveal: quick to start, soft to settle. */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
@@ -75,6 +83,8 @@
   --color-cta: var(--cta);
   --color-cta-hover: var(--cta-hover);
   --color-cta-ink: var(--cta-ink);
+  --color-deep: var(--deep);
+  --color-glow: var(--glow);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
   --color-danger-line: var(--danger-line);
@@ -180,10 +190,13 @@
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
       opacity: 0;
-      transform: translateY(0.75rem);
-      animation: reveal-in linear both;
-      animation-timeline: view();
-      animation-range: entry 10% cover 26%;
+      transform: translateY(3rem) scale(0.96);
+      filter: blur(6px);
+      animation: reveal-in var(--ease-soft) both;
+      animation-timeline: view(block 0);
+      /* Over a fixed stretch of scroll, so tall blocks arrive as fast as short
+         ones and anything in the top two thirds of the first screen is shown. */
+      animation-range: cover 0px cover 35vh;
     }
   }
 }
@@ -192,6 +205,127 @@
   to {
     opacity: 1;
     transform: none;
+    filter: none;
+  }
+}
+
+/**
+ * Hover lift for cards. Moves with `translate`, not `transform`, so it adds
+ * to the reveal animation (which owns transform) instead of fighting it.
+ * Tailwind's hover already waits for a real pointer; this does the same, so a
+ * tap on a phone never leaves a card stuck in the air.
+ */
+@utility lift {
+  transition-property: translate, box-shadow, border-color, background-color;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-soft);
+
+  @media (hover: hover) {
+    &:hover {
+      translate: 0 -0.25rem;
+      border-color: var(--line);
+      box-shadow: var(--elevation-lift);
+    }
+  }
+}
+
+/* Each page fades in as it arrives, including on in-app navigation. Opacity
+   only, so nothing fixed inside the page loses its anchor. */
+@utility page-in {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: page-in 0.45s var(--ease-soft);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* FAQ answers slide open instead of snapping. Browsers without
+   ::details-content just open as before. */
+@utility accordion {
+  interpolate-size: allow-keywords;
+
+  &::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.35s var(--ease-soft),
+      content-visibility 0.35s allow-discrete;
+  }
+
+  &[open]::details-content {
+    block-size: auto;
+  }
+}
+
+/**
+ * The deep green band: the hero, the services and the closing form. A soft
+ * glow in one corner and a faint grain keep it from reading as a flat fill.
+ */
+@utility band-deep {
+  background-color: var(--deep);
+  background-image:
+    radial-gradient(60rem 30rem at 85% -10%, rgb(14 148 117 / 0.45), transparent 70%),
+    radial-gradient(40rem 24rem at -10% 110%, rgb(94 224 189 / 0.12), transparent 70%);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* The hero photo drifts in slightly as the page opens. The wash over it is
+   darkest behind the headline and clears toward the far side. */
+.hero-photo {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: hero-zoom 1.6s var(--ease-soft) both;
+  }
+}
+
+.hero-wash {
+  background:
+    linear-gradient(to right, rgb(6 41 31 / 0.94) 0%, rgb(6 41 31 / 0.7) 45%, rgb(6 41 31 / 0.2) 100%),
+    linear-gradient(to top, rgb(6 41 31 / 0.6), transparent 35%);
+}
+
+[dir="rtl"] .hero-wash {
+  background:
+    linear-gradient(to left, rgb(6 41 31 / 0.94) 0%, rgb(6 41 31 / 0.7) 45%, rgb(6 41 31 / 0.2) 100%),
+    linear-gradient(to top, rgb(6 41 31 / 0.6), transparent 35%);
+}
+
+/* On a phone the form sits under the text, so the wash covers the whole photo. */
+@media (max-width: 1023px) {
+  .hero-wash,
+  [dir="rtl"] .hero-wash {
+    background: rgb(6 41 31 / 0.82);
+  }
+}
+
+@utility hero-rise {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: hero-rise 0.9s var(--ease-soft) both;
+  }
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
   }
 }
 

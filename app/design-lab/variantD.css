@@ -1,0 +1,104 @@
+/* Variant D only. Deleted with the lab. */
+
+.d-ease {
+  transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* The one marquee on the page: what we arrange, rolling past. */
+.d-marquee {
+  display: flex;
+  width: max-content;
+  animation: d-marquee 48s linear infinite;
+}
+
+.d-marquee-wrap:hover .d-marquee {
+  animation-play-state: paused;
+}
+
+@keyframes d-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+[dir="rtl"] .d-marquee {
+  animation-direction: reverse;
+}
+
+/* Hero collage: the cards sit straight and fan out into a tilt when the
+   pointer is over them. */
+.d-tilt {
+  transition: rotate 0.8s cubic-bezier(0.32, 0.72, 0, 1), translate 0.8s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@media (hover: hover) {
+  .d-collage:hover .d-tilt {
+    rotate: var(--tilt, 0deg);
+  }
+}
+
+/* Journey cards stack as you scroll: each one sticks a little lower than the
+   last, and the one underneath sinks back as the next arrives. */
+@media (min-width: 768px) {
+  .d-stack-card {
+    position: sticky;
+    top: calc(6.5rem + var(--i) * 1.75rem);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+    .d-stack-inner {
+      animation: d-sink linear both;
+      animation-timeline: view();
+      animation-range: exit-crossing 0% exit-crossing 100%;
+    }
+  }
+}
+
+@keyframes d-sink {
+  to {
+    scale: 0.94;
+    filter: brightness(0.92);
+  }
+}
+
+/* The visa line fills as the steps scroll into view. */
+.d-line-fill {
+  transform-origin: top;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .d-line-fill {
+      animation: d-fill linear both;
+      animation-timeline: view();
+      animation-range: entry 40% cover 60%;
+    }
+  }
+}
+
+@keyframes d-fill {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+/* Slow drift on the big closing photo. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .d-drift {
+      animation: d-drift linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+@keyframes d-drift {
+  from {
+    transform: scale(1.12) translateY(-3%);
+  }
+  to {
+    transform: scale(1.02) translateY(3%);
+  }
+}

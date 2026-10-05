@@ -18,7 +18,7 @@ export function PageShell({
     <>
       <Header home="/" current={current} />
       {/* Room at the foot of the page for the fixed bar on phones. */}
-      <main className="w-full max-w-full overflow-x-clip pb-24 lg:pb-0">{children}</main>
+      <main className="page-in w-full max-w-full overflow-x-clip pb-24 lg:pb-0">{children}</main>
       <Footer />
       <MobileBar />
     </>

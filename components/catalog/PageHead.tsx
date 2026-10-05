@@ -27,9 +27,9 @@ export function PageHead({
         {back ? (
           <Link
             href={back.href}
-            className="mb-6 inline-flex min-h-11 items-center gap-2 text-base font-medium text-accent transition-colors hover:text-accent-hover"
+            className="group mb-6 inline-flex min-h-11 items-center gap-2 text-base font-medium text-accent transition-colors hover:text-accent-hover"
           >
-            <ArrowLeftIcon size={18} className="rtl:rotate-180" aria-hidden />
+            <ArrowLeftIcon size={18} className="transition-[translate] duration-300 ease-(--ease-soft) group-hover:-translate-x-1 rtl:rotate-180 rtl:group-hover:translate-x-1" aria-hidden />
             {back.label}
           </Link>
         ) : null}

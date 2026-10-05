@@ -1,7 +1,7 @@
 import type { CountryContent } from "@/content/types";
 import { Section, SectionHead } from "@/components/ui/Section";
 
-/** Editorial list. Each step is a full row, not a card in a row of four. */
+/** Four steps across one row, joined by a rule, each led by a large numeral. */
 export function HowItWorks({ content }: { content: CountryContent }) {
   const { howItWorks } = content;
 
@@ -9,22 +9,23 @@ export function HowItWorks({ content }: { content: CountryContent }) {
     <Section id="how-it-works">
       <SectionHead heading={howItWorks.heading} intro={howItWorks.intro} />
 
-      <ol className="mt-12 border-t border-hairline lg:mt-14">
+      <ol className="relative mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-6">
+        <span
+          aria-hidden
+          className="absolute inset-x-8 top-7 hidden h-px bg-linear-to-r from-brand via-line to-transparent lg:block rtl:bg-linear-to-l"
+        />
         {howItWorks.steps.map((step, i) => (
-          <li
-            key={step.title}
-            className="reveal grid gap-4 border-b border-hairline py-8 lg:grid-cols-12 lg:items-start lg:gap-10 lg:py-10"
-          >
+          <li key={step.title} className="group reveal relative flex gap-5 sm:block">
             <span
               aria-hidden
-              className="grid size-10 place-items-center rounded-full bg-accent-soft text-sm font-medium tabular-nums text-accent lg:col-span-1"
+              className="relative grid size-12 shrink-0 place-items-center rounded-full sm:size-14 bg-accent font-display text-lg font-semibold text-accent-ink tabular-nums ring-8 ring-bg transition-[scale] duration-300 ease-(--ease-soft) group-hover:scale-110"
             >
               {String(i + 1).padStart(2, "0")}
             </span>
-            <h3 className="text-2xl font-semibold tracking-[-0.02em] lg:col-span-4">
-              {step.title}
-            </h3>
-            <p className="max-w-[58ch] text-lg text-ink-2 lg:col-span-7">{step.body}</p>
+            <div>
+              <h3 className="mt-2.5 text-xl font-semibold tracking-[-0.02em] sm:mt-6">{step.title}</h3>
+              <p className="mt-2 max-w-[34ch] text-base text-ink-2">{step.body}</p>
+            </div>
           </li>
         ))}
       </ol>

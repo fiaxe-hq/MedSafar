@@ -1,0 +1,300 @@
+/* Motion layer shared by every lab variant. Deleted with the lab.
+   Everything here is scroll-driven CSS or pointer-driven CSS variables, and
+   every moving part switches off under prefers-reduced-motion. */
+
+@property --spot {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+[data-lab] {
+  --lab-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Reading progress: a hairline across the top that fills as you scroll. */
+.lab-progress {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 60;
+  height: 3px;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--brand), var(--glow));
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+[dir="rtl"] .lab-progress {
+  transform-origin: right;
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .lab-progress {
+      animation: lab-progress linear both;
+      animation-timeline: scroll(root);
+    }
+
+    /* The header gains a soft shadow once the page moves. */
+    [data-lab] > header {
+      animation: lab-header linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 140px;
+    }
+
+    /* Every block comes into focus as it enters: blurred and low at the very
+       bottom of the screen, fully sharp once its top is 20% of the screen
+       height above the bottom. Tied straight to scroll, so it is perfectly
+       smooth and runs backwards when you scroll up. */
+    [data-lab] .reveal,
+    [data-lab] main section :is(h2, h2 + p):not(.reveal, .reveal *) {
+      animation: lab-in linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 20vh;
+    }
+
+    /* Small cards in a list also let go at the very end: only once most of
+       the card has already passed the top of the screen. Sticky blocks never
+       do this. */
+    [data-lab] :is(ul, ol) > .reveal:not([class*="sticky"]) {
+      animation:
+        lab-in linear both,
+        lab-out linear forwards;
+      animation-timeline: view(), view();
+      animation-range:
+        cover 0% cover 20vh,
+        exit 70% exit 100%;
+    }
+
+    /* Cards in a grid slide in from alternate sides, just slightly. */
+    [data-lab] :is(ul, ol) > .reveal:nth-child(even) { --lab-x: 1.5rem; }
+    [data-lab] :is(ul, ol) > .reveal:nth-child(odd) { --lab-x: -1.5rem; }
+
+    /* The hero eases up and dims a touch, but only in the second half of
+       leaving, so nothing you are still looking at goes soft. */
+    [data-lab] main section:first-of-type > * {
+      animation: lab-hero-out linear both;
+      animation-timeline: view();
+      animation-range: exit 50% exit 100%;
+    }
+
+    /* Photos settle from a slight zoom as they arrive, then drift inside
+       their frames as they pass. */
+    [data-lab] main img.object-cover:not(.hero-photo) {
+      animation: lab-photo linear both;
+      animation-timeline: view();
+    }
+
+    [data-lab] .d-drift img {
+      animation: none;
+    }
+
+    /* ---- Opt-in effects used by individual variants ---- */
+
+    /* A wide frame that opens out to full width as it scrolls in. */
+    [data-lab] .lab-expand {
+      animation: lab-expand linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 45%;
+    }
+
+    /* A rule or line that draws itself in. */
+    [data-lab] .lab-draw {
+      animation: lab-draw linear both;
+      animation-timeline: view();
+      animation-range: cover 5% cover 40%;
+    }
+
+    /* A vertical line that fills as its block passes through the screen. */
+    [data-lab] .lab-line-fill {
+      transform-origin: top;
+      animation: lab-fill linear both;
+      animation-timeline: view();
+      animation-range: entry 60% cover 55%;
+    }
+
+    /* Icons and numbers that pop in with a small turn. */
+    [data-lab] .lab-pop {
+      animation: lab-pop linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 22vh;
+    }
+
+    /* Numbers that light up as they pass the middle of the screen. */
+    [data-lab] .lab-light {
+      animation: lab-light linear both;
+      animation-timeline: view();
+      animation-range: cover 25% cover 50%;
+    }
+
+    /* A row that tints softly while it is in the middle of the screen. */
+    [data-lab] .lab-focus {
+      animation: lab-focus linear both;
+      animation-timeline: view();
+      animation-range: cover 20% cover 80%;
+    }
+
+    /* A strip of photos that slides sideways as you scroll down. */
+    [data-lab] .lab-pan {
+      animation: lab-pan linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/* Gentle always-on motion, kept to a couple of elements per page. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-lab] .lab-float {
+    animation: lab-float 6s ease-in-out infinite alternate;
+  }
+  [data-lab] .lab-float-late {
+    animation: lab-float 7s ease-in-out -3s infinite alternate;
+  }
+  [data-lab] .lab-orb {
+    animation: lab-orb 20s ease-in-out infinite alternate;
+  }
+  [data-lab] .lab-grid-pan {
+    animation: lab-grid-pan 40s linear infinite;
+  }
+}
+
+@keyframes lab-progress {
+  to { transform: scaleX(1); }
+}
+
+@keyframes lab-header {
+  to {
+    box-shadow: 0 10px 30px -18px rgb(11 61 49 / 0.35);
+    background-color: rgb(255 255 255 / 0.96);
+  }
+}
+
+@keyframes lab-in {
+  from {
+    opacity: 0;
+    transform: translate(var(--lab-x, 0), 2.5rem) scale(0.98);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes lab-out {
+  to {
+    opacity: 0.2;
+    transform: translateY(-1.25rem) scale(0.99);
+  }
+}
+
+@keyframes lab-expand {
+  from { clip-path: inset(3% 9% 3% 9% round 3rem); }
+  to { clip-path: inset(0 0 0 0 round 1.5rem); }
+}
+
+@keyframes lab-draw {
+  from { transform: scaleX(0); }
+}
+
+@keyframes lab-fill {
+  from { transform: scaleY(0); }
+}
+
+@keyframes lab-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6) rotate(-18deg);
+  }
+}
+
+@keyframes lab-light {
+  from { color: var(--line); }
+  to { color: var(--brand); }
+}
+
+@keyframes lab-focus {
+  0%, 100% { background-color: transparent; }
+  40%, 60% { background-color: var(--accent-quiet); }
+}
+
+@keyframes lab-pan {
+  from { transform: translateX(4%); }
+  to { transform: translateX(-28%); }
+}
+
+@keyframes lab-float {
+  from { transform: translateY(-6px); }
+  to { transform: translateY(6px); }
+}
+
+@keyframes lab-orb {
+  from { transform: translate(-6%, -4%) scale(1); }
+  to { transform: translate(6%, 4%) scale(1.15); }
+}
+
+@keyframes lab-grid-pan {
+  to { background-position: 4rem 4rem, 4rem 4rem; }
+}
+
+@keyframes lab-hero-out {
+  to {
+    opacity: 0.6;
+    transform: translateY(-3rem);
+  }
+}
+
+@keyframes lab-photo {
+  entry 0% { transform: translateY(-4%) scale(1.2); }
+  entry 100% { transform: translateY(-2%) scale(1.1); }
+  exit 100% { transform: translateY(4%) scale(1.1); }
+}
+
+/* FAQ answers fade up as they open. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-lab] details[open] > :not(summary) {
+    animation: lab-answer 0.5s var(--lab-ease);
+  }
+}
+
+@keyframes lab-answer {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}
+
+/* Pointer spotlight on cards: a faint mint glow follows the cursor. Set up
+   by LabMotion, only on cards without their own background image. */
+.lab-spot {
+  background-image: radial-gradient(
+    32rem circle at var(--mx, 50%) var(--my, 50%),
+    rgb(94 224 189 / calc(var(--spot) * 0.06)),
+    transparent 70%
+  );
+  transition: --spot 0.9s var(--lab-ease);
+}
+
+.lab-spot:hover {
+  --spot: 1;
+}
+
+/* Magnetic buttons settle back smoothly when the pointer leaves. */
+.lab-magnet {
+  transition: translate 0.45s var(--lab-ease), background-color 0.3s, box-shadow 0.3s, scale 0.2s !important;
+}
+
+/* 3D tilt on the D collage, driven by --rx / --ry from LabMotion. */
+.d-collage .d-tilt {
+  transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition:
+    transform 0.7s var(--lab-ease),
+    rotate 0.8s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* The marquee fades out at its edges instead of being cut. */
+.d-marquee-wrap {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}

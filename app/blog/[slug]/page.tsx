@@ -18,6 +18,7 @@ import { HospitalCard } from "@/components/catalog/HospitalCard";
 import { PostCard, PostDate } from "@/components/catalog/PostCard";
 import { TreatmentCard } from "@/components/catalog/TreatmentCard";
 import { EnquiryBlock } from "@/components/sections/EnquiryBlock";
+import { Figure } from "@/components/ui/Pending";
 import { Section, SectionHead } from "@/components/ui/Section";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -65,13 +66,41 @@ export default async function Page({ params }: Props) {
           <p className="text-sm text-ink-3">
             <PostDate post={post} /> · {post.author}
           </p>
+          {post.picture ? (
+            <Figure
+              picture={post.picture}
+              ratio="aspect-[27/10]"
+              className="mt-8"
+              priority
+              sizes="(min-width: 768px) 48rem, 100vw"
+            />
+          ) : null}
           <div className="mt-8 space-y-6">
             {post.body.map((paragraph, i) => (
-              <p key={i} className="max-w-[68ch] text-lg text-ink-2">
+              <p key={i} className="reveal max-w-[68ch] text-lg text-ink-2">
                 {paragraph}
               </p>
             ))}
           </div>
+          {post.sources?.length ? (
+            <div className="reveal mt-12 border-t border-hairline pt-6">
+              <h2 className="text-sm font-medium text-ink">{text.detail.sources}</h2>
+              <ul className="mt-3 space-y-2">
+                {post.sources.map((source) => (
+                  <li key={source.href}>
+                    <a
+                      href={source.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-base text-accent underline-offset-4 transition-colors hover:text-accent-hover hover:underline"
+                    >
+                      {source.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </article>
       </Section>
 

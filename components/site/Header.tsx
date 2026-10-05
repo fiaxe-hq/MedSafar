@@ -40,7 +40,7 @@ export function Header({
               key={item.label}
               href={resolveHref(item.href, home)}
               aria-current={item.href === current ? "page" : undefined}
-              className="relative flex min-h-11 items-center rounded-sm px-3.5 text-base whitespace-nowrap text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink aria-[current=page]:font-medium aria-[current=page]:text-ink aria-[current=page]:after:absolute aria-[current=page]:after:inset-x-3.5 aria-[current=page]:after:bottom-1 aria-[current=page]:after:h-0.5 aria-[current=page]:after:bg-brand"
+              className="relative flex min-h-11 items-center rounded-sm px-3.5 text-base whitespace-nowrap text-ink-2 transition-colors after:absolute after:inset-x-3.5 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:bg-brand after:transition-[scale] after:duration-300 after:ease-(--ease-soft) hover:text-ink hover:after:scale-x-100 aria-[current=page]:font-medium aria-[current=page]:text-ink aria-[current=page]:after:scale-x-100 rtl:after:origin-right"
             >
               {item.label}
             </Link>

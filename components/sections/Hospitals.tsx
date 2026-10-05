@@ -1,11 +1,11 @@
 import type { CountryContent } from "@/content/types";
 import { getHospitalsBySlugs, getSpecialities, nameOf } from "@/lib/catalog";
 import { HospitalCard } from "@/components/catalog/HospitalCard";
-import { Note, Section, SectionHead } from "@/components/ui/Section";
+import { Section, SectionHead } from "@/components/ui/Section";
 
-/** Asymmetric grid: one feature tile, two supporting tiles. Three cells for
- *  three hospitals, so the grid never shows an empty cell. Each tile links to
- *  the hospital's own page. */
+/** Asymmetric grid: one feature tile, two supporting tiles. A single hospital
+ *  gets one wide tile instead, so the grid never shows an empty cell. Each
+ *  tile links to the hospital's own page. */
 export async function Hospitals({ content }: { content: CountryContent }) {
   const { hospitals } = content;
   const [cards, specialities] = await Promise.all([
@@ -19,7 +19,16 @@ export async function Hospitals({ content }: { content: CountryContent }) {
     <Section id="hospitals" tone="quiet">
       <SectionHead heading={hospitals.heading} intro={hospitals.intro} />
 
-      {feature ? (
+      {feature && !rest.length ? (
+        <div className="mt-12 lg:mt-14">
+          <HospitalCard
+            hospital={feature}
+            specialities={names(feature.specialities)}
+            wide
+            sizes="(min-width: 1024px) 56vw, 100vw"
+          />
+        </div>
+      ) : feature ? (
         <div className="mt-12 grid gap-5 lg:mt-14 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <HospitalCard
@@ -41,8 +50,6 @@ export async function Hospitals({ content }: { content: CountryContent }) {
           </div>
         </div>
       ) : null}
-
-      <Note>{hospitals.note}</Note>
     </Section>
   );
 }

@@ -30,6 +30,8 @@ export function Figure({
   sizes = "100vw",
   /** Small slots, such as a round portrait, show the surface without the brief. */
   compact = false,
+  /** Which part of the photo stays in view when the slot crops it. */
+  position = "object-center",
 }: {
   picture: Picture;
   ratio?: string;
@@ -38,6 +40,7 @@ export function Figure({
   priority?: boolean;
   sizes?: string;
   compact?: boolean;
+  position?: "object-center" | "object-top";
 }) {
   if (picture.pending || !picture.src) {
     if (compact) {
@@ -81,7 +84,7 @@ export function Figure({
         fill
         sizes={sizes}
         priority={priority}
-        className="object-cover"
+        className={`object-cover ${position}`}
       />
     </div>
   );
