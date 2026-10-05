@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
-import { Feedback } from "./Feedback";
 import { LabMotion } from "./LabMotion";
 import "./lab.css";
 import { VariantA } from "./VariantA";
@@ -62,7 +61,6 @@ export default async function DesignLab({ searchParams }: { searchParams: Promis
       </nav>
 
       <LabMotion key={key} />
-      <Feedback targetName="Home page" />
     </div>
   );
 }
