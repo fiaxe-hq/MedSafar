@@ -1,5 +1,11 @@
+packages:
+  - "."
 allowBuilds:
   esbuild: true
   unrs-resolver: true
   workerd: true
+onlyBuiltDependencies:
+  - esbuild
+  - unrs-resolver
+  - workerd
 nodeLinker: hoisted
