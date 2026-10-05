@@ -33,6 +33,24 @@
       "bucket_name": "medsafar-reports"
     }
   ],
+  // Branch previews share the live database and report bucket.
+  "previews": {
+    "d1_databases": [
+      {
+        "binding": "LEADS_DB",
+        "database_id": "1f060500-cd57-4656-9547-2fc89ffc2f57"
+      }
+    ],
+    "r2_buckets": [
+      {
+        "binding": "REPORTS",
+        "bucket_name": "medsafar-reports"
+      }
+    ],
+    "images": {
+      "binding": "IMAGES"
+    }
+  },
   "observability": {
     "enabled": true
   }
