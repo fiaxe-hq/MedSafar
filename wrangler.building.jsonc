@@ -1,0 +1,35 @@
+// Client preview at building-medsafar, on the xaif@fiaxe.com account. Kept
+// apart from the live site: its own Worker and its own enquiry database.
+// R2 is not enabled on this account, so report uploads do not work here.
+// Deploy: pnpm opennextjs-cloudflare build && pnpm opennextjs-cloudflare deploy -c wrangler.building.jsonc
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "building-medsafar",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "building-medsafar"
+    }
+  ],
+  "images": {
+    "binding": "IMAGES"
+  },
+  "d1_databases": [
+    {
+      "binding": "LEADS_DB",
+      "database_name": "building-medsafar-leads",
+      "database_id": "c1068ffb-150c-4713-aaf8-a2cd1cd91163",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
