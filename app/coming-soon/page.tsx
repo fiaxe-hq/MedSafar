@@ -5,7 +5,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { btnPrimary } from "@/components/ui/styles";
 
-/** Shown in place of every page except the home page during the client preview. */
+/** Shown in place of every page except the open ones during the client preview. */
 export const metadata: Metadata = {
   title: "Coming soon",
   robots: { index: false, follow: false },
@@ -19,9 +19,9 @@ export default function ComingSoon() {
         <Container>
           <h1 className="display-2">Coming soon</h1>
           <p className="mt-5 max-w-[46ch] text-lg text-ink-2">
-            This page is being built right now and will be live soon. For now, take a look at the home page designs.
+            This page is being built right now and will be live soon. For now, take a look at the home page.
           </p>
-          <Link href="/design-lab" className={`${btnPrimary} mt-8`}>
+          <Link href="/" className={`${btnPrimary} mt-8`}>
             Back to the home page
           </Link>
         </Container>
