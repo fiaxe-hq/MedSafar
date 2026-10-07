@@ -53,7 +53,6 @@ export default async function Page({ params }: Props) {
     <PageShell current="/doctors">
       <PageHead
         back={{ href: "/doctors", label: text.back }}
-        label={speciality}
         heading={doctor.name}
         intro={doctor.role}
         pending={doctor.pending}

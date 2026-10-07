@@ -22,7 +22,7 @@ export default function Page() {
 
   return (
     <PageShell>
-      <PageHead label={contact.eyebrow} heading={contact.heading} intro={contact.intro} />
+      <PageHead heading={contact.heading} intro={contact.intro} />
 
       <EnquiryBlock content={{ enquiry: catalog.enquiry }} source="/contact" />
 

@@ -59,10 +59,7 @@ export function ConsultationDialog({
         className="consultation-dialog m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-lg overflow-y-auto overscroll-contain rounded-xl border border-hairline bg-surface p-0 text-ink shadow-lift"
       >
         <div className="relative p-6 sm:p-8">
-          <p className="text-sm font-medium tracking-[0.14em] text-accent uppercase">
-            {text.eyebrow}
-          </p>
-          <h2 id={headingId} className="mt-3 pe-10 text-2xl font-bold tracking-[-0.02em] sm:text-3xl">
+          <h2 id={headingId} className="pe-10 text-2xl font-semibold tracking-[-0.02em] sm:text-3xl">
             {text.heading}
           </h2>
           <p className="mt-3 text-base text-ink-2">{text.intro}</p>

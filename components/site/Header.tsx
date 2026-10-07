@@ -7,6 +7,7 @@ import { btnPrimary } from "@/components/ui/styles";
 import { ConsultationDialog } from "./ConsultationDialog";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { Logo } from "./Logo";
+import { NavUnderline } from "./NavUnderline";
 import { resolveHref } from "./resolveHref";
 
 export function Header({
@@ -33,29 +34,30 @@ export function Header({
             screens use the menu button instead. */}
         <nav
           aria-label={nav.menuLabel}
-          className="hidden items-center gap-1 xl:flex"
+          className="relative hidden items-center gap-0.5 xl:flex"
         >
           {nav.items.map((item) => (
             <Link
               key={item.label}
               href={resolveHref(item.href, home)}
               aria-current={item.href === current ? "page" : undefined}
-              className="relative flex min-h-11 items-center rounded-sm px-3.5 text-base whitespace-nowrap text-ink-2 transition-colors after:absolute after:inset-x-3.5 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:bg-brand after:transition-[scale] after:duration-300 after:ease-(--ease-soft) hover:text-ink hover:after:scale-x-100 aria-[current=page]:font-medium aria-[current=page]:text-ink aria-[current=page]:after:scale-x-100 rtl:after:origin-right"
+              className="relative flex min-h-11 items-center rounded-sm px-3 text-[0.9375rem] whitespace-nowrap text-ink-2 transition-colors duration-200 hover:bg-brand/10 hover:text-ink aria-[current=page]:font-medium aria-[current=page]:text-ink"
             >
               {item.label}
             </Link>
           ))}
+          <NavUnderline current={current} />
         </nav>
 
         <div className="flex items-center justify-end gap-1 sm:gap-2">
-          <LanguageSwitch />
+          <LanguageSwitch iso={iso} />
 
           {/* The shorter of the two approved labels. The long one is on the
               buttons that actually carry the page. */}
           <span className="hidden lg:block">
             <ConsultationDialog
               label={cta.secondary}
-              className={`${btnPrimary} min-h-11 px-5 text-[0.9375rem]`}
+              className={`${btnPrimary} min-h-11 px-5 text-[0.875rem]`}
               text={site.consultation}
               form={site.form}
               dialCodes={dialCodesFor(iso)}

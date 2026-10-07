@@ -20,7 +20,7 @@ export function LegalPage({ content, source }: { content: LegalContent; source: 
           <div className="mt-8 border-t border-hairline">
             {content.sections.map((section) => (
               <div key={section.heading} className="border-b border-hairline py-7">
-                <h2 className="text-xl font-semibold tracking-[-0.02em]">{section.heading}</h2>
+                <h2 className="text-xl font-medium tracking-[-0.02em]">{section.heading}</h2>
                 <div className="mt-3 space-y-3">
                   {[section.body].flat().map((paragraph, i) => (
                     <p key={i} className="max-w-[68ch] text-base text-ink-2">

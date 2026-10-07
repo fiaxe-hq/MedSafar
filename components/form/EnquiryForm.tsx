@@ -44,7 +44,7 @@ export function EnquiryForm({
   if (done) {
     return (
       <div>
-        <p className="font-display text-xl font-semibold tracking-[-0.02em] text-accent">
+        <p className="font-display text-xl font-medium tracking-[-0.02em] text-accent">
           {text.done.heading}
         </p>
         <p className="mt-3 text-base text-ink-2">{text.done.body}</p>

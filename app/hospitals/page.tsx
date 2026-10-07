@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { catalog } from "@/content/catalog";
-import { getHospitalCities, getHospitals, getSpecialities, nameOf } from "@/lib/catalog";
+import { getDoctors, getHospitalCities, getHospitals, getSpecialities, getTreatments, nameOf } from "@/lib/catalog";
 import { first } from "@/lib/query";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHead } from "@/components/catalog/PageHead";
 import { Filters, NoResults, ResultCount } from "@/components/catalog/Filters";
 import { HospitalCard } from "@/components/catalog/HospitalCard";
 import { EnquiryBlock } from "@/components/sections/EnquiryBlock";
-import { Note, Section } from "@/components/ui/Section";
+import { Note } from "@/components/ui/Section";
+import { Container } from "@/components/ui/Container";
 
 /** Shared page: one copy for every country. */
 
@@ -24,17 +25,31 @@ export default async function Page({ searchParams }: Props) {
   const city = first(query.city);
   const speciality = first(query.speciality);
 
-  const [hospitals, cities, specialities] = await Promise.all([
+  const [hospitals, everyone, cities, specialities, doctors, treatments] = await Promise.all([
     getHospitals({ city, speciality }),
+    getHospitals(),
     getHospitalCities(),
     getSpecialities(),
+    getDoctors(),
+    getTreatments(),
   ]);
+  const covered = new Set(everyone.flatMap((h) => h.specialities));
 
   return (
     <PageShell current="/hospitals">
-      <PageHead label={text.eyebrow} heading={text.heading} intro={text.intro} />
+      <PageHead
+        heading={text.heading}
+        intro={text.intro}
+        stats={[
+          { value: covered.size, label: text.stats.specialities },
+          { value: doctors.length, label: text.stats.doctors },
+          { value: treatments.length, label: text.stats.treatments },
+        ]}
+        picture={everyone[0]?.gallery.find((p) => !p.pending && p.src) ?? everyone[0]?.picture}
+      />
 
-      <Section tone="quiet">
+      <section className="bg-surface-2 pt-8 pb-16 sm:pt-10 sm:pb-20">
+        <Container>
         <Filters
           action="/hospitals"
           fields={[
@@ -79,7 +94,8 @@ export default async function Page({ searchParams }: Props) {
         )}
 
         <Note>{text.note}</Note>
-      </Section>
+        </Container>
+      </section>
 
       <EnquiryBlock content={{ enquiry: catalog.enquiry }} source="/hospitals" />
     </PageShell>

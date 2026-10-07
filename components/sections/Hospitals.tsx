@@ -1,7 +1,7 @@
 import type { CountryContent } from "@/content/types";
 import { getHospitalsBySlugs, getSpecialities, nameOf } from "@/lib/catalog";
 import { HospitalCard } from "@/components/catalog/HospitalCard";
-import { Section, SectionHead } from "@/components/ui/Section";
+import { Note, Section, SectionHead } from "@/components/ui/Section";
 
 /** Asymmetric grid: one feature tile, two supporting tiles. A single hospital
  *  gets one wide tile instead, so the grid never shows an empty cell. Each
@@ -50,6 +50,8 @@ export async function Hospitals({ content }: { content: CountryContent }) {
           </div>
         </div>
       ) : null}
+
+      <Note>{hospitals.note}</Note>
     </Section>
   );
 }

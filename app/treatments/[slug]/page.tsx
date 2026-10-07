@@ -11,6 +11,8 @@ import {
   getTreatments,
   nameOf,
 } from "@/lib/catalog";
+import { BedIcon } from "@phosphor-icons/react/dist/ssr/Bed";
+import { ClockIcon } from "@phosphor-icons/react/dist/ssr/Clock";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHead } from "@/components/catalog/PageHead";
 import { DoctorCard } from "@/components/catalog/DoctorCard";
@@ -53,7 +55,6 @@ export default async function Page({ params }: Props) {
     <PageShell current="/treatments">
       <PageHead
         back={{ href: "/treatments", label: text.back }}
-        label={nameOf(specialities, treatment.speciality)}
         heading={treatment.name}
         intro={treatment.summary}
         pending={treatment.pending}
@@ -72,14 +73,19 @@ export default async function Page({ params }: Props) {
           </div>
         </div>
 
-        <dl className="reveal mt-12 grid gap-3 sm:grid-cols-2 lg:mt-16">
+        <dl className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16">
           {[
-            { label: text.detail.stay, value: treatment.stay },
-            { label: text.detail.recovery, value: treatment.recovery },
-          ].map((fact) => (
-            <div key={fact.label} className="rounded-md border border-hairline bg-surface p-5">
-              <dt className="text-sm font-medium text-ink">{fact.label}</dt>
-              <dd className="mt-2 text-base text-ink-2">{fact.value}</dd>
+            { label: text.detail.stay, value: treatment.stay, Glyph: BedIcon },
+            { label: text.detail.recovery, value: treatment.recovery, Glyph: ClockIcon },
+          ].map(({ label, value, Glyph }) => (
+            <div key={label} className="reveal flex gap-5 rounded-lg border border-hairline bg-surface p-6 sm:p-7">
+              <span className="home-pop grid size-12 shrink-0 place-items-center rounded-md bg-accent text-accent-ink">
+                <Glyph size={22} aria-hidden />
+              </span>
+              <div className="min-w-0">
+                <dt className="text-sm font-medium text-ink-3">{label}</dt>
+                <dd className="mt-1.5 text-lg font-medium text-ink">{value}</dd>
+              </div>
             </div>
           ))}
         </dl>

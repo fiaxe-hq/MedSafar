@@ -370,6 +370,8 @@ export type CatalogContent = {
   };
   hospitals: ListPageText & {
     filters: { city: string; speciality: string };
+    /** Labels under the counts in the page opener. */
+    stats: { specialities: string; doctors: string; treatments: string };
     detail: {
       overview: string;
       accreditation: string;
@@ -385,6 +387,10 @@ export type CatalogContent = {
   };
   doctors: ListPageText & {
     filters: { speciality: string; hospital: string };
+    /** Labels under the counts in the page opener. */
+    stats: { doctors: string; specialities: string; hospitals: string };
+    /** Label on each card's link. */
+    view: string;
     detail: {
       profile: string;
       speciality: string;
@@ -399,6 +405,13 @@ export type CatalogContent = {
     };
   };
   treatments: ListPageText & {
+    /** Labels under the counts in the page opener. */
+    stats: { treatments: string; specialities: string; doctors: string };
+    /** Label for the row of links to each speciality. */
+    jump: string;
+    /** Follows the number of treatments in a group: "1 treatment", "3 treatments". */
+    one: string;
+    many: string;
     detail: {
       what: string;
       who: string;

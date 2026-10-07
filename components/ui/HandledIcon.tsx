@@ -17,7 +17,7 @@ export const handledIcons = {
 export function HandledIcon({ name }: { name: Handled["icon"] }) {
   const Glyph = handledIcons[name];
   return (
-    <span className="grid size-12 place-items-center rounded-md border border-hairline bg-surface transition-[background-color,border-color] duration-300 ease-(--ease-soft) group-hover:border-line group-hover:bg-accent-soft">
+    <span className="grid size-12 place-items-center rounded-md border border-hairline bg-surface">
       <Glyph size={22} weight="regular" className="text-accent" aria-hidden />
     </span>
   );

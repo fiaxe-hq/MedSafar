@@ -30,7 +30,7 @@ export function Footer({ home = "/" }: { home?: string }) {
       <Container>
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
           <div>
-            <p className="font-display text-2xl font-bold tracking-[-0.02em]">{brand.tagline}</p>
+            <p className="font-display text-2xl font-semibold tracking-[-0.02em]">{brand.tagline}</p>
 
             <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
               {/* Travgrub's own red and grey live in this logo only. */}

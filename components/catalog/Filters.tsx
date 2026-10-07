@@ -12,9 +12,9 @@ export type FilterField = {
 };
 
 const chip =
-  "inline-flex min-h-11 items-center gap-1.5 rounded-md border px-4 py-2 text-sm leading-snug text-left transition-[color,border-color,background-color,translate] duration-300 ease-(--ease-soft)";
-const chipOff = `${chip} border-hairline bg-surface text-ink-2 hover:-translate-y-0.5 hover:border-line hover:text-ink`;
-const chipOn = `${chip} border-accent bg-accent-quiet font-medium text-accent`;
+  "inline-flex min-h-11 items-center gap-1.5 rounded-full border px-4 py-2 text-sm leading-snug text-left transition-[color,border-color,background-color,translate] duration-300 ease-(--ease-soft)";
+const chipOff = `${chip} border-hairline bg-surface text-ink-2 hover:-translate-y-0.5 hover:border-line hover:bg-accent-quiet hover:text-ink`;
+const chipOn = `${chip} border-deep bg-deep font-medium text-white`;
 
 /**
  * List filters, as rows of links. Each choice is one tap, every option is
@@ -43,7 +43,7 @@ export function Filters({ action, fields }: { action: string; fields: FilterFiel
   return (
     <nav
       aria-label={text.heading}
-      className="space-y-6 rounded-lg border border-hairline bg-surface p-5 sm:p-6"
+      className="reveal space-y-6 rounded-[1.5rem] bg-surface p-5 ring-1 ring-hairline sm:p-6"
     >
       {shown.map((f) => (
         <div key={f.name} className="min-w-0">
@@ -59,7 +59,7 @@ export function Filters({ action, fields }: { action: string; fields: FilterFiel
                     aria-current={on ? "true" : undefined}
                     className={on ? chipOn : chipOff}
                   >
-                    {on ? <CheckIcon size={14} weight="bold" aria-hidden /> : null}
+                    {on ? <CheckIcon size={14} weight="bold" className="text-glow" aria-hidden /> : null}
                     {o.label}
                   </Link>
                 </li>

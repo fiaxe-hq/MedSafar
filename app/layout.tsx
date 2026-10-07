@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Figtree, Noto_Sans } from "next/font/google";
+import { Figtree, Inter } from "next/font/google";
 import "./globals.css";
 import { global } from "@/content/countries";
 import { site } from "@/content/site";
@@ -7,15 +7,13 @@ import { jsonLd, organizationJsonLd, siteUrl } from "@/lib/seo";
 import { analyticsToken } from "@/lib/analytics";
 
 /**
- * Noto Sans for reading, Figtree for headings: a clean, legible pair that
- * suits a medical service. Noto has an Arabic cut, Noto Sans Arabic, drawn to
- * match, so the body typeface does not change when the site is translated.
- * Both are variable fonts, and only the Latin subsets are loaded while the
- * site is English.
+ * Inter for reading, Figtree for headings: a clean, legible pair that
+ * suits a medical service.
+ * Only the Latin subsets are loaded while the site is English.
  */
-const noto = Noto_Sans({
+const inter = Inter({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-noto",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -48,7 +46,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   // dir is set here so switching a language later flips the whole layout.
   return (
-    <html lang="en" dir="ltr" data-scroll-behavior="smooth" className={`${noto.variable} ${figtree.variable} h-full antialiased`}>
+    <html lang="en" dir="ltr" data-scroll-behavior="smooth" className={`${inter.variable} ${figtree.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col overflow-x-clip">
         {children}
         <script

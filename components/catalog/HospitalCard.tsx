@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MapPinIcon } from "@phosphor-icons/react/dist/ssr/MapPin";
+import { SealCheckIcon } from "@phosphor-icons/react/dist/ssr/SealCheck";
 import type { Hospital } from "@/content/types";
 import { Figure } from "@/components/ui/Pending";
 import { CardFoot } from "./CardFoot";
@@ -30,7 +31,7 @@ export function HospitalCard({
           wide ? "lg:grid lg:grid-cols-12" : ""
         }`}
       >
-        <div className={`overflow-hidden ${wide ? "lg:col-span-7" : ""}`}>
+        <div className={`relative overflow-hidden ${wide ? "lg:col-span-7" : ""}`}>
           <Figure
             picture={hospital.picture}
             ratio={feature || wide ? "aspect-[16/11]" : "aspect-[16/9]"}
@@ -38,6 +39,10 @@ export function HospitalCard({
             className="border-0 transition-[scale] duration-700 ease-(--ease-soft) group-hover:scale-[1.04]"
             sizes={sizes}
           />
+          <span className="absolute start-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-deep/70 px-3 py-1.5 text-sm font-medium text-white ring-1 ring-white/15 backdrop-blur-md">
+            <MapPinIcon size={15} weight="fill" className="text-glow" aria-hidden />
+            {hospital.city}
+          </span>
         </div>
         <div
           className={`flex grow flex-col ${feature || wide ? "p-7 sm:p-9" : "p-6 sm:p-7"} ${
@@ -51,12 +56,11 @@ export function HospitalCard({
           >
             {hospital.name}
           </Heading>
-          <p className="mt-2 flex items-center gap-1.5 text-base text-ink-2">
-            <MapPinIcon size={17} className="shrink-0 text-ink-3" aria-hidden />
-            {hospital.city}
+          <p className="mt-3 flex items-start gap-2 text-base text-ink-2">
+            <SealCheckIcon size={18} weight="fill" className="mt-0.5 shrink-0 text-accent" aria-hidden />
+            {hospital.accreditation}
           </p>
-          <p className="mt-1 text-base text-ink-2">{hospital.accreditation}</p>
-          <p className="mt-4 text-sm text-ink-3">{specialities}</p>
+          <p className="mt-4 border-t border-hairline pt-4 text-sm leading-relaxed text-ink-3">{specialities}</p>
           <CardFoot pending={hospital.pending} />
         </div>
       </Link>

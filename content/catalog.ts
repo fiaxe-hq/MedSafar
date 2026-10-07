@@ -28,6 +28,7 @@ export const catalog: CatalogContent = {
     note: "More partner hospitals are being added. Every hospital here is one Medsafar works with directly.",
     back: "All hospitals",
     filters: { city: "City", speciality: "Speciality" },
+    stats: { specialities: "Specialities", doctors: "Doctors", treatments: "Treatments" },
     detail: {
       overview: "Overview",
       accreditation: "Accreditation",
@@ -55,6 +56,8 @@ export const catalog: CatalogContent = {
     note: "Profiles are taken from the hospital's own doctor profiles. Ask us about any doctor who is not listed.",
     back: "All doctors",
     filters: { speciality: "Speciality", hospital: "Hospital" },
+    stats: { doctors: "Doctors", specialities: "Specialities", hospitals: "Partner hospitals" },
+    view: "View profile",
     detail: {
       profile: "Profile",
       speciality: "Speciality",
@@ -81,6 +84,10 @@ export const catalog: CatalogContent = {
       "Find the treatment you have been advised to have, or tell us what is wrong and a doctor will advise.",
     note: "The treatments listed are examples. Descriptions are placeholders until a doctor has written and checked them.",
     back: "All treatments",
+    stats: { treatments: "Treatments", specialities: "Specialities", doctors: "Doctors" },
+    jump: "Jump to a speciality",
+    one: "treatment",
+    many: "treatments",
     detail: {
       what: "What it is",
       who: "Who needs it",

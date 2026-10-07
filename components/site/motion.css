@@ -1,0 +1,294 @@
+/* Motion layer for the home page and the shared pages (wrapped in
+   [data-home] or [data-page]).
+   Everything here is scroll-driven CSS or pointer-driven CSS variables, and
+   every moving part switches off under prefers-reduced-motion. */
+
+@property --spot {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+:is([data-home], [data-page]) {
+  --home-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Softer than --home-ease, for motion tied to scroll. */
+  --home-scroll-ease: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* The hero photo frame. Full width at rest; the motion below starts it a
+   little smaller and lets it grow as you scroll. Only transform moves, so the
+   browser can run it off the main thread. */
+:is([data-home], [data-page]) .home-expand {
+  border-radius: 1rem 1rem 0 0;
+  transform-origin: 50% 100%;
+}
+
+/* Reading progress: a hairline across the top that fills as you scroll. */
+.home-progress {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 60;
+  height: 3px;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--brand), var(--glow));
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+[dir="rtl"] .home-progress {
+  transform-origin: right;
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .home-progress {
+      animation: home-progress linear both;
+      animation-timeline: scroll(root);
+    }
+
+    /* The header gains a soft shadow once the page moves. */
+    :is([data-home], [data-page]) > header {
+      animation: home-header linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 140px;
+    }
+
+    /* Every block rises and fades in over the same stretch of scroll, with
+       the same soft settle, so the page reads as one motion rather than
+       separate pops. Tied straight to scroll, so it runs backwards when you
+       scroll up. No blur: it costs frames on large blocks. */
+    :is([data-home], [data-page]) .reveal,
+    :is([data-home], [data-page]) main section :is(h2, h2 + p):not(.reveal, .reveal *) {
+      filter: none;
+      animation: home-in var(--home-scroll-ease) both;
+      animation-timeline: view();
+      animation-range: cover 0px cover 40vh;
+    }
+
+    /* A block inside a block that is already moving stays put, so nothing
+       moves twice. */
+    :is([data-home], [data-page]) .reveal .reveal {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    /* The hero copy drifts up and dims as it leaves, while the photo below
+       opens out. */
+    :is([data-home], [data-page]) .home-hero-copy {
+      animation: home-hero-out linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+
+    /* Photos drift slowly inside their frames for as long as they are on
+       screen: one steady move, no change of pace. */
+    :is([data-home], [data-page]) main img.object-cover {
+      animation: home-photo linear both;
+      animation-timeline: view();
+    }
+
+    /* The hero photo grows to the full width of the screen as you scroll,
+       one steady move tied 1:1 to the scroll. On wide screens it is measured
+       from the top of the page, so it always starts small; on phones, from
+       when it comes into view. The photo inside does not drift as well. */
+    :is([data-home], [data-page]) .home-expand {
+      will-change: transform;
+      animation: home-expand linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 50%;
+    }
+
+    :is([data-home], [data-page]) .home-expand img.object-cover {
+      animation: none;
+    }
+
+    @media (min-width: 1024px) {
+      :is([data-home], [data-page]) .home-expand {
+        --home-from: 0.88;
+        animation-timeline: scroll(root);
+        animation-range: 0 80vh;
+      }
+    }
+
+
+    /* ---- Opt-in effects ---- */
+
+    /* A rule or line that draws itself in. */
+    :is([data-home], [data-page]) .home-draw {
+      animation: home-draw linear both;
+      animation-timeline: view();
+      animation-range: cover 5% cover 40%;
+    }
+
+    /* A vertical line that fills as its block passes through the screen. */
+    :is([data-home], [data-page]) .home-line-fill {
+      transform-origin: top;
+      animation: home-fill linear both;
+      animation-timeline: view();
+      animation-range: entry 60% cover 55%;
+    }
+
+    /* Icons and numbers that pop in with a small turn. */
+    :is([data-home], [data-page]) .home-pop {
+      animation: home-pop var(--home-scroll-ease) both;
+      animation-timeline: view();
+      animation-range: cover 0px cover 40vh;
+    }
+
+    /* Numbers that light up as they pass the middle of the screen. */
+    :is([data-home], [data-page]) .home-light {
+      animation: home-light linear both;
+      animation-timeline: view();
+      animation-range: cover 25% cover 50%;
+    }
+
+    /* A row that tints softly while it is in the middle of the screen. */
+    :is([data-home], [data-page]) .home-focus {
+      animation: home-focus linear both;
+      animation-timeline: view();
+      animation-range: cover 20% cover 80%;
+    }
+
+    /* A strip of photos that slides sideways as you scroll down. */
+    :is([data-home], [data-page]) .home-pan {
+      animation: home-pan linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/* Gentle always-on motion, kept to a couple of elements per page. */
+@media (prefers-reduced-motion: no-preference) {
+  :is([data-home], [data-page]) .home-float {
+    animation: home-float 6s ease-in-out infinite alternate;
+  }
+  :is([data-home], [data-page]) .home-float-late {
+    animation: home-float 7s ease-in-out -3s infinite alternate;
+  }
+  :is([data-home], [data-page]) .home-orb {
+    animation: home-orb 20s ease-in-out infinite alternate;
+  }
+  :is([data-home], [data-page]) .home-grid-pan {
+    animation: home-grid-pan 40s linear infinite;
+  }
+}
+
+@keyframes home-progress {
+  to { transform: scaleX(1); }
+}
+
+@keyframes home-header {
+  to {
+    box-shadow: 0 10px 30px -18px rgb(11 61 49 / 0.35);
+    background-color: rgb(255 255 255 / 0.96);
+  }
+}
+
+@keyframes home-in {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes home-expand {
+  from { transform: scale(var(--home-from, 0.92)); }
+  to { transform: none; }
+}
+
+@keyframes home-draw {
+  from { transform: scaleX(0); }
+}
+
+@keyframes home-fill {
+  from { transform: scaleY(0); }
+}
+
+@keyframes home-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes home-light {
+  from { color: var(--line); }
+  to { color: var(--brand); }
+}
+
+@keyframes home-focus {
+  0%, 100% { background-color: transparent; }
+  40%, 60% { background-color: var(--accent-quiet); }
+}
+
+@keyframes home-pan {
+  from { transform: translateX(4%); }
+  to { transform: translateX(-28%); }
+}
+
+@keyframes home-float {
+  from { transform: translateY(-6px); }
+  to { transform: translateY(6px); }
+}
+
+@keyframes home-orb {
+  from { transform: translate(-6%, -4%) scale(1); }
+  to { transform: translate(6%, 4%) scale(1.15); }
+}
+
+@keyframes home-grid-pan {
+  to { background-position: 4rem 4rem, 4rem 4rem; }
+}
+
+@keyframes home-hero-out {
+  to {
+    opacity: 0.25;
+    transform: translateY(-2rem);
+  }
+}
+
+@keyframes home-photo {
+  from { transform: translateY(-4%) scale(1.1); }
+  to { transform: translateY(4%) scale(1.1); }
+}
+
+/* FAQ answers fade up as they open. */
+@media (prefers-reduced-motion: no-preference) {
+  :is([data-home], [data-page]) details[open] > :not(summary) {
+    animation: home-answer 0.5s var(--home-ease);
+  }
+}
+
+@keyframes home-answer {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}
+
+/* Pointer spotlight on cards: a faint mint glow follows the cursor. Set up
+   by Motion, only on cards without their own background image. */
+.home-spot {
+  background-image: radial-gradient(
+    32rem circle at var(--mx, 50%) var(--my, 50%),
+    rgb(94 224 189 / calc(var(--spot) * 0.06)),
+    transparent 70%
+  );
+  transition: --spot 0.9s var(--home-ease);
+}
+
+.home-spot:hover {
+  --spot: 1;
+}
+
+/* Magnetic buttons settle back smoothly when the pointer leaves. */
+.home-magnet {
+  transition: translate 0.45s var(--home-ease), background-color 0.3s, box-shadow 0.3s, scale 0.2s !important;
+}
+

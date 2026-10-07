@@ -27,8 +27,6 @@ function Attribution({ story }: { story: Story }) {
  *  stories, nothing left over. */
 export function Stories({ content }: { content: CountryContent }) {
   const { stories } = content;
-  // Stand-in stories are left off the page until a real, consented one exists.
-  if (stories.items.every((s) => s.pending)) return null;
   const [lead, ...rest] = stories.items;
 
   return (
@@ -36,8 +34,8 @@ export function Stories({ content }: { content: CountryContent }) {
       <SectionHead heading={stories.heading} intro={stories.intro} />
 
       <div className="mt-12 grid gap-4 lg:mt-14 lg:grid-cols-2">
-        <figure className="reveal lift rounded-lg border border-hairline bg-surface p-8 sm:p-12 lg:col-span-2">
-          <blockquote className="max-w-[34ch] font-display text-2xl leading-[1.3] font-semibold tracking-[-0.02em] sm:text-3xl">
+        <figure className="reveal rounded-lg border border-hairline bg-surface p-8 sm:p-12 lg:col-span-2">
+          <blockquote className="max-w-[34ch] font-display text-2xl leading-[1.3] font-medium tracking-[-0.02em] sm:text-3xl">
             {lead.quote}
           </blockquote>
           <figcaption>
@@ -49,7 +47,7 @@ export function Stories({ content }: { content: CountryContent }) {
         {rest.map((story, i) => (
           <figure
             key={i}
-            className="reveal lift rounded-lg border border-hairline bg-surface p-8"
+            className="reveal rounded-lg border border-hairline bg-surface p-8"
           >
             <blockquote className="max-w-[44ch] text-lg text-ink">{story.quote}</blockquote>
             <figcaption>
