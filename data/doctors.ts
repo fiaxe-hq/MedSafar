@@ -34,7 +34,7 @@ export const doctors: Doctor[] = [
       "Thyroid and parathyroid surgery",
       "Clinical research in head and neck cancer",
     ],
-    treatments: ["cancer-surgery"],
+    treatments: ["head-neck-cancer-surgery", "thyroid-surgery", "cancer-surgery"],
     profile:
       "A head and neck cancer surgeon with more than 20 years of experience and over 150 publications in national and international journals. He is a member of the Indian Association of Surgical Oncology and the Indian Society of Oncology, and an honorary member of the Israel Society of Head and Neck Oncology.",
     picture: portrait("devendra-chaukar", "Dr Devendra Chaukar"),
@@ -60,7 +60,7 @@ export const doctors: Doctor[] = [
       "Vascular resection and reconstruction in HPB tumours",
       "Abdominal sarcomas and retroperitoneal tumours",
     ],
-    treatments: ["cancer-surgery"],
+    treatments: ["hpb-cancer-surgery", "gi-cancer-surgery", "hipec", "cancer-surgery"],
     profile:
       "One of India's leading surgeons for cancers of the liver, pancreas, bile duct and gut. His team performs some of the highest numbers of complex liver and pancreatic resections, and his department is a referral centre for complex GI and HPB cancer. Before Nanavati Max he was a senior consultant at Hinduja Hospital for almost 10 years and at Bombay Hospital for 4.",
     picture: portrait("ganesh-nagarajan", "Dr Ganesh Nagarajan"),
@@ -84,7 +84,7 @@ export const doctors: Doctor[] = [
       "Cancer genetics",
       "Vacuum-assisted breast biopsy",
     ],
-    treatments: ["cancer-surgery"],
+    treatments: ["breast-cancer-surgery", "cancer-surgery"],
     profile:
       "A breast cancer surgeon who has treated thousands of patients, many with complex cases, with evidence-based treatment planned around how they want to live afterwards. As Associate Professor at Tata Memorial Hospital he helped train several generations of cancer surgeons.",
     picture: portrait("garvit-chitkara", "Dr Garvit Chitkara"),
@@ -108,7 +108,7 @@ export const doctors: Doctor[] = [
       "Robotic surgery",
       "Treatment that preserves organ function and fertility where possible",
     ],
-    treatments: ["cancer-surgery"],
+    treatments: ["urologic-cancer-surgery", "gynaecologic-cancer-surgery", "hipec", "cancer-surgery"],
     profile:
       "Among the most experienced cancer surgeons in India, and part of the team that developed modern urologic and gynaecologic cancer surgery in the country. He leads the ICMR sub-committee on ovarian cancer guidelines, has more than 200 publications, and has trained surgeons from India and abroad.",
     picture: portrait("hemant-tongaonkar", "Dr Hemant B. Tongaonkar"),
@@ -138,7 +138,7 @@ export const doctors: Doctor[] = [
       "Bone and soft tissue sarcomas",
       "Geriatric oncology and palliative care",
     ],
-    treatments: ["chemotherapy"],
+    treatments: ["chemotherapy", "targeted-therapy-immunotherapy"],
     profile:
       "A medical oncologist who plans and leads drug treatment for cancer, including chemotherapy, targeted therapy and immunotherapy, with training in India, the UK and the USA.",
     picture: portrait("muzammil-shaikh", "Dr Muzammil Shaikh"),
@@ -164,7 +164,7 @@ export const doctors: Doctor[] = [
       "Complex reconstruction",
       "Indian implants of international quality",
     ],
-    treatments: ["cancer-surgery"],
+    treatments: ["bone-cancer-surgery", "cancer-surgery"],
     profile:
       "A pioneer of bone cancer surgery in India, focused on saving limbs that would once have been amputated. He was Orthopaedic Oncologist and Associate Professor at Tata Memorial Hospital for 10 years and at Hinduja Hospital for 11, is a founding member of the Indian Musculoskeletal Oncology Society, and has over 100 publications.",
     picture: portrait("manish-agarwal", "Dr Manish Agarwal"),
@@ -188,7 +188,7 @@ export const doctors: Doctor[] = [
       "Varicose veins and deep vein thrombosis",
       "Peripheral arterial disease",
     ],
-    treatments: ["liver-tumour-embolisation"],
+    treatments: ["liver-tumour-embolisation", "tumour-ablation", "varicose-veins", "peripheral-artery-disease"],
     profile:
       "An interventional radiologist who treats tumours and blood vessel disease through a pinhole, using imaging to guide fine tubes and needles instead of open surgery. He was previously at Hinduja Hospital (2010 to 2021) and Tata Memorial Hospital (2005 to 2010).",
     picture: portrait("aniruddha-kulkarni", "Dr Aniruddha Kulkarni"),
@@ -239,7 +239,7 @@ export const doctors: Doctor[] = [
       "Bone marrow transplant",
       "Non-cancerous blood disorders",
     ],
-    treatments: ["bone-marrow-transplant", "chemotherapy"],
+    treatments: ["childhood-cancer-treatment", "bone-marrow-transplant", "chemotherapy"],
     profile:
       "A specialist in blood disorders and cancers in children, including bone marrow transplant. Her awards include the Young Investigator Award of the International Society of Paediatric Oncology (SIOP, 2020).",
     picture: portrait("nidhi-dhariwal", "Dr Nidhi Dhariwal"),
@@ -267,7 +267,7 @@ export const doctors: Doctor[] = [
       "Prevention of kidney disease",
       "Haemodiafiltration and nocturnal dialysis",
     ],
-    treatments: ["kidney-transplant"],
+    treatments: ["kidney-transplant", "dialysis"],
     profile:
       "A kidney specialist and transplant physician, trained in Toronto, who was consultant nephrologist and transplant physician at P.D. Hinduja Hospital from 2003 to 2021. He is a founding trustee of the Apex Kidney Foundation and a member of the International Society of Nephrology and the Indian Society of Organ Transplantation.",
     picture: portrait("jatin-kothari", "Dr Jatin Kothari"),
@@ -292,7 +292,7 @@ export const doctors: Doctor[] = [
       "Minimally invasive cardiac surgery",
       "Extracorporeal membrane oxygenation (ECMO)",
     ],
-    treatments: ["heart-bypass-surgery", "heart-valve-replacement"],
+    treatments: ["heart-bypass-surgery", "heart-valve-replacement", "minimally-invasive-heart-surgery", "ecmo"],
     profile:
       "A heart surgeon who worked as an international training fellow in the UK's NHS before leading cardiac surgery departments in Thane and at Wockhardt Hospitals, Mumbai.",
     picture: portrait("gulshan-rohra", "Dr Gulshan Rohra"),
@@ -310,14 +310,10 @@ export const doctors: Doctor[] = [
     qualifications: ["DNB (Medicine)", "FRSH (UK)", "FEAC", "MNAMS", "PG Diabetology (Boston)"],
     languages: [],
     expertise: ["Heart care", "Diabetes", "Preventive health and wellness"],
-    treatments: [],
+    treatments: ["heart-diabetes-care"],
     profile:
       "A physician who looks after heart disease and diabetes together, with an evidence-based approach planned around each patient.",
-    picture: {
-      src: null,
-      alt: "Portrait of Dr Abhishek Bhargav",
-      pending: true,
-    },
+    picture: portrait("abhishek-bhargav", "Dr Abhishek Bhargav"),
   },
 
   // Orthopaedics and spine
@@ -344,7 +340,7 @@ export const doctors: Doctor[] = [
       "Revision spine surgery",
       "Sciatica and pain management",
     ],
-    treatments: ["spinal-fusion", "acdf", "microdiscectomy"],
+    treatments: ["spinal-fusion", "acdf", "microdiscectomy", "endoscopic-spine-surgery", "cervical-disc-replacement", "scoliosis-surgery"],
     profile:
       "A spine surgeon who uses keyhole, endoscopic and navigated techniques wherever they suit the case, which usually means smaller cuts and a quicker return home. He trained in South Korea and in London, where he specialised in navigated spine surgery and disc replacement.",
     picture: portrait("amandeep-gujral", "Dr Amandeep Gujral"),
@@ -376,7 +372,7 @@ export const doctors: Doctor[] = [
       "Plastic surgery for children and birth defects",
       "Lymphatic microsurgery",
     ],
-    treatments: ["hand-transplant"],
+    treatments: ["hand-transplant", "hand-surgery", "brachial-plexus-surgery", "reconstructive-microsurgery", "lymphoedema-surgery", "childrens-plastic-surgery"],
     profile:
       "A hand and reconstructive microsurgeon who led the hand transplant programme at Gleneagles Hospital, Mumbai. He has performed more than 24 hand transplants in 13 patients, including India's first unilateral hand transplant, Asia's first partial hand transplant and Asia's first bilateral arm transplant at shoulder level. In January 2026 he led the first bilateral hand transplant at Nanavati Max.",
     picture: portrait("nilesh-satbhai", "Dr Nilesh G. Satbhai"),

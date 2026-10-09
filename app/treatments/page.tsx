@@ -4,6 +4,7 @@ import { getDoctors, getSpecialities, getTreatments } from "@/lib/catalog";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHead } from "@/components/catalog/PageHead";
 import { TreatmentCard } from "@/components/catalog/TreatmentCard";
+import { TreatmentFinder } from "@/components/catalog/TreatmentFinder";
 import { EnquiryBlock } from "@/components/sections/EnquiryBlock";
 import { Container } from "@/components/ui/Container";
 import { Note } from "@/components/ui/Section";
@@ -36,6 +37,7 @@ export default async function Page() {
   return (
     <PageShell current="/treatments">
       <PageHead
+        tight
         heading={text.heading}
         intro={text.intro}
         stats={[
@@ -43,6 +45,16 @@ export default async function Page() {
           { value: groups.length, label: text.stats.specialities },
           { value: doctors.length, label: text.stats.doctors },
         ]}
+      />
+
+      <TreatmentFinder
+        treatments={treatments.map((t) => ({
+          slug: t.slug,
+          name: t.name,
+          speciality: t.speciality,
+          // The finder shows the plain sentence only, without the draft note.
+          summary: t.summary.replace(/\s*Draft, to be checked by a doctor before it is published\.$/, ""),
+        }))}
       />
 
       {/* Jump links, kept in view under the header while the list scrolls. */}
