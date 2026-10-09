@@ -16,14 +16,34 @@ export const site: SiteContent = {
     // A link that starts with "#" points at a section of the home page, or
     // of the country page the visitor is on.
     items: [
-      { label: "Treatments", href: "/treatments" },
-      { label: "Hospitals", href: "/hospitals" },
-      { label: "Doctors", href: "/doctors" },
-      { label: "How it works", href: "#how-it-works" },
-      { label: "Blog", href: "/blog" },
       { label: "About", href: "/about" },
+      {
+        label: "Treatments",
+        href: "/treatments",
+        menu: "treatments",
+        all: "All treatments",
+        finder: {
+          title: "Not sure what it is called?",
+          text: "Point on the body or describe it in your own words to find the right treatment.",
+          href: "/treatments#find",
+        },
+      },
+      { label: "Hospitals", href: "/hospitals", menu: "hospitals", all: "All hospitals" },
+      { label: "Doctors", href: "/doctors", menu: "doctors", all: "All doctors" },
+      {
+        label: "Resources",
+        href: "#how-it-works",
+        items: [
+          { label: "How it works", href: "#how-it-works" },
+          { label: "What we handle", href: "#what-we-handle" },
+          { label: "Visa and travel", href: "#country-info" },
+          { label: "Questions", href: "#faq" },
+        ],
+      },
+      { label: "Blog", href: "/blog" },
     ],
     menuLabel: "Menu",
+    contact: { label: "Contact us", href: "/contact" },
   },
 
   languages: {
@@ -31,6 +51,8 @@ export const site: SiteContent = {
     current: "English",
     options: [{ code: "en", label: "English" }],
     note: "More languages coming",
+    countries: "Country",
+    global: "Global",
   },
 
   cta: {
@@ -50,6 +72,12 @@ export const site: SiteContent = {
       display: "+91 98203 22088",
     },
     email: "care@medsafar.com",
+    // Replace with the real profile links.
+    social: [
+      { network: "instagram", label: "Instagram", href: "https://www.instagram.com/medsafar" },
+      { network: "facebook", label: "Facebook", href: "https://www.facebook.com/medsafar" },
+      { network: "youtube", label: "YouTube", href: "https://www.youtube.com/@medsafar" },
+    ],
   },
 
   company: {
@@ -202,6 +230,7 @@ export const site: SiteContent = {
       gstin: "GSTIN",
     },
     parentLogoAlt: "Travgrub Private Limited",
+    follow: "Follow us",
     copyright: "All rights reserved.",
   },
 

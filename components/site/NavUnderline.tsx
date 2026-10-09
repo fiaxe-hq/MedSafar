@@ -20,9 +20,9 @@ export function NavUnderline({ current }: { current?: string }) {
     if (!el || !nav) return;
 
     const target = () => {
-      const page = nav.querySelector<HTMLElement>('[aria-current="page"]');
+      const page = nav.querySelector<HTMLElement>('[data-nav-top][aria-current="page"]');
       if (page || !location.hash) return page;
-      return [...nav.querySelectorAll<HTMLAnchorElement>("a[href*='#']")].find(
+      return [...nav.querySelectorAll<HTMLAnchorElement>("a[data-nav-top][href*='#']")].find(
         (a) => a.hash === location.hash && a.pathname === location.pathname,
       );
     };
@@ -48,7 +48,9 @@ export function NavUnderline({ current }: { current?: string }) {
 
       // The link's text box, matching the inset of the hover underline.
       const inset = parseFloat(getComputedStyle(link).paddingInlineStart);
-      const left = link.offsetLeft + inset;
+      // Measured against the nav, since a link inside a dropdown wrapper has
+      // that wrapper as its offset parent.
+      const left = link.getBoundingClientRect().left - nav.getBoundingClientRect().left + inset;
       const width = link.offsetWidth - inset * 2;
 
       // Already showing: the transition carries it from the last link. A

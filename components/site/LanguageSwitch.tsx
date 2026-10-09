@@ -1,14 +1,21 @@
+import { GlobeHemisphereEastIcon } from "@phosphor-icons/react/dist/ssr/GlobeHemisphereEast";
 import { site } from "@/content/site";
+import { countries } from "@/content/countries";
 import { CountryFlag } from "./CountryFlag";
 
 /**
  * The visitor's country flag and the language the page is in. English only
  * for now. The switch is in place so that adding a language is a content
  * change: add an entry to site.languages.options and point it at the
- * translated route. Built with <details> so it needs no JavaScript.
+ * translated route. Below it, links to each country page. Built with
+ * <details> so it needs no JavaScript.
  */
 export function LanguageSwitch({ iso = null }: { iso?: string | null }) {
   const { label, current, options, note } = site.languages;
+  const places = [
+    { href: "/", iso: null, name: site.languages.global },
+    ...Object.entries(countries).map(([slug, c]) => ({ href: `/${slug}`, iso: c.iso, name: c.countryName ?? slug })),
+  ];
 
   return (
     <details className="relative">
@@ -37,6 +44,34 @@ export function LanguageSwitch({ iso = null }: { iso?: string | null }) {
           ))}
         </ul>
         <p className="px-3 py-2 text-sm text-ink-3">{note}</p>
+
+        <div className="mt-1 border-t border-hairline pt-2">
+          <p className="px-3 py-1 text-sm font-medium text-ink-3">{site.languages.countries}</p>
+          <ul>
+            {places.map((place) => {
+              const here = place.iso === iso;
+              return (
+                <li key={place.href}>
+                  {/* A plain link, so the menu closes as the new page loads. */}
+                  <a
+                    href={place.href}
+                    aria-current={here ? "page" : undefined}
+                    className={`flex min-h-11 items-center gap-2.5 rounded-sm px-3 text-base transition-colors hover:bg-surface-2 hover:text-ink ${
+                      here ? "bg-surface-2 font-medium text-ink" : "text-ink-2"
+                    }`}
+                  >
+                    {place.iso ? (
+                      <CountryFlag iso={place.iso} />
+                    ) : (
+                      <GlobeHemisphereEastIcon size={20} className="text-ink-3" aria-hidden />
+                    )}
+                    {place.name}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </details>
   );

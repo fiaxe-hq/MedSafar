@@ -21,6 +21,17 @@ export type NavItem = {
   href: string;
 };
 
+/** A top nav entry. `menu` fills its dropdown from the catalog; `items` is a
+ *  fixed dropdown. */
+export type NavEntry = NavItem & {
+  menu?: "treatments" | "hospitals" | "doctors";
+  items?: NavItem[];
+  /** The last link in the dropdown, to the full list. */
+  all?: string;
+  /** A highlighted link in the dropdown to a finder tool on the list page. */
+  finder?: { title: string; text: string; href: string };
+};
+
 export type Language = {
   code: string;
   label: string;
@@ -34,14 +45,18 @@ export type SiteContent = {
     tagline: string;
   };
   nav: {
-    items: NavItem[];
+    items: NavEntry[];
     menuLabel: string;
+    contact: NavItem;
   };
   languages: {
     label: string;
     current: string;
     options: Language[];
     note: string;
+    /** Heading over the list of country pages, and the name of the main site. */
+    countries: string;
+    global: string;
   };
   cta: {
     /** Never "Contact us". */
@@ -64,6 +79,8 @@ export type SiteContent = {
     };
     /** For every patient enquiry. */
     email: string;
+    /** Shown as icons in the footer and on the Contact page. */
+    social: { network: "instagram" | "facebook" | "youtube"; label: string; href: string }[];
   };
   company: {
     /** Shown in the footer once supplied; hidden while null. */
@@ -92,6 +109,7 @@ export type SiteContent = {
       gstin: string;
     };
     parentLogoAlt: string;
+    follow: string;
     copyright: string;
   };
   notFound: {
