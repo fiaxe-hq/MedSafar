@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { CheckIcon } from "@phosphor-icons/react/dist/ssr/Check";
+import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
 import { catalog } from "@/content/catalog";
-import { btnPlain, btnQuiet, field, label } from "@/components/ui/styles";
+import { btnQuiet } from "@/components/ui/styles";
 
 export type FilterField = {
   name: string;
@@ -9,62 +11,77 @@ export type FilterField = {
   options: { value: string; label: string }[];
 };
 
+const chip =
+  "inline-flex min-h-11 items-center gap-1.5 rounded-full border px-4 py-2 text-sm leading-snug text-left transition-[color,border-color,background-color,translate] duration-300 ease-(--ease-soft)";
+const chipOff = `${chip} border-hairline bg-surface text-ink-2 hover:-translate-y-0.5 hover:border-line hover:bg-accent-quiet hover:text-ink`;
+const chipOn = `${chip} border-deep bg-deep font-medium text-white`;
+
 /**
- * List filters. A plain GET form, so the filtering happens on the server and
- * the page needs no JavaScript: the choice lives in the address bar.
+ * List filters, as rows of links. Each choice is one tap, every option is
+ * readable in full, and the page needs no JavaScript: the choice lives in the
+ * address bar and the filtering happens on the server.
+ *
+ * A field with only one option filters nothing, so it is not shown.
  */
 export function Filters({ action, fields }: { action: string; fields: FilterField[] }) {
   const text = catalog.filters;
+  const shown = fields.filter((f) => f.options.length > 1);
+  if (!shown.length) return null;
   const active = fields.some((f) => f.value);
-  // One field keeps a readable width instead of stretching across the card.
-  const columns =
-    fields.length > 1
-      ? "sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto]"
-      : "sm:grid-cols-[minmax(0,22rem)_auto] sm:justify-start";
+
+  /** The address with one field changed and the others kept. */
+  const href = (name: string, value: string) => {
+    const params = new URLSearchParams();
+    for (const f of fields) {
+      const v = f.name === name ? value : f.value;
+      if (v) params.set(f.name, v);
+    }
+    const query = params.toString();
+    return query ? `${action}?${query}` : action;
+  };
 
   return (
-    <form
-      action={action}
-      method="get"
+    <nav
       aria-label={text.heading}
-      className={`grid gap-4 rounded-lg border border-hairline bg-surface p-5 sm:items-end sm:p-6 ${columns}`}
+      className="reveal space-y-6 rounded-[1.5rem] bg-surface p-5 ring-1 ring-hairline sm:p-6"
     >
-      {fields.map((f) => (
+      {shown.map((f) => (
         <div key={f.name} className="min-w-0">
-          <label htmlFor={`filter-${f.name}`} className={label}>
-            {f.label}
-          </label>
-          <select
-            id={`filter-${f.name}`}
-            name={f.name}
-            defaultValue={f.value}
-            className={`${field} mt-2 cursor-pointer`}
-          >
-            <option value="">{text.all}</option>
-            {f.options.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </select>
+          <h2 className="text-sm font-medium text-ink-3">{f.label}</h2>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {[{ value: "", label: text.all }, ...f.options].map((o) => {
+              const on = o.value === f.value;
+              return (
+                <li key={o.value || "all"} className="max-w-full">
+                  <Link
+                    href={href(f.name, o.value)}
+                    scroll={false}
+                    aria-current={on ? "true" : undefined}
+                    className={on ? chipOn : chipOff}
+                  >
+                    {on ? <CheckIcon size={14} weight="bold" className="text-glow" aria-hidden /> : null}
+                    {o.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       ))}
 
-      <div
-        className={`flex flex-wrap items-center gap-x-5 gap-y-2 ${
-          fields.length > 1 ? "sm:col-span-2 lg:col-span-1" : ""
-        }`}
-      >
-        <button type="submit" className={btnQuiet}>
-          {text.apply}
-        </button>
-        {active ? (
-          <Link href={action} className={btnPlain}>
+      {active ? (
+        <div className="border-t border-hairline pt-5">
+          <Link
+            href={action}
+            scroll={false}
+            className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent-hover"
+          >
+            <XIcon size={14} weight="bold" aria-hidden />
             {text.clear}
           </Link>
-        ) : null}
-      </div>
-    </form>
+        </div>
+      ) : null}
+    </nav>
   );
 }
 

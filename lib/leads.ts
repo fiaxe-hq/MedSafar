@@ -24,6 +24,8 @@ export type Lead = {
   country?: string;
   treatment?: string;
   timeline?: string;
+  budget?: string;
+  preference?: string;
   notes?: string;
   reportFile?: string;
   consent?: boolean;
@@ -42,6 +44,8 @@ type LeadRow = {
   country: string | null;
   treatment: string | null;
   timeline: string | null;
+  budget: string | null;
+  preference: string | null;
   notes: string | null;
   report_file: string | null;
   consent: number | null;
@@ -58,6 +62,8 @@ const patchColumns = {
   country: "country",
   treatment: "treatment",
   timeline: "timeline",
+  budget: "budget",
+  preference: "preference",
   notes: "notes",
   reportFile: "report_file",
   consent: "consent",
@@ -77,6 +83,8 @@ function toLead(row: LeadRow): Lead {
     country: row.country ?? undefined,
     treatment: row.treatment ?? undefined,
     timeline: row.timeline ?? undefined,
+    budget: row.budget ?? undefined,
+    preference: row.preference ?? undefined,
     notes: row.notes ?? undefined,
     reportFile: row.report_file ?? undefined,
     consent: row.consent === null ? undefined : row.consent === 1,

@@ -1,9 +1,11 @@
 "use client";
 
 import { useActionState, useId, useState } from "react";
+import { LockSimpleIcon } from "@phosphor-icons/react/dist/ssr/LockSimple";
 import { saveDetails, saveNumber } from "@/app/actions";
 import type { DialCode, FormContent } from "@/content/types";
 import { btnPlain, btnPrimary, field, label } from "@/components/ui/styles";
+import { showUpcoming } from "@/lib/preview";
 
 /**
  * The enquiry form, used in the hero and again near the foot of the page.
@@ -44,7 +46,7 @@ export function EnquiryForm({
   if (done) {
     return (
       <div>
-        <p className="font-display text-xl font-semibold tracking-[-0.02em] text-accent">
+        <p className="font-display text-xl font-medium tracking-[-0.02em] text-accent">
           {text.done.heading}
         </p>
         <p className="mt-3 text-base text-ink-2">{text.done.body}</p>
@@ -124,6 +126,7 @@ export function EnquiryForm({
         <p className="text-sm text-ink-3">
           {compact ? text.step1.hint : text.step1.reassurance}
         </p>
+        {showUpcoming ? <PrivacyNote text={text.privacyNote} /> : null}
       </form>
     );
   }
@@ -230,6 +233,38 @@ export function EnquiryForm({
           </div>
         </fieldset>
 
+        {showUpcoming ? (
+          <>
+            <fieldset>
+              <legend className={label}>{text.step2.budget.label}</legend>
+              <div className="mt-3 grid gap-2">
+                {text.step2.budget.options.map((o) => (
+                  <label
+                    key={o}
+                    className="flex min-h-13 cursor-pointer items-center gap-3 rounded-md border border-line px-4 py-3 text-base transition-colors hover:bg-surface-2 has-checked:border-accent has-checked:bg-accent-quiet"
+                  >
+                    <input type="radio" name="budget" value={o} className="size-4 shrink-0 accent-accent" />
+                    <span>{o}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <div>
+              <label htmlFor={`${uid}-preference`} className={label}>
+                {text.step2.preference.label}
+              </label>
+              <input
+                id={`${uid}-preference`}
+                name="preference"
+                maxLength={200}
+                placeholder={text.step2.preference.placeholder}
+                className={`${field} mt-2`}
+              />
+            </div>
+          </>
+        ) : null}
+
         <div>
           <label htmlFor={`${uid}-notes`} className={label}>
             {text.step2.notes.label}
@@ -298,7 +333,19 @@ export function EnquiryForm({
                     : text.errors.generic}
           </p>
         ) : null}
+
+        {showUpcoming ? <PrivacyNote text={text.privacyNote} /> : null}
       </form>
     </div>
+  );
+}
+
+/** One quiet line on how medical details are handled. */
+export function PrivacyNote({ text }: { text: string }) {
+  return (
+    <p className="flex items-start gap-2 text-sm text-ink-3">
+      <LockSimpleIcon size={16} className="mt-0.5 shrink-0 text-accent" aria-hidden />
+      {text}
+    </p>
   );
 }

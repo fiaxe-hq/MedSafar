@@ -12,7 +12,7 @@ export function Faq({ content }: { content: Pick<CountryContent, "faq"> }) {
       <div className="mt-10 rounded-lg border border-hairline bg-surface px-5 sm:px-8 lg:mt-12">
         {faq.items.map((item, i) => (
           <details key={i} className="group border-b border-hairline last:border-b-0">
-            <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 font-display text-lg font-semibold tracking-[-0.01em] sm:text-xl transition-colors hover:text-accent">
+            <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 font-display text-lg font-medium tracking-[-0.01em] sm:text-xl transition-colors hover:text-accent">
               <span className="max-w-[40ch]">{item.question}</span>
               <span
                 aria-hidden

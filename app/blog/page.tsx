@@ -7,11 +7,14 @@ import { PageHead } from "@/components/catalog/PageHead";
 import { Filters, NoResults, ResultCount } from "@/components/catalog/Filters";
 import { PostCard } from "@/components/catalog/PostCard";
 import { EnquiryBlock } from "@/components/sections/EnquiryBlock";
+import { Container } from "@/components/ui/Container";
 import { Note, Section } from "@/components/ui/Section";
 
 /** Shared page: one copy for every country. */
 
-type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> };
+type Props = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
 export const metadata: Metadata = {
   title: catalog.blog.meta.title,
@@ -22,25 +25,41 @@ export default async function Page({ searchParams }: Props) {
   const text = catalog.blog;
   const category = first((await searchParams).category);
 
-  const [posts, categories] = await Promise.all([getPosts({ category }), getPostCategories()]);
+  const [posts, categories] = await Promise.all([
+    getPosts({ category }),
+    getPostCategories(),
+  ]);
 
   return (
     <PageShell current="/blog">
-      <PageHead label={text.eyebrow} heading={text.heading} intro={text.intro} />
+      <PageHead
+        heading={text.heading}
+        intro={text.intro}
+        tight
+      />
 
-      <Section tone="quiet">
-        <Filters
-          action="/blog"
-          fields={[
-            {
-              name: "category",
-              label: text.filters.category,
-              value: category,
-              options: categories.map((c) => ({ value: c.slug, label: c.name })),
-            },
-          ]}
-        />
+      <div className="bg-[linear-gradient(to_bottom,var(--color-bg)_50%,var(--color-surface-2)_50%)]">
+        <Container>
+          <div className="relative rounded-2xl shadow-[0_24px_60px_-20px_rgb(15_40_35/0.25),0_8px_20px_-8px_rgb(15_40_35/0.12)]">
+            <Filters
+              action="/blog"
+              fields={[
+                {
+                  name: "category",
+                  label: text.filters.category,
+                  value: category,
+                  options: categories.map((c) => ({
+                    value: c.slug,
+                    label: c.name,
+                  })),
+                },
+              ]}
+            />
+          </div>
+        </Container>
+      </div>
 
+      <Section tone="quiet" className="!pt-8 sm:!pt-10">
         <ResultCount count={posts.length} />
 
         {posts.length ? (

@@ -16,7 +16,7 @@ export function CountryInfo({ content }: { content: CountryContent }) {
 
           <div className="mt-12 space-y-10">
             <div>
-              <h3 className="text-xl font-semibold tracking-[-0.02em]">
+              <h3 className="text-xl font-medium tracking-[-0.02em]">
                 {countryInfo.flights.heading}
               </h3>
               <p className="mt-3 max-w-[48ch] text-base text-ink-2">
@@ -33,7 +33,7 @@ export function CountryInfo({ content }: { content: CountryContent }) {
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold tracking-[-0.02em]">
+              <h3 className="text-xl font-medium tracking-[-0.02em]">
                 {countryInfo.language.heading}
               </h3>
               <p className="mt-3 max-w-[48ch] text-base text-ink-2">
@@ -44,7 +44,7 @@ export function CountryInfo({ content }: { content: CountryContent }) {
         </div>
 
         <div className="reveal lg:col-span-6 lg:col-start-7">
-          <h3 className="text-xl font-semibold tracking-[-0.02em]">
+          <h3 className="text-xl font-medium tracking-[-0.02em]">
             {countryInfo.visa.heading}
           </h3>
 

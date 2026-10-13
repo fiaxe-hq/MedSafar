@@ -72,10 +72,16 @@ The page then exists at `/<slug>`. Any slug that is not registered is a 404.
 
 ### Placeholders
 
-Nothing invented is presented as real. Hospitals, doctors, patient stories,
-photos and treatment descriptions are stand-ins. They are marked on the page
-with a **Placeholder** badge and flagged in the content files. Replace them
-only with things Medsafar can prove.
+Nothing invented is presented as real. Patient stories on the country pages,
+some photos and most treatment descriptions are still stand-ins. They are
+marked on the page with a **Placeholder** badge and flagged in the content
+files. Replace them only with things Medsafar can prove.
+
+The hospital (Nanavati Max), its doctors and the blog posts are real, written
+from material the client supplied. The originals are kept in
+`docs/client-content/`, outside `public/`, so they are not served. That folder
+includes the hospital's package price sheet: its hospital stay lengths are used
+on the treatment pages, its prices are not.
 
 The trust figures (patients helped and so on) are not in the code at all. They
 appear only once someone publishes them in `/admin`.

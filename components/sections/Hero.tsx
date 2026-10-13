@@ -3,7 +3,6 @@ import { site } from "@/content/site";
 import { dialCodesFor, defaultIso } from "@/content/dial-codes";
 import { Container } from "@/components/ui/Container";
 import { Figure } from "@/components/ui/Pending";
-import { eyebrow } from "@/components/ui/styles";
 import { EnquiryForm } from "@/components/form/EnquiryForm";
 
 /**
@@ -16,9 +15,7 @@ export function Hero({ content, source }: { content: CountryContent; source: str
   return (
     <section className="pt-12 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28">
       <Container>
-        <p className={eyebrow}>{hero.eyebrow}</p>
-
-        <h1 className="display mt-6 max-w-[26ch]">{hero.headline}</h1>
+        <h1 className="display max-w-[26ch]">{hero.headline}</h1>
 
         <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:items-start lg:gap-16">
           <div className="min-w-0 lg:col-span-6 xl:col-span-5">

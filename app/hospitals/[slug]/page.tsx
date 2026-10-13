@@ -13,6 +13,7 @@ import {
 } from "@/lib/catalog";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHead } from "@/components/catalog/PageHead";
+import { SpecialityIcon } from "@/components/ui/SpecialityIcon";
 import { CheckList } from "@/components/catalog/CheckList";
 import { DoctorCard } from "@/components/catalog/DoctorCard";
 import { Facts } from "@/components/catalog/Facts";
@@ -20,6 +21,7 @@ import { TreatmentCard } from "@/components/catalog/TreatmentCard";
 import { EnquiryBlock } from "@/components/sections/EnquiryBlock";
 import { Figure } from "@/components/ui/Pending";
 import { Section, SectionHead } from "@/components/ui/Section";
+import { VideoEmbed } from "@/components/ui/VideoEmbed";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -53,73 +55,93 @@ export default async function Page({ params }: Props) {
     <PageShell current="/hospitals">
       <PageHead
         back={{ href: "/hospitals", label: text.back }}
-        label={hospital.city}
         heading={hospital.name}
         intro={hospital.accreditation}
         pending={hospital.pending}
         cta
+        picture={hospital.picture}
       />
 
       <Section tone="quiet">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="reveal min-w-0 lg:col-span-6">
+          <div className="reveal min-w-0 lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
             <h2 className="display-2">{text.detail.overview}</h2>
             <p className="mt-5 max-w-[60ch] text-lg text-ink-2">{hospital.overview}</p>
+          </div>
 
+          <div className="min-w-0 lg:col-span-7">
             <Facts
-              className="mt-10"
               items={[
+                { label: text.detail.address, value: hospital.address },
                 { label: text.detail.accreditation, value: hospital.accreditation },
                 {
                   label: text.detail.specialities,
                   value: (
                     <ul className="flex flex-wrap gap-2">
-                      {hospital.specialities.map((s) => (
-                        <li key={s}>
-                          <Link
-                            href={`/treatments#${s}`}
-                            className="inline-flex min-h-11 items-center rounded-md border border-hairline bg-surface px-4 text-sm text-ink-2 transition-colors hover:border-line hover:text-ink"
-                          >
-                            {nameOf(specialities, s)}
-                          </Link>
-                        </li>
-                      ))}
+                      {hospital.specialities.map((s) => {
+                        return (
+                          <li key={s}>
+                            <Link
+                              href={`/treatments#${s}`}
+                              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-hairline bg-surface px-4 text-sm text-ink-2 transition-[color,border-color,background-color,translate] duration-300 ease-(--ease-soft) hover:-translate-y-0.5 hover:border-line hover:bg-accent-quiet hover:text-ink"
+                            >
+                              <SpecialityIcon slug={s} size={16} className="text-accent" aria-hidden />
+                              {nameOf(specialities, s)}
+                            </Link>
+                          </li>
+                        );
+                      })}
                     </ul>
                   ),
                 },
               ]}
             />
           </div>
-
-          <div className="min-w-0 lg:col-span-6">
-            <Figure
-              picture={hospital.picture}
-              ratio="aspect-[4/3]"
-              priority
-              sizes="(min-width: 1024px) 46vw, 100vw"
-            />
-          </div>
         </div>
       </Section>
 
       <Section>
-        <SectionHead heading={text.detail.services} />
-        <CheckList items={hospital.services} className="mt-10 max-w-3xl" />
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+          <div className="min-w-0">
+            <SectionHead heading={text.detail.services} />
+            <CheckList items={hospital.services} className="mt-10" />
+          </div>
+          {hospital.centres?.length ? (
+            <div className="min-w-0">
+              <SectionHead heading={hospital.centresLabel ?? text.detail.centres} />
+              <CheckList items={hospital.centres} className="mt-10" />
+            </div>
+          ) : null}
+        </div>
 
-        <h2 className="reveal mt-16 text-2xl font-semibold tracking-[-0.02em] lg:mt-20">
+        <h2 className="reveal mt-16 text-2xl font-medium tracking-[-0.02em] lg:mt-20">
           {text.detail.photos}
         </h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {hospital.gallery.map((picture, i) => (
-            <Figure
-              key={i}
-              picture={picture}
-              ratio="aspect-[4/3]"
-              rounded="rounded-lg"
-              sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
-            />
+            <div key={i} className={`reveal min-w-0 ${i % 5 === 0 ? "sm:col-span-2" : ""}`}>
+              <Figure
+                picture={picture}
+                ratio={i % 5 === 0 ? "aspect-[4/3] sm:aspect-[16/9] lg:aspect-auto lg:h-full" : "aspect-[4/3]"}
+                rounded="rounded-lg"
+                sizes={i % 5 === 0 ? "(min-width: 1024px) 60vw, 100vw" : "(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"}
+              />
+            </div>
           ))}
         </div>
+
+        {hospital.videos?.length ? (
+          <>
+            <h2 className="reveal mt-16 text-2xl font-medium tracking-[-0.02em] lg:mt-20">
+              {text.detail.videos}
+            </h2>
+            <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {hospital.videos.map((video) => (
+                <VideoEmbed key={video.title} video={video} />
+              ))}
+            </div>
+          </>
+        ) : null}
       </Section>
 
       {doctors.length ? (

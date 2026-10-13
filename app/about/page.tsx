@@ -20,7 +20,6 @@ export default function Page() {
   return (
     <PageShell current="/about">
       <PageHead
-        label={about.eyebrow}
         heading={about.heading}
         intro={about.intro}
         pending={about.pending}
@@ -41,13 +40,13 @@ export default function Page() {
 
         <div className="mt-14 grid gap-12 lg:mt-20 lg:grid-cols-2 lg:gap-16">
           <div className="min-w-0">
-            <h2 className="reveal text-2xl font-semibold tracking-[-0.02em]">
+            <h2 className="reveal text-2xl font-medium tracking-[-0.02em]">
               {about.does.heading}
             </h2>
             <CheckList items={about.does.items} className="mt-6" />
           </div>
           <div className="min-w-0">
-            <h2 className="reveal text-2xl font-semibold tracking-[-0.02em]">
+            <h2 className="reveal text-2xl font-medium tracking-[-0.02em]">
               {about.doesNot.heading}
             </h2>
             <CheckList items={about.doesNot.items} tone="no" className="mt-6" />
@@ -78,7 +77,7 @@ export default function Page() {
                   compact
                 />
                 <div className="min-w-0">
-                  <h3 className="text-xl font-semibold tracking-[-0.02em]">{member.name}</h3>
+                  <h3 className="text-xl font-medium tracking-[-0.02em]">{member.name}</h3>
                   <p className="mt-2 text-base text-ink-2">{member.role}</p>
                   {member.pending ? <Mark className="mt-5" /> : null}
                 </div>

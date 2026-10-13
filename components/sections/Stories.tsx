@@ -35,7 +35,7 @@ export function Stories({ content }: { content: CountryContent }) {
 
       <div className="mt-12 grid gap-4 lg:mt-14 lg:grid-cols-2">
         <figure className="reveal rounded-lg border border-hairline bg-surface p-8 sm:p-12 lg:col-span-2">
-          <blockquote className="max-w-[34ch] font-display text-2xl leading-[1.3] font-semibold tracking-[-0.02em] sm:text-3xl">
+          <blockquote className="max-w-[34ch] font-display text-2xl leading-[1.3] font-medium tracking-[-0.02em] sm:text-3xl">
             {lead.quote}
           </blockquote>
           <figcaption>

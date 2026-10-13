@@ -82,8 +82,8 @@ export const global: CountryContent = {
     heading: "Partner hospitals",
     intro:
       "We match the hospital to the case, not the other way round. You see the choice, the doctor and the estimate before you decide.",
-    featured: ["partner-hospital-a", "partner-hospital-b", "partner-hospital-c"],
-    note: "Hospital names, cities and accreditations are placeholders until Medsafar confirms its partner list. Your doctor is chosen for your case once a specialist has read the reports.",
+    featured: ["nanavati-max", "kenia-eye"],
+    note: "More partner hospitals are being added. Your doctor is chosen for your case once a specialist has read the reports.",
   },
 
   handled: {
@@ -206,9 +206,24 @@ export const global: CountryContent = {
           "A case manager picks up your enquiry and comes back to you on WhatsApp or by call. A doctor's opinion takes longer, because a specialist has to read the reports.",
       },
       {
+        question: "How many days will I spend in India?",
+        answer:
+          "That depends on what you need. A check-up or a minor procedure may take only a few days. A major operation, such as a knee or hip replacement, usually means two to three weeks, so you can recover before the flight home. Your treatment plan tells you what to expect.",
+      },
+      {
         question: "Can a family member travel with me?",
         answer:
-          "Yes. Indian medical visas allow attendants to travel with the patient, and we arrange a room for them too.",
+          "Yes, and it helps to have someone with you. Indian medical visas allow attendants, so we add them to the visa invitation and arrange a room for them near the hospital.",
+      },
+      {
+        question: "How does paying for treatment work?",
+        answer:
+          "You pay the hospital, based on the written estimate it gives you. Some hospitals take a small deposit to confirm your admission, and the balance is paid after you arrive. We go through every amount with you beforehand.",
+      },
+      {
+        question: "Does Medsafar help after I return home?",
+        answer:
+          "Yes. We arrange follow-up calls with your doctor, share your reports with your local doctor if you want, and stay in touch while you recover.",
       },
       {
         question: "What happens to my medical reports?",

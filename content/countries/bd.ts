@@ -82,8 +82,8 @@ export const bd: CountryContent = {
     heading: "Partner hospitals",
     intro:
       "We match the hospital to the case, not the other way round. You see the choice, the doctor and the estimate before you decide.",
-    featured: ["partner-hospital-a", "partner-hospital-b", "partner-hospital-c"],
-    note: "Hospital names, cities and accreditations are placeholders until Medsafar confirms its partner list. Your doctor is chosen for your case once a specialist has read the reports.",
+    featured: ["nanavati-max", "kenia-eye"],
+    note: "More partner hospitals are being added. Your doctor is chosen for your case once a specialist has read the reports.",
   },
 
   handled: {

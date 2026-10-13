@@ -11,6 +11,15 @@ import {
   getTreatments,
   nameOf,
 } from "@/lib/catalog";
+import { BedIcon } from "@phosphor-icons/react/dist/ssr/Bed";
+import { ClockIcon } from "@phosphor-icons/react/dist/ssr/Clock";
+import Link from "next/link";
+import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
+import { questionnaireFor } from "@/content/questionnaires";
+import { QuestionnaireCallout } from "@/components/questionnaire/QuestionnaireCallout";
+import { SpecialityIcon } from "@/components/ui/SpecialityIcon";
+import { btnPrimary } from "@/components/ui/styles";
+import { showUpcoming } from "@/lib/preview";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHead } from "@/components/catalog/PageHead";
 import { DoctorCard } from "@/components/catalog/DoctorCard";
@@ -48,17 +57,29 @@ export default async function Page({ params }: Props) {
     getHospitals(),
     getSpecialities(),
   ]);
+  const { cost } = text.detail;
+  const questionnaire = questionnaireFor(treatment.speciality);
 
   return (
     <PageShell current="/treatments">
       <PageHead
         back={{ href: "/treatments", label: text.back }}
-        label={nameOf(specialities, treatment.speciality)}
         heading={treatment.name}
         intro={treatment.summary}
         pending={treatment.pending}
         cta
-      />
+      >
+        {showUpcoming ? (
+          <Link
+            href={`/specialities/${treatment.speciality}`}
+            className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-hairline bg-surface px-4 text-sm text-ink-2 transition-[background-color,border-color,color] duration-300 ease-(--ease-soft) hover:border-line hover:bg-accent-quiet hover:text-ink"
+          >
+            <SpecialityIcon slug={treatment.speciality} size={16} className="text-accent" aria-hidden />
+            {text.detail.speciality} {nameOf(specialities, treatment.speciality)}
+            <ArrowRightIcon size={14} className="text-ink-3 transition-[translate] duration-300 group-hover:translate-x-0.5 rtl:rotate-180" aria-hidden />
+          </Link>
+        ) : null}
+      </PageHead>
 
       <Section tone="quiet">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
@@ -72,17 +93,45 @@ export default async function Page({ params }: Props) {
           </div>
         </div>
 
-        <dl className="reveal mt-12 grid gap-3 sm:grid-cols-2 lg:mt-16">
+        <dl className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16">
           {[
-            { label: text.detail.stay, value: treatment.stay },
-            { label: text.detail.recovery, value: treatment.recovery },
-          ].map((fact) => (
-            <div key={fact.label} className="rounded-md border border-hairline bg-surface p-5">
-              <dt className="text-sm font-medium text-ink">{fact.label}</dt>
-              <dd className="mt-2 text-base text-ink-2">{fact.value}</dd>
+            { label: text.detail.stay, value: treatment.stay, Glyph: BedIcon },
+            { label: text.detail.recovery, value: treatment.recovery, Glyph: ClockIcon },
+          ].map(({ label, value, Glyph }) => (
+            <div key={label} className="reveal flex gap-5 rounded-lg border border-hairline bg-surface p-6 sm:p-7">
+              <span className="home-pop grid size-12 shrink-0 place-items-center rounded-md bg-accent text-accent-ink">
+                <Glyph size={22} aria-hidden />
+              </span>
+              <div className="min-w-0">
+                <dt className="text-sm font-medium text-ink-3">{label}</dt>
+                <dd className="mt-1.5 text-lg font-medium text-ink">{value}</dd>
+              </div>
             </div>
           ))}
         </dl>
+
+        {showUpcoming ? (
+          <div className="mt-20 border-t border-hairline pt-16 lg:mt-24 lg:pt-20">
+            <SectionHead heading={cost.heading} intro={cost.intro} />
+            <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {cost.factors.map((factor, i) => (
+                <li key={factor.title} className="reveal rounded-lg border border-hairline bg-surface p-6 sm:p-7">
+                  <span className="font-mono text-sm text-accent">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="mt-3 text-lg font-medium tracking-[-0.01em]">{factor.title}</h3>
+                  <p className="mt-2 text-base text-ink-2">{factor.body}</p>
+                </li>
+              ))}
+            </ol>
+            <div className="reveal mt-8 flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <p className="max-w-[60ch] text-sm text-ink-3">{cost.note}</p>
+              <a href="#plan" className={btnPrimary}>
+                {cost.cta}
+              </a>
+            </div>
+          </div>
+        ) : null}
+
+        {showUpcoming && questionnaire ? <QuestionnaireCallout questionnaire={questionnaire} className="mt-16" /> : null}
       </Section>
 
       {hospitals.length || doctors.length ? (

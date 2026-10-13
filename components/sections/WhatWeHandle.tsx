@@ -28,7 +28,7 @@ export function WhatWeHandle({ content }: { content: CountryContent }) {
             className={`reveal flex flex-col rounded-lg bg-surface-2 p-7 sm:p-8 ${cells[i]}`}
           >
             <HandledIcon name={item.icon} />
-            <h3 className="mt-6 text-xl font-semibold tracking-[-0.02em]">{item.title}</h3>
+            <h3 className="mt-6 text-xl font-medium tracking-[-0.02em]">{item.title}</h3>
             <p className="mt-3 max-w-[46ch] text-base text-ink-2">{item.body}</p>
           </li>
         ))}

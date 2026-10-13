@@ -21,7 +21,7 @@ export function HowItWorks({ content }: { content: CountryContent }) {
             >
               {String(i + 1).padStart(2, "0")}
             </span>
-            <h3 className="text-2xl font-semibold tracking-[-0.02em] lg:col-span-4">
+            <h3 className="text-2xl font-medium tracking-[-0.02em] lg:col-span-4">
               {step.title}
             </h3>
             <p className="max-w-[58ch] text-lg text-ink-2 lg:col-span-7">{step.body}</p>

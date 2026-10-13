@@ -1,0 +1,283 @@
+/**
+ * Plain-language ways into the treatments, for people who do not know the
+ * medical name of what they need. Each body area lists the treatment slugs
+ * it leads to. Draft: to be checked with the client.
+ */
+
+export type BodyArea = {
+  id: string;
+  /** What a patient would call it. */
+  name: string;
+  /** One line on what kind of problem brings people here. */
+  hint: string;
+  treatments: string[];
+};
+
+export const bodyAreas: BodyArea[] = [
+  {
+    id: "brain",
+    name: "Brain and head",
+    hint: "Tumours in the brain, shaking or stiffness from Parkinson's, and other nerve problems.",
+    treatments: ["brain-tumour-surgery", "deep-brain-stimulation"],
+  },
+  {
+    id: "face",
+    name: "Face, eyes, mouth and nose",
+    hint: "Cloudy sight, glasses you want to be free of, glaucoma or a retina problem, a squint or droopy eyelid, missing or damaged teeth, cancer of the mouth or throat, a cleft lip or palate, or changing the shape of the nose.",
+    treatments: [
+      "cataract-surgery",
+      "lasik",
+      "icl",
+      "keratoconus-treatment",
+      "corneal-transplant",
+      "glaucoma-treatment",
+      "vitreoretinal-surgery",
+      "squint-surgery",
+      "oculoplastic-surgery",
+      "dental-implants",
+      "root-canal-treatment",
+      "smile-design",
+      "full-mouth-rehabilitation",
+      "braces-aligners",
+      "rhinoplasty",
+      "head-neck-cancer-surgery",
+      "childrens-plastic-surgery",
+    ],
+  },
+  {
+    id: "scalp",
+    name: "Hair and scalp",
+    hint: "Thinning hair or bald patches.",
+    treatments: ["hair-transplant"],
+  },
+  {
+    id: "neck",
+    name: "Neck",
+    hint: "Neck pain or arm numbness from a worn disc, a thyroid lump, or cancer in the throat or neck.",
+    treatments: [
+      "acdf",
+      "cervical-disc-replacement",
+      "thyroid-surgery",
+      "head-neck-cancer-surgery",
+    ],
+  },
+  {
+    id: "chest",
+    name: "Chest, heart and breast",
+    hint: "Chest pain, blocked heart arteries, a faulty heart valve, diabetes with heart risk, or a breast lump.",
+    treatments: [
+      "heart-bypass-surgery",
+      "angioplasty",
+      "heart-valve-replacement",
+      "minimally-invasive-heart-surgery",
+      "breast-cancer-surgery",
+      "heart-diabetes-care",
+      "ecmo",
+    ],
+  },
+  {
+    id: "belly",
+    name: "Stomach, liver and gut",
+    hint: "Liver or bowel failure, cancer of the liver, pancreas, stomach or bowel, diabetes, or weight that puts health at risk.",
+    treatments: [
+      "liver-transplant",
+      "liver-tumour-embolisation",
+      "pancreas-transplant",
+      "intestine-transplant",
+      "gastric-sleeve",
+      "gastric-bypass",
+      "liposuction",
+      "hpb-cancer-surgery",
+      "gi-cancer-surgery",
+      "hipec",
+      "tumour-ablation",
+    ],
+  },
+  {
+    id: "kidneys",
+    name: "Kidneys",
+    hint: "Kidneys that have stopped working, dialysis, or a growth in the kidney.",
+    treatments: [
+      "kidney-transplant",
+      "pancreas-transplant",
+      "dialysis",
+      "urologic-cancer-surgery",
+    ],
+  },
+  {
+    id: "spine",
+    name: "Back and spine",
+    hint: "Back pain, leg pain or numbness from a slipped disc, or a weak or curved spine.",
+    treatments: [
+      "microdiscectomy",
+      "spinal-fusion",
+      "acdf",
+      "endoscopic-spine-surgery",
+      "cervical-disc-replacement",
+      "scoliosis-surgery",
+    ],
+  },
+  {
+    id: "pelvis",
+    name: "Womb, bladder and fertility",
+    hint: "Trouble getting pregnant, or cancer of the womb, ovaries, cervix, bladder or prostate.",
+    treatments: [
+      "ivf",
+      "icsi",
+      "gynaecologic-cancer-surgery",
+      "urologic-cancer-surgery",
+    ],
+  },
+  {
+    id: "hips",
+    name: "Hips",
+    hint: "Hip pain, stiffness or a worn-out hip joint.",
+    treatments: ["hip-replacement"],
+  },
+  {
+    id: "knees",
+    name: "Knees",
+    hint: "Knee pain from arthritis, or a torn ligament after a sports injury.",
+    treatments: ["knee-replacement", "acl-reconstruction"],
+  },
+  {
+    id: "legs",
+    name: "Legs",
+    hint: "Varicose veins, leg pain on walking, a bone tumour, a badly injured leg, or a swollen leg.",
+    treatments: [
+      "varicose-veins",
+      "peripheral-artery-disease",
+      "bone-cancer-surgery",
+      "reconstructive-microsurgery",
+      "lymphoedema-surgery",
+    ],
+  },
+  {
+    id: "hands",
+    name: "Arms and hands",
+    hint: "Loss of a hand, injured or stiff hands, arm weakness after a nerve injury, or a swollen arm.",
+    treatments: [
+      "hand-transplant",
+      "hand-surgery",
+      "brachial-plexus-surgery",
+      "lymphoedema-surgery",
+    ],
+  },
+];
+
+/** Problems that are not in one place, shown as buttons beside the body. */
+export const wholeBody: BodyArea[] = [
+  {
+    id: "cancer",
+    name: "Cancer, anywhere",
+    hint: "Treatments for cancer wherever it is in the body. Doctors often combine them.",
+    treatments: [
+      "cancer-surgery",
+      "chemotherapy",
+      "radiation-therapy",
+      "liver-tumour-embolisation",
+      "targeted-therapy-immunotherapy",
+      "childhood-cancer-treatment",
+      "tumour-ablation",
+      "hipec",
+    ],
+  },
+  {
+    id: "blood",
+    name: "Blood and bone marrow",
+    hint: "Blood cancers such as leukaemia, lymphoma and myeloma, blood disorders such as thalassaemia, and cancers in children.",
+    treatments: [
+      "bone-marrow-transplant",
+      "car-t-cell-therapy",
+      "childhood-cancer-treatment",
+    ],
+  },
+];
+
+/** Everyday names for each speciality, used in the browse view. */
+export const plainSpeciality: Record<string, string> = {
+  "organ-transplant": "New organ (transplant)",
+  oncology: "Cancer",
+  "haematology-bmt": "Blood and bone marrow",
+  "neurology-neurosurgery": "Brain, nerves and spine",
+  "bariatric-surgery": "Weight loss",
+  "fertility-ivf": "Having a baby",
+  orthopaedics: "Bones and joints",
+  cardiology: "Heart",
+  "cosmetic-plastic-surgery": "Looks and reshaping",
+  ophthalmology: "Eyes and sight",
+  dentistry: "Teeth",
+};
+
+/** Everyday words people search with, matched to treatment slugs. */
+export const searchWords: Record<string, string> = {
+  "kidney-transplant": "kidney dialysis renal failure",
+  "cataract-surgery": "eye cataract cloudy blurred sight vision lens",
+  lasik: "eye glasses spectacles specs laser vision lasik smile",
+  icl: "eye glasses spectacles high power lens",
+  "keratoconus-treatment": "eye cornea keratoconus cone blurred",
+  "corneal-transplant": "eye cornea scar transplant keratoplasty",
+  "glaucoma-treatment": "eye glaucoma pressure",
+  "vitreoretinal-surgery": "eye retina detachment diabetes floaters",
+  "squint-surgery": "eye squint crossed lazy child",
+  "oculoplastic-surgery": "eye eyelid droopy tear duct orbit",
+  "dental-implants": "teeth tooth missing implant dentist",
+  "root-canal-treatment": "teeth tooth pain rct root canal dentist",
+  "smile-design": "teeth smile veneers whitening dentist",
+  "full-mouth-rehabilitation": "teeth bite crowns missing dentist",
+  "braces-aligners": "teeth crooked braces aligners invisalign dentist",
+  "liver-transplant": "liver cirrhosis hepatitis jaundice",
+  "pancreas-transplant": "diabetes sugar insulin pancreas",
+  "intestine-transplant": "bowel gut intestine stomach",
+  "hand-transplant": "hand arm lost amputation",
+  "bone-marrow-transplant": "blood leukaemia leukemia lymphoma myeloma thalassaemia stem cell",
+  "car-t-cell-therapy": "blood cancer leukaemia leukemia lymphoma immune",
+  chemotherapy: "cancer tumour tumor drugs chemo",
+  "radiation-therapy": "cancer tumour tumor radiation rays",
+  "cancer-surgery": "cancer tumour tumor lump operation",
+  "liver-tumour-embolisation": "liver cancer tumour tumor",
+  "brain-tumour-surgery": "brain head tumour tumor",
+  "spinal-fusion": "back spine pain scoliosis",
+  acdf: "neck disc pain arm numbness",
+  microdiscectomy: "back disc sciatica leg pain slipped",
+  "deep-brain-stimulation": "parkinson tremor shaking brain",
+  "gastric-sleeve": "weight obesity fat stomach",
+  "gastric-bypass": "weight obesity fat stomach diabetes",
+  ivf: "baby pregnant pregnancy infertility fertility",
+  icsi: "baby pregnant sperm infertility fertility male",
+  "knee-replacement": "knee joint arthritis pain",
+  "hip-replacement": "hip joint arthritis pain",
+  "acl-reconstruction": "knee ligament sports injury torn pain unstable",
+  "heart-bypass-surgery": "heart chest pain blocked artery",
+  angioplasty: "heart chest pain blocked artery stent",
+  "heart-valve-replacement": "heart valve breathless",
+  rhinoplasty: "nose face breathing",
+  liposuction: "fat belly body shape",
+  "hair-transplant": "hair bald baldness scalp",
+  "dialysis": "kidney dialysis renal failure",
+  "childhood-cancer-treatment": "child children kid baby cancer leukaemia leukemia tumour tumor thalassaemia",
+  "targeted-therapy-immunotherapy": "cancer immunotherapy targeted precision drugs",
+  "head-neck-cancer-surgery": "mouth tongue throat voice cancer tumour tumor neck",
+  "thyroid-surgery": "thyroid goitre goiter lump neck parathyroid",
+  "breast-cancer-surgery": "breast lump cancer tumour tumor",
+  "hpb-cancer-surgery": "liver pancreas bile gall bladder cancer whipple tumour tumor",
+  "gi-cancer-surgery": "stomach bowel colon rectum food pipe oesophagus cancer tumour tumor",
+  "hipec": "cancer belly ovary bowel spread peritoneum",
+  "urologic-cancer-surgery": "kidney bladder prostate testis cancer tumour tumor urine",
+  "gynaecologic-cancer-surgery": "womb uterus ovary ovarian cervix cervical cancer women",
+  "bone-cancer-surgery": "bone cancer tumour tumor leg arm sarcoma",
+  "tumour-ablation": "cancer tumour tumor liver kidney lung needle",
+  "endoscopic-spine-surgery": "back disc sciatica pain slipped keyhole",
+  "cervical-disc-replacement": "neck disc pain arm numbness",
+  "scoliosis-surgery": "curved spine back scoliosis hunch",
+  "minimally-invasive-heart-surgery": "heart valve bypass keyhole",
+  "ecmo": "heart lung failure intensive care breathing",
+  "heart-diabetes-care": "heart diabetes sugar blood pressure cholesterol check",
+  "varicose-veins": "veins legs swelling varicose clot",
+  "peripheral-artery-disease": "legs walking pain blocked artery diabetes wound",
+  "hand-surgery": "hand finger injury tendon carpal",
+  "brachial-plexus-surgery": "arm nerve paralysis weakness shoulder birth",
+  "reconstructive-microsurgery": "injury wound leg burn rebuild",
+  "lymphoedema-surgery": "swollen arm leg swelling lymphoedema lymphedema",
+  "childrens-plastic-surgery": "child cleft lip palate birth burn scar",
+};

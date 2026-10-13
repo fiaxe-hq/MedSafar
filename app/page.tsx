@@ -1,11 +1,27 @@
 import type { Metadata } from "next";
-import { global } from "@/content/countries";
-import { CountryPage } from "@/components/CountryPage";
+import { Header } from "@/components/site/Header";
+import { Footer } from "@/components/site/Footer";
+import { MobileBar } from "@/components/site/MobileBar";
+import { HomeC } from "@/components/home/HomeC";
+import { Motion } from "@/components/site/Motion";
+import "@/components/site/motion.css";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
 export default function Home() {
-  return <CountryPage content={global} />;
+  return (
+    <div data-home>
+      <div aria-hidden className="home-progress" />
+      <Header home="/" iso={null} countryName="" />
+      {/* Room at the foot of the page for the fixed bar on phones. */}
+      <main className="w-full max-w-full overflow-x-clip pb-24 lg:pb-0">
+        <HomeC />
+      </main>
+      <Footer home="/" />
+      <MobileBar />
+      <Motion />
+    </div>
+  );
 }

@@ -25,7 +25,7 @@ export function PostCard({
   heading?: "h2" | "h3";
 }) {
   return (
-    <article className="group reveal h-full rounded-lg border border-hairline bg-surface transition-colors hover:border-line">
+    <article className="group reveal h-full rounded-lg border border-hairline bg-surface lift">
       <Link
         href={`/blog/${post.slug}`}
         className="flex h-full flex-col p-6 focus-visible:-outline-offset-2 sm:p-7"
