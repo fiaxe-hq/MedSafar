@@ -3,8 +3,8 @@ import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import { countrySlugs } from "./content/countries";
 
 /**
- * Client preview: the home page, doctors, hospitals and treatments are open. Every other
- * page sends the visitor to /coming-soon. The pages themselves are untouched.
+ * Client preview: the pages listed below send the visitor to /coming-soon.
+ * Every other page is open. The pages themselves are untouched.
  * Set to false to open the full site again.
  */
 const clientPreview = true;
@@ -12,9 +12,6 @@ const clientPreview = true;
 const hiddenPages = [
   "/blog/:path*",
   "/about",
-  "/contact",
-  "/privacy",
-  "/terms",
   ...countrySlugs.map((slug) => `/${slug}`),
 ];
 
