@@ -8,10 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "deploy": "opennextjs-cloudflare build -c wrangler.building.jsonc && opennextjs-cloudflare deploy -c wrangler.building.jsonc",
+    "upload": "opennextjs-cloudflare build -c wrangler.building.jsonc && opennextjs-cloudflare upload -c wrangler.building.jsonc",
     "db:migrate:local": "wrangler d1 migrations apply LEADS_DB --local",
-    "db:migrate": "wrangler d1 migrations apply LEADS_DB --remote",
+    "db:migrate": "wrangler d1 migrations apply LEADS_DB --remote -c wrangler.building.jsonc",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
