@@ -377,4 +377,58 @@ export const doctors: Doctor[] = [
       "A hand and reconstructive microsurgeon who led the hand transplant programme at Gleneagles Hospital, Mumbai. He has performed more than 24 hand transplants in 13 patients, including India's first unilateral hand transplant, Asia's first partial hand transplant and Asia's first bilateral arm transplant at shoulder level. In January 2026 he led the first bilateral hand transplant at Nanavati Max.",
     picture: portrait("nilesh-satbhai", "Dr Nilesh G. Satbhai"),
   },
+  // Kenia Eye Hospital. Taken from the doctors' pages on keniaeyehospital.com
+  // and Practo.
+  {
+    slug: "vaishal-kenia",
+    name: "Dr Vaishal Kenia",
+    role: "Chairman and Medical Director",
+    speciality: "ophthalmology",
+    hospital: "kenia-eye",
+    experience: "32 years, 26 of them as a specialist",
+    qualifications: [
+      "MBBS, Topiwala National Medical College and BYL Nair Hospital, Mumbai (1994)",
+      "MS (Ophthalmology), Mumbai (1997)",
+      "DNB (1998)",
+      "DOMS, Diploma in Ophthalmic Medicine and Surgery (1996)",
+      "FCPS, Fellow of the College of Physicians and Surgeons (1997)",
+      "International Council of Ophthalmology, Cambridge, UK (1997)",
+      "Trained under Prof. H. R. Koch in Bonn, Germany",
+      "Assisted Dr. Jack Dodick at the New York Eye and Ear Infirmary",
+    ],
+    languages: [],
+    expertise: [
+      "Cataract surgery and premium lens implants",
+      "LASIK and femtosecond laser surgery",
+      "Cornea and keratoconus",
+      "Glaucoma",
+      "Corneal biomechanics",
+    ],
+    treatments: ["cataract-surgery", "lasik", "icl", "keratoconus-treatment", "corneal-transplant", "glaucoma-treatment"],
+    profile:
+      "A cataract, cornea, glaucoma and refractive surgeon who founded Kenia Eye Hospital more than 28 years ago. He was the youngest ophthalmologist in India to perform customised femtosecond laser LASIK, the first in Maharashtra to introduce the femtosecond laser, and the first in India to implant the Envista and Lucidis Toric lenses. He once operated on 50 patients with only one seeing eye for cataract in a single day. He sits on the executive board of the Bombay Ophthalmologists Association and is a member of ASCRS, ESCRS and AIOS.",
+    picture: portrait("vaishal-kenia", "Dr Vaishal Kenia"),
+  },
+  {
+    slug: "pallavi-kenia",
+    name: "Dr Pallavi Kenia",
+    role: "Managing Director, Kenia Eye Hospital and Kenia Dental Clinic",
+    speciality: "dentistry",
+    hospital: "kenia-dental",
+    otherPractice: "Kenia Eye Hospital, Santacruz (West), Mumbai",
+    experience: "28 years",
+    qualifications: ["BDS, Nagpur University (1997)"],
+    languages: [],
+    expertise: [
+      "Dental implants",
+      "Root canal treatment",
+      "Crowns, bridges and restorative dentistry",
+      "Smile design and teeth whitening",
+      "Mercury-free dentistry",
+    ],
+    treatments: ["dental-implants", "root-canal-treatment", "smile-design", "full-mouth-rehabilitation"],
+    profile:
+      "A dentist and the Managing Director of Kenia Eye Hospital. She began at Jain Health Centre, a charitable trust in Dadar, Mumbai, where she treated patients for eight years, and founded Kenia Dental Clinic in Santacruz in 2001 to give modern dental care at a fair cost. The clinic offers implants, root canal treatment, braces and aligners, and cosmetic dentistry under one roof.",
+    picture: portrait("pallavi-kenia", "Dr Pallavi Kenia"),
+  },
 ];

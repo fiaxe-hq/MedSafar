@@ -36,6 +36,10 @@ export async function getSpecialities(): Promise<Speciality[]> {
   return specialities;
 }
 
+export async function getSpeciality(slug: string): Promise<Speciality | null> {
+  return specialities.find((s) => s.slug === slug) ?? null;
+}
+
 // Hospitals
 
 export async function getHospitals(filter: HospitalFilter = {}): Promise<Hospital[]> {
@@ -75,6 +79,10 @@ export async function getDoctors(filter: DoctorFilter = {}): Promise<Doctor[]> {
 
 export async function getDoctor(slug: string): Promise<Doctor | null> {
   return doctors.find((d) => d.slug === slug) ?? null;
+}
+
+export async function getDoctorsBySlugs(slugs: string[]): Promise<Doctor[]> {
+  return pick(doctors, slugs);
 }
 
 export async function getDoctorsByTreatment(treatment: string): Promise<Doctor[]> {

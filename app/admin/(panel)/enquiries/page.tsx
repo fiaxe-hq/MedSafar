@@ -50,10 +50,10 @@ export default async function EnquiriesPage() {
         </div>
       ) : (
         <div className={`${adminCard} mt-6 overflow-x-auto shadow-card`}>
-          <table className="w-full min-w-[68rem] text-start text-sm">
+          <table className="w-full min-w-[80rem] text-start text-sm">
             <thead className="border-b border-hairline bg-surface-2 text-[0.8125rem] tracking-[0.06em] text-ink-3 uppercase">
               <tr>
-                {["Received", "Name", "Phone", "Email", "From", "Treatment", "When", "Page", "Report", "Notes"].map(
+                {["Received", "Name", "Phone", "Email", "From", "Treatment", "When", "Priority", "Prefers", "Page", "Report", "Notes"].map(
                   (heading) => (
                     <th key={heading} scope="col" className="px-4 py-3 text-start font-medium">
                       {heading}
@@ -102,6 +102,8 @@ export default async function EnquiriesPage() {
                   <td className="px-4 py-3.5">{lead.country ?? lead.phoneIso}</td>
                   <td className="px-4 py-3.5">{lead.treatment}</td>
                   <td className="px-4 py-3.5">{lead.timeline}</td>
+                  <td className="px-4 py-3.5">{lead.budget}</td>
+                  <td className="px-4 py-3.5">{lead.preference}</td>
                   <td className="px-4 py-3.5 text-ink-3">{lead.source}</td>
                   <td className="px-4 py-3.5">
                     {lead.reportFile ? (

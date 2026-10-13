@@ -100,7 +100,10 @@
       animation-range: entry 0% cover 50%;
     }
 
-    :is([data-home], [data-page]) .home-expand img.object-cover {
+    /* Inside a sideways scroller, view() would track the wrong axis, so the
+       photos hold still. */
+    :is([data-home], [data-page]) .home-expand img.object-cover,
+    :is([data-home], [data-page]) [data-carousel] img.object-cover {
       animation: none;
     }
 
@@ -149,12 +152,6 @@
       animation: home-focus linear both;
       animation-timeline: view();
       animation-range: cover 20% cover 80%;
-    }
-
-    /* A strip of photos that slides sideways as you scroll down. */
-    :is([data-home], [data-page]) .home-pan {
-      animation: home-pan linear both;
-      animation-timeline: view();
     }
   }
 }
@@ -225,11 +222,6 @@
 @keyframes home-focus {
   0%, 100% { background-color: transparent; }
   40%, 60% { background-color: var(--accent-quiet); }
-}
-
-@keyframes home-pan {
-  from { transform: translateX(4%); }
-  to { transform: translateX(-28%); }
 }
 
 @keyframes home-float {

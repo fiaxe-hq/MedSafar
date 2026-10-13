@@ -8,6 +8,8 @@ import { emailHref, phoneHref, whatsappHref } from "@/lib/contact";
 import travgrubLogo from "@/public/brand/travgrub-logo.png";
 import { Container } from "@/components/ui/Container";
 import { resolveHref } from "./resolveHref";
+import { SocialLinks } from "./SocialLinks";
+import { hiddenLink, showUpcoming } from "@/lib/preview";
 
 export function Footer({ home = "/" }: { home?: string }) {
   const { footer, brand, contact, company } = site;
@@ -45,7 +47,7 @@ export function Footer({ home = "/" }: { home?: string }) {
             </div>
 
             <div className="mt-6 max-w-[58ch] space-y-3">
-              {footer.lines.map((line) => (
+              {(showUpcoming ? [...footer.lines, footer.payment] : footer.lines).map((line) => (
                 <p key={line} className="text-sm text-ink-3">
                   {line}
                 </p>
@@ -72,6 +74,11 @@ export function Footer({ home = "/" }: { home?: string }) {
               </ul>
             </div>
 
+            <div className="mt-8">
+              <p className="text-sm font-medium text-ink">{footer.follow}</p>
+              <SocialLinks className="mt-3" />
+            </div>
+
             {details.length > 0 ? (
               <dl className="mt-8 max-w-[58ch] space-y-2 text-sm">
                 {details.map((detail) => (
@@ -89,7 +96,7 @@ export function Footer({ home = "/" }: { home?: string }) {
               <div key={column.heading}>
                 <p className="text-sm font-medium text-ink">{column.heading}</p>
                 <ul className="mt-4 space-y-1">
-                  {column.items.map((item) => (
+                  {column.items.filter((item) => !hiddenLink(item.href)).map((item) => (
                     <li key={item.label}>
                       <Link
                         href={resolveHref(item.href, home)}

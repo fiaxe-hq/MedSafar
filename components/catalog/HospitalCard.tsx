@@ -14,6 +14,7 @@ export function HospitalCard({
   wide = false,
   heading: Heading = "h3",
   sizes,
+  reveal = true,
 }: {
   hospital: Hospital;
   /** Speciality names, already joined for display. */
@@ -22,9 +23,12 @@ export function HospitalCard({
   wide?: boolean;
   heading?: "h2" | "h3";
   sizes: string;
+  /** Off inside a sideways scroller, where the page's scroll reveal would
+   *  follow the wrong axis. */
+  reveal?: boolean;
 }) {
   return (
-    <article className="group reveal h-full overflow-hidden rounded-lg border border-hairline bg-surface lift">
+    <article className={`group h-full overflow-hidden rounded-lg border border-hairline bg-surface lift ${reveal ? "reveal" : ""}`}>
       <Link
         href={`/hospitals/${hospital.slug}`}
         className={`flex h-full flex-col focus-visible:-outline-offset-2 ${
@@ -56,11 +60,13 @@ export function HospitalCard({
           >
             {hospital.name}
           </Heading>
-          <p className="mt-3 flex items-start gap-2 text-base text-ink-2">
-            <SealCheckIcon size={18} weight="fill" className="mt-0.5 shrink-0 text-accent" aria-hidden />
-            {hospital.accreditation}
-          </p>
-          <p className="mt-4 border-t border-hairline pt-4 text-sm leading-relaxed text-ink-3">{specialities}</p>
+          {hospital.accreditation ? (
+            <p className="mt-3 flex items-start gap-2 text-base text-ink-2">
+              <SealCheckIcon size={18} weight="fill" className="mt-0.5 shrink-0 text-accent" aria-hidden />
+              {hospital.accreditation}
+            </p>
+          ) : null}
+          <p className="mt-4 line-clamp-3 border-t border-hairline pt-4 text-sm leading-relaxed text-ink-3">{specialities}</p>
           <CardFoot pending={hospital.pending} />
         </div>
       </Link>

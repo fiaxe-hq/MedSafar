@@ -85,6 +85,7 @@ export function Figure({
         sizes={sizes}
         priority={priority}
         className={`object-cover ${position}`}
+        style={picture.focus ? { objectPosition: picture.focus } : undefined}
       />
     </div>
   );

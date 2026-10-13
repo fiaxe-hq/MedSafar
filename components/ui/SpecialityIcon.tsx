@@ -7,6 +7,8 @@ import { BabyIcon } from "@phosphor-icons/react/dist/ssr/Baby";
 import { BoneIcon } from "@phosphor-icons/react/dist/ssr/Bone";
 import { HeartIcon } from "@phosphor-icons/react/dist/ssr/Heart";
 import { SparkleIcon } from "@phosphor-icons/react/dist/ssr/Sparkle";
+import { EyeIcon } from "@phosphor-icons/react/dist/ssr/Eye";
+import { ToothIcon } from "@phosphor-icons/react/dist/ssr/Tooth";
 import { FirstAidIcon } from "@phosphor-icons/react/dist/ssr/FirstAid";
 
 /** One glyph per speciality slug. A new speciality falls back to a first-aid
@@ -21,6 +23,8 @@ const icons: Record<string, typeof FirstAidIcon> = {
   orthopaedics: BoneIcon,
   cardiology: HeartIcon,
   "cosmetic-plastic-surgery": SparkleIcon,
+  ophthalmology: EyeIcon,
+  dentistry: ToothIcon,
 };
 
 export function SpecialityIcon({

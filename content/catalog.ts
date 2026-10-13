@@ -29,6 +29,15 @@ export const catalog: CatalogContent = {
     back: "All hospitals",
     filters: { city: "City", speciality: "Speciality" },
     stats: { specialities: "Specialities", doctors: "Doctors", treatments: "Treatments" },
+    browse: {
+      heading: "Browse by speciality",
+      intro: "Pick what you need treated to see the hospitals that handle it.",
+      all: "All specialities",
+      one: "hospital",
+      many: "hospitals",
+      showing: "Hospitals for",
+      more: "Treatments and doctors in",
+    },
     detail: {
       overview: "Overview",
       accreditation: "Accreditation",
@@ -37,9 +46,18 @@ export const catalog: CatalogContent = {
       centres: "Centres of excellence",
       services: "Services for international patients",
       photos: "Photos",
+      gallery: { all: "Show all photos", close: "Close", previous: "Previous photo", next: "Next photo" },
       videos: "Videos",
       doctors: "Doctors at this hospital",
       treatments: "Treatments offered",
+      packages: "Package prices",
+      priceFrom: "Packages from",
+      packagesNote:
+        "Package prices from the hospital, in US dollars, for the hospital stay shown. Your written estimate confirms the final cost for your case, including anything outside the package.",
+      quoteHeading: "Ask for a price",
+      quoteBody:
+        "This hospital has not published package prices. Send your reports and we'll come back with a written estimate for your case.",
+      quoteCta: "Request a quote",
     },
   },
 
@@ -86,6 +104,7 @@ export const catalog: CatalogContent = {
     back: "All treatments",
     stats: { treatments: "Treatments", specialities: "Specialities", doctors: "Doctors" },
     jump: "Jump to a speciality",
+    more: "See doctors and hospitals",
     one: "treatment",
     many: "treatments",
     detail: {
@@ -96,6 +115,62 @@ export const catalog: CatalogContent = {
       hospitals: "Hospitals offering this treatment",
       doctors: "Doctors for this treatment",
       faq: "Questions about this treatment",
+      cost: {
+        heading: "What affects the cost",
+        intro:
+          "Every patient gets their own estimate, in writing, from the hospital. These are the things that move it.",
+        factors: [
+          {
+            title: "The hospital and the city",
+            body: "Room types, equipment and running costs differ from one hospital to the next.",
+          },
+          {
+            title: "The doctor",
+            body: "A surgeon's fee follows their experience and how complex the operation is.",
+          },
+          {
+            title: "The technique and the materials",
+            body: "Keyhole or robotic surgery, and the make of any implant, can change the price.",
+          },
+          {
+            title: "Your health",
+            body: "Other conditions, earlier treatment and the tests you need before treatment all count.",
+          },
+          {
+            title: "How long you stay",
+            body: "Days in hospital, any time in intensive care and the weeks you spend recovering in India.",
+          },
+          {
+            title: "What else you need",
+            body: "Physiotherapy, medicines to take home and follow-up visits are added only if your doctor asks for them.",
+          },
+        ],
+        note: "The estimate is not final until the doctor has examined you in India. If anything changes, we explain it before you agree to it.",
+        cta: "Get your written estimate",
+      },
+      speciality: "More in",
+    },
+  },
+
+  specialities: {
+    meta: {
+      title: "Specialities. Medsafar India.",
+      description:
+        "The kinds of care Medsafar arranges in India, with the treatments, doctors and hospitals for each.",
+    },
+    eyebrow: "Specialities",
+    heading: "What we can help you with",
+    intro:
+      "Pick a speciality to see its treatments, the doctors who carry them out and the hospitals that offer them.",
+    note: "More specialities are being added as Medsafar takes on new partner hospitals.",
+    back: "All specialities",
+    stats: { specialities: "Specialities", treatments: "Treatments", doctors: "Doctors" },
+    view: "See treatments",
+    detail: {
+      treatments: "Treatments",
+      doctors: "Doctors",
+      hospitals: "Hospitals",
+      stats: { treatments: "Treatments", doctors: "Doctors", hospitals: "Hospitals" },
     },
   },
 

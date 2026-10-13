@@ -11,6 +11,9 @@ export type Picture = {
   alt: string;
   /** true until a real, cleared photo has been supplied. */
   pending: boolean;
+  /** CSS object-position for the part that must stay in view when a wide
+   *  frame crops the photo, e.g. "50% 20%" to keep a face. */
+  focus?: string;
 };
 
 /** Marks copy that is a stand-in until Medsafar supplies the real thing. */
@@ -96,6 +99,8 @@ export type SiteContent = {
   footer: {
     legalName: string;
     lines: string[];
+    /** How treatment is paid for, under the lines above. */
+    payment: string;
     /** A link that starts with "#" points at a section of the home page. */
     columns: { heading: string; items: NavItem[] }[];
     contact: {
@@ -118,6 +123,8 @@ export type SiteContent = {
   };
   pendingLabel: string;
   photoLabel: string;
+  /** Labels on a carousel's arrow buttons. */
+  carousel: { previous: string; next: string };
 };
 
 /** The pop-up form behind the header's "Free consultation" button. */
@@ -146,12 +153,18 @@ export type FormContent = {
     country: { label: string; placeholder: string };
     treatment: { label: string; placeholder: string; options: string[] };
     timeline: { label: string; options: string[] };
+    /** What matters most when we suggest a hospital and doctor. */
+    budget: { label: string; options: string[] };
+    /** A city or hospital the visitor already has in mind. */
+    preference: { label: string; placeholder: string };
     notes: { label: string; placeholder: string };
     reports: { label: string; hint: string };
     /** `privacy` is the link text that follows the label and opens /privacy. */
     consent: { label: string; privacy: string };
     submit: string;
   };
+  /** Under the form: how medical details are handled. */
+  privacyNote: string;
   saved: {
     heading: string;
     body: string;
@@ -274,6 +287,8 @@ export type CountryContent = {
 export type Speciality = {
   slug: string;
   name: string;
+  /** One or two plain sentences for the speciality's own page. */
+  summary: string;
 };
 
 /** A video on a hospital page: a YouTube video, or a file in public/. */
@@ -288,10 +303,13 @@ export type Hospital = Pending & {
   city: string;
   /** Street address, shown on the hospital's own page. */
   address?: string;
-  accreditation: string;
+  /** Left out when the hospital names none, so no check mark is shown. */
+  accreditation?: string;
   overview: string;
   /** Departments the hospital names as its centres of excellence. */
   centres?: string[];
+  /** Heading for `centres` when the hospital names them differently. */
+  centresLabel?: string;
   /** Speciality slugs. */
   specialities: string[];
   /** Slugs of the treatments offered here. */
@@ -302,6 +320,22 @@ export type Hospital = Pending & {
   /** Further photo slots, shown on the hospital's own page. */
   gallery: Picture[];
   videos?: Video[];
+  /** Package prices the hospital has supplied. Where this is missing, the
+   *  page invites a quote instead of showing a price. */
+  packages?: PackageGroup[];
+};
+
+/** A priced package the hospital has supplied, grouped under its category
+ *  (e.g. "Cardiac procedures"). */
+export type PackageGroup = {
+  category: string;
+  items: {
+    name: string;
+    /** Hospital stay as the hospital wrote it: "1+4" for ICU + ward days,
+     *  or a single number for a total. */
+    stay: string;
+    priceUsd: number;
+  }[];
 };
 
 export type Doctor = Pending & {
@@ -390,6 +424,19 @@ export type CatalogContent = {
     filters: { city: string; speciality: string };
     /** Labels under the counts in the page opener. */
     stats: { specialities: string; doctors: string; treatments: string };
+    /** The row of speciality tiles above the list. */
+    browse: {
+      heading: string;
+      intro: string;
+      all: string;
+      /** Follows the number of hospitals: "1 hospital", "3 hospitals". */
+      one: string;
+      many: string;
+      /** Shown over the list once a speciality is picked. */
+      showing: string;
+      /** Link from a picked speciality to its own page. */
+      more: string;
+    };
     detail: {
       overview: string;
       accreditation: string;
@@ -398,9 +445,18 @@ export type CatalogContent = {
       centres: string;
       services: string;
       photos: string;
+      /** The photo viewer: open it, close it, step through it. */
+      gallery: { all: string; close: string; previous: string; next: string };
       videos: string;
       doctors: string;
       treatments: string;
+      packages: string;
+      /** Beside the lowest package price, e.g. "Packages from $400". */
+      priceFrom: string;
+      packagesNote: string;
+      quoteHeading: string;
+      quoteBody: string;
+      quoteCta: string;
     };
   };
   doctors: ListPageText & {
@@ -427,6 +483,8 @@ export type CatalogContent = {
     stats: { treatments: string; specialities: string; doctors: string };
     /** Label for the row of links to each speciality. */
     jump: string;
+    /** Link from a speciality group to the speciality's own page. */
+    more: string;
     /** Follows the number of treatments in a group: "1 treatment", "3 treatments". */
     one: string;
     many: string;
@@ -438,6 +496,29 @@ export type CatalogContent = {
       hospitals: string;
       doctors: string;
       faq: string;
+      /** What moves the price. The same for every treatment until real
+       *  prices are supplied. */
+      cost: {
+        heading: string;
+        intro: string;
+        factors: { title: string; body: string }[];
+        note: string;
+        cta: string;
+      };
+      /** Link to the speciality's own page. */
+      speciality: string;
+    };
+  };
+  specialities: ListPageText & {
+    stats: { specialities: string; treatments: string; doctors: string };
+    /** Label on each card's link. */
+    view: string;
+    detail: {
+      treatments: string;
+      doctors: string;
+      hospitals: string;
+      /** Labels under the counts in the page opener. */
+      stats: { treatments: string; doctors: string; hospitals: string };
     };
   };
   blog: ListPageText & {
@@ -489,9 +570,14 @@ export type ContactContent = Pending & {
     heading: string;
     intro: string;
     /** `href` stays null until the real number or address is supplied. */
-    items: (Pending & { label: string; value: string; href: string | null })[];
+    items: (Pending & { label: string; value: string; href: string | null; hint?: string })[];
     note?: string;
   };
+  follow: string;
+  form: { heading: string; intro: string };
+  steps: { heading: string; items: { title: string; body: string }[] };
+  why: { heading: string; items: { title: string; body: string }[] };
+  faq: { heading: string; items: Faq[] };
 };
 
 /** Privacy and Terms. A section body is one paragraph, or several. */
@@ -501,4 +587,59 @@ export type LegalContent = Pending & {
   intro: string;
   updated: { label: string; value: string };
   sections: { heading: string; body: string | string[] }[];
+};
+
+/** The two home page sections that show how partners are chosen and who
+ *  some of the doctors are. */
+export type HomeContent = {
+  selection: {
+    heading: string;
+    intro: string;
+    items: { title: string; body: string }[];
+  };
+  doctors: {
+    heading: string;
+    intro: string;
+    /** Doctor slugs, read through lib/catalog.ts. */
+    featured: string[];
+    book: string;
+    profile: string;
+    all: string;
+  };
+};
+
+/** One question on a pre-surgery questionnaire. */
+export type Question =
+  | { id: string; kind: "number"; label: string; unit: string; min: number; max: number; optional?: boolean }
+  | { id: string; kind: "choice"; label: string; options: string[]; optional?: boolean }
+  | { id: string; kind: "multi"; label: string; options: string[]; optional?: boolean }
+  | { id: string; kind: "text"; label: string; placeholder: string; optional?: boolean };
+
+/** A short questionnaire a patient fills before a doctor looks at the case. */
+export type Questionnaire = {
+  slug: string;
+  /** Speciality slug: the speciality and treatment pages link here. */
+  speciality: string;
+  /** Saved as the enquiry's treatment. */
+  treatment: string;
+  meta: PageMeta;
+  /** Card text where other pages link to the questionnaire. */
+  card: { title: string; body: string };
+  heading: string;
+  intro: string;
+  /** Shows a live BMI from the height and weight questions. */
+  bmi?: { height: string; weight: string; label: string; note: string };
+  sections: { heading: string; questions: Question[] }[];
+};
+
+/** Text shared by every questionnaire. */
+export type QuestionnaireText = {
+  eyebrow: string;
+  list: { meta: PageMeta; heading: string; intro: string; open: string; back: string };
+  optional: string;
+  contact: { heading: string; intro: string };
+  submit: string;
+  done: { heading: string; body: string; again: string };
+  errors: { required: string };
+  note: string;
 };

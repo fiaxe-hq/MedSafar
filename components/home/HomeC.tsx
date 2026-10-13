@@ -1,14 +1,26 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
+import { ChatsCircleIcon } from "@phosphor-icons/react/dist/ssr/ChatsCircle";
+import { HospitalIcon } from "@phosphor-icons/react/dist/ssr/Hospital";
+import { ReceiptIcon } from "@phosphor-icons/react/dist/ssr/Receipt";
+import { SealCheckIcon } from "@phosphor-icons/react/dist/ssr/SealCheck";
+import { StethoscopeIcon } from "@phosphor-icons/react/dist/ssr/Stethoscope";
+import { TranslateIcon } from "@phosphor-icons/react/dist/ssr/Translate";
+import { DoctorFeature } from "@/components/catalog/DoctorFeature";
+import { home } from "@/content/home";
+import { showUpcoming } from "@/lib/preview";
 import { CheckIcon } from "@phosphor-icons/react/dist/ssr/Check";
 import { FirstAidIcon } from "@phosphor-icons/react/dist/ssr/FirstAid";
 import { GlobeHemisphereEastIcon } from "@phosphor-icons/react/dist/ssr/GlobeHemisphereEast";
 import { HospitalCard } from "@/components/catalog/HospitalCard";
+import { HospitalCarousel } from "@/components/catalog/HospitalCarousel";
 import { Container } from "@/components/ui/Container";
 import { handledIcons } from "@/components/ui/HandledIcon";
 import { global as content } from "@/content/countries";
 import { site } from "@/content/site";
 import { dialCodesFor, defaultIso } from "@/content/dial-codes";
-import { getHospitalsBySlugs, getSpecialities, nameOf } from "@/lib/catalog";
+import { getDoctorsBySlugs, getHospitals, getHospitalsBySlugs, getSpecialities, nameOf } from "@/lib/catalog";
 import { EnquiryForm } from "@/components/form/EnquiryForm";
 
 /**
@@ -22,6 +34,7 @@ function Block({
   intro,
   tone = "",
   stacked = false,
+  bleed = false,
   children,
 }: {
   id: string;
@@ -31,6 +44,9 @@ function Block({
   /** Heading above the content instead of beside it, for content wide
    *  enough to fill the page on its own. */
   stacked?: boolean;
+  /** With `stacked`: the content runs the full width of the screen and
+   *  lines itself up with the page edge. */
+  bleed?: boolean;
   children: React.ReactNode;
 }) {
   if (stacked) {
@@ -41,8 +57,9 @@ function Block({
             <h2 className="display-2 max-w-[16ch] lg:col-span-6">{heading}</h2>
             {intro ? <p className="max-w-[40ch] text-lg text-ink-2 lg:col-span-5 lg:col-start-8">{intro}</p> : null}
           </div>
-          <div className="mt-12 min-w-0">{children}</div>
+          {bleed ? null : <div className="mt-12 min-w-0">{children}</div>}
         </Container>
+        {bleed ? <div className="reveal mt-9">{children}</div> : null}
       </section>
     );
   }
@@ -62,7 +79,7 @@ function Block({
 export async function HomeC() {
   const { hero, trust, howItWorks, hospitals, handled, countryInfo, faq, enquiry } = content;
   const cards = await featuredHospitals();
-  const gallery = (cards[0]?.hospital.gallery ?? []).filter((p) => !p.pending && p.src).slice(0, 8);
+  const doctors = await featuredDoctors();
 
   return (
     <>
@@ -182,25 +199,68 @@ export async function HomeC() {
         </ul>
       </Block>
 
-      <Block id="hospitals" heading={hospitals.heading} intro={hospitals.intro}>
-        <div className="grid gap-5">
+      <Block id="hospitals" heading={hospitals.heading} intro={hospitals.intro} stacked bleed>
+        <HospitalCarousel
+          label={hospitals.heading}
+          note={hospitals.note}
+          previous={site.carousel.previous}
+          next={site.carousel.next}
+        >
           {cards.map(({ hospital, specialities }) => (
-            <HospitalCard key={hospital.slug} hospital={hospital} specialities={specialities} feature sizes="(min-width: 1024px) 60vw, 100vw" />
+            <HospitalCard
+              key={hospital.slug}
+              hospital={hospital}
+              specialities={specialities}
+              reveal={false}
+              sizes="(min-width: 1024px) 24rem, (min-width: 640px) 45vw, 85vw"
+            />
           ))}
-        </div>
-        {gallery.length ? (
-          <div className="mt-5 overflow-hidden rounded-lg">
-            <div className="home-pan flex w-max gap-4">
-              {gallery.map((p) => (
-                <div key={p.src} className="relative h-40 w-60 shrink-0 overflow-hidden rounded-lg bg-surface-2 sm:h-48 sm:w-72">
-                  {p.src ? <Image src={p.src} alt={p.alt} fill sizes="18rem" className="object-cover" /> : null}
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : null}
-        <p className="mt-6 text-sm text-ink-3">{hospitals.note}</p>
+        </HospitalCarousel>
       </Block>
+
+      {showUpcoming ? (
+        <Block id="how-we-choose" heading={home.selection.heading} intro={home.selection.intro} tone="bg-surface-2">
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {home.selection.items.map((item, i) => {
+              const Glyph = selectionIcons[i] ?? SealCheckIcon;
+              return (
+                <li key={item.title} className="reveal rounded-lg border border-hairline bg-surface p-6 sm:p-7">
+                  <span className="home-pop grid size-11 place-items-center rounded-md bg-accent-soft text-accent">
+                    <Glyph size={22} aria-hidden />
+                  </span>
+                  <h3 className="mt-5 text-lg font-medium tracking-[-0.01em]">{item.title}</h3>
+                  <p className="mt-2 text-base text-ink-2">{item.body}</p>
+                </li>
+              );
+            })}
+          </ul>
+        </Block>
+      ) : null}
+
+      {showUpcoming && doctors.length ? (
+        <Block id="doctors" heading={home.doctors.heading} intro={home.doctors.intro} stacked>
+          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {doctors.map(({ doctor, speciality, hospital }) => (
+              <li key={doctor.slug} className="min-w-0">
+                <DoctorFeature
+                  doctor={doctor}
+                  speciality={speciality}
+                  hospital={hospital}
+                  book={home.doctors.book}
+                  profile={home.doctors.profile}
+                />
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/doctors"
+            className="group mt-8 inline-flex min-h-11 items-center gap-2 text-base font-medium text-accent transition-colors hover:text-accent-hover"
+          >
+            {home.doctors.all}
+            <ArrowRightIcon size={16} className="transition-[translate] duration-300 group-hover:translate-x-1 rtl:rotate-180" aria-hidden />
+          </Link>
+        </Block>
+      ) : null}
 
       <Block id="country-info" heading={countryInfo.heading} intro={countryInfo.intro} tone="bg-surface-2">
         <div className="grid gap-5 md:grid-cols-2">
@@ -320,6 +380,22 @@ function HomeForm({ compact = false }: { compact?: boolean }) {
       compact={compact}
     />
   );
+}
+
+/** One per item in content/home.ts, in the same order. */
+const selectionIcons = [StethoscopeIcon, HospitalIcon, SealCheckIcon, TranslateIcon, ReceiptIcon, ChatsCircleIcon];
+
+async function featuredDoctors() {
+  const [doctors, specialities, hospitals] = await Promise.all([
+    getDoctorsBySlugs(home.doctors.featured),
+    getSpecialities(),
+    getHospitals(),
+  ]);
+  return doctors.map((doctor) => ({
+    doctor,
+    speciality: nameOf(specialities, doctor.speciality),
+    hospital: nameOf(hospitals, doctor.hospital),
+  }));
 }
 
 async function featuredHospitals() {

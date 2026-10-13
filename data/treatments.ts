@@ -1272,4 +1272,268 @@ export const treatments: Treatment[] = [
       ],
     },
   ),
+
+  // Eye care
+  treatment(
+    "cataract-surgery",
+    "Cataract surgery with premium lens (IOL)",
+    "ophthalmology",
+    "The cloudy natural lens of the eye is removed and replaced with a clear artificial lens.",
+    {
+      what: "Through a tiny cut, the cloudy lens is broken up with ultrasound (phacoemulsification) or with help from a femtosecond laser, and a folded artificial lens (IOL) is put in its place. Premium lenses can also correct astigmatism or give clear sight at more than one distance. Each eye takes about 15 to 30 minutes, under numbing drops.",
+      who: "People whose cataract makes their sight cloudy, dim or glary enough to get in the way of daily life.",
+      stay: usually("No hospital stay: it is a day procedure"),
+      recovery: "Most people see well within a few days and return to light daily life within a week. Plan to stay in India for about a week after the first eye; the second eye is often done a few days later.",
+      faq: [
+        q(
+          "Can both eyes be done on one trip?",
+          "Usually yes. The second eye is often done a few days to a week after the first, once the first eye has been checked.",
+        ),
+        q(
+          "Will I still need glasses?",
+          "It depends on the lens you choose. Premium lenses can reduce the need for glasses; the surgeon explains the options after measuring your eyes.",
+        ),
+      ],
+    },
+  ),
+  treatment(
+    "lasik",
+    "LASIK, Femto-LASIK and CLEAR laser vision correction",
+    "ophthalmology",
+    "A laser reshapes the clear front of the eye (the cornea) so that glasses or contact lenses are no longer needed.",
+    {
+      what: "The cornea is reshaped with a laser so light focuses correctly on the retina. In LASIK and bladeless Femto-LASIK a thin flap is lifted before the laser works; in CLEAR, a small piece of tissue is removed through a tiny keyhole without a flap. Both eyes are usually treated in the same session, which takes about 15 to 30 minutes, under numbing drops.",
+      who: "Adults over 18 whose glasses power has been stable for at least a year, with healthy eyes and a cornea thick enough for the treatment. Detailed scans decide which method suits you.",
+      stay: usually("No hospital stay: it is a day procedure"),
+      recovery: "Most people see clearly within a day or two and return to work in a few days. Plan to stay in India for about a week for the follow-up checks.",
+      faq: [
+        q(
+          "Is it painful?",
+          "No. Numbing drops are used, and most people feel only light pressure. The eyes may feel gritty for a day or so afterwards.",
+        ),
+        q(
+          "How do I know which laser method is right for me?",
+          "The surgeon decides after scans of your cornea. Your reports from home help us give you a first opinion before you travel.",
+        ),
+      ],
+    },
+  ),
+  treatment(
+    "icl",
+    "Implantable Collamer Lens (ICL)",
+    "ophthalmology",
+    "A thin lens is placed inside the eye to correct high glasses power, for people who cannot have laser treatment.",
+    {
+      what: "Through a tiny cut, a soft, thin lens is placed inside the eye in front of the natural lens. The natural lens is kept, and the ICL can be removed later if needed. Each eye takes about 20 to 30 minutes, under numbing drops.",
+      who: "Adults with high short-sight or astigmatism, or a cornea that is too thin for LASIK.",
+      stay: usually("No hospital stay: it is a day procedure"),
+      recovery: "Sight usually improves within a day or two. Plan to stay in India for about a week for checks.",
+      faq: [
+        q(
+          "Can I feel the lens in my eye?",
+          "No. The lens sits inside the eye and cannot be felt once it is in place.",
+        ),
+      ],
+    },
+  ),
+  treatment(
+    "keratoconus-treatment",
+    "Keratoconus treatment (corneal cross-linking)",
+    "ophthalmology",
+    "Treatment that stops a thinning, cone-shaped cornea from getting worse, and helps sight with special lenses.",
+    {
+      what: "In corneal cross-linking, vitamin B2 (riboflavin) drops are put on the eye and then a measured ultraviolet light is shone on it. This strengthens the cornea and stops the cone from getting steeper. Special contact lenses or a lens implant may then improve sight.",
+      who: "Children and adults whose keratoconus is getting worse, seen on repeat corneal scans.",
+      stay: usually("No hospital stay: it is a day procedure"),
+      recovery: "The eye is sore for a few days while the surface heals. Plan to stay in India for about a week for checks.",
+      faq: [
+        q(
+          "Will cross-linking bring back my sight?",
+          "Its main aim is to stop keratoconus from getting worse. Sight is then helped with lenses; the doctor explains what to expect for your eye.",
+        ),
+      ],
+    },
+  ),
+  treatment(
+    "corneal-transplant",
+    "Corneal transplant (keratoplasty)",
+    "ophthalmology",
+    "A damaged or scarred cornea is replaced, in full or in layers, with healthy donor tissue.",
+    {
+      what: "The damaged part of the cornea is removed and replaced with clear tissue from a donor eye. Depending on the problem, the whole thickness is replaced or only the front or back layers. Donor tissue comes from an approved eye bank.",
+      who: "People with a scarred, cloudy or badly misshapen cornea, for example from infection, injury or advanced keratoconus.",
+      stay: usually("Usually a day procedure or one night in hospital"),
+      recovery: "Sight improves slowly over months. Plan to stay in India for about 2 to 3 weeks for close checks, and to use eye drops for a long time afterwards.",
+      faq: [
+        q(
+          "Where does the donor cornea come from?",
+          "From an eye bank. Corneal transplants in India can only be done at hospitals approved for them under Indian law.",
+        ),
+      ],
+    },
+  ),
+  treatment(
+    "glaucoma-treatment",
+    "Glaucoma treatment",
+    "ophthalmology",
+    "Drops, laser or surgery to lower the pressure inside the eye and protect sight from glaucoma.",
+    {
+      what: "Glaucoma slowly damages the nerve at the back of the eye, usually because the pressure inside the eye is too high. Treatment lowers the pressure: first with eye drops, then with laser, and if needed with surgery that makes a new drainage path for the fluid in the eye.",
+      who: "People diagnosed with glaucoma, or with high eye pressure that puts their sight at risk.",
+      stay: usually("No hospital stay for laser; a day procedure or one night for surgery"),
+      recovery: "Laser needs only a short rest. After surgery, plan to stay in India for about 2 weeks for checks.",
+      faq: [
+        q(
+          "Can glaucoma damage be reversed?",
+          "No. Sight already lost cannot be brought back, which is why treatment aims to protect the sight that remains.",
+        ),
+      ],
+    },
+  ),
+  treatment(
+    "vitreoretinal-surgery",
+    "Retina and vitreo-retinal surgery",
+    "ophthalmology",
+    "Laser, injections or surgery for problems at the back of the eye, such as retinal detachment or diabetic eye disease.",
+    {
+      what: "Depending on the problem, the retina is treated with laser, with injections into the eye, or with vitrectomy: the gel inside the eye is removed so the surgeon can repair the retina. A detached retina is put back in place and held with gas or oil.",
+      who: "People with a detached or torn retina, bleeding inside the eye, diabetic eye disease, a macular hole or age-related macular degeneration.",
+      stay: usually("Usually a day procedure; sometimes one night in hospital"),
+      recovery: "Recovery depends on the operation. After vitrectomy you may need to hold your head in one position for some days, and you cannot fly while there is gas in the eye. Plan to stay in India for about 2 to 3 weeks.",
+      faq: [
+        q(
+          "When can I fly home?",
+          "Not while a gas bubble is in the eye, which can take a few weeks. The surgeon tells you when it is safe.",
+        ),
+      ],
+    },
+  ),
+  treatment(
+    "squint-surgery",
+    "Squint surgery and children's eye care",
+    "ophthalmology",
+    "Surgery on the eye muscles to straighten eyes that turn in, out, up or down, for children and adults.",
+    {
+      what: "The muscles that move the eye are tightened or loosened so the eyes line up. Children also have their sight checked for lazy eye and glasses before any surgery is planned.",
+      who: "Children and adults with a squint that glasses or exercises have not corrected.",
+      stay: usually("No hospital stay: it is a day procedure"),
+      recovery: "The eye is red and sore for a week or two. Plan to stay in India for about a week.",
+      faq: [
+        q(
+          "Is the operation done under general anaesthetic?",
+          "For children, usually yes. Adults can sometimes have it under local anaesthetic.",
+        ),
+      ],
+    },
+  ),
+  treatment(
+    "oculoplastic-surgery",
+    "Oculoplastic surgery",
+    "ophthalmology",
+    "Surgery for the eyelids, tear ducts and the bones around the eye.",
+    {
+      what: "Operations on the eyelids (such as a droopy lid or an eyelid that turns in or out), the tear drainage system (such as a blocked tear duct) and the eye socket, including removal of growths and reconstruction after injury.",
+      who: "People with eyelid, tear duct or eye socket problems, for medical or cosmetic reasons.",
+      stay: usually("Usually a day procedure"),
+      recovery: "Swelling and bruising settle over 1 to 2 weeks. Plan to stay in India for about a week to 10 days, until stitches are removed.",
+      faq: [
+        q(
+          "Will there be a visible scar?",
+          "Cuts are usually hidden in the natural creases of the eyelid, so scars are hard to see once healed.",
+        ),
+      ],
+    },
+  ),
+
+  // Dentistry
+  treatment(
+    "dental-implants",
+    "Dental implants",
+    "dentistry",
+    "A titanium post is placed in the jaw to hold a new tooth where one is missing.",
+    {
+      what: "A small titanium post is placed in the jawbone under local anaesthetic. Once the bone has grown around it, a crown, bridge or denture is fixed on top. Some cases allow a temporary tooth on the same day.",
+      who: "Adults with one or more missing teeth and enough healthy jawbone, or who can have a bone graft first.",
+      stay: usually("No hospital stay: each visit is a clinic appointment"),
+      recovery: "Most people return to normal life the next day. The bone takes about 3 to 6 months to heal around the implant, so treatment is often split over two trips, unless the dentist can fit the final tooth sooner.",
+      faq: [
+        q(
+          "Can it be done in one trip?",
+          "Sometimes. It depends on your bone and the type of implant. The dentist tells you after seeing your X-rays.",
+        ),
+      ],
+    },
+  ),
+  treatment(
+    "root-canal-treatment",
+    "Root canal treatment",
+    "dentistry",
+    "The infected inside of a tooth is cleaned and sealed, so the tooth can be kept instead of pulled out.",
+    {
+      what: "Under local anaesthetic, the infected or damaged pulp inside the tooth is removed, the canals are cleaned and shaped, and then filled and sealed. A crown is often placed afterwards to protect the tooth.",
+      who: "People with a badly decayed, cracked or infected tooth that causes pain or swelling.",
+      stay: usually("No hospital stay: usually 1 to 3 clinic visits"),
+      recovery: "The tooth may be tender for a few days. Most people go back to normal eating within a week.",
+      faq: [
+        q(
+          "Is it painful?",
+          "It is done under local anaesthetic, so it should feel much like a normal filling.",
+        ),
+      ],
+    },
+  ),
+  treatment(
+    "smile-design",
+    "Smile design and cosmetic dentistry",
+    "dentistry",
+    "Veneers, whitening and tooth-coloured fillings to improve the look of your smile.",
+    {
+      what: "The dentist plans the shape, size and colour of your teeth, then uses veneers or laminates, whitening, tooth-coloured fillings or crowns to reach that look.",
+      who: "People who want to change stained, chipped, uneven or gapped teeth.",
+      stay: usually("No hospital stay: usually a few clinic visits over 1 to 2 weeks"),
+      recovery: "No recovery time for most treatments. Teeth may feel sensitive for a few days.",
+      faq: [
+        q(
+          "How long do veneers last?",
+          "Porcelain veneers usually last 10 years or more with good care.",
+        ),
+      ],
+    },
+  ),
+  treatment(
+    "full-mouth-rehabilitation",
+    "Full mouth rehabilitation",
+    "dentistry",
+    "A planned set of treatments that rebuilds all the teeth when many are worn, broken or missing.",
+    {
+      what: "A mix of crowns, bridges, implants, root canal treatment and gum care is planned together to rebuild the bite and the look of the teeth.",
+      who: "People with many damaged or missing teeth, a worn-down bite, or problems from several old treatments.",
+      stay: usually("No hospital stay: a series of clinic visits"),
+      recovery: "It depends on the plan. Some work can be done in one trip of 1 to 2 weeks; plans with implants may need a second trip.",
+      faq: [
+        q(
+          "How many trips will I need?",
+          "The dentist sets the plan after seeing your X-rays and tells you how many visits are needed.",
+        ),
+      ],
+    },
+  ),
+  treatment(
+    "braces-aligners",
+    "Braces and clear aligners",
+    "dentistry",
+    "Braces or clear aligners that slowly move teeth into a straighter position.",
+    {
+      what: "Fixed braces or removable clear aligners apply gentle pressure to move teeth over months. The dentist takes scans or moulds and plans each step.",
+      who: "Children and adults with crooked, crowded or gapped teeth, or a bite that does not meet properly.",
+      stay: usually("No hospital stay: clinic visits"),
+      recovery: "Treatment usually takes 6 to 24 months. With aligners, most checks can be done from home after the first visit.",
+      faq: [
+        q(
+          "Can I be treated if I live abroad?",
+          "Often yes with clear aligners: the first visit is in person, and later sets of aligners can be sent to you.",
+        ),
+      ],
+    },
+  ),
 ];

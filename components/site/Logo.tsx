@@ -3,8 +3,8 @@ import Link from "next/link";
 import { site } from "@/content/site";
 import logo from "@/public/brand/medsafar-logo.png";
 
-/** The Medsafar India logo. The source is 420px wide, so it stays sharp on
- *  high-density screens at header size. */
+/** The Medsafar India logo, with the registered trademark mark. The source
+ *  is 546px wide, so it stays sharp on high-density screens at header size. */
 export function Logo({ href = "/" }: { href?: string }) {
   return (
     <Link href={href} className="flex shrink-0 items-center justify-self-start">

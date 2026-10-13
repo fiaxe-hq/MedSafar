@@ -24,8 +24,8 @@ export const site: SiteContent = {
         all: "All treatments",
         finder: {
           title: "Not sure what it is called?",
-          text: "Point on the body or describe it in your own words to find the right treatment.",
-          href: "/treatments#find",
+          text: "Search in your own words, or tap the part of the body that troubles you.",
+          href: "/treatments#body",
         },
       },
       { label: "Hospitals", href: "/hospitals", menu: "hospitals", all: "All hospitals" },
@@ -135,6 +135,8 @@ export const site: SiteContent = {
           "Orthopaedics",
           "Cardiology and heart surgery",
           "Plastic, reconstructive and cosmetic surgery",
+          "Eye care (ophthalmology)",
+          "Dental care",
           "Something else",
           "Not sure yet",
         ],
@@ -142,6 +144,18 @@ export const site: SiteContent = {
       timeline: {
         label: "When do you want to travel?",
         options: ["As soon as possible", "Within a month", "In 1 to 3 months", "Still deciding"],
+      },
+      budget: {
+        label: "What matters most to you?",
+        options: [
+          "Keeping the cost as low as possible",
+          "Good care at a fair cost",
+          "The best care, whatever the cost",
+        ],
+      },
+      preference: {
+        label: "A city or hospital you prefer (optional)",
+        placeholder: "For example: Mumbai, or a hospital you have heard of",
       },
       notes: {
         label: "Anything you want the doctor to know (optional)",
@@ -158,6 +172,7 @@ export const site: SiteContent = {
       },
       submit: "Send my details",
     },
+    privacyNote: "Your medical details stay private. We use them only to plan your care.",
     saved: {
       heading: "Number saved",
       body: "We can already reach you. A few details make the plan faster and more exact.",
@@ -186,10 +201,12 @@ export const site: SiteContent = {
       "Medsafar is a medical travel facilitator. It is not a hospital and does not provide medical treatment.",
       "Doctors and hospitals are independent. Every treatment plan and cost estimate comes from the treating hospital.",
     ],
+    payment: "You pay the hospital directly for treatment, against its written estimate.",
     columns: [
       {
         heading: "Find care",
         items: [
+          { label: "Specialities", href: "/specialities" },
           { label: "Treatments", href: "/treatments" },
           { label: "Hospitals", href: "/hospitals" },
           { label: "Doctors", href: "/doctors" },
@@ -201,6 +218,7 @@ export const site: SiteContent = {
           { label: "How it works", href: "#how-it-works" },
           { label: "What we handle", href: "#what-we-handle" },
           { label: "Questions", href: "#faq" },
+          { label: "Surgery questionnaires", href: "/questionnaires" },
         ],
       },
       {
@@ -216,6 +234,9 @@ export const site: SiteContent = {
         items: [
           { label: "Privacy", href: "/privacy" },
           { label: "Terms", href: "/terms" },
+          { label: "Cancellations and refunds", href: "/cancellations" },
+          { label: "Medical disclaimer", href: "/disclaimer" },
+          { label: "Editorial policy", href: "/editorial-policy" },
         ],
       },
     ],
@@ -241,4 +262,5 @@ export const site: SiteContent = {
 
   pendingLabel: "Placeholder",
   photoLabel: "Photo to be supplied",
+  carousel: { previous: "Previous", next: "Next" },
 };
