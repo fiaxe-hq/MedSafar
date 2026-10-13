@@ -1,6 +1,8 @@
+// Local development only. main is never deployed: the client preview is
+// deployed from the design-variants branch (wrangler.building.jsonc there).
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "medsafar",
+  "name": "medsafar-local",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -11,46 +13,28 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "medsafar"
+      "service": "medsafar-local"
     }
   ],
   "images": {
     "binding": "IMAGES"
   },
-  // Enquiries (lib/leads.ts).
+  // Enquiries (lib/leads.ts), local copy only.
   "d1_databases": [
     {
       "binding": "LEADS_DB",
-      "database_name": "medsafar-leads",
-      "database_id": "1f060500-cd57-4656-9547-2fc89ffc2f57",
+      "database_name": "medsafar-leads-local",
+      "database_id": "medsafar-leads-local",
       "migrations_dir": "migrations"
     }
   ],
-  // Uploaded medical reports (lib/leads.ts).
+  // Uploaded medical reports (lib/leads.ts), local copy only.
   "r2_buckets": [
     {
       "binding": "REPORTS",
-      "bucket_name": "medsafar-reports"
+      "bucket_name": "medsafar-reports-local"
     }
   ],
-  // Branch previews share the live database and report bucket.
-  "previews": {
-    "d1_databases": [
-      {
-        "binding": "LEADS_DB",
-        "database_id": "1f060500-cd57-4656-9547-2fc89ffc2f57"
-      }
-    ],
-    "r2_buckets": [
-      {
-        "binding": "REPORTS",
-        "bucket_name": "medsafar-reports"
-      }
-    ],
-    "images": {
-      "binding": "IMAGES"
-    }
-  },
   "observability": {
     "enabled": true
   }

@@ -7,7 +7,7 @@ abroad.
 Next.js (App Router), TypeScript and Tailwind, running on Cloudflare Workers
 through OpenNext. English only for now.
 
-Live at <https://medsafar.xaif.workers.dev/>.
+The client sees it at <https://building-medsafar.xaif-0e9.workers.dev/>.
 
 ## Running it locally
 
@@ -16,25 +16,29 @@ Live at <https://medsafar.xaif.workers.dev/>.
 2. Create the local database tables:
 
    ```bash
-   npm run db:migrate:local
+   pnpm run db:migrate:local
    ```
 
 3. Start the site:
 
    ```bash
-   npm run dev
+   pnpm run dev
    ```
 
-## Deploying
+## Branches and deploying
 
-Every push to `main` deploys to Cloudflare automatically.
+- `main` holds all work, finished or not. It is pushed to GitHub but never
+  deployed. Its `wrangler.jsonc` is for local development only.
+- `design-variants` holds only what the client has been shown. It is the only
+  branch deployed to Cloudflare. Work moves over from `main` page by page, once
+  it is ready for the client.
 
-Database changes are not applied by the deploy. When a commit adds a file to
-`migrations/`, apply it to the live database before or straight after pushing:
+Cloudflare does not build from GitHub. Deploys are run by hand from
+`design-variants`, to the `building-medsafar` Worker on the xaif@fiaxe.com
+account.
 
-```bash
-npm run db:migrate
-```
+Database changes are not applied by the deploy. When `design-variants` gains a
+file in `migrations/`, apply it to that Worker's database from the same branch.
 
 ## Pages
 
