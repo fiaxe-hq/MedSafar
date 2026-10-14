@@ -31,13 +31,16 @@ export const site: SiteContent = {
       { label: "Hospitals", href: "/hospitals", menu: "hospitals", all: "All hospitals" },
       { label: "Doctors", href: "/doctors", menu: "doctors", all: "All doctors" },
       {
-        label: "Resources",
-        href: "#how-it-works",
+        // The nine steps live on the home page, so these always lead there.
+        label: "Your journey",
+        href: "/#journey",
         items: [
-          { label: "How it works", href: "#how-it-works" },
-          { label: "What we handle", href: "#what-we-handle" },
-          { label: "Visa and travel", href: "#country-info" },
-          { label: "Questions", href: "#faq" },
+          { label: "All nine steps", href: "/#journey" },
+          { label: "Medical opinion and estimate", href: "/#opinion" },
+          { label: "Visa assistance", href: "/#visa" },
+          { label: "Travel and hospital", href: "/#travel" },
+          { label: "After treatment", href: "/#aftercare" },
+          { label: "Questions", href: "/#faq" },
         ],
       },
       { label: "Blog", href: "/blog" },
@@ -215,8 +218,8 @@ export const site: SiteContent = {
       {
         heading: "How we work",
         items: [
-          { label: "How it works", href: "#how-it-works" },
-          { label: "What we handle", href: "#what-we-handle" },
+          { label: "Your journey", href: "/#journey" },
+          { label: "Visa and travel", href: "/#visa" },
           { label: "Questions", href: "#faq" },
           { label: "Surgery questionnaires", href: "/questionnaires" },
         ],

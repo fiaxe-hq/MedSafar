@@ -591,7 +591,41 @@ export type LegalContent = Pending & {
 
 /** The two home page sections that show how partners are chosen and who
  *  some of the doctors are. */
+/** One step of the patient's journey on the home page. */
+export type JourneyStep = {
+  title: string;
+  body: string;
+  /** The section of the home page that covers this step. */
+  href: string;
+};
+
+/** A titled block of text inside a journey section. */
+export type HomePoint = { title: string; body: string };
+
+/** A home page section that covers one or more journey steps. */
+export type JourneySection = {
+  /** For example "Step 04 and 05". */
+  step: string;
+  heading: string;
+  intro: string;
+};
+
 export type HomeContent = {
+  journey: {
+    heading: string;
+    intro: string;
+    /** Three phases of three steps: choose, plan, travel and care. */
+    phases: { name: string; steps: JourneyStep[] }[];
+    /** Line under the hero photo. */
+    strip: string;
+  };
+  treatment: JourneySection & { browse: string; all: string; body: string };
+  specialist: { step: string };
+  compare: JourneySection & { all: string };
+  opinion: JourneySection & { items: HomePoint[]; cta: string; note: string };
+  visa: JourneySection;
+  travel: JourneySection & { items: (HomePoint & { icon: "pickup" | "stay" | "flight" | "manager" | "interpreter" | "dates" })[] };
+  aftercare: JourneySection & { items: string[] };
   selection: {
     heading: string;
     intro: string;

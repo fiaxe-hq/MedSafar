@@ -117,6 +117,12 @@
     scroll-padding-top: 6rem;
   }
 
+  /* Thin, quiet scrollbars everywhere: the page, pop-ups and lists. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+  }
+
   body {
     background-color: var(--bg);
     color: var(--ink);

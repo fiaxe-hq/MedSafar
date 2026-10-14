@@ -1,12 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AirplaneTiltIcon } from "@phosphor-icons/react/dist/ssr/AirplaneTilt";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
+import { CalendarCheckIcon } from "@phosphor-icons/react/dist/ssr/CalendarCheck";
 import { ChatsCircleIcon } from "@phosphor-icons/react/dist/ssr/ChatsCircle";
 import { HospitalIcon } from "@phosphor-icons/react/dist/ssr/Hospital";
 import { ReceiptIcon } from "@phosphor-icons/react/dist/ssr/Receipt";
 import { SealCheckIcon } from "@phosphor-icons/react/dist/ssr/SealCheck";
 import { StethoscopeIcon } from "@phosphor-icons/react/dist/ssr/Stethoscope";
 import { TranslateIcon } from "@phosphor-icons/react/dist/ssr/Translate";
+import { UserCircleIcon } from "@phosphor-icons/react/dist/ssr/UserCircle";
 import { DoctorFeature } from "@/components/catalog/DoctorFeature";
 import { home } from "@/content/home";
 import { showUpcoming } from "@/lib/preview";
@@ -15,21 +18,31 @@ import { FirstAidIcon } from "@phosphor-icons/react/dist/ssr/FirstAid";
 import { GlobeHemisphereEastIcon } from "@phosphor-icons/react/dist/ssr/GlobeHemisphereEast";
 import { HospitalCard } from "@/components/catalog/HospitalCard";
 import { HospitalCarousel } from "@/components/catalog/HospitalCarousel";
+import { BodyPicker, FinderSearch } from "@/components/catalog/TreatmentFinder";
 import { Container } from "@/components/ui/Container";
 import { handledIcons } from "@/components/ui/HandledIcon";
+import { btnPrimary, eyebrow } from "@/components/ui/styles";
 import { global as content } from "@/content/countries";
 import { site } from "@/content/site";
 import { dialCodesFor, defaultIso } from "@/content/dial-codes";
-import { getDoctorsBySlugs, getHospitals, getHospitalsBySlugs, getSpecialities, nameOf } from "@/lib/catalog";
+import {
+  getDoctorsBySlugs,
+  getHospitals,
+  getHospitalsBySlugs,
+  getSpecialities,
+  getTreatments,
+  nameOf,
+} from "@/lib/catalog";
 import { EnquiryForm } from "@/components/form/EnquiryForm";
 
 /**
- * Home page: precise and structured.
- * A deep green hero on a faint grid, the photo framed as a panel, then
- * numbered sections on hairlines: label on the left, content on the right.
+ * Home page: the patient's journey in nine steps.
+ * A deep green hero, then the nine steps at a glance, then one section per
+ * step (or pair of steps) in the same order, each labelled with its number.
  */
 function Block({
   id,
+  step,
   heading,
   intro,
   tone = "",
@@ -38,6 +51,8 @@ function Block({
   children,
 }: {
   id: string;
+  /** The journey step this section covers, for example "Step 03". */
+  step?: string;
   heading: string;
   intro?: string;
   tone?: string;
@@ -49,12 +64,16 @@ function Block({
   bleed?: boolean;
   children: React.ReactNode;
 }) {
+  const label = step ? <p className={`${eyebrow} mb-4 font-mono`}>{step}</p> : null;
   if (stacked) {
     return (
       <section id={id} className={`scroll-mt-24 border-t border-hairline py-20 sm:py-24 ${tone}`}>
         <Container>
           <div className="reveal grid gap-5 lg:grid-cols-12 lg:items-end lg:gap-12">
-            <h2 className="display-2 max-w-[16ch] lg:col-span-6">{heading}</h2>
+            <div className="lg:col-span-6">
+              {label}
+              <h2 className="display-2 max-w-[16ch]">{heading}</h2>
+            </div>
             {intro ? <p className="max-w-[40ch] text-lg text-ink-2 lg:col-span-5 lg:col-start-8">{intro}</p> : null}
           </div>
           {bleed ? null : <div className="mt-12 min-w-0">{children}</div>}
@@ -67,6 +86,7 @@ function Block({
     <section id={id} className={`scroll-mt-24 border-t border-hairline py-20 sm:py-24 ${tone}`}>
       <Container className="grid gap-10 lg:grid-cols-12 lg:gap-12">
         <div className="reveal lg:sticky lg:top-28 lg:col-span-4 lg:self-start">
+          {label}
           <h2 className="display-2 max-w-[14ch]">{heading}</h2>
           {intro ? <p className="mt-5 max-w-[36ch] text-lg text-ink-2">{intro}</p> : null}
         </div>
@@ -76,10 +96,25 @@ function Block({
   );
 }
 
+/** Two-digit step number, for example "04". */
+const num = (n: number) => String(n).padStart(2, "0");
+
+function More({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="group inline-flex min-h-11 items-center gap-2 text-base font-medium text-accent transition-colors hover:text-accent-hover"
+    >
+      {children}
+      <ArrowRightIcon size={16} className="transition-[translate] duration-300 group-hover:translate-x-1 rtl:rotate-180" aria-hidden />
+    </Link>
+  );
+}
+
 export async function HomeC() {
-  const { hero, trust, howItWorks, hospitals, handled, countryInfo, faq, enquiry } = content;
-  const cards = await featuredHospitals();
-  const doctors = await featuredDoctors();
+  const { hero, trust, hospitals, countryInfo, faq, enquiry } = content;
+  const { journey, treatment, specialist, compare, opinion, visa, travel, aftercare } = home;
+  const [cards, doctors, finder] = await Promise.all([featuredHospitals(), featuredDoctors(), finderData()]);
 
   return (
     <>
@@ -112,8 +147,7 @@ export async function HomeC() {
         </Container>
 
         {/* Photo that opens out from the text column to the full width of the
-            screen as you scroll. Along its foot, the practical side of the trip
-            that Medsafar takes off your hands. */}
+            screen as you scroll. Along its foot, the journey's three phases. */}
         <div className="hero-rise [animation-delay:400ms]">
           <div className="home-expand relative overflow-hidden">
             <div className="relative aspect-[4/3] sm:aspect-[5/2] lg:aspect-[3/1]">
@@ -124,84 +158,104 @@ export async function HomeC() {
             </div>
             <div className="bg-deep md:absolute md:inset-x-0 md:bottom-0 md:bg-transparent">
               <Container className="pt-6 pb-10 md:pt-0 md:pb-8">
-                <p className="max-w-[34ch] text-xl font-medium tracking-[-0.01em] text-white md:text-2xl">
-                  {handled.intro}
-                </p>
-                <ul className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-3">
-                  {handled.items.map((item) => {
-                    const Glyph = handledIcons[item.icon];
-                    return (
-                      <li key={item.title} className="flex items-center gap-2 text-sm text-white/85 md:text-base">
-                        <Glyph size={18} className="shrink-0 text-glow" aria-hidden />
-                        {item.title}
-                      </li>
-                    );
-                  })}
-                </ul>
+                <p className="max-w-[34ch] text-xl font-medium tracking-[-0.01em] text-white md:text-2xl">{journey.strip}</p>
+                <ol className="mt-4 flex flex-wrap items-center gap-3">
+                  {journey.phases.map((phase, i) => (
+                    <li key={phase.name} className="flex items-center gap-3">
+                      <a
+                        href="#journey"
+                        className="flex min-h-11 items-center gap-2.5 rounded-full bg-white/10 px-4 text-sm text-white/90 ring-1 ring-white/15 backdrop-blur-sm transition-colors hover:bg-white/20 md:text-base"
+                      >
+                        <span className="font-mono text-xs text-glow">
+                          {num(i * 3 + 1)}–{num(i * 3 + 3)}
+                        </span>
+                        {phase.name}
+                      </a>
+                      {i < journey.phases.length - 1 ? (
+                        <ArrowRightIcon size={16} className="shrink-0 text-glow/70 rtl:rotate-180" aria-hidden />
+                      ) : null}
+                    </li>
+                  ))}
+                </ol>
               </Container>
             </div>
           </div>
         </div>
       </section>
 
-      <Block id="how-it-works" heading={howItWorks.heading} intro={howItWorks.intro}>
-        <ol className="relative">
-          <span aria-hidden className="absolute start-10 top-8 bottom-8 w-px bg-hairline sm:start-12">
-            <span className="home-line-fill absolute inset-0 bg-brand" />
-          </span>
-          {howItWorks.steps.map((step, i) => (
-            <li key={step.title} className="home-focus relative grid grid-cols-[3rem_1fr] gap-5 rounded-lg p-4 sm:gap-7 sm:p-6">
-              <span className="home-pop relative grid size-12 place-items-center rounded-full bg-surface font-mono text-sm text-accent ring-1 ring-line">
-                0{i + 1}
-              </span>
-              <div className="reveal pt-2.5">
-                <h3 className="text-xl font-medium tracking-[-0.01em]">{step.title}</h3>
-                <p className="mt-2 max-w-[52ch] text-base text-ink-2">{step.body}</p>
-              </div>
-            </li>
+      {/* The nine steps at a glance. Each one leads to its own section below. */}
+      <Block id="journey" heading={journey.heading} intro={journey.intro}>
+        <div className="space-y-10">
+          {journey.phases.map((phase, p) => (
+            <div key={phase.name}>
+              <p className={`${eyebrow} ps-4 sm:ps-6`}>{phase.name}</p>
+              <ol className="relative mt-2">
+                <span aria-hidden className="absolute start-10 top-8 bottom-8 w-px bg-hairline sm:start-12">
+                  <span className="home-line-fill absolute inset-0 bg-brand" />
+                </span>
+                {phase.steps.map((step, i) => (
+                  <li key={step.title} className="home-focus relative rounded-lg">
+                    <a href={step.href} className="group grid grid-cols-[3rem_1fr] gap-5 p-4 sm:gap-7 sm:p-6">
+                      <span className="home-pop relative grid size-12 place-items-center rounded-full bg-surface font-mono text-sm text-accent ring-1 ring-line transition-colors group-hover:bg-accent group-hover:text-white">
+                        {num(p * 3 + i + 1)}
+                      </span>
+                      <span className="reveal block pt-2.5">
+                        <span className="flex items-center gap-2 text-xl font-medium tracking-[-0.01em] transition-colors group-hover:text-accent">
+                          {step.title}
+                          <ArrowRightIcon
+                            size={16}
+                            className="opacity-0 transition-[opacity,translate] duration-300 group-hover:translate-x-1 group-hover:opacity-100 rtl:rotate-180"
+                            aria-hidden
+                          />
+                        </span>
+                        <span className="mt-2 block max-w-[52ch] text-base text-ink-2">{step.body}</span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </div>
           ))}
-        </ol>
+        </div>
       </Block>
 
-      <Block id="what-we-handle" heading={handled.heading} intro={handled.intro} tone="bg-surface-2" stacked>
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
-          {handled.items.map((item, i) => {
-            const Glyph = handledIcons[item.icon];
-            const cell = [
-              "band-deep relative isolate overflow-hidden text-white sm:col-span-2 lg:col-span-4 lg:row-span-2 lg:p-10",
-              "border border-hairline bg-surface lg:col-span-2",
-              "bg-accent text-white lg:col-span-2",
-              "relative isolate overflow-hidden border border-hairline bg-surface lg:col-span-3",
-              "bg-[linear-gradient(135deg,#c8f3e6,var(--accent-soft)_60%)] sm:col-span-2 lg:col-span-3",
-            ][i];
-            const muted = i === 0 ? "text-white/75" : i === 2 ? "text-white/85" : "text-ink-2";
-            return (
-              <li key={item.title} className={`reveal flex flex-col rounded-lg p-7 ${cell}`}>
-                {i === 3 ? (
-                  <Glyph size={180} weight="thin" className="absolute -end-6 -bottom-10 -z-10 text-accent-soft" aria-hidden />
-                ) : null}
-                {i === 0 ? (
-                  <VisaPapers />
-                ) : (
-                  <span
-                    className={`home-pop grid size-11 place-items-center rounded-md ${
-                      i === 2 ? "bg-white/15" : "bg-accent text-accent-ink"
-                    }`}
-                  >
-                    <Glyph size={22} aria-hidden />
-                  </span>
-                )}
-                <h3 className={`font-medium tracking-[-0.02em] ${i === 0 ? "mt-auto pt-10 text-3xl" : "mt-6 text-lg"}`}>{item.title}</h3>
-                <p className={`mt-2 max-w-[46ch] text-base ${muted}`}>{item.body}</p>
+      {/* Step 01 */}
+      <Block id="treatment" step={treatment.step} heading={treatment.heading} intro={treatment.intro} tone="bg-surface-2" stacked>
+        <div className="reveal grid gap-5 lg:grid-cols-2 lg:gap-6">
+          <FinderSearch treatments={finder.treatments} types={finder.types} base="/treatments" />
+          <BodyPicker treatments={finder.treatments} />
+        </div>
+        <div className="mt-8">
+          <More href="/treatments">{treatment.all}</More>
+        </div>
+      </Block>
+
+      {/* Step 02 */}
+      {doctors.length ? (
+        <Block id="specialist" step={specialist.step} heading={home.doctors.heading} intro={home.doctors.intro} stacked>
+          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {doctors.map(({ doctor, speciality, hospital }) => (
+              <li key={doctor.slug} className="min-w-0">
+                <DoctorFeature
+                  doctor={doctor}
+                  speciality={speciality}
+                  hospital={hospital}
+                  book={home.doctors.book}
+                  profile={home.doctors.profile}
+                />
               </li>
-            );
-          })}
-        </ul>
-      </Block>
+            ))}
+          </ul>
+          <div className="mt-8">
+            <More href="/doctors">{home.doctors.all}</More>
+          </div>
+        </Block>
+      ) : null}
 
-      <Block id="hospitals" heading={hospitals.heading} intro={hospitals.intro} stacked bleed>
+      {/* Step 03 */}
+      <Block id="hospitals" step={compare.step} heading={compare.heading} intro={compare.intro} tone="bg-surface-2" stacked bleed>
         <HospitalCarousel
-          label={hospitals.heading}
+          label={compare.heading}
           note={hospitals.note}
           previous={site.carousel.previous}
           next={site.carousel.next}
@@ -216,10 +270,13 @@ export async function HomeC() {
             />
           ))}
         </HospitalCarousel>
+        <Container className="mt-6">
+          <More href="/hospitals">{compare.all}</More>
+        </Container>
       </Block>
 
       {showUpcoming ? (
-        <Block id="how-we-choose" heading={home.selection.heading} intro={home.selection.intro} tone="bg-surface-2">
+        <Block id="how-we-choose" heading={home.selection.heading} intro={home.selection.intro}>
           <ul className="grid gap-4 sm:grid-cols-2">
             {home.selection.items.map((item, i) => {
               const Glyph = selectionIcons[i] ?? SealCheckIcon;
@@ -237,60 +294,100 @@ export async function HomeC() {
         </Block>
       ) : null}
 
-      {showUpcoming && doctors.length ? (
-        <Block id="doctors" heading={home.doctors.heading} intro={home.doctors.intro} stacked>
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {doctors.map(({ doctor, speciality, hospital }) => (
-              <li key={doctor.slug} className="min-w-0">
-                <DoctorFeature
-                  doctor={doctor}
-                  speciality={speciality}
-                  hospital={hospital}
-                  book={home.doctors.book}
-                  profile={home.doctors.profile}
-                />
+      {/* Steps 04 and 05 */}
+      <Block id="opinion" step={opinion.step} heading={opinion.heading} intro={opinion.intro} tone="bg-surface-2">
+        <ul className="grid gap-4 md:grid-cols-2">
+          {opinion.items.map((item, i) => {
+            const Glyph = i === 0 ? StethoscopeIcon : ReceiptIcon;
+            return (
+              <li key={item.title} className="reveal flex flex-col rounded-lg border border-hairline bg-surface p-7">
+                <div className="flex items-center justify-between">
+                  <span className="home-pop grid size-11 place-items-center rounded-md bg-accent text-accent-ink">
+                    <Glyph size={22} aria-hidden />
+                  </span>
+                  <span className="home-light font-mono text-3xl text-brand">{num(4 + i)}</span>
+                </div>
+                <h3 className="mt-6 text-xl font-medium tracking-[-0.01em]">{item.title}</h3>
+                <p className="mt-2 text-base text-ink-2">{item.body}</p>
               </li>
-            ))}
-          </ul>
-          <Link
-            href="/doctors"
-            className="group mt-8 inline-flex min-h-11 items-center gap-2 text-base font-medium text-accent transition-colors hover:text-accent-hover"
-          >
-            {home.doctors.all}
-            <ArrowRightIcon size={16} className="transition-[translate] duration-300 group-hover:translate-x-1 rtl:rotate-180" aria-hidden />
-          </Link>
-        </Block>
-      ) : null}
+            );
+          })}
+        </ul>
+        <div className="reveal mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <a href="#plan" className={btnPrimary}>
+            {opinion.cta}
+            <ArrowRightIcon size={18} className="rtl:rotate-180" aria-hidden />
+          </a>
+          <p className="text-base text-ink-2">{opinion.note}</p>
+        </div>
+      </Block>
 
-      <Block id="country-info" heading={countryInfo.heading} intro={countryInfo.intro} tone="bg-surface-2">
-        <div className="grid gap-5 md:grid-cols-2">
-          <div className="reveal rounded-lg border border-hairline bg-surface p-7 md:col-span-2">
+      {/* Step 06 */}
+      <Block id="visa" step={visa.step} heading={visa.heading} intro={visa.intro} stacked>
+        <div className="grid gap-5 lg:grid-cols-2">
+          <div className="band-deep reveal relative isolate flex items-center overflow-hidden rounded-lg p-7">
+            <VisaPapers />
+          </div>
+          <div className="reveal rounded-lg border border-hairline bg-surface p-7">
             <h3 className="text-lg font-medium">{countryInfo.visa.heading}</h3>
-            <ol className="mt-5 grid gap-x-8 gap-y-4 md:grid-cols-2">
-              {countryInfo.visa.steps.map((step, i) => (
-                <li key={i} className="reveal flex gap-3">
-                  <span className="home-pop font-mono text-sm text-accent">0{i + 1}</span>
-                  <p className="text-base text-ink-2">{step}</p>
+            <ol className="mt-5 space-y-4">
+              {countryInfo.visa.steps.map((line, i) => (
+                <li key={i} className="flex gap-3">
+                  <span className="home-pop font-mono text-sm text-accent">{num(i + 1)}</span>
+                  <p className="text-base text-ink-2">{line}</p>
                 </li>
               ))}
             </ol>
             <p className="mt-5 border-t border-hairline pt-5 text-sm text-ink-3">{countryInfo.visa.note}</p>
           </div>
-          {[countryInfo.flights, countryInfo.language].map((block) => (
-            <div key={block.heading} className="reveal rounded-lg border border-hairline bg-surface p-7">
-              <h3 className="text-lg font-medium">{block.heading}</h3>
-              <p className="mt-3 text-base text-ink-2">{block.body}</p>
-            </div>
-          ))}
         </div>
       </Block>
+
+      {/* Steps 07 and 08 */}
+      <Block id="travel" step={travel.step} heading={travel.heading} intro={travel.intro} tone="bg-surface-2" stacked>
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {travel.items.map((item) => {
+            const Glyph = travelIcons[item.icon];
+            return (
+              <li key={item.title} className="reveal flex flex-col rounded-lg border border-hairline bg-surface p-7">
+                <span className="home-pop grid size-11 place-items-center rounded-md bg-accent-soft text-accent">
+                  <Glyph size={22} aria-hidden />
+                </span>
+                <h3 className="mt-6 text-lg font-medium tracking-[-0.01em]">{item.title}</h3>
+                <p className="mt-2 text-base text-ink-2">{item.body}</p>
+              </li>
+            );
+          })}
+        </ul>
+      </Block>
+
+      {/* Step 09 */}
+      <section id="aftercare" className="band-deep relative isolate scroll-mt-24 overflow-hidden py-20 text-white sm:py-24">
+        <Container className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
+          <div className="reveal min-w-0 lg:col-span-5">
+            <p className={`${eyebrow} mb-4 font-mono !text-glow`}>{aftercare.step}</p>
+            <h2 className="display-2 max-w-[14ch]">{aftercare.heading}</h2>
+            <p className="mt-5 max-w-[36ch] text-lg text-white/75">{aftercare.intro}</p>
+          </div>
+          <ul className="grid min-w-0 gap-3 sm:grid-cols-2 lg:col-span-7">
+            {aftercare.items.map((item) => (
+              <li key={item} className="reveal flex items-start gap-3 rounded-lg bg-white/5 p-5 ring-1 ring-white/10">
+                <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-sm bg-glow/20 text-glow">
+                  <CheckIcon size={14} weight="bold" aria-hidden />
+                </span>
+                <span className="text-base text-white/90">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
 
       <Block id="faq" heading={faq.heading}>
         <div className="reveal divide-y divide-hairline border-y border-hairline">
           {faq.items.map((item, i) => (
             <details key={i} className="group accordion">
               <summary className="grid cursor-pointer list-none grid-cols-[2.5rem_1fr_auto] items-center gap-4 py-5 text-lg font-medium hover:text-accent">
-                <span className="font-mono text-sm font-normal text-ink-3">{String(i + 1).padStart(2, "0")}</span>
+                <span className="font-mono text-sm font-normal text-ink-3">{num(i + 1)}</span>
                 {item.question}
                 <span aria-hidden className="font-mono text-ink-3 transition-[rotate] duration-300 group-open:rotate-45">+</span>
               </summary>
@@ -301,7 +398,7 @@ export async function HomeC() {
       </Block>
 
       {/* Closing form */}
-      <section id="plan" className="band-deep relative isolate overflow-hidden py-20 text-white sm:py-28">
+      <section id="plan" className="band-deep relative isolate scroll-mt-24 overflow-hidden py-20 text-white sm:py-28">
         <Container className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
           <div className="reveal min-w-0 lg:col-span-6">
             <h2 className="display-2 max-w-[16ch]">{enquiry.heading}</h2>
@@ -314,6 +411,29 @@ export async function HomeC() {
       </section>
     </>
   );
+}
+
+const travelIcons = {
+  flight: AirplaneTiltIcon,
+  pickup: handledIcons.pickup,
+  stay: handledIcons.stay,
+  manager: UserCircleIcon,
+  interpreter: handledIcons.interpreter,
+  dates: CalendarCheckIcon,
+} as const;
+
+/** The treatment finder's data, built the same way as on the treatments page. */
+async function finderData() {
+  const [treatments, specialities] = await Promise.all([getTreatments(), getSpecialities()]);
+  return {
+    treatments: treatments.map((t) => ({
+      slug: t.slug,
+      name: t.name,
+      speciality: t.speciality,
+      summary: t.summary.replace(/\s*Draft, to be checked by a doctor before it is published\.$/, ""),
+    })),
+    types: specialities.filter((sp) => treatments.some((t) => t.speciality === sp.slug)).map((sp) => sp.slug),
+  };
 }
 
 /**
