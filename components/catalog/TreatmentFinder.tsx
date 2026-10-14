@@ -49,7 +49,16 @@ function useSearch(treatments: FinderTreatment[], q: string) {
 }
 
 /** Search by the medical name or in everyday words. Results open under the box. */
-export function FinderSearch({ treatments, types }: { treatments: FinderTreatment[]; types: string[] }) {
+export function FinderSearch({
+  treatments,
+  types,
+  base = "",
+}: {
+  treatments: FinderTreatment[];
+  types: string[];
+  /** Where the speciality lists live, when the finder sits on another page. */
+  base?: string;
+}) {
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const box = useRef<HTMLDivElement>(null);
@@ -163,7 +172,7 @@ export function FinderSearch({ treatments, types }: { treatments: FinderTreatmen
             {types.map((slug, i) => (
               <li key={slug} className={i > 2 ? "hidden sm:block" : ""}>
                 <a
-                  href={`#${slug}`}
+                  href={`${base}#${slug}`}
                   className="flex min-h-10 items-center gap-2 rounded-full bg-surface-2 px-4 text-sm font-medium text-ink-2 ring-1 ring-hairline transition-[background-color,color] duration-300 hover:bg-accent-quiet hover:text-ink"
                 >
                   <SpecialityIcon slug={slug} size={18} className="shrink-0 text-accent" aria-hidden />
@@ -173,7 +182,7 @@ export function FinderSearch({ treatments, types }: { treatments: FinderTreatmen
             ))}
             <li>
               <a
-                href="#all"
+                href={`${base}#all`}
                 className="group flex min-h-10 items-center justify-center gap-2 rounded-full px-4 text-sm font-medium text-accent ring-1 ring-accent/30 transition-colors hover:bg-accent-quiet"
               >
                 All {types.length} types
@@ -348,16 +357,12 @@ function AreaSheet({
 
   return (
     <div className="flex max-h-[inherit] flex-col">
-      <div className="flex items-start justify-between gap-4 border-b border-hairline p-5 sm:p-6">
-        <div>
-          <p className="text-sm font-medium text-accent">
-            {list.length} {list.length === 1 ? "treatment" : "treatments"}
-          </p>
-          <h2 id="area-heading" className="mt-1 font-display text-2xl font-semibold tracking-[-0.02em]">
-            {area.name}
-          </h2>
-          <p className="mt-2 text-base text-ink-2">{area.hint}</p>
-        </div>
+      {/* Title and close stay put; everything under them scrolls as one, so
+          a swipe anywhere in the sheet moves it, even on a short phone. */}
+      <div className="flex items-center justify-between gap-4 border-b border-hairline px-5 py-3 sm:px-6 sm:py-4">
+        <h2 id="area-heading" className="font-display text-2xl font-semibold tracking-[-0.02em]">
+          {area.name}
+        </h2>
         <button
           type="button"
           onClick={onClose}
@@ -368,53 +373,62 @@ function AreaSheet({
         </button>
       </div>
 
-      <fieldset className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5 sm:p-6">
-        <legend className="sr-only">Which of these sounds like it?</legend>
-        <p className="text-base font-medium text-ink">Which of these sounds like it?</p>
-        <ul className="mt-3 grid gap-2">
-          {list.map((t) => (
-            <li key={t.slug}>
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        <div className="px-5 pt-5 sm:px-6 sm:pt-6">
+          <p className="text-sm font-medium text-accent">
+            {list.length} {list.length === 1 ? "treatment" : "treatments"}
+          </p>
+          <p className="mt-1 text-base text-ink-2">{area.hint}</p>
+        </div>
+
+        <fieldset className="p-5 sm:p-6">
+          <legend className="sr-only">Which of these sounds like it?</legend>
+          <p className="text-base font-medium text-ink">Which of these sounds like it?</p>
+          <ul className="mt-3 grid gap-2">
+            {list.map((t) => (
+              <li key={t.slug}>
+                <label className={option}>
+                  <input
+                    type="radio"
+                    name="area-treatment"
+                    value={t.slug}
+                    checked={choice === t.slug}
+                    onChange={() => setChoice(t.slug)}
+                    className="mt-1 size-4 shrink-0 accent-accent"
+                  />
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-semibold text-ink">{t.name}</span>
+                    <span className="mt-0.5 block text-sm text-ink-2">{t.summary}</span>
+                    <Link
+                      href={`/treatments/${t.slug}`}
+                      className="mt-1.5 inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-hover"
+                    >
+                      Read more
+                      <ArrowRightIcon size={14} className="rtl:rotate-180" aria-hidden />
+                    </Link>
+                  </span>
+                </label>
+              </li>
+            ))}
+            <li>
               <label className={option}>
                 <input
                   type="radio"
                   name="area-treatment"
-                  value={t.slug}
-                  checked={choice === t.slug}
-                  onChange={() => setChoice(t.slug)}
+                  value=""
+                  checked={choice === ""}
+                  onChange={() => setChoice("")}
                   className="mt-1 size-4 shrink-0 accent-accent"
                 />
-                <span className="min-w-0 flex-1">
-                  <span className="block font-semibold text-ink">{t.name}</span>
-                  <span className="mt-0.5 block text-sm text-ink-2">{t.summary}</span>
-                  <Link
-                    href={`/treatments/${t.slug}`}
-                    className="mt-1.5 inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-hover"
-                  >
-                    Read more
-                    <ArrowRightIcon size={14} className="rtl:rotate-180" aria-hidden />
-                  </Link>
+                <span>
+                  <span className="block font-semibold text-ink">I&rsquo;m not sure</span>
+                  <span className="mt-0.5 block text-sm text-ink-2">A doctor will read your reports and tell you what fits.</span>
                 </span>
               </label>
             </li>
-          ))}
-          <li>
-            <label className={option}>
-              <input
-                type="radio"
-                name="area-treatment"
-                value=""
-                checked={choice === ""}
-                onChange={() => setChoice("")}
-                className="mt-1 size-4 shrink-0 accent-accent"
-              />
-              <span>
-                <span className="block font-semibold text-ink">I&rsquo;m not sure</span>
-                <span className="mt-0.5 block text-sm text-ink-2">A doctor will read your reports and tell you what fits.</span>
-              </span>
-            </label>
-          </li>
-        </ul>
-      </fieldset>
+          </ul>
+        </fieldset>
+      </div>
 
       <div className="border-t border-hairline bg-surface-2 p-5 sm:p-6">
         <a href={contactHref(issue)} onClick={() => saveIssue(issue)} className={`${btnPrimary} w-full`}>

@@ -17,9 +17,9 @@ export const global: CountryContent = {
 
   hero: {
     eyebrow: "Medical travel to India",
-    headline: "Treatment in India, arranged from start to finish.",
+    headline: "India's Healthcare. Your Journey. One Trusted Partner.",
     support:
-      "Send your reports. We come back with a doctor's opinion, a written cost estimate and a travel plan.",
+      "From choosing your treatment to your follow-up at home, one team takes care of every step.",
     // Stock photo, illustration only: Pexels 31499386, Adarsh MP. Pexels Licence.
     picture: {
       src: "/photos/hero-global.jpg",
