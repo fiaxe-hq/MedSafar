@@ -70,7 +70,7 @@ export default async function Page({ searchParams }: Props) {
           <nav aria-label={text.browse.heading} className="reveal">
             <h2 className="text-xl font-semibold tracking-[-0.02em]">{text.browse.heading}</h2>
             <p className="mt-1.5 text-base text-ink-2">{text.browse.intro}</p>
-            <ul className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+            <ul className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
               {[{ slug: "", name: text.browse.all }, ...offered].map((s) => {
                 const on = s.slug === speciality;
                 const n = s.slug ? inCity.filter((h) => h.specialities.includes(s.slug)).length : inCity.length;

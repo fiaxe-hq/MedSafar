@@ -46,9 +46,18 @@ export const catalog: CatalogContent = {
       centres: "Centres of excellence",
       services: "Services for international patients",
       photos: "Photos",
+      gallery: { all: "Show all photos", close: "Close", previous: "Previous photo", next: "Next photo" },
       videos: "Videos",
       doctors: "Doctors at this hospital",
       treatments: "Treatments offered",
+      packages: "Package prices",
+      priceFrom: "Packages from",
+      packagesNote:
+        "Package prices from the hospital, in US dollars, for the hospital stay shown. Your written estimate confirms the final cost for your case, including anything outside the package.",
+      quoteHeading: "Ask for a price",
+      quoteBody:
+        "This hospital has not published package prices. Send your reports and we'll come back with a written estimate for your case.",
+      quoteCta: "Request a quote",
     },
   },
 

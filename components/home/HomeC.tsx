@@ -14,6 +14,7 @@ import { CheckIcon } from "@phosphor-icons/react/dist/ssr/Check";
 import { FirstAidIcon } from "@phosphor-icons/react/dist/ssr/FirstAid";
 import { GlobeHemisphereEastIcon } from "@phosphor-icons/react/dist/ssr/GlobeHemisphereEast";
 import { HospitalCard } from "@/components/catalog/HospitalCard";
+import { HospitalCarousel } from "@/components/catalog/HospitalCarousel";
 import { Container } from "@/components/ui/Container";
 import { handledIcons } from "@/components/ui/HandledIcon";
 import { global as content } from "@/content/countries";
@@ -33,6 +34,7 @@ function Block({
   intro,
   tone = "",
   stacked = false,
+  bleed = false,
   children,
 }: {
   id: string;
@@ -42,6 +44,9 @@ function Block({
   /** Heading above the content instead of beside it, for content wide
    *  enough to fill the page on its own. */
   stacked?: boolean;
+  /** With `stacked`: the content runs the full width of the screen and
+   *  lines itself up with the page edge. */
+  bleed?: boolean;
   children: React.ReactNode;
 }) {
   if (stacked) {
@@ -52,8 +57,9 @@ function Block({
             <h2 className="display-2 max-w-[16ch] lg:col-span-6">{heading}</h2>
             {intro ? <p className="max-w-[40ch] text-lg text-ink-2 lg:col-span-5 lg:col-start-8">{intro}</p> : null}
           </div>
-          <div className="mt-12 min-w-0">{children}</div>
+          {bleed ? null : <div className="mt-12 min-w-0">{children}</div>}
         </Container>
+        {bleed ? <div className="reveal mt-9">{children}</div> : null}
       </section>
     );
   }
@@ -193,13 +199,23 @@ export async function HomeC() {
         </ul>
       </Block>
 
-      <Block id="hospitals" heading={hospitals.heading} intro={hospitals.intro}>
-        <div className="grid gap-5">
+      <Block id="hospitals" heading={hospitals.heading} intro={hospitals.intro} stacked bleed>
+        <HospitalCarousel
+          label={hospitals.heading}
+          note={hospitals.note}
+          previous={site.carousel.previous}
+          next={site.carousel.next}
+        >
           {cards.map(({ hospital, specialities }) => (
-            <HospitalCard key={hospital.slug} hospital={hospital} specialities={specialities} feature sizes="(min-width: 1024px) 60vw, 100vw" />
+            <HospitalCard
+              key={hospital.slug}
+              hospital={hospital}
+              specialities={specialities}
+              reveal={false}
+              sizes="(min-width: 1024px) 24rem, (min-width: 640px) 45vw, 85vw"
+            />
           ))}
-        </div>
-        <p className="mt-6 text-sm text-ink-3">{hospitals.note}</p>
+        </HospitalCarousel>
       </Block>
 
       {showUpcoming ? (

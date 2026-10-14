@@ -346,6 +346,25 @@ html:has(dialog[open]) {
   }
 }
 
+/* The full-screen photo viewer on a hospital page fades in and out. */
+.gallery-dialog {
+  opacity: 0;
+  transition:
+    opacity 0.2s ease-out,
+    overlay 0.2s allow-discrete,
+    display 0.2s allow-discrete;
+}
+
+.gallery-dialog[open] {
+  opacity: 1;
+}
+
+@starting-style {
+  .gallery-dialog[open] {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

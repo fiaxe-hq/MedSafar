@@ -82,7 +82,7 @@ export const ge: CountryContent = {
     heading: "Partner hospitals",
     intro:
       "We match the hospital to the case, not the other way round. You see the choice, the doctor and the estimate before you decide.",
-    featured: ["nanavati-max", "kenia-eye"],
+    featured: ["nanavati-max", "kenia-eye", "kenia-dental"],
     note: "More partner hospitals are being added. Your doctor is chosen for your case once a specialist has read the reports.",
   },
 
@@ -213,7 +213,7 @@ export const ge: CountryContent = {
       {
         question: "Why is there no price on this page?",
         answer:
-          "Because a real figure depends on your reports, the hospital and the length of stay. A number on a web page would be a guess. We send you an estimate prepared for your case.",
+          "Because a real figure depends on your reports, the hospital and the length of stay. Where a hospital has given us its package prices, they are on that hospital's page as a guide. Either way, we send you a written estimate prepared for your case.",
       },
       {
         question: "Which currency will I need?",

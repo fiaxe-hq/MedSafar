@@ -24,6 +24,7 @@ export function Motion() {
     const cards = Array.from(main.querySelectorAll<HTMLElement>(CARD)).filter((el) => {
       const style = getComputedStyle(el);
       return (
+        !el.closest("[data-carousel]") &&
         parseFloat(style.borderRadius) > 0 &&
         style.backgroundImage === "none" &&
         el.getBoundingClientRect().width > 160

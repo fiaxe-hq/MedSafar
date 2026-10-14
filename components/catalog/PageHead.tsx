@@ -119,7 +119,15 @@ export function PageHead({
         <div className="hero-rise [animation-delay:300ms]">
           <div className="home-expand relative overflow-hidden">
             <div className="relative aspect-[16/9] sm:aspect-[3/1] lg:aspect-[7/2]">
-              <Image src={photo.src!} alt={photo.alt} fill priority sizes="100vw" className="object-cover" />
+              <Image
+                src={photo.src!}
+                alt={photo.alt}
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover"
+                style={photo.focus ? { objectPosition: photo.focus } : undefined}
+              />
             </div>
           </div>
         </div>

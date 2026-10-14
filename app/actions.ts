@@ -58,6 +58,11 @@ export async function saveNumber(
       source,
       ipHash,
     });
+    // A problem picked on the treatments page travels with the number, so it
+    // is kept even if step 2 is never sent.
+    const treatment = String(formData.get("treatment") ?? "").slice(0, 200);
+    const notes = String(formData.get("notes") ?? "").slice(0, 500);
+    if (treatment || notes) await updateLead(lead.id, { treatment, notes });
     return { ok: true, leadId: lead.id };
   } catch {
     return { ok: false, error: "generic" };

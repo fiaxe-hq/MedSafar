@@ -24,8 +24,8 @@ export const site: SiteContent = {
         all: "All treatments",
         finder: {
           title: "Not sure what it is called?",
-          text: "Point on the body or describe it in your own words to find the right treatment.",
-          href: "/treatments#find",
+          text: "Search in your own words, or tap the part of the body that troubles you.",
+          href: "/treatments#body",
         },
       },
       { label: "Hospitals", href: "/hospitals", menu: "hospitals", all: "All hospitals" },
@@ -262,4 +262,5 @@ export const site: SiteContent = {
 
   pendingLabel: "Placeholder",
   photoLabel: "Photo to be supplied",
+  carousel: { previous: "Previous", next: "Next" },
 };

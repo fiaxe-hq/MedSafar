@@ -17,6 +17,8 @@ const photos = (hospital: string) => (file: string, alt: string): Picture => ({
 const photo = photos("nanavati-max");
 // From the hospital's website.
 const keniaPhoto = photos("kenia-eye");
+// From keniadentalclinic.com.
+const keniaDentalPhoto = photos("kenia-dental");
 
 /** A stand-in hospital with no real details, marked as pending on the page. */
 const placeholder = (slug: string, city: string, specialities: string[]): Hospital => ({
@@ -129,17 +131,20 @@ export const hospitals: Hospital[] = [
       "Air ambulance transfer for critically ill patients",
       "A 24-hour helpline and a round-the-clock emergency department",
     ],
-    picture: photo(
-      "international-lounge",
-      "Patients and families waiting in the international patient lounge at Nanavati Max Super Speciality Hospital",
-    ),
+    picture: {
+      ...photo(
+        "international-lounge",
+        "Patients and families waiting in the international patient lounge at Nanavati Max Super Speciality Hospital",
+      ),
+      focus: "58% 50%",
+    },
     gallery: [
       photo("lobby", "The main lobby of the new tower, with a reception desk below a world map"),
       photo("private-room", "A private patient room with floor-to-ceiling windows"),
-      photo("critical-care", "Glass-fronted bays in the critical care unit"),
-      photo("opd", "The outpatient department waiting area"),
       photo("operating-theatre", "A modular operating theatre"),
       photo("robotic-surgery", "The da Vinci Xi robotic surgery system"),
+      photo("critical-care", "Glass-fronted bays in the critical care unit"),
+      photo("opd", "The outpatient department waiting area"),
       photo("halcyon", "The Halcyon radiotherapy machine for cancer treatment"),
       photo("linear-accelerator", "A Varian Edge linear accelerator for precise radiotherapy"),
       photo("emergency", "The entrance to the emergency department"),
@@ -153,6 +158,89 @@ export const hospitals: Hospital[] = [
       { title: "Nanavati Max: a journey of providing quality care", youtube: "s-qnXGZW0RA" },
       { title: "Nanavati Max Super Speciality Hospital", youtube: "JC9kP_S9Oys" },
     ],
+    // From the package price sheet the hospital supplied. "Stay" is written
+    // as the sheet gave it: ICU + ward days where it was split, or a single
+    // total otherwise.
+    packages: [
+      {
+        category: "Spine",
+        items: [
+          { name: "Spinal fusion / instrumentation, up to two levels", stay: "1+4", priceUsd: 8200 },
+          { name: "Anterior cervical discectomy fusion (ACDF)", stay: "1+3", priceUsd: 5000 },
+          { name: "Microdiscectomy / laminectomy", stay: "0+3", priceUsd: 4500 },
+        ],
+      },
+      {
+        category: "Neurosciences",
+        items: [
+          { name: "Craniotomy", stay: "1+4", priceUsd: 5000 },
+          { name: "VP shunt", stay: "1+3", priceUsd: 5000 },
+        ],
+      },
+      {
+        category: "Cardiac procedures",
+        items: [
+          { name: "Angiography", stay: "0+1", priceUsd: 400 },
+          { name: "Angioplasty with 2 stents", stay: "1+1", priceUsd: 5460 },
+          { name: "Angioplasty with 1 stent", stay: "1+1", priceUsd: 4355 },
+          { name: "CABG, low risk", stay: "3+4", priceUsd: 5500 },
+          { name: "CABG, high risk", stay: "5+4", priceUsd: 7000 },
+          { name: "AVR/MVR, open chest (mechanical implant)", stay: "3+4", priceUsd: 8000 },
+          { name: "AVR/MVR, minimally invasive (mechanical implant)", stay: "3+4", priceUsd: 8500 },
+          { name: "AVR/MVR (tissue implant)", stay: "3+4", priceUsd: 9500 },
+          { name: "DVR (mechanical implant)", stay: "3+4", priceUsd: 9500 },
+          { name: "DVR (tissue implant)", stay: "3+4", priceUsd: 10500 },
+          { name: "CABG + AVR/MVR (mechanical implant)", stay: "5+4", priceUsd: 9500 },
+          { name: "CABG + AVR/MVR (tissue implant)", stay: "5+4", priceUsd: 10500 },
+        ],
+      },
+      {
+        category: "Liver transplant",
+        items: [
+          { name: "Adult, patients from CIS countries", stay: "21", priceUsd: 22500 },
+          { name: "Adult, patients from all other countries", stay: "21", priceUsd: 26500 },
+          { name: "Child, under 15 years", stay: "21", priceUsd: 20500 },
+        ],
+      },
+      {
+        category: "Kidney transplant",
+        items: [
+          { name: "Kidney transplant", stay: "3+5", priceUsd: 13000 },
+          { name: "Kidney transplant, robotic", stay: "3+5", priceUsd: 16000 },
+        ],
+      },
+      {
+        category: "Orthopaedics",
+        items: [
+          { name: "Total hip replacement, single side", stay: "1+5", priceUsd: 6200 },
+          { name: "Total hip replacement, both sides", stay: "2+6", priceUsd: 9500 },
+          { name: "Total knee replacement, single side", stay: "1+5", priceUsd: 5500 },
+          { name: "Total knee replacement, both sides", stay: "2+6", priceUsd: 8000 },
+        ],
+      },
+      {
+        category: "Bone marrow transplant: autologous",
+        items: [
+          { name: "Autologous (myeloma)", stay: "30", priceUsd: 17600 },
+          { name: "Autologous (lymphoma)", stay: "30", priceUsd: 20600 },
+        ],
+      },
+      {
+        category: "Bone marrow transplant: allogeneic",
+        items: [
+          {
+            name: "Full match: leukaemia, AML, ALL, sickle cell, anaemia, thalassaemia",
+            stay: "30",
+            priceUsd: 29400,
+          },
+          {
+            name: "Half match: leukaemia, AML, ALL, sickle cell, anaemia, thalassaemia",
+            stay: "30",
+            priceUsd: 39200,
+          },
+        ],
+      },
+    ],
   },
   {
     slug: "kenia-eye",
@@ -160,10 +248,10 @@ export const hospitals: Hospital[] = [
     city: "Mumbai",
     address: "1st Floor, Rizvi Nagar, near Sarang Restaurant, S. V. Road, Santacruz (West), Mumbai 400 054, India",
     accreditation: "NABH, QAI and FEQH accredited",
-    // From the hospital's website (keniaeyehospital.com), its services board
-    // and keniadentalclinic.com.
+    // From the hospital's website (keniaeyehospital.com) and its services
+    // board. Dental care has its own entry, kenia-dental, below.
     overview:
-      "A specialist eye hospital in Santacruz, Mumbai, caring for patients since 1998. It is led by Dr. Vaishal Kenia, a cataract and refractive surgeon, with a team of doctors and consultants covering every part of eye care. It is approved for corneal transplants and has the FEMTO Z8 NEO bladeless laser, the first in Western India, alongside advanced scanners such as the IOL Master 700, Pentacam, Verion and OPTOS ultra-wide retinal imaging. It treats everything from cataract and LASIK to cornea, glaucoma, retina, squint and eyelid problems. Dental care is offered alongside, through Kenia Dental Clinic in the same building, run by Dr. Pallavi Kenia.",
+      "A specialist eye hospital in Santacruz, Mumbai, caring for patients since 1998. It is led by Dr. Vaishal Kenia, a cataract and refractive surgeon, with a team of doctors and consultants covering every part of eye care. It is approved for corneal transplants and has the FEMTO Z8 NEO bladeless laser, the first in Western India, alongside advanced scanners such as the IOL Master 700, Pentacam, Verion and OPTOS ultra-wide retinal imaging. It treats everything from cataract and LASIK to cornea, glaucoma, retina, squint and eyelid problems. Kenia Dental Clinic, run by Dr. Pallavi Kenia, is in the same building.",
     centresLabel: "Services offered",
     // From the "Services offered" board at the hospital.
     centres: [
@@ -181,7 +269,7 @@ export const hospitals: Hospital[] = [
       "Comprehensive eye check-up",
       "Dental care at Kenia Dental Clinic, in the same building",
     ],
-    specialities: ["ophthalmology", "dentistry"],
+    specialities: ["ophthalmology"],
     treatments: [
       "cataract-surgery",
       "lasik",
@@ -192,11 +280,6 @@ export const hospitals: Hospital[] = [
       "vitreoretinal-surgery",
       "squint-surgery",
       "oculoplastic-surgery",
-      "dental-implants",
-      "root-canal-treatment",
-      "smile-design",
-      "full-mouth-rehabilitation",
-      "braces-aligners",
     ],
     services: [
       "Most eye operations are day procedures, with no overnight stay",
@@ -209,6 +292,53 @@ export const hospitals: Hospital[] = [
       keniaPhoto("dry-eye-therapy", "A patient having light therapy for dry eye"),
       keniaPhoto("femto-z8-neo", "The FEMTO Z8 NEO bladeless laser"),
       keniaPhoto("femto-laser-arm", "The laser arm of the FEMTO Z8 NEO"),
+    ],
+  },
+
+  {
+    slug: "kenia-dental",
+    name: "Kenia Dental Clinic",
+    city: "Mumbai",
+    // The clinic's Google Maps listing, which matches its renovated
+    // ground-floor premises (Sep 2025); its website still says 1st Floor.
+    address: "Ground Floor, Rizvi Nagar, near Sarang Restaurant, S. V. Road, corner of Milan Subway, Santacruz (West), Mumbai 400 054, India",
+    // Text from keniadentalclinic.com. Photos are the ones the clinic posted
+    // on its Google Maps listing, since its website shows only stock artwork.
+    overview:
+      "A multi-speciality dental clinic in Santacruz (West), Mumbai, led by Dr. Pallavi Kenia, a dentist for more than 20 years. She spent eight years at Jain Health Centre, a charitable trust in Dadar, Mumbai, where she treated more than 100,000 patients, before starting Kenia Dental Clinic to offer up-to-date treatment at a reasonable cost. Her own work centres on root canal treatment, implants, smile design and tooth whitening, and the clinic also covers children's dentistry, braces and aligners, crowns, dentures and preventive care. It is in the same building as Kenia Eye Hospital.",
+    centresLabel: "Services offered",
+    // The clinic's own service list, grouped as its website groups it.
+    centres: [
+      "Digital (RVG) X-rays, cleaning and fillings",
+      "Root canal treatment",
+      "Extractions and dentures",
+      "Crowns and bridges",
+      "Dental implants",
+      "Children's dentistry",
+      "Braces, aligners and invisible braces",
+      "Smile design and full mouth rehabilitation",
+      "Teeth whitening and tooth-coloured fillings",
+      "Composite and porcelain laminates (veneers)",
+      "Gum depigmentation and tooth jewellery",
+      "Preventive care: fissure sealants, space maintainers and fluoride",
+    ],
+    specialities: ["dentistry"],
+    treatments: ["dental-implants", "root-canal-treatment", "smile-design", "full-mouth-rehabilitation", "braces-aligners"],
+    services: [
+      "Open Monday to Saturday, 10 am to 8 pm",
+      "Digital X-rays taken in the clinic",
+      "In the same building as Kenia Eye Hospital, so eye and dental care can be planned for one trip",
+    ],
+    picture: { ...keniaDentalPhoto("chair-unit", "A dental chair and its instrument unit at Kenia Dental Clinic"), focus: "50% 62%" },
+    gallery: [
+      {
+        ...keniaDentalPhoto("treatment-suite", "A treatment room with its dental chair and tooth-shaped display shelf"),
+        focus: "58% 50%",
+      },
+      { ...keniaDentalPhoto("front-desk", "The reception desk under the Kenia Dental Clinic sign"), focus: "50% 8%" },
+      { ...keniaDentalPhoto("glass-entrance", "The glass entrance to the clinic"), focus: "50% 40%" },
+      keniaDentalPhoto("patient-wall", "A lit wall of patient guides on implants and treatments"),
+      { ...keniaDentalPhoto("tooth-shelf", "A tooth-shaped shelf of oral care products"), focus: "50% 35%" },
     ],
   },
 

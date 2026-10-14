@@ -1,11 +1,21 @@
 "use client";
 
-import { useActionState, useId, useState } from "react";
+import { useActionState, useEffect, useId, useState } from "react";
 import { LockSimpleIcon } from "@phosphor-icons/react/dist/ssr/LockSimple";
+import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
 import { saveDetails, saveNumber } from "@/app/actions";
 import type { DialCode, FormContent } from "@/content/types";
 import { btnPlain, btnPrimary, field, label } from "@/components/ui/styles";
 import { showUpcoming } from "@/lib/preview";
+import {
+  describeIssue,
+  readContact,
+  readIssue,
+  saveContact,
+  saveIssue,
+  type Contact,
+  type Issue,
+} from "@/lib/enquiryMemory";
 
 /**
  * The enquiry form, used in the hero and again near the foot of the page.
@@ -14,6 +24,10 @@ import { showUpcoming } from "@/lib/preview";
  * away, so an abandoned enquiry is still an enquiry we can answer.
  * Step 2 collects the rest. Both steps post to a Server Action, so the form
  * also works before the JavaScript has arrived.
+ *
+ * It remembers, in this browser, the contact details given before and the
+ * problem picked on the treatments page (or passed as ?area=&treatment=), and
+ * fills them in.
  */
 export function EnquiryForm({
   text,
@@ -38,10 +52,47 @@ export function EnquiryForm({
   const [detailsState, submitDetails, savingDetails] = useActionState(saveDetails, null);
   const [iso, setIso] = useState(defaultIso);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [issue, setIssue] = useState<Issue | null>(null);
+  const [known, setKnown] = useState<Contact | null>(null);
+
+  // Read what this browser remembers once it is on screen. Storage is not
+  // there during the server render, so this has to wait for the effect.
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    const contact = readContact();
+    if (contact) {
+      setKnown(contact);
+      if (contact.iso && dialCodes.some((c) => c.iso === contact.iso)) setIso(contact.iso);
+    }
+    if (defaultTreatment) return;
+    const params = new URLSearchParams(window.location.search);
+    const fromLink = { area: params.get("area") ?? undefined, treatment: params.get("treatment") ?? undefined };
+    if (fromLink.area || fromLink.treatment) {
+      saveIssue(fromLink);
+      setIssue(fromLink);
+    } else {
+      setIssue(readIssue());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const dial = dialCodes.find((c) => c.iso === iso)?.dial ?? "";
   const leadId = numberState?.ok ? numberState.leadId : null;
   const done = detailsState?.ok === true;
+  const treatment = issue?.treatment || defaultTreatment;
+  const issueNote = issue ? `About: ${describeIssue(issue)}` : "";
+
+  // Sent: the question is answered, so forget it.
+  useEffect(() => {
+    if (done) saveIssue(null);
+  }, [done]);
+
+  const clearIssue = () => {
+    saveIssue(null);
+    setIssue(null);
+  };
+  const banner = issue ? <IssueBanner issue={issue} onClear={clearIssue} /> : null;
 
   if (done) {
     return (
@@ -60,8 +111,23 @@ export function EnquiryForm({
   // Step 1 - mobile number only.
   if (!leadId) {
     return (
-      <form action={submitNumber} className="space-y-4" noValidate>
+      <form
+        action={submitNumber}
+        onSubmit={(e) => {
+          const data = new FormData(e.currentTarget);
+          saveContact({ iso: String(data.get("iso") ?? ""), phone: String(data.get("phone") ?? "") });
+        }}
+        className="space-y-4"
+        noValidate
+      >
+        {banner}
         <input type="hidden" name="source" value={source} />
+        {issue ? (
+          <>
+            <input type="hidden" name="treatment" value={issue.treatment ?? ""} />
+            <input type="hidden" name="notes" value={issueNote} />
+          </>
+        ) : null}
         <label htmlFor={`${uid}-phone`} className={label}>
           {text.step1.label}
         </label>
@@ -98,8 +164,10 @@ export function EnquiryForm({
           <span aria-hidden className="my-2.5 w-px bg-hairline" />
 
           <input
+            key={known?.phone ?? ""}
             id={`${uid}-phone`}
             name="phone"
+            defaultValue={known?.phone}
             type="tel"
             inputMode="tel"
             autoComplete="tel-national"
@@ -144,7 +212,20 @@ export function EnquiryForm({
         <p className="mt-2 text-base text-ink-2">{text.step2.intro}</p>
       </div>
 
-      <form action={submitDetails} className="mt-7 space-y-6" noValidate>
+      <form
+        action={submitDetails}
+        onSubmit={(e) => {
+          const data = new FormData(e.currentTarget);
+          saveContact({
+            name: String(data.get("name") ?? "").trim(),
+            email: String(data.get("email") ?? "").trim(),
+            country: String(data.get("country") ?? ""),
+          });
+        }}
+        className="mt-7 space-y-6"
+        noValidate
+      >
+        {banner}
         <input type="hidden" name="leadId" value={leadId} />
 
         <div>
@@ -155,6 +236,7 @@ export function EnquiryForm({
             id={`${uid}-name`}
             name="name"
             autoComplete="name"
+            defaultValue={known?.name}
             required
             placeholder={text.step2.name.placeholder}
             className={`${field} mt-2`}
@@ -170,6 +252,7 @@ export function EnquiryForm({
             name="email"
             type="email"
             autoComplete="email"
+            defaultValue={known?.email}
             required
             placeholder={text.step2.email.placeholder}
             className={`${field} mt-2`}
@@ -184,7 +267,7 @@ export function EnquiryForm({
           <select
             id={`${uid}-country`}
             name="country"
-            defaultValue={defaultCountry}
+            defaultValue={known?.country || defaultCountry}
             className={`${field} mt-2`}
           >
             <option value="">{text.step2.country.placeholder}</option>
@@ -203,12 +286,12 @@ export function EnquiryForm({
           <select
             id={`${uid}-treatment`}
             name="treatment"
-            defaultValue={defaultTreatment}
+            defaultValue={treatment}
             className={`${field} mt-2`}
           >
             <option value="">{text.step2.treatment.placeholder}</option>
-            {defaultTreatment && !text.step2.treatment.options.includes(defaultTreatment) ? (
-              <option value={defaultTreatment}>{defaultTreatment}</option>
+            {treatment && !text.step2.treatment.options.includes(treatment) ? (
+              <option value={treatment}>{treatment}</option>
             ) : null}
             {text.step2.treatment.options.map((o) => (
               <option key={o} value={o}>
@@ -273,6 +356,7 @@ export function EnquiryForm({
             id={`${uid}-notes`}
             name="notes"
             rows={3}
+            defaultValue={issueNote || undefined}
             placeholder={text.step2.notes.placeholder}
             className={`${field} mt-2 py-3.5`}
           />
@@ -336,6 +420,29 @@ export function EnquiryForm({
 
         {showUpcoming ? <PrivacyNote text={text.privacyNote} /> : null}
       </form>
+    </div>
+  );
+}
+
+/** The problem picked on the treatments page, shown at the top of the form. */
+function IssueBanner({ issue, onClear }: { issue: Issue; onClear: () => void }) {
+  return (
+    <div className="flex items-start gap-3 rounded-md border border-accent/30 bg-accent-quiet p-3 ps-4">
+      <div className="min-w-0 flex-1">
+        <p className="text-sm text-ink-3">Your question is about</p>
+        <p className="mt-0.5 text-base font-medium text-ink">
+          {describeIssue(issue).replace(": ", " · ")}
+          {issue.treatment ? null : <span className="font-normal text-ink-3"> · a doctor will advise</span>}
+        </p>
+      </div>
+      <button
+        type="button"
+        onClick={onClear}
+        className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-md text-ink-3 transition-colors hover:bg-surface hover:text-ink"
+      >
+        <XIcon size={16} aria-hidden />
+        <span className="sr-only">Remove</span>
+      </button>
     </div>
   );
 }

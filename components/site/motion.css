@@ -100,7 +100,10 @@
       animation-range: entry 0% cover 50%;
     }
 
-    :is([data-home], [data-page]) .home-expand img.object-cover {
+    /* Inside a sideways scroller, view() would track the wrong axis, so the
+       photos hold still. */
+    :is([data-home], [data-page]) .home-expand img.object-cover,
+    :is([data-home], [data-page]) [data-carousel] img.object-cover {
       animation: none;
     }
 

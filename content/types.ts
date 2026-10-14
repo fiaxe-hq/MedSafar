@@ -11,6 +11,9 @@ export type Picture = {
   alt: string;
   /** true until a real, cleared photo has been supplied. */
   pending: boolean;
+  /** CSS object-position for the part that must stay in view when a wide
+   *  frame crops the photo, e.g. "50% 20%" to keep a face. */
+  focus?: string;
 };
 
 /** Marks copy that is a stand-in until Medsafar supplies the real thing. */
@@ -120,6 +123,8 @@ export type SiteContent = {
   };
   pendingLabel: string;
   photoLabel: string;
+  /** Labels on a carousel's arrow buttons. */
+  carousel: { previous: string; next: string };
 };
 
 /** The pop-up form behind the header's "Free consultation" button. */
@@ -298,7 +303,8 @@ export type Hospital = Pending & {
   city: string;
   /** Street address, shown on the hospital's own page. */
   address?: string;
-  accreditation: string;
+  /** Left out when the hospital names none, so no check mark is shown. */
+  accreditation?: string;
   overview: string;
   /** Departments the hospital names as its centres of excellence. */
   centres?: string[];
@@ -314,6 +320,22 @@ export type Hospital = Pending & {
   /** Further photo slots, shown on the hospital's own page. */
   gallery: Picture[];
   videos?: Video[];
+  /** Package prices the hospital has supplied. Where this is missing, the
+   *  page invites a quote instead of showing a price. */
+  packages?: PackageGroup[];
+};
+
+/** A priced package the hospital has supplied, grouped under its category
+ *  (e.g. "Cardiac procedures"). */
+export type PackageGroup = {
+  category: string;
+  items: {
+    name: string;
+    /** Hospital stay as the hospital wrote it: "1+4" for ICU + ward days,
+     *  or a single number for a total. */
+    stay: string;
+    priceUsd: number;
+  }[];
 };
 
 export type Doctor = Pending & {
@@ -423,9 +445,18 @@ export type CatalogContent = {
       centres: string;
       services: string;
       photos: string;
+      /** The photo viewer: open it, close it, step through it. */
+      gallery: { all: string; close: string; previous: string; next: string };
       videos: string;
       doctors: string;
       treatments: string;
+      packages: string;
+      /** Beside the lowest package price, e.g. "Packages from $400". */
+      priceFrom: string;
+      packagesNote: string;
+      quoteHeading: string;
+      quoteBody: string;
+      quoteCta: string;
     };
   };
   doctors: ListPageText & {

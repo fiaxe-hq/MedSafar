@@ -12,14 +12,20 @@ import {
   nameOf,
 } from "@/lib/catalog";
 import { PageShell } from "@/components/site/PageShell";
-import { PageHead } from "@/components/catalog/PageHead";
+import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr/ArrowLeft";
+import { CheckIcon } from "@phosphor-icons/react/dist/ssr/Check";
+import { MapPinIcon } from "@phosphor-icons/react/dist/ssr/MapPin";
+import { SealCheckIcon } from "@phosphor-icons/react/dist/ssr/SealCheck";
+import { TagIcon } from "@phosphor-icons/react/dist/ssr/Tag";
+import { HospitalGallery } from "@/components/catalog/HospitalGallery";
 import { SpecialityIcon } from "@/components/ui/SpecialityIcon";
-import { CheckList } from "@/components/catalog/CheckList";
 import { DoctorCard } from "@/components/catalog/DoctorCard";
-import { Facts } from "@/components/catalog/Facts";
 import { TreatmentCard } from "@/components/catalog/TreatmentCard";
+import { PackagePrices, QuotePrompt } from "@/components/catalog/PackagePrices";
 import { EnquiryBlock } from "@/components/sections/EnquiryBlock";
-import { Figure } from "@/components/ui/Pending";
+import { Container } from "@/components/ui/Container";
+import { Mark } from "@/components/ui/Pending";
+import { btnPrimary } from "@/components/ui/styles";
 import { Section, SectionHead } from "@/components/ui/Section";
 import { VideoEmbed } from "@/components/ui/VideoEmbed";
 
@@ -51,101 +57,197 @@ export default async function Page({ params }: Props) {
     getSpecialities(),
   ]);
 
+  const pictures = [hospital.picture, ...hospital.gallery];
+  const lowest = hospital.packages?.length
+    ? Math.min(...hospital.packages.flatMap((group) => group.items.map((item) => item.priceUsd)))
+    : null;
+  const counts = [
+    { value: hospital.specialities.length, label: text.stats.specialities },
+    { value: doctors.length, label: text.stats.doctors },
+    { value: treatments.length, label: text.stats.treatments },
+  ].filter((count) => count.value);
+
+  // Bands below the main block alternate in tone, whichever ones are shown.
+  let band = 0;
+  const tone = () => (band++ % 2 === 0 ? "quiet" : "page");
+
   return (
     <PageShell current="/hospitals">
-      <PageHead
-        back={{ href: "/hospitals", label: text.back }}
-        heading={hospital.name}
-        intro={hospital.accreditation}
-        pending={hospital.pending}
-        cta
-        picture={hospital.picture}
-      />
+      <section className="relative isolate overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 bg-[radial-gradient(48rem_22rem_at_85%_0%,rgb(94_224_189/0.2),transparent_70%)]"
+        />
+        <Container className="pt-8 sm:pt-10">
+          <Link
+            href="/hospitals"
+            className="group hero-rise inline-flex min-h-11 items-center gap-2 text-base font-medium text-accent transition-colors hover:text-accent-hover"
+          >
+            <ArrowLeftIcon size={18} className="transition-[translate] duration-300 ease-(--ease-soft) group-hover:-translate-x-1 rtl:rotate-180 rtl:group-hover:translate-x-1" aria-hidden />
+            {text.back}
+          </Link>
 
-      <Section tone="quiet">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="reveal min-w-0 lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
-            <h2 className="display-2">{text.detail.overview}</h2>
-            <p className="mt-5 max-w-[60ch] text-lg text-ink-2">{hospital.overview}</p>
-          </div>
-
-          <div className="min-w-0 lg:col-span-7">
-            <Facts
-              items={[
-                { label: text.detail.address, value: hospital.address },
-                { label: text.detail.accreditation, value: hospital.accreditation },
-                {
-                  label: text.detail.specialities,
-                  value: (
-                    <ul className="flex flex-wrap gap-2">
-                      {hospital.specialities.map((s) => {
-                        return (
-                          <li key={s}>
-                            <Link
-                              href={`/treatments#${s}`}
-                              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-hairline bg-surface px-4 text-sm text-ink-2 transition-[color,border-color,background-color,translate] duration-300 ease-(--ease-soft) hover:-translate-y-0.5 hover:border-line hover:bg-accent-quiet hover:text-ink"
-                            >
-                              <SpecialityIcon slug={s} size={16} className="text-accent" aria-hidden />
-                              {nameOf(specialities, s)}
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  ),
-                },
-              ]}
-            />
-          </div>
-        </div>
-      </Section>
-
-      <Section>
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="min-w-0">
-            <SectionHead heading={text.detail.services} />
-            <CheckList items={hospital.services} className="mt-10" />
-          </div>
-          {hospital.centres?.length ? (
+          <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="min-w-0">
-              <SectionHead heading={hospital.centresLabel ?? text.detail.centres} />
-              <CheckList items={hospital.centres} className="mt-10" />
+              <h1 className="hero-rise display-2 max-w-[26ch] text-balance [animation-delay:60ms]">{hospital.name}</h1>
+              <ul className="hero-rise mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-base text-ink-2 [animation-delay:120ms]">
+                <li className="inline-flex items-center gap-1.5">
+                  <MapPinIcon size={18} className="text-accent" aria-hidden />
+                  {hospital.city}
+                </li>
+                {hospital.accreditation ? (
+                  <li className="inline-flex items-center gap-1.5">
+                    <SealCheckIcon size={18} className="text-accent" aria-hidden />
+                    {hospital.accreditation}
+                  </li>
+                ) : null}
+                {hospital.pending ? (
+                  <li>
+                    <Mark />
+                  </li>
+                ) : null}
+              </ul>
             </div>
-          ) : null}
-        </div>
-
-        <h2 className="reveal mt-16 text-2xl font-medium tracking-[-0.02em] lg:mt-20">
-          {text.detail.photos}
-        </h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {hospital.gallery.map((picture, i) => (
-            <div key={i} className={`reveal min-w-0 ${i % 5 === 0 ? "sm:col-span-2" : ""}`}>
-              <Figure
-                picture={picture}
-                ratio={i % 5 === 0 ? "aspect-[4/3] sm:aspect-[16/9] lg:aspect-auto lg:h-full" : "aspect-[4/3]"}
-                rounded="rounded-lg"
-                sizes={i % 5 === 0 ? "(min-width: 1024px) 60vw, 100vw" : "(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"}
-              />
+            <div className="hero-rise hidden shrink-0 [animation-delay:160ms] lg:block">
+              <a href="#plan" className={btnPrimary}>
+                {site.cta.primary}
+              </a>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {hospital.videos?.length ? (
+          <div className="hero-rise mt-8 [animation-delay:200ms]">
+            <HospitalGallery pictures={pictures} labels={text.detail.gallery} />
+          </div>
+        </Container>
+      </section>
+
+      <section className="py-12 sm:py-16 lg:py-20">
+        <Container className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+          <aside className="min-w-0 lg:sticky lg:top-28 lg:order-last lg:col-span-4 lg:self-start">
+            <div className="reveal rounded-lg border border-hairline bg-surface p-6 shadow-card sm:p-7">
+              {counts.length ? (
+                <dl className="grid grid-cols-3 divide-x divide-hairline border-b border-hairline pb-5 rtl:divide-x-reverse">
+                  {counts.map((count) => (
+                    <div key={count.label} className="grid min-w-0 content-start gap-1 px-3 first:ps-0 last:pe-0">
+                      <dt className="row-start-2 text-sm text-ink-3">{count.label}</dt>
+                      <dd className="row-start-1 font-display text-3xl leading-none font-semibold tracking-[-0.03em] text-accent tabular-nums">
+                        {count.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : null}
+
+              <dl className="divide-y divide-hairline">
+                {hospital.address ? (
+                  <div className="flex gap-3 py-4">
+                    <MapPinIcon size={20} className="mt-0.5 shrink-0 text-accent" aria-hidden />
+                    <div className="min-w-0">
+                      <dt className="text-sm text-ink-3">{text.detail.address}</dt>
+                      <dd className="mt-0.5 text-base text-ink">{hospital.address}</dd>
+                    </div>
+                  </div>
+                ) : null}
+                {hospital.accreditation ? (
+                  <div className="flex gap-3 py-4">
+                    <SealCheckIcon size={20} className="mt-0.5 shrink-0 text-accent" aria-hidden />
+                    <div className="min-w-0">
+                      <dt className="text-sm text-ink-3">{text.detail.accreditation}</dt>
+                      <dd className="mt-0.5 text-base text-ink">{hospital.accreditation}</dd>
+                    </div>
+                  </div>
+                ) : null}
+                {lowest !== null ? (
+                  <div className="flex gap-3 py-4">
+                    <TagIcon size={20} className="mt-0.5 shrink-0 text-accent" aria-hidden />
+                    <div className="min-w-0">
+                      <dt className="text-sm text-ink-3">{text.detail.priceFrom}</dt>
+                      <dd className="mt-0.5 text-base text-ink">
+                        <a href="#packages" className="font-semibold text-accent underline-offset-4 hover:underline">
+                          {usd.format(lowest)}
+                        </a>
+                      </dd>
+                    </div>
+                  </div>
+                ) : null}
+              </dl>
+
+              <a href="#plan" className={`${btnPrimary} mt-2 w-full`}>
+                {site.cta.primary}
+              </a>
+            </div>
+          </aside>
+
+          <div className="min-w-0 lg:col-span-8">
+            <div className="reveal">
+              <h2 className={subhead}>{text.detail.overview}</h2>
+              <p className="mt-4 max-w-[68ch] text-lg text-pretty text-ink-2">{hospital.overview}</p>
+            </div>
+
+            <div className="reveal mt-12 border-t border-hairline pt-10">
+              <h2 className={subhead}>{text.detail.specialities}</h2>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {hospital.specialities.map((s) => (
+                  <li key={s}>
+                    <Link
+                      href={`/treatments#${s}`}
+                      className="inline-flex min-h-11 items-center gap-2 rounded-full border border-hairline bg-surface px-4 text-sm text-ink-2 transition-[color,border-color,background-color,translate] duration-300 ease-(--ease-soft) hover:-translate-y-0.5 hover:border-line hover:bg-accent-quiet hover:text-ink"
+                    >
+                      <SpecialityIcon slug={s} size={16} className="text-accent" aria-hidden />
+                      {nameOf(specialities, s)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {hospital.centres?.length ? (
+              <div className="reveal mt-12 border-t border-hairline pt-10">
+                <h2 className={subhead}>{hospital.centresLabel ?? text.detail.centres}</h2>
+                <Ticks items={hospital.centres} />
+              </div>
+            ) : null}
+
+            {hospital.services.length ? (
+              <div className="reveal mt-12 border-t border-hairline pt-10">
+                <h2 className={subhead}>{text.detail.services}</h2>
+                <Ticks items={hospital.services} />
+              </div>
+            ) : null}
+          </div>
+        </Container>
+      </section>
+
+      <Section id="packages" tone={tone()}>
+        {hospital.packages?.length ? (
           <>
-            <h2 className="reveal mt-16 text-2xl font-medium tracking-[-0.02em] lg:mt-20">
-              {text.detail.videos}
-            </h2>
-            <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {hospital.videos.map((video) => (
-                <VideoEmbed key={video.title} video={video} />
-              ))}
+            <SectionHead heading={text.detail.packages} />
+            <div className="mt-10">
+              <PackagePrices groups={hospital.packages} note={text.detail.packagesNote} />
             </div>
           </>
-        ) : null}
+        ) : (
+          <QuotePrompt
+            heading={text.detail.quoteHeading}
+            body={text.detail.quoteBody}
+            cta={text.detail.quoteCta}
+          />
+        )}
       </Section>
 
+      {hospital.videos?.length ? (
+        <Section tone={tone()}>
+          <SectionHead heading={text.detail.videos} />
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {hospital.videos.map((video) => (
+              <VideoEmbed key={video.title} video={video} />
+            ))}
+          </div>
+        </Section>
+      ) : null}
+
       {doctors.length ? (
-        <Section tone="quiet">
+        <Section tone={tone()}>
           <SectionHead heading={text.detail.doctors} />
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {doctors.map((doctor) => (
@@ -161,7 +263,7 @@ export default async function Page({ params }: Props) {
       ) : null}
 
       {treatments.length ? (
-        <Section>
+        <Section tone={tone()}>
           <SectionHead heading={text.detail.treatments} />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {treatments.map((treatment) => (
@@ -177,5 +279,23 @@ export default async function Page({ params }: Props) {
 
       <EnquiryBlock content={{ enquiry: catalog.enquiry }} source={`/hospitals/${hospital.slug}`} />
     </PageShell>
+  );
+}
+
+const subhead = "font-display text-2xl font-semibold tracking-[-0.02em] sm:text-[1.75rem]";
+
+const usd = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+
+/** A short ticked list in two columns, for centres and services. */
+function Ticks({ items }: { items: string[] }) {
+  return (
+    <ul className="mt-5 grid gap-x-8 sm:grid-cols-2">
+      {items.map((item) => (
+        <li key={item} className="flex items-start gap-3 border-b border-hairline py-3.5 text-base text-ink">
+          <CheckIcon size={16} weight="bold" className="mt-1 shrink-0 text-cta" aria-hidden />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
   );
 }
