@@ -394,3 +394,10 @@ html:has(dialog[open]) {
 @media (prefers-reduced-motion: reduce) {
   .finder-in { animation: none; }
 }
+
+/* The header bar. Only the bar itself is filled; beside it the page shows
+   through. */
+.nav-notch {
+  background: color-mix(in oklab, var(--bg) 92%, transparent);
+  backdrop-filter: blur(24px);
+}

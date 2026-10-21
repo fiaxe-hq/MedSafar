@@ -4,6 +4,7 @@ import { useActionState, useEffect, useId, useState } from "react";
 import { LockSimpleIcon } from "@phosphor-icons/react/dist/ssr/LockSimple";
 import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
 import { saveDetails, saveNumber } from "@/app/actions";
+import { DialPicker } from "@/components/form/DialPicker";
 import type { DialCode, FormContent } from "@/content/types";
 import { btnPlain, btnPrimary, field, label } from "@/components/ui/styles";
 import { showUpcoming } from "@/lib/preview";
@@ -77,7 +78,6 @@ export function EnquiryForm({
   }, []);
   /* eslint-enable react-hooks/set-state-in-effect */
 
-  const dial = dialCodes.find((c) => c.iso === iso)?.dial ?? "";
   const leadId = numberState?.ok ? numberState.leadId : null;
   const done = detailsState?.ok === true;
   const treatment = issue?.treatment || defaultTreatment;
@@ -135,31 +135,13 @@ export function EnquiryForm({
         {/* Country code and number share one control, so it reads as a single
             field rather than two boxes jammed together. */}
         <div className="flex min-h-13 items-stretch rounded-md border border-line bg-surface transition-[border-color,box-shadow] focus-within:border-accent focus-within:ring-4 focus-within:ring-accent/10">
-          <div className="relative shrink-0">
-            <label htmlFor={`${uid}-iso`} className="sr-only">
-              {text.step1.countryLabel}
-            </label>
-            <select
-              id={`${uid}-iso`}
-              name="iso"
-              value={iso}
-              onChange={(e) => setIso(e.target.value)}
-              className="h-full w-[7.5rem] appearance-none cursor-pointer rounded-s-md bg-transparent ps-4 pe-8 text-base font-medium text-ink focus:outline-none"
-            >
-              {dialCodes.map((c) => (
-                <option key={c.iso} value={c.iso}>
-                  {c.dial} {c.iso}
-                </option>
-              ))}
-            </select>
-            <svg
-              viewBox="0 0 10 6"
-              aria-hidden
-              className="pointer-events-none absolute end-3 top-1/2 h-1.5 w-2.5 -translate-y-1/2 fill-ink-3"
-            >
-              <path d="M0 0h10L5 6z" />
-            </svg>
-          </div>
+          <DialPicker
+            id={`${uid}-iso`}
+            label={text.step1.countryLabel}
+            dialCodes={dialCodes}
+            value={iso}
+            onChange={setIso}
+          />
 
           <span aria-hidden className="my-2.5 w-px bg-hairline" />
 
@@ -172,7 +154,7 @@ export function EnquiryForm({
             inputMode="tel"
             autoComplete="tel-national"
             required
-            placeholder={dial ? `${dial} 000 000 0000` : ""}
+            placeholder="000 000 0000"
             className="min-w-0 flex-1 rounded-e-md bg-transparent px-4 text-base text-ink placeholder:text-ink-3 focus:outline-none"
           />
         </div>

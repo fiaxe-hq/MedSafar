@@ -30,17 +30,21 @@ async function menuLinks(): Promise<Record<string, NavItem[]>> {
 }
 
 const topLink =
-  "relative flex min-h-11 items-center gap-1 rounded-full px-3.5 text-[0.9375rem] whitespace-nowrap text-ink-2 transition-colors duration-200 hover:bg-brand/10 hover:text-ink aria-[current=page]:font-medium aria-[current=page]:text-ink";
+  "relative flex h-10 items-center gap-1 px-2.5 text-[0.875rem] whitespace-nowrap text-ink-2 transition-colors duration-200 hover:text-ink aria-[current=page]:text-ink";
 
 const panelLink =
-  "flex min-h-10 items-center rounded-lg px-3 text-[0.9375rem] text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink";
+  "flex min-h-10 items-center rounded-lg px-3 text-[0.875rem] text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink";
 
 export async function Header({
   home,
   current,
   iso = null,
   countryName = "",
+  overlay = false,
 }: {
+  /** Lay the bar over the top of a full-bleed band (the home hero), so its
+   *  rounded corners sit on that band instead of on empty page. */
+  overlay?: boolean;
   home: string;
   /** On a country page, so the pop-up form starts with that country. */
   iso?: string | null;
@@ -53,13 +57,16 @@ export async function Header({
   const linksOf = (entry: NavEntry) => (entry.menu ? menus[entry.menu] : (entry.items ?? []));
 
   return (
-    <header className="sticky top-0 z-40 bg-bg/80 shadow-[0_8px_24px_-20px_rgb(11_61_49/0.35)] backdrop-blur-xl">
-        <Container className="flex h-16 items-center justify-between gap-4">
+    <header className={`pointer-events-none sticky top-0 z-40 px-5 sm:px-6 ${overlay ? "-mb-16" : ""}`}>
+      {/* A bar hanging from the top of the screen, rounded below. Beside it
+          the page shows through. */}
+      <div className="nav-notch pointer-events-auto relative mx-auto max-w-[78rem] rounded-b-[1.75rem] shadow-[0_12px_30px_-18px_rgb(2_20_16/0.4)]">
+        <Container className="flex h-16 items-center gap-6 px-5! sm:px-7!">
           <Logo href={home} />
 
-          {/* Seven entries need the room, so narrower screens use the menu
+          {/* Five entries need the room, so narrower screens use the menu
               button instead. Dropdowns open on hover or keyboard focus. */}
-          <nav aria-label={nav.menuLabel} className="relative hidden items-center gap-0.5 xl:flex">
+          <nav aria-label={nav.menuLabel} className="relative hidden flex-1 items-center justify-center gap-1 xl:flex">
             {nav.items.map((entry) => {
               const links = linksOf(entry);
               const href = resolveHref(entry.href, home);
@@ -79,8 +86,8 @@ export async function Header({
                   <Link data-nav-top href={href} aria-current={isCurrent} aria-haspopup="true" className={topLink}>
                     {entry.label}
                     <CaretDownIcon
-                      size={12}
-                      className="text-ink-3 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
+                      size={11}
+                      className="text-ink-3/80 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
                       aria-hidden
                     />
                   </Link>
@@ -134,28 +141,25 @@ export async function Header({
                 </div>
               );
             })}
+            <Link
+              data-nav-top
+              href={nav.contact.href}
+              aria-current={current === nav.contact.href ? "page" : undefined}
+              className={topLink}
+            >
+              {nav.contact.label}
+            </Link>
             <NavUnderline current={current} />
           </nav>
 
-          <div className="flex items-center justify-end gap-1 sm:gap-2">
-            <LanguageSwitch iso={iso} />
-
-            <span className="hidden sm:block">
-              <Link
-                href={nav.contact.href}
-                aria-current={current === nav.contact.href ? "page" : undefined}
-                className="inline-flex min-h-11 items-center rounded-full px-4 text-[0.9375rem] font-medium text-ink-2 transition-colors hover:bg-brand/10 hover:text-ink aria-[current=page]:text-ink"
-              >
-                {nav.contact.label}
-              </Link>
-            </span>
+          <div className="ms-auto -me-2 flex items-center gap-1.5 sm:-me-4 lg:-me-6 xl:ms-0">
 
             {/* The shorter of the two approved labels. The long one is on the
                 buttons that actually carry the page. */}
             <span className="hidden lg:block">
               <ConsultationDialog
                 label={cta.secondary}
-                className={`${btnPrimary.replace("rounded-md", "rounded-full")} min-h-11 px-5 text-[0.875rem]`}
+                className={`${btnPrimary.replace("rounded-md", "rounded-full").replace("min-h-13", "h-8")} px-3.5 text-[0.75rem] sm:px-3.5`}
                 text={site.consultation}
                 form={site.form}
                 dialCodes={dialCodesFor(iso)}
@@ -166,7 +170,7 @@ export async function Header({
 
             {/* Mobile menu. <details> keeps it working with no JavaScript. */}
             <details className="relative xl:hidden">
-              <summary className="flex size-11 cursor-pointer list-none items-center justify-center rounded-full text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink">
+              <summary className="flex size-9 cursor-pointer list-none items-center justify-center rounded-full text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink">
                 <ListIcon size={22} aria-hidden />
                 <span className="sr-only">{nav.menuLabel}</span>
               </summary>
@@ -211,8 +215,12 @@ export async function Header({
                 </a>
               </nav>
             </details>
+
+            {/* Country and language, one choice: always the last thing on the right. */}
+            <LanguageSwitch iso={iso} />
           </div>
         </Container>
-      </header>
+      </div>
+    </header>
   );
 }
