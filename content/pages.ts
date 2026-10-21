@@ -30,7 +30,81 @@ export const about: AboutContent = {
     body: [
       "Medsafar helps people who live outside India get high-quality medical care in India at a fair price. We connect each patient with experienced doctors, surgeons and multi-speciality hospitals, and we take care of everything around the treatment so the patient and their family can focus on getting better.",
       "Medsafar India is a division of Travgrub Private Limited, a travel company based in Mumbai. That is why we handle the travel side ourselves: the visa invitation, flights, airport pickup and a place to stay.",
-      "We also want to help people who cannot afford treatment. Medsafar plans to give part of its income to save the lives of patients in need. That is at the heart of why we started.",
+    ],
+  },
+  stats: {
+    hospitals: "Partner hospitals",
+    treatments: "Treatments",
+    specialities: "Specialities",
+  },
+  glance: {
+    heading: "At a glance",
+    items: [
+      { label: "Founded", value: "2026" },
+      { label: "Based in", value: "Mumbai, India" },
+      { label: "Part of", value: "Travgrub Private Limited" },
+      { label: "Your main contact", value: "Vicky Prabhu, founder and CEO" },
+    ],
+  },
+  founder: {
+    eyebrow: "Meet the founder",
+    name: "Vicky Prabhu",
+    role: "Founder and CEO, Medsafar India",
+    picture: {
+      src: "/photos/about/vicky-prabhu.jpg",
+      alt: "Vicky Prabhu, founder and CEO of Medsafar",
+      pending: false,
+      focus: "50% 15%",
+    },
+    quote: {
+      text: "Medsafar exists to turn my lifelong desire to serve humanity into action: helping patients find the care they need, and bringing hope to families in their most difficult moments.",
+    },
+    story: {
+      heading: "Why I started Medsafar",
+      body: [
+        "I have always wanted to do something meaningful for people. My years with Rotary showed me that even a small act of kindness can make a real difference in someone's life.",
+        "Running Travgrub taught me that travel is about people, not tickets. Visa help, an airport pickup, a place to stay, someone to call when you need help: small details that bring real peace of mind in a country you do not know.",
+        "When someone falls seriously ill, the whole family carries the fear. Medsafar puts my travel experience to its most meaningful use: standing beside patients and their families, so they never feel alone.",
+      ],
+    },
+    contact: {
+      body: "Medsafar is small on purpose. Vicky looks after every patient himself, from the first message to the follow-up at home.",
+      label: "Message Vicky on WhatsApp",
+    },
+  },
+  mission: {
+    heading: "What we are here for",
+    items: [
+      {
+        title: "Our mission",
+        body: "Help patients find the right care in India, and bring hope to their families, one patient at a time.",
+      },
+      {
+        title: "Our vision",
+        body: "To be a trusted name for patients from Africa, the Middle East, the CIS region and South Asia, without losing the personal touch.",
+      },
+      {
+        title: "Giving back",
+        body: "As Medsafar grows, a set part of its income will help patients who cannot afford the treatment they need, with clear rules on who qualifies.",
+      },
+    ],
+  },
+  values: {
+    heading: "Our promise to every family",
+    intro: "Sending someone you love abroad for treatment is frightening. Here is what you can count on.",
+    items: [
+      {
+        title: "You are not a case",
+        body: "You are a family trusting us at one of the hardest moments of your life. We take that trust seriously.",
+      },
+      {
+        title: "Honest, always",
+        body: "No one can promise a medical result. We promise honesty, care and clear information, so you can decide with confidence.",
+      },
+      {
+        title: "You are never alone",
+        body: "Hospitals, specialists, travel and a place to stay, arranged for you, with someone to turn to at every step.",
+      },
     ],
   },
   does: {

@@ -30,19 +30,6 @@ export const site: SiteContent = {
       },
       { label: "Hospitals", href: "/hospitals", menu: "hospitals", all: "All hospitals" },
       { label: "Doctors", href: "/doctors", menu: "doctors", all: "All doctors" },
-      {
-        // The nine steps live on the home page, so these always lead there.
-        label: "Your journey",
-        href: "/#journey",
-        items: [
-          { label: "All nine steps", href: "/#journey" },
-          { label: "Medical opinion and estimate", href: "/#opinion" },
-          { label: "Visa assistance", href: "/#visa" },
-          { label: "Travel and hospital", href: "/#travel" },
-          { label: "After treatment", href: "/#aftercare" },
-          { label: "Questions", href: "/#faq" },
-        ],
-      },
       { label: "Blog", href: "/blog" },
     ],
     menuLabel: "Menu",
@@ -54,7 +41,7 @@ export const site: SiteContent = {
     current: "English",
     options: [{ code: "en", label: "English" }],
     note: "More languages coming",
-    countries: "Country",
+    countries: "Country and language",
     global: "Global",
   },
 
@@ -94,6 +81,9 @@ export const site: SiteContent = {
     plan: "Get plan",
   },
 
+  /** The round WhatsApp button fixed to the corner on computers. */
+  whatsappFloat: "Chat with us on WhatsApp",
+
   consultation: {
     eyebrow: "Free consultation",
     heading: "Get a free treatment plan",
@@ -112,7 +102,7 @@ export const site: SiteContent = {
       label: "Your mobile number",
       hint: "We reply on WhatsApp or by call. No cost, no obligation.",
       countryLabel: "Country code",
-      submit: "Get a free treatment plan",
+      submit: "Get a free consultation",
       reassurance: "One number is enough to start. Details can follow.",
     },
     step2: {
@@ -218,7 +208,6 @@ export const site: SiteContent = {
       {
         heading: "How we work",
         items: [
-          { label: "Your journey", href: "/#journey" },
           { label: "Visa and travel", href: "/#visa" },
           { label: "Questions", href: "#faq" },
           { label: "Surgery questionnaires", href: "/questionnaires" },

@@ -47,8 +47,9 @@
       animation-timeline: scroll(root);
     }
 
-    /* The header gains a soft shadow once the page moves. */
-    :is([data-home], [data-page]) > header {
+    /* The header bar (not the space beside it) gains a soft shadow and a
+       firmer fill once the page moves. */
+    :is([data-home], [data-page]) > header > .nav-notch {
       animation: home-header linear both;
       animation-timeline: scroll(root);
       animation-range: 0 140px;
@@ -130,7 +131,8 @@
       transform-origin: top;
       animation: home-fill linear both;
       animation-timeline: view();
-      animation-range: entry 60% cover 55%;
+      animation-range: cover 30% cover 72%;
+      will-change: transform;
     }
 
     /* Icons and numbers that pop in with a small turn. */

@@ -94,7 +94,8 @@ export const dialCodes: DialCode[] = [
   { iso: "ZW", name: "Zimbabwe", dial: "+263" },
 ];
 
-export const defaultIso = "NG";
+/** No country picked until the visitor picks one; the field shows "+00". */
+export const defaultIso = "";
 
 /** The picker list with one country pulled to the top. */
 export function dialCodesFor(iso: string | null): DialCode[] {

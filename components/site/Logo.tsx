@@ -7,7 +7,7 @@ import logo from "@/public/brand/medsafar-logo.png";
  *  is 546px wide, so it stays sharp on high-density screens at header size. */
 export function Logo({ href = "/" }: { href?: string }) {
   return (
-    <Link href={href} className="flex shrink-0 items-center justify-self-start">
+    <Link href={href} data-logo className="flex shrink-0 items-center justify-self-start">
       <Image
         src={logo}
         alt={`${site.brand.name} ${site.brand.country}`}

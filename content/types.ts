@@ -94,6 +94,8 @@ export type SiteContent = {
   mobileBar: {
     plan: string;
   };
+  /** Label for the WhatsApp button fixed to the corner on computers. */
+  whatsappFloat: string;
   consultation: ConsultationText;
   form: FormContent;
   footer: {
@@ -550,13 +552,32 @@ export type AboutContent = Pending & {
   who: { heading: string; body: string[] };
   does: { heading: string; items: string[] };
   doesNot: { heading: string; items: string[] };
-  selection: Pending & { heading: string; body: string };
-  /** Left out until Medsafar supplies names, roles and photos. */
-  team?: {
+  /** Live counts beside the heading. The numbers come from the catalog. */
+  stats: { hospitals: string; treatments: string; specialities: string };
+  glance: {
+    heading: string;
+    items: (Pending & { label: string; value: string })[];
+  };
+  /** Medsafar is run by its founder, who is also the patient's main contact. */
+  founder: Pending & {
+    eyebrow: string;
+    name: string;
+    role: string;
+    picture: Picture;
+    quote: Pending & { text: string };
+    story: Pending & { heading: string; body: string[] };
+    contact: { body: string; label: string };
+  };
+  mission: Pending & {
+    heading: string;
+    items: { title: string; body: string }[];
+  };
+  values: Pending & {
     heading: string;
     intro: string;
-    members: (Pending & { name: string; role: string; picture: Picture })[];
+    items: { title: string; body: string }[];
   };
+  selection: Pending & { heading: string; body: string };
   legal: { heading: string; name: string; body: string };
   note?: string;
 };

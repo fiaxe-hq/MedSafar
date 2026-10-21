@@ -42,7 +42,6 @@ import { EnquiryForm } from "@/components/form/EnquiryForm";
  */
 function Block({
   id,
-  step,
   heading,
   intro,
   tone = "",
@@ -51,8 +50,6 @@ function Block({
   children,
 }: {
   id: string;
-  /** The journey step this section covers, for example "Step 03". */
-  step?: string;
   heading: string;
   intro?: string;
   tone?: string;
@@ -64,14 +61,12 @@ function Block({
   bleed?: boolean;
   children: React.ReactNode;
 }) {
-  const label = step ? <p className={`${eyebrow} mb-4 font-mono`}>{step}</p> : null;
   if (stacked) {
     return (
       <section id={id} className={`scroll-mt-24 border-t border-hairline py-20 sm:py-24 ${tone}`}>
         <Container>
           <div className="reveal grid gap-5 lg:grid-cols-12 lg:items-end lg:gap-12">
             <div className="lg:col-span-6">
-              {label}
               <h2 className="display-2 max-w-[16ch]">{heading}</h2>
             </div>
             {intro ? <p className="max-w-[40ch] text-lg text-ink-2 lg:col-span-5 lg:col-start-8">{intro}</p> : null}
@@ -86,7 +81,6 @@ function Block({
     <section id={id} className={`scroll-mt-24 border-t border-hairline py-20 sm:py-24 ${tone}`}>
       <Container className="grid gap-10 lg:grid-cols-12 lg:gap-12">
         <div className="reveal lg:sticky lg:top-28 lg:col-span-4 lg:self-start">
-          {label}
           <h2 className="display-2 max-w-[14ch]">{heading}</h2>
           {intro ? <p className="mt-5 max-w-[36ch] text-lg text-ink-2">{intro}</p> : null}
         </div>
@@ -113,13 +107,14 @@ function More({ href, children }: { href: string; children: React.ReactNode }) {
 
 export async function HomeC() {
   const { hero, trust, hospitals, countryInfo, faq, enquiry } = content;
-  const { journey, treatment, specialist, compare, opinion, visa, travel, aftercare } = home;
+  const { journey, treatment, compare, opinion, visa, travel, aftercare } = home;
   const [cards, doctors, finder] = await Promise.all([featuredHospitals(), featuredDoctors(), finderData()]);
 
   return (
     <>
       {/* Hero */}
-      <section className="band-deep relative isolate overflow-hidden text-white">
+      {/* The top padding runs the green up behind the header. */}
+      <section className="band-deep relative isolate overflow-hidden pt-16 text-white">
         <div
           aria-hidden
           className="home-grid-pan absolute inset-0 -z-10 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:4rem_4rem] [mask-image:radial-gradient(ellipse_at_30%_20%,black,transparent_75%)]"
@@ -164,11 +159,8 @@ export async function HomeC() {
                     <li key={phase.name} className="flex items-center gap-3">
                       <a
                         href="#journey"
-                        className="flex min-h-11 items-center gap-2.5 rounded-full bg-white/10 px-4 text-sm text-white/90 ring-1 ring-white/15 backdrop-blur-sm transition-colors hover:bg-white/20 md:text-base"
+                        className="flex min-h-11 items-center rounded-full bg-white/10 px-5 text-sm text-white/90 ring-1 ring-white/15 backdrop-blur-sm transition-colors hover:bg-white/20 md:text-base"
                       >
-                        <span className="font-mono text-xs text-glow">
-                          {num(i * 3 + 1)}–{num(i * 3 + 3)}
-                        </span>
                         {phase.name}
                       </a>
                       {i < journey.phases.length - 1 ? (
@@ -220,7 +212,7 @@ export async function HomeC() {
       </Block>
 
       {/* Step 01 */}
-      <Block id="treatment" step={treatment.step} heading={treatment.heading} intro={treatment.intro} tone="bg-surface-2" stacked>
+      <Block id="treatment" heading={treatment.heading} intro={treatment.intro} tone="bg-surface-2" stacked>
         <div className="reveal grid gap-5 lg:grid-cols-2 lg:gap-6">
           <FinderSearch treatments={finder.treatments} types={finder.types} base="/treatments" />
           <BodyPicker treatments={finder.treatments} />
@@ -232,7 +224,7 @@ export async function HomeC() {
 
       {/* Step 02 */}
       {doctors.length ? (
-        <Block id="specialist" step={specialist.step} heading={home.doctors.heading} intro={home.doctors.intro} stacked>
+        <Block id="specialist" heading={home.doctors.heading} intro={home.doctors.intro} stacked>
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {doctors.map(({ doctor, speciality, hospital }) => (
               <li key={doctor.slug} className="min-w-0">
@@ -253,7 +245,7 @@ export async function HomeC() {
       ) : null}
 
       {/* Step 03 */}
-      <Block id="hospitals" step={compare.step} heading={compare.heading} intro={compare.intro} tone="bg-surface-2" stacked bleed>
+      <Block id="hospitals" heading={compare.heading} intro={compare.intro} tone="bg-surface-2" stacked bleed>
         <HospitalCarousel
           label={compare.heading}
           note={hospitals.note}
@@ -295,7 +287,7 @@ export async function HomeC() {
       ) : null}
 
       {/* Steps 04 and 05 */}
-      <Block id="opinion" step={opinion.step} heading={opinion.heading} intro={opinion.intro} tone="bg-surface-2">
+      <Block id="opinion" heading={opinion.heading} intro={opinion.intro} tone="bg-surface-2">
         <ul className="grid gap-4 md:grid-cols-2">
           {opinion.items.map((item, i) => {
             const Glyph = i === 0 ? StethoscopeIcon : ReceiptIcon;
@@ -323,7 +315,7 @@ export async function HomeC() {
       </Block>
 
       {/* Step 06 */}
-      <Block id="visa" step={visa.step} heading={visa.heading} intro={visa.intro} stacked>
+      <Block id="visa" heading={visa.heading} intro={visa.intro} stacked>
         <div className="grid gap-5 lg:grid-cols-2">
           <div className="band-deep reveal relative isolate flex items-center overflow-hidden rounded-lg p-7">
             <VisaPapers />
@@ -344,7 +336,7 @@ export async function HomeC() {
       </Block>
 
       {/* Steps 07 and 08 */}
-      <Block id="travel" step={travel.step} heading={travel.heading} intro={travel.intro} tone="bg-surface-2" stacked>
+      <Block id="travel" heading={travel.heading} intro={travel.intro} tone="bg-surface-2" stacked>
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {travel.items.map((item) => {
             const Glyph = travelIcons[item.icon];
@@ -365,7 +357,6 @@ export async function HomeC() {
       <section id="aftercare" className="band-deep relative isolate scroll-mt-24 overflow-hidden py-20 text-white sm:py-24">
         <Container className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
           <div className="reveal min-w-0 lg:col-span-5">
-            <p className={`${eyebrow} mb-4 font-mono !text-glow`}>{aftercare.step}</p>
             <h2 className="display-2 max-w-[14ch]">{aftercare.heading}</h2>
             <p className="mt-5 max-w-[36ch] text-lg text-white/75">{aftercare.intro}</p>
           </div>
