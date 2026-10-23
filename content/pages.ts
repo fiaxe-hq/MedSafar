@@ -307,7 +307,7 @@ export const privacy: LegalContent = {
     },
     {
       heading: "Complaints",
-      body: `Write first to our Grievance Officer at ${email}, with "Privacy" in the subject line. If you are not satisfied with our answer, you can complain to the Data Protection Board of India.`,
+      body: `Write to us first at ${email}, with "Privacy" in the subject line. If you are not satisfied with our answer, you can complain to the Data Protection Board of India.`,
     },
     {
       heading: "Changes to this policy",
