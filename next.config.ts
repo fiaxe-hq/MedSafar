@@ -7,7 +7,7 @@ import { countrySlugs } from "./content/countries";
  * Every other page is open. The pages themselves are untouched.
  * Set to false to open the full site again.
  */
-const clientPreview = true;
+const clientPreview = false;
 
 const hiddenPages = [
   "/blog/:path*",

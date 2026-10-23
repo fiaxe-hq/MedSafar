@@ -1,6 +1,5 @@
 // Client preview at building-medsafar, on the xaif@fiaxe.com account. Kept
-// apart from the live site: its own Worker and its own enquiry database.
-// R2 is not enabled on this account, so report uploads do not work here.
+// apart from the live site: its own Worker, enquiry database and reports bucket.
 // Deploy: pnpm run deploy. Migrate: pnpm run db:migrate. Both use this file.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
@@ -28,6 +27,12 @@
       "database_name": "building-medsafar-leads",
       "database_id": "c1068ffb-150c-4713-aaf8-a2cd1cd91163",
       "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "REPORTS",
+      "bucket_name": "building-medsafar-reports"
     }
   ],
   "observability": {
