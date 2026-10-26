@@ -1,7 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useParams } from "next/navigation";
+import { localPath } from "@/lib/i18n/languages";
 import { ArrowDownIcon } from "@phosphor-icons/react/dist/ssr/ArrowDown";
 import { CaretDownIcon } from "@phosphor-icons/react/dist/ssr/CaretDown";
 import { ChatCircleTextIcon } from "@phosphor-icons/react/dist/ssr/ChatCircleText";
@@ -13,7 +15,8 @@ import { MagnifyingGlassIcon } from "@phosphor-icons/react/dist/ssr/MagnifyingGl
 import { QuestionIcon } from "@phosphor-icons/react/dist/ssr/Question";
 import { HandPointingIcon } from "@phosphor-icons/react/dist/ssr/HandPointing";
 import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
-import { bodyAreas, plainSpeciality, searchWords, wholeBody, type BodyArea } from "@/data/bodyMap";
+import { searchWords, type BodyArea } from "@/data/bodyMap";
+import { fill, type Ui } from "@/content/ui";
 import { Body3D, type Sex } from "./Body3D";
 import { SpecialityIcon } from "@/components/ui/SpecialityIcon";
 import { btnPrimary, field } from "@/components/ui/styles";
@@ -21,15 +24,19 @@ import { contactHref, saveIssue } from "@/lib/enquiryMemory";
 
 export type FinderTreatment = { slug: string; name: string; speciality: string; summary: string };
 
-const allAreas = [...bodyAreas, ...wholeBody];
+/** The finder's words and body map, in the page's language. */
+export type FinderText = {
+  text: Ui["finder"];
+  bodyAreas: BodyArea[];
+  wholeBody: BodyArea[];
+  plainSpeciality: Record<string, string>;
+};
 
 /* ------------------------------------------------------------------ */
 /* Hero: "Yes, I know the name"                                        */
 /* ------------------------------------------------------------------ */
 
-const suggestions = ["Knee pain", "Back pain", "Heart", "Cancer", "Having a baby", "Weight loss", "Kidney", "Eyes"];
-
-function useSearch(treatments: FinderTreatment[], q: string) {
+function useSearch(treatments: FinderTreatment[], q: string, plainSpeciality: Record<string, string>) {
   return useMemo(() => {
     const words = q.toLowerCase().split(/\s+/).filter((w) => w.length > 1);
     if (!words.length) return null;
@@ -45,7 +52,7 @@ function useSearch(treatments: FinderTreatment[], q: string) {
       .filter((r) => r.hits > 0 && (best < words.length || r.hits === words.length))
       .sort((x, y) => y.score - x.score)
       .map((r) => r.t);
-  }, [treatments, q]);
+  }, [treatments, q, plainSpeciality]);
 }
 
 /** Search by the medical name or in everyday words. Results open under the box. */
@@ -53,16 +60,19 @@ export function FinderSearch({
   treatments,
   types,
   base = "",
+  words,
 }: {
   treatments: FinderTreatment[];
   types: string[];
+  words: FinderText;
   /** Where the speciality lists live, when the finder sits on another page. */
   base?: string;
 }) {
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const box = useRef<HTMLDivElement>(null);
-  const results = useSearch(treatments, q);
+  const { text, plainSpeciality } = words;
+  const results = useSearch(treatments, q, plainSpeciality);
 
   useEffect(() => {
     const away = (e: PointerEvent) => {
@@ -78,14 +88,14 @@ export function FinderSearch({
     <div className="relative z-20 flex h-full flex-col rounded-[1.5rem] bg-surface p-5 shadow-card ring-1 ring-hairline sm:p-7">
       <p className="inline-flex w-fit items-center gap-2 rounded-full bg-accent-soft px-3 py-1 text-sm font-medium text-accent">
         <CheckCircleIcon size={16} weight="fill" aria-hidden />
-        Yes, I know the name
+        {text.know}
       </p>
-      <h2 className="mt-4 font-display text-2xl font-semibold tracking-[-0.02em]">Search for it</h2>
-      <p className="mt-1 text-base text-ink-2">Type the treatment, or the problem in your own words.</p>
+      <h2 className="mt-4 font-display text-2xl font-semibold tracking-[-0.02em]">{text.searchHeading}</h2>
+      <p className="mt-1 text-base text-ink-2">{text.searchIntro}</p>
 
       <div ref={box} className="relative mt-5" onKeyDown={(e) => e.key === "Escape" && setOpen(false)}>
         <label className="relative block">
-          <span className="sr-only">Search treatments</span>
+          <span className="sr-only">{text.searchLabel}</span>
           <MagnifyingGlassIcon
             size={20}
             className="pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 text-ink-3"
@@ -99,7 +109,7 @@ export function FinderSearch({
               setOpen(true);
             }}
             onFocus={() => setOpen(true)}
-            placeholder="For example “knee pain”"
+            placeholder={text.searchPlaceholder}
             className={`${field} ps-12 text-lg`}
           />
         </label>
@@ -112,7 +122,7 @@ export function FinderSearch({
             {results.length ? (
               <>
                 <p className="px-3 pt-2 pb-1 text-sm text-ink-3">
-                  {results.length} {results.length === 1 ? "match" : "matches"}
+                  {results.length === 1 ? text.matchOne : fill(text.matchMany, { n: results.length })}
                 </p>
                 <ul>
                   {results.map((t) => (
@@ -138,20 +148,20 @@ export function FinderSearch({
               </>
             ) : (
               <p className="p-3 text-base text-ink-2">
-                Nothing matches “{q}”. Try other words, or{" "}
+                {fill(text.noMatch, { q })}{" "}
                 <a href="#body" className="font-medium text-accent underline underline-offset-2">
-                  point on the body
+                  {text.noMatchLink}
                 </a>{" "}
-                instead.
+                {text.noMatchEnd}
               </p>
             )}
           </div>
         ) : null}
       </div>
 
-      <p className="mt-5 text-sm font-medium text-ink-3">Popular</p>
+      <p className="mt-5 text-sm font-medium text-ink-3">{text.popular}</p>
       <div className="mt-2 flex flex-wrap gap-2">
-        {suggestions.map((s) => (
+        {text.suggestions.map((s) => (
           <button
             key={s}
             onClick={() => {
@@ -167,7 +177,7 @@ export function FinderSearch({
 
       <div className="mt-auto pt-7">
         <div className="border-t border-hairline pt-5">
-          <p className="text-sm font-medium text-ink-3">Or browse by type</p>
+          <p className="text-sm font-medium text-ink-3">{text.browse}</p>
           <ul className="mt-3 flex flex-wrap gap-2">
             {types.map((slug, i) => (
               <li key={slug} className={i > 2 ? "hidden sm:block" : ""}>
@@ -185,7 +195,7 @@ export function FinderSearch({
                 href={`${base}#all`}
                 className="group flex min-h-10 items-center justify-center gap-2 rounded-full px-4 text-sm font-medium text-accent ring-1 ring-accent/30 transition-colors hover:bg-accent-quiet"
               >
-                All {types.length} types
+                {fill(text.allTypes, { n: types.length })}
                 <ArrowDownIcon size={14} className="transition-[translate] duration-300 group-hover:translate-y-0.5" aria-hidden />
               </a>
             </li>
@@ -205,7 +215,9 @@ export function FinderSearch({
  * opens a pop-up with the treatments for that part, and from there one button
  * takes the problem to the contact form.
  */
-export function BodyPicker({ treatments }: { treatments: FinderTreatment[] }) {
+export function BodyPicker({ treatments, words }: { treatments: FinderTreatment[]; words: FinderText }) {
+  const { text, bodyAreas, wholeBody } = words;
+  const allAreas = [...bodyAreas, ...wholeBody];
   const bySlug = useMemo(() => new Map(treatments.map((t) => [t.slug, t])), [treatments]);
   const [sex, setSex] = useState<Sex>("female");
   const [turn, setTurn] = useState(0);
@@ -226,26 +238,26 @@ export function BodyPicker({ treatments }: { treatments: FinderTreatment[] }) {
       <div className="p-5 pb-0 sm:p-7 sm:pb-0">
         <p className="inline-flex w-fit items-center gap-2 rounded-full bg-deep px-3 py-1 text-sm font-medium text-glow">
           <QuestionIcon size={16} weight="fill" aria-hidden />
-          No, I&rsquo;m not sure
+          {text.notSure}
         </p>
-        <h2 className="mt-4 font-display text-2xl font-semibold tracking-[-0.02em]">Show us on the body</h2>
-        <p className="mt-1 text-base text-ink-2">Tap where the problem is. We&rsquo;ll show what can be treated there.</p>
+        <h2 className="mt-4 font-display text-2xl font-semibold tracking-[-0.02em]">{text.bodyHeading}</h2>
+        <p className="mt-1 text-base text-ink-2">{text.bodyIntro}</p>
       </div>
 
       <div className="relative mx-3 mt-4 flex grow flex-col overflow-hidden rounded-[1.25rem] bg-[radial-gradient(28rem_22rem_at_50%_35%,rgb(94_224_189/0.22),transparent_70%)] bg-surface-2 ring-1 ring-hairline sm:mx-4">
         <div className="relative z-10 flex items-center justify-between gap-3 p-3">
-          <div className="inline-flex rounded-full bg-surface p-1 ring-1 ring-hairline" role="radiogroup" aria-label="Body">
+          <div className="inline-flex rounded-full bg-surface p-1 ring-1 ring-hairline" role="radiogroup" aria-label={text.bodyLabel}>
             {(["female", "male"] as Sex[]).map((s) => (
               <button
                 key={s}
                 role="radio"
                 aria-checked={sex === s}
                 onClick={() => setSex(s)}
-                className={`min-h-9 cursor-pointer rounded-full px-4 text-sm font-medium capitalize transition-colors duration-300 ${
+                className={`min-h-9 cursor-pointer rounded-full px-4 text-sm font-medium transition-colors duration-300 ${
                   sex === s ? "bg-deep text-white" : "text-ink-2 hover:text-ink"
                 }`}
               >
-                {s}
+                {text[s]}
               </button>
             ))}
           </div>
@@ -254,7 +266,7 @@ export function BodyPicker({ treatments }: { treatments: FinderTreatment[] }) {
             className="inline-flex min-h-9 cursor-pointer items-center gap-2 rounded-full bg-surface px-4 text-sm font-medium whitespace-nowrap text-ink-2 ring-1 ring-hairline transition-colors hover:text-ink"
           >
             <ArrowsClockwiseIcon size={16} aria-hidden />
-            Turn around
+            {text.turn}
           </button>
         </div>
 
@@ -285,14 +297,14 @@ export function BodyPicker({ treatments }: { treatments: FinderTreatment[] }) {
 
         <p className="flex items-center justify-center gap-2 border-t border-hairline px-4 py-2.5 text-sm text-ink-3">
           <HandPointingIcon size={16} aria-hidden />
-          Tap a part. Drag to turn.
+          {text.tapHint}
         </p>
       </div>
 
       {/* Problems the figure can't show, and a plain list for anyone who
           would rather not use the figure. */}
       <div className="flex flex-wrap items-center gap-2 p-5 sm:px-7">
-        <span className="text-sm font-medium text-ink-3">Not in one place?</span>
+        <span className="text-sm font-medium text-ink-3">{text.notOnePlace}</span>
         {wholeBody.map((a) => (
           <button
             key={a.id}
@@ -303,13 +315,13 @@ export function BodyPicker({ treatments }: { treatments: FinderTreatment[] }) {
           </button>
         ))}
         <label className="relative ms-auto">
-          <span className="sr-only">Pick a part of the body from a list</span>
+          <span className="sr-only">{text.listLabel}</span>
           <select
             value=""
             onChange={(e) => e.target.value && pick(e.target.value)}
             className="min-h-9 cursor-pointer appearance-none rounded-full border border-hairline bg-surface ps-4 pe-9 text-sm text-ink-2 transition-colors hover:border-line"
           >
-            <option value="">Or pick from a list</option>
+            <option value="">{text.listPlaceholder}</option>
             {bodyAreas.map((a) => (
               <option key={a.id} value={a.id}>
                 {a.name}
@@ -330,7 +342,7 @@ export function BodyPicker({ treatments }: { treatments: FinderTreatment[] }) {
         }}
         className="consultation-dialog m-auto mb-0 max-h-[calc(100dvh-1rem)] w-full max-w-xl overflow-hidden rounded-t-xl border border-hairline bg-surface p-0 text-ink shadow-lift sm:mb-auto sm:max-h-[calc(100dvh-4rem)] sm:w-[calc(100%-2rem)] sm:rounded-xl"
       >
-        {area ? <AreaSheet key={area.id} area={area} bySlug={bySlug} onClose={() => dialog.current?.close()} /> : null}
+        {area ? <AreaSheet key={area.id} area={area} bySlug={bySlug} text={text} onClose={() => dialog.current?.close()} /> : null}
       </dialog>
     </div>
   );
@@ -340,10 +352,12 @@ export function BodyPicker({ treatments }: { treatments: FinderTreatment[] }) {
 function AreaSheet({
   area,
   bySlug,
+  text,
   onClose,
 }: {
   area: BodyArea;
   bySlug: Map<string, FinderTreatment>;
+  text: Ui["finder"];
   onClose: () => void;
 }) {
   const list = area.treatments.map((s) => bySlug.get(s)).filter((t): t is FinderTreatment => Boolean(t));
@@ -351,6 +365,7 @@ function AreaSheet({
   const [choice, setChoice] = useState("");
   const chosen = list.find((t) => t.slug === choice);
   const issue = { area: area.name, treatment: chosen?.name };
+  const { lang = "en" } = useParams<{ lang?: string }>();
 
   const option =
     "flex cursor-pointer items-start gap-3 rounded-lg border border-hairline p-4 transition-[background-color,border-color] duration-300 hover:bg-surface-2 has-checked:border-accent has-checked:bg-accent-quiet";
@@ -369,21 +384,21 @@ function AreaSheet({
           className="grid size-11 shrink-0 cursor-pointer place-items-center rounded-md text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
         >
           <XIcon size={20} aria-hidden />
-          <span className="sr-only">Close</span>
+          <span className="sr-only">{text.close}</span>
         </button>
       </div>
 
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         <div className="px-5 pt-5 sm:px-6 sm:pt-6">
           <p className="text-sm font-medium text-accent">
-            {list.length} {list.length === 1 ? "treatment" : "treatments"}
+            {list.length === 1 ? text.treatmentOne : fill(text.treatmentMany, { n: list.length })}
           </p>
           <p className="mt-1 text-base text-ink-2">{area.hint}</p>
         </div>
 
         <fieldset className="p-5 sm:p-6">
-          <legend className="sr-only">Which of these sounds like it?</legend>
-          <p className="text-base font-medium text-ink">Which of these sounds like it?</p>
+          <legend className="sr-only">{text.which}</legend>
+          <p className="text-base font-medium text-ink">{text.which}</p>
           <ul className="mt-3 grid gap-2">
             {list.map((t) => (
               <li key={t.slug}>
@@ -403,7 +418,7 @@ function AreaSheet({
                       href={`/treatments/${t.slug}`}
                       className="mt-1.5 inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-hover"
                     >
-                      Read more
+                      {text.readMore}
                       <ArrowRightIcon size={14} className="rtl:rotate-180" aria-hidden />
                     </Link>
                   </span>
@@ -421,8 +436,8 @@ function AreaSheet({
                   className="mt-1 size-4 shrink-0 accent-accent"
                 />
                 <span>
-                  <span className="block font-semibold text-ink">I&rsquo;m not sure</span>
-                  <span className="mt-0.5 block text-sm text-ink-2">A doctor will read your reports and tell you what fits.</span>
+                  <span className="block font-semibold text-ink">{text.unsure}</span>
+                  <span className="mt-0.5 block text-sm text-ink-2">{text.unsureBody}</span>
                 </span>
               </label>
             </li>
@@ -431,24 +446,24 @@ function AreaSheet({
       </div>
 
       <div className="border-t border-hairline bg-surface-2 p-5 sm:p-6">
-        <a href={contactHref(issue)} onClick={() => saveIssue(issue)} className={`${btnPrimary} w-full`}>
+        <a href={localPath(lang, contactHref(issue))} onClick={() => saveIssue(issue)} className={`${btnPrimary} w-full`}>
           <ChatCircleTextIcon size={20} aria-hidden />
-          {chosen ? `Ask us about ${chosen.name}` : "Ask us about this problem"}
+          {chosen ? fill(text.askAbout, { name: chosen.name }) : text.askProblem}
         </a>
-        <p className="mt-2 text-center text-sm text-ink-3">Free. We&rsquo;ll fill in the problem for you.</p>
+        <p className="mt-2 text-center text-sm text-ink-3">{text.askNote}</p>
       </div>
     </div>
   );
 }
 
 /** Link back up to the body, for the browse section. */
-export function BackToBody() {
+export function BackToBody({ label }: { label: string }) {
   return (
     <a
       href="#body"
       className="group inline-flex min-h-11 shrink-0 items-center gap-2 text-base font-medium text-accent transition-colors hover:text-accent-hover"
     >
-      Not sure? Point on the body instead
+      {label}
       <ArrowUpIcon size={16} className="transition-[translate] duration-300 group-hover:-translate-y-0.5" aria-hidden />
     </a>
   );

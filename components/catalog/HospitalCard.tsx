@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { MapPinIcon } from "@phosphor-icons/react/dist/ssr/MapPin";
 import { SealCheckIcon } from "@phosphor-icons/react/dist/ssr/SealCheck";
 import type { Hospital } from "@/content/types";

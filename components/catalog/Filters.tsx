@@ -1,8 +1,8 @@
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { CheckIcon } from "@phosphor-icons/react/dist/ssr/Check";
 import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
-import { catalog } from "@/content/catalog";
 import { btnQuiet } from "@/components/ui/styles";
+import { getText } from "@/lib/i18n/text";
 
 export type FilterField = {
   name: string;
@@ -23,7 +23,8 @@ const chipOn = `${chip} border-deep bg-deep font-medium text-white`;
  *
  * A field with only one option filters nothing, so it is not shown.
  */
-export function Filters({ action, fields }: { action: string; fields: FilterField[] }) {
+export async function Filters({ action, fields }: { action: string; fields: FilterField[] }) {
+  const { catalog } = await getText();
   const text = catalog.filters;
   const shown = fields.filter((f) => f.options.length > 1);
   if (!shown.length) return null;
@@ -86,7 +87,8 @@ export function Filters({ action, fields }: { action: string; fields: FilterFiel
 }
 
 /** How many records the filters left, so a change is never silent. */
-export function ResultCount({ count }: { count: number }) {
+export async function ResultCount({ count }: { count: number }) {
+  const { catalog } = await getText();
   const text = catalog.filters;
   return (
     <p role="status" className="mt-8 text-sm text-ink-3">
@@ -97,7 +99,8 @@ export function ResultCount({ count }: { count: number }) {
 
 /** Shown in place of the cards when the filters match nothing: says so, and
  *  offers the way out. */
-export function NoResults({ action }: { action: string }) {
+export async function NoResults({ action }: { action: string }) {
+  const { catalog } = await getText();
   const text = catalog.filters;
   return (
     <div className="mt-4 flex flex-col items-start gap-5 rounded-lg border border-hairline bg-surface p-6 sm:p-7">

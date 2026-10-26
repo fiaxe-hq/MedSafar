@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { startTransition, useActionState, useId, useState } from "react";
 import { saveQuestionnaire } from "@/app/actions";
 import { DialPicker } from "@/components/form/DialPicker";
@@ -136,6 +136,8 @@ export function QuestionnaireForm({
               <DialPicker
                 id={`${uid}-iso`}
                 label={form.step1.countryLabel}
+                search={form.step1.countrySearch}
+                none={form.step1.countryNone}
                 dialCodes={dialCodes}
                 value={iso}
                 onChange={setIso}

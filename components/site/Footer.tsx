@@ -1,17 +1,18 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { EnvelopeSimpleIcon } from "@phosphor-icons/react/dist/ssr/EnvelopeSimple";
 import { PhoneIcon } from "@phosphor-icons/react/dist/ssr/Phone";
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr/WhatsappLogo";
-import { site } from "@/content/site";
 import { emailHref, phoneHref, whatsappHref } from "@/lib/contact";
 import travgrubLogo from "@/public/brand/travgrub-logo.png";
 import { Container } from "@/components/ui/Container";
 import { resolveHref } from "./resolveHref";
 import { SocialLinks } from "./SocialLinks";
 import { hiddenLink, showUpcoming } from "@/lib/preview";
+import { getText } from "@/lib/i18n/text";
 
-export function Footer({ home = "/" }: { home?: string }) {
+export async function Footer({ home = "/" }: { home?: string }) {
+  const { site } = await getText();
   const { footer, brand, contact, company } = site;
   const year = new Date().getFullYear();
 

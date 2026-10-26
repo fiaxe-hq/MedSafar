@@ -1,5 +1,6 @@
 import type { PackageGroup } from "@/content/types";
 import { btnPrimary } from "@/components/ui/styles";
+import { fill, type Ui } from "@/content/ui";
 
 const usd = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -7,18 +8,17 @@ const usd = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
-const days = (n: number) => `${n} day${n === 1 ? "" : "s"}`;
-
 /** "1+4" is ICU + ward days; a single number is the whole stay. */
-function formatStay(stay: string): string {
+function formatStay(stay: string, text: Ui["stay"]): string {
+  const days = (n: number) => (n === 1 ? text.dayOne : fill(text.dayMany, { n }));
   const [first, second] = stay.split("+").map(Number);
-  if (second === undefined) return `${days(first)} in hospital`;
-  if (first === 0) return `${days(second)} on the ward`;
-  return `${days(first)} in ICU, ${second} on the ward`;
+  if (second === undefined) return fill(text.hospital, { days: days(first) });
+  if (first === 0) return fill(text.ward, { days: days(second) });
+  return fill(text.icu, { days: days(first), ward: second });
 }
 
 /** The package prices a hospital has supplied, grouped by category. */
-export function PackagePrices({ groups, note }: { groups: PackageGroup[]; note: string }) {
+export function PackagePrices({ groups, note, stay }: { groups: PackageGroup[]; note: string; stay: Ui["stay"] }) {
   return (
     <div>
       <div className="reveal gap-x-8 lg:columns-2">
@@ -33,7 +33,7 @@ export function PackagePrices({ groups, note }: { groups: PackageGroup[]; note: 
                 >
                   <div className="min-w-0">
                     <p className="text-base text-ink">{item.name}</p>
-                    <p className="mt-0.5 text-sm text-ink-3">{formatStay(item.stay)}</p>
+                    <p className="mt-0.5 text-sm text-ink-3">{formatStay(item.stay, stay)}</p>
                   </div>
                   <p className="shrink-0 text-base font-semibold text-ink tabular-nums">{usd.format(item.priceUsd)}</p>
                 </li>

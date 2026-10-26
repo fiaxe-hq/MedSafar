@@ -92,7 +92,7 @@ export function EnquiryForm({
     saveIssue(null);
     setIssue(null);
   };
-  const banner = issue ? <IssueBanner issue={issue} onClear={clearIssue} /> : null;
+  const banner = issue ? <IssueBanner issue={issue} onClear={clearIssue} text={text.issue} /> : null;
 
   if (done) {
     return (
@@ -138,6 +138,8 @@ export function EnquiryForm({
           <DialPicker
             id={`${uid}-iso`}
             label={text.step1.countryLabel}
+            search={text.step1.countrySearch}
+            none={text.step1.countryNone}
             dialCodes={dialCodes}
             value={iso}
             onChange={setIso}
@@ -407,14 +409,14 @@ export function EnquiryForm({
 }
 
 /** The problem picked on the treatments page, shown at the top of the form. */
-function IssueBanner({ issue, onClear }: { issue: Issue; onClear: () => void }) {
+function IssueBanner({ issue, onClear, text }: { issue: Issue; onClear: () => void; text: FormContent["issue"] }) {
   return (
     <div className="flex items-start gap-3 rounded-md border border-accent/30 bg-accent-quiet p-3 ps-4">
       <div className="min-w-0 flex-1">
-        <p className="text-sm text-ink-3">Your question is about</p>
+        <p className="text-sm text-ink-3">{text.about}</p>
         <p className="mt-0.5 text-base font-medium text-ink">
           {describeIssue(issue).replace(": ", " · ")}
-          {issue.treatment ? null : <span className="font-normal text-ink-3"> · a doctor will advise</span>}
+          {issue.treatment ? null : <span className="font-normal text-ink-3"> · {text.advise}</span>}
         </p>
       </div>
       <button
@@ -423,7 +425,7 @@ function IssueBanner({ issue, onClear }: { issue: Issue; onClear: () => void }) 
         className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-md text-ink-3 transition-colors hover:bg-surface hover:text-ink"
       >
         <XIcon size={16} aria-hidden />
-        <span className="sr-only">Remove</span>
+        <span className="sr-only">{text.remove}</span>
       </button>
     </div>
   );

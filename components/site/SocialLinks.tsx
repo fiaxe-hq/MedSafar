@@ -1,7 +1,7 @@
 import { FacebookLogoIcon } from "@phosphor-icons/react/dist/ssr/FacebookLogo";
 import { InstagramLogoIcon } from "@phosphor-icons/react/dist/ssr/InstagramLogo";
 import { YoutubeLogoIcon } from "@phosphor-icons/react/dist/ssr/YoutubeLogo";
-import { site } from "@/content/site";
+import { getText } from "@/lib/i18n/text";
 
 const icons = {
   instagram: InstagramLogoIcon,
@@ -10,7 +10,8 @@ const icons = {
 } as const;
 
 /** Round icon links to Medsafar's social profiles. */
-export function SocialLinks({ className = "", small = false }: { className?: string; small?: boolean }) {
+export async function SocialLinks({ className = "", small = false }: { className?: string; small?: boolean }) {
+  const { site } = await getText();
   return (
     <ul className={`flex flex-wrap ${small ? "gap-1" : "gap-3"} ${className}`}>
       {site.contact.social.map(({ network, label, href }) => {

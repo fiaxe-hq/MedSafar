@@ -1,11 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowUpRight";
 import { MapPinIcon } from "@phosphor-icons/react/dist/ssr/MapPin";
 import { StethoscopeIcon } from "@phosphor-icons/react/dist/ssr/Stethoscope";
 import type { Doctor } from "@/content/types";
-import { site } from "@/content/site";
 import { Mark } from "@/components/ui/Pending";
+import { getText } from "@/lib/i18n/text";
 
 /**
  * A doctor on the /doctors list: portrait first, then who they are and where
@@ -13,7 +13,7 @@ import { Mark } from "@/components/ui/Pending";
  * up. Until a portrait is supplied, the slot is a green field with a
  * stethoscope, never a stand-in face.
  */
-export function DoctorTile({
+export async function DoctorTile({
   doctor,
   speciality,
   hospital,
@@ -26,6 +26,7 @@ export function DoctorTile({
   /** Label on the link. */
   view: string;
 }) {
+  const { site } = await getText();
   const { picture } = doctor;
   const photo = !picture.pending && picture.src;
 

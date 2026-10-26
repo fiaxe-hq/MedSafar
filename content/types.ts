@@ -53,12 +53,12 @@ export type SiteContent = {
     contact: NavItem;
   };
   languages: {
+    /** Heading of the language picker. */
     label: string;
-    current: string;
-    options: Language[];
-    note: string;
-    /** Heading over the list of country pages, and the name of the main site. */
-    countries: string;
+    /** Heading of the country picker, and the note under it. */
+    country: string;
+    countryNote: string;
+    /** The choice for visitors from a country without its own photos. */
     global: string;
   };
   cta: {
@@ -140,10 +140,15 @@ export type ConsultationText = {
 };
 
 export type FormContent = {
+  /** The banner for a problem picked on the body map. */
+  issue: { about: string; advise: string; remove: string };
   step1: {
     label: string;
     hint: string;
     countryLabel: string;
+    /** The search box in the country code list, and what shows when nothing matches. */
+    countrySearch: string;
+    countryNone: string;
     submit: string;
     reassurance: string;
   };
@@ -413,6 +418,11 @@ export type Post = Pending & {
 
 /** Text for the hospital, doctor, treatment and blog pages. */
 export type CatalogContent = {
+  /** Added after the summary of a treatment a doctor has not checked yet. */
+  draft: string;
+  /** On a translated legal page: only the English text counts, with a link to it. */
+  legalNote: string;
+  legalEnglish: string;
   filters: {
     heading: string;
     all: string;
@@ -644,7 +654,10 @@ export type HomeContent = {
   specialist: { step: string };
   compare: JourneySection & { all: string };
   opinion: JourneySection & { items: HomePoint[]; cta: string; note: string };
-  visa: JourneySection;
+  visa: JourneySection & {
+    /** Words on the drawing of the passport and invitation letter. */
+    papers: { passport: string; letter: string; stamp: string };
+  };
   travel: JourneySection & { items: (HomePoint & { icon: "pickup" | "stay" | "flight" | "manager" | "interpreter" | "dates" })[] };
   aftercare: JourneySection & { items: string[] };
   selection: {

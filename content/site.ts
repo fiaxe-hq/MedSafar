@@ -38,11 +38,9 @@ export const site: SiteContent = {
 
   languages: {
     label: "Language",
-    current: "English",
-    options: [{ code: "en", label: "English" }],
-    note: "More languages coming",
-    countries: "Country and language",
-    global: "Global",
+    country: "Your country",
+    countryNote: "Changes the photos on the home page. The language stays as you set it.",
+    global: "Another country",
   },
 
   cta: {
@@ -98,10 +96,13 @@ export const site: SiteContent = {
   },
 
   form: {
+    issue: { about: "Your question is about", advise: "a doctor will advise", remove: "Remove" },
     step1: {
       label: "Your mobile number",
       hint: "We reply on WhatsApp or by call. No cost, no obligation.",
       countryLabel: "Country code",
+      countrySearch: "Search country",
+      countryNone: "No match",
       submit: "Get a free consultation",
       reassurance: "One number is enough to start. Details can follow.",
     },
