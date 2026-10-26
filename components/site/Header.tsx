@@ -1,10 +1,9 @@
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { CaretDownIcon } from "@phosphor-icons/react/dist/ssr/CaretDown";
 import { HandPointingIcon } from "@phosphor-icons/react/dist/ssr/HandPointing";
 import { ListIcon } from "@phosphor-icons/react/dist/ssr/List";
 import type { NavEntry, NavItem } from "@/content/types";
-import { site } from "@/content/site";
-import { defaultIso, dialCodesFor } from "@/content/dial-codes";
+import { defaultIso } from "@/content/dial-codes";
 import { getDoctors, getHospitals, getSpecialities } from "@/lib/catalog";
 import { Container } from "@/components/ui/Container";
 import { btnPrimary } from "@/components/ui/styles";
@@ -13,6 +12,8 @@ import { LanguageSwitch } from "./LanguageSwitch";
 import { Logo } from "./Logo";
 import { NavUnderline } from "./NavUnderline";
 import { resolveHref } from "./resolveHref";
+import { getLang, getText } from "@/lib/i18n/text";
+import { dialCodesFor } from "@/lib/i18n/dialCodes";
 
 /** The links inside each dropdown. Catalog menus are read fresh, so a new
  *  speciality, hospital or doctor shows up without touching this file. */
@@ -40,8 +41,11 @@ export async function Header({
   current,
   iso = null,
   countryName = "",
+  place,
   overlay = false,
 }: {
+  /** On the home page, the country it was drawn for. */
+  place?: string;
   /** Lay the bar over the top of a full-bleed band (the home hero), so its
    *  rounded corners sit on that band instead of on empty page. */
   overlay?: boolean;
@@ -52,6 +56,7 @@ export async function Header({
   /** The nav link for the section being viewed, for example "/hospitals". */
   current?: string;
 }) {
+  const [{ site }, lang] = await Promise.all([getText(), getLang()]);
   const { nav, cta } = site;
   const menus = await menuLinks();
   const linksOf = (entry: NavEntry) => (entry.menu ? menus[entry.menu] : (entry.items ?? []));
@@ -162,7 +167,7 @@ export async function Header({
                 className={`${btnPrimary.replace("rounded-md", "rounded-full").replace("min-h-13", "h-8")} px-3.5 text-[0.75rem] sm:px-3.5`}
                 text={site.consultation}
                 form={site.form}
-                dialCodes={dialCodesFor(iso)}
+                dialCodes={dialCodesFor(iso, lang.code)}
                 defaultIso={iso ?? defaultIso}
                 defaultCountry={countryName}
               />
@@ -181,7 +186,7 @@ export async function Header({
                 {nav.items.map((entry) => (
                   <div key={entry.label}>
                     <a
-                      href={resolveHref(entry.href, home)}
+                      href={resolveHref(entry.href, home, lang.code)}
                       aria-current={entry.href === current ? "page" : undefined}
                       className="flex min-h-12 items-center rounded-lg px-3 text-base text-ink transition-colors hover:bg-surface-2 aria-[current=page]:bg-surface-2 aria-[current=page]:font-medium"
                     >
@@ -189,7 +194,7 @@ export async function Header({
                     </a>
                     {entry.finder ? (
                       <a
-                        href={resolveHref(entry.finder.href, home)}
+                        href={resolveHref(entry.finder.href, home, lang.code)}
                         className="mx-1 my-1 flex min-h-11 items-center gap-2 rounded-lg bg-deep px-3 text-[0.9375rem] font-medium text-white transition-colors hover:bg-deep/90"
                       >
                         <HandPointingIcon size={18} weight="fill" className="text-glow" aria-hidden />
@@ -199,7 +204,7 @@ export async function Header({
                     {entry.items?.map((link) => (
                       <a
                         key={link.href}
-                        href={resolveHref(link.href, home)}
+                        href={resolveHref(link.href, home, lang.code)}
                         className="flex min-h-11 items-center rounded-lg ps-7 pe-3 text-[0.9375rem] text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
                       >
                         {link.label}
@@ -208,7 +213,7 @@ export async function Header({
                   </div>
                 ))}
                 <a
-                  href={nav.contact.href}
+                  href={resolveHref(nav.contact.href, home, lang.code)}
                   className="mt-1 flex min-h-12 items-center rounded-lg border-t border-hairline px-3 text-base font-medium text-accent transition-colors hover:bg-surface-2"
                 >
                   {nav.contact.label}
@@ -216,8 +221,9 @@ export async function Header({
               </nav>
             </details>
 
-            {/* Country and language, one choice: always the last thing on the right. */}
-            <LanguageSwitch iso={iso} />
+            {/* Country (the home page's photos) and language (the whole site):
+                always the last things on the right. */}
+            <LanguageSwitch place={place} />
           </div>
         </Container>
       </div>

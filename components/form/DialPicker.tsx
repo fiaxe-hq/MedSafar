@@ -28,12 +28,16 @@ function Flag({ iso }: { iso: string }) {
 export function DialPicker({
   id,
   label,
+  search: searchLabel,
+  none,
   dialCodes,
   value,
   onChange,
 }: {
   id: string;
   label: string;
+  search: string;
+  none: string;
   dialCodes: DialCode[];
   value: string;
   onChange: (iso: string) => void;
@@ -135,8 +139,8 @@ export function DialPicker({
                 if (shown[0]) pick(shown[0].iso);
               }
             }}
-            placeholder="Search country"
-            aria-label="Search country"
+            placeholder={searchLabel}
+            aria-label={searchLabel}
             className="mb-1 h-10 w-full rounded-lg bg-surface-2 px-3 text-[0.9375rem] text-ink placeholder:text-ink-3 focus:outline-none"
           />
           <ul id={listId} role="listbox" aria-label={label} className="max-h-64 overflow-y-auto overscroll-contain">
@@ -155,7 +159,7 @@ export function DialPicker({
                 </button>
               </li>
             ))}
-            {shown.length === 0 ? <li className="px-3 py-2 text-sm text-ink-3">No match</li> : null}
+            {shown.length === 0 ? <li className="px-3 py-2 text-sm text-ink-3">{none}</li> : null}
           </ul>
         </div>
       ) : null}

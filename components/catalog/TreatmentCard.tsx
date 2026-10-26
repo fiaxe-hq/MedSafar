@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import type { Treatment } from "@/content/types";
 import { SpecialityIcon } from "@/components/ui/SpecialityIcon";
 import { CardFoot } from "./CardFoot";

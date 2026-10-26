@@ -1,11 +1,12 @@
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
 import { ClipboardTextIcon } from "@phosphor-icons/react/dist/ssr/ClipboardText";
 import type { Questionnaire } from "@/content/types";
-import { questionnaireText } from "@/content/questionnaires";
+import { getText } from "@/lib/i18n/text";
 
 /** A link to the questionnaire for a speciality, as one wide card. */
-export function QuestionnaireCallout({ questionnaire, className = "" }: { questionnaire: Questionnaire; className?: string }) {
+export async function QuestionnaireCallout({ questionnaire, className = "" }: { questionnaire: Questionnaire; className?: string }) {
+  const { questionnaireText } = await getText();
   return (
     <Link
       href={`/questionnaires/${questionnaire.slug}`}

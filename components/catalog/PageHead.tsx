@@ -1,18 +1,18 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr/ArrowLeft";
 import type { Picture } from "@/content/types";
-import { site } from "@/content/site";
 import { Container } from "@/components/ui/Container";
 import { Mark } from "@/components/ui/Pending";
 import { btnPrimary } from "@/components/ui/styles";
+import { getText } from "@/lib/i18n/text";
 
 /**
  * Opener for a list or detail page: where you are, what it is, what to do.
  * Optional live counts sit beside the heading, optional links sit under it,
  * and an optional photo opens out to full width as you scroll.
  */
-export function PageHead({
+export async function PageHead({
   back,
   heading,
   intro,
@@ -39,6 +39,7 @@ export function PageHead({
   /** A photo under the heading that opens out as you scroll. */
   picture?: Picture;
 }) {
+  const { site } = await getText();
   const side = Boolean(stats?.length) && !center;
   const photo = picture && !picture.pending && picture.src ? picture : null;
 

@@ -1,12 +1,13 @@
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr/WhatsappLogo";
-import { site } from "@/content/site";
 import { whatsappHref } from "@/lib/contact";
+import { getText } from "@/lib/i18n/text";
 
 /**
  * Fixed bar on phones, and a round WhatsApp button in the corner on
  * computers, where the bar is hidden.
  */
-export function MobileBar() {
+export async function MobileBar() {
+  const { site } = await getText();
   const { cta, mobileBar } = site;
 
   return (

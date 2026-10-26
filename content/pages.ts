@@ -235,87 +235,180 @@ export const contact: ContactContent = {
 };
 
 const updated = { label: "Last updated", value: "1 October 2026" };
+const privacyUpdated = { label: "Last updated", value: "26 October 2026" };
+const privacyEffective = { label: "Effective date", value: "1 October 2026" };
+const website = "https://medsafar.com";
 
 export const privacy: LegalContent = {
   meta: {
-    title: "Privacy. Medsafar India.",
-    description: "How Medsafar handles your details and medical reports.",
+    title: "Privacy policy. Medsafar India.",
+    description: "How Medsafar India collects, uses and protects personal and medical information.",
   },
-  heading: "Privacy",
+  heading: "Privacy policy",
   intro:
-    "This policy explains what Medsafar collects when you ask for help, why, who sees it and what you can ask us to do with it.",
-  updated,
+    "This policy explains how Medsafar India collects, uses, stores, shares and protects personal information, including medical information, when you use our website or services.",
+  effective: privacyEffective,
+  updated: privacyUpdated,
   sections: [
     {
-      heading: "Who we are",
-      body: `Medsafar India is a division of Travgrub Private Limited, registered office ${office}. We decide how your personal data is used, so under India's Digital Personal Data Protection Act, 2023 we are responsible for it.`,
-    },
-    {
-      heading: "What we collect",
+      heading: "1. Introduction",
       body: [
-        "What you give us: your mobile number, name, email, the country you live in, the treatment you need, when you want to travel, anything you write to the doctor, and any medical reports you upload or send us.",
-        "If you go ahead with treatment, we also collect what the hospital and the visa need: your passport details, your travel dates, and the names of anyone travelling with you.",
-        "What we collect automatically: a scrambled code made from your internet address, kept only to stop the enquiry form being misused. It cannot be turned back into the address. We also count visits to the site, without cookies and without identifying you.",
+        "Medsafar India (\"Medsafar\", \"we\", \"our\" or \"us\") is committed to protecting the privacy, confidentiality and security of the personal information of individuals who visit our website, submit enquiries, register with us, or use our medical tourism facilitation and patient coordination services.",
+        "This Privacy Policy explains how we collect, use, store, process, disclose and protect personal information, including sensitive medical information, in connection with our website and services.",
+        "Medsafar India facilitates access to healthcare services by coordinating with hospitals, doctors, diagnostic centres and other relevant service providers. We understand the confidential nature of medical information and are committed to handling it responsibly and transparently.",
+        "This Privacy Policy applies to website visitors, prospective patients, registered patients, their attendants or authorised representatives, and other individuals who interact with our services.",
+        "Our handling of personal information is subject to applicable Indian laws, including the Digital Personal Data Protection Act, 2023, to the extent applicable and in force, the Information Technology Act, 2000, and applicable rules and regulations.",
       ],
     },
     {
-      heading: "How we use it",
+      heading: "2. Information We Collect",
       body: [
-        "To answer your enquiry, get a doctor's opinion and a written estimate, and arrange your treatment, visa, travel, stay and follow-up care.",
-        "To contact you about your case by WhatsApp, phone or email.",
-        "To keep the site working and safe, and to meet our legal duties.",
-        "We do not sell your data, and we use your medical reports only for your own care.",
+        "Personal and Contact Information: Full name and title; email address; mobile and WhatsApp number; country of residence and nationality, where required; age or date of birth; gender, where relevant to the services requested; residential or correspondence address; and preferred language and communication preferences.",
+        "Medical and Health Information: Medical history and details of existing health conditions; symptoms and treatment requirements; medical reports, laboratory results and diagnostic scans; prescriptions and doctors’ notes; details of previous consultations, surgeries or treatments; photographs or other medical records, where relevant and voluntarily provided; and information required by a hospital or treating doctor to evaluate a treatment request.",
+        "We request medical information only when reasonably necessary for the services being sought and handle it with appropriate confidentiality safeguards.",
+        "Travel and Accommodation Information: Passport details and other travel documents, where necessary; travel dates and itinerary preferences; flight and accommodation preferences; details of accompanying family members or attendants; visa-related information; and special assistance or accessibility requirements relevant to the journey.",
+        "Website and Technical Information: Internet Protocol (IP) address; browser type and operating system; device and technical identifiers; pages visited and time spent on the website; referring website or source; website usage patterns and diagnostic information; and cookie identifiers and similar tracking information, where enabled.",
+        "Communication and Enquiry Information: Records of enquiries and communications made through our website, email, telephone, WhatsApp or other communication channels, including messages, appointment requests, service preferences and related correspondence. Calls may be recorded for quality assurance, training, security or documentation purposes, where applicable and with appropriate notice or consent.",
+        "Information About Attendants or Representatives: Where a patient provides details of an attendant, family member or authorised representative, we may process that person’s contact information to coordinate appointments, travel or other requested services. The person providing such information should have the appropriate authority to share it.",
       ],
     },
     {
-      heading: "Your consent",
-      body: "When you send the enquiry form you agree that we may use your details and share your reports with partner hospitals and doctors in India to prepare your treatment plan. You can withdraw that consent at any time by writing to us. It does not undo what is already done, but we stop from then on.",
-    },
-    {
-      heading: "Medical reports",
-      body: "Health information is the most sensitive data you give us. Only the people working on your case see it: our case managers and the doctors and hospitals asked to plan your treatment. We store reports with our hosting provider, Cloudflare, under strict access control.",
-    },
-    {
-      heading: "Who we share it with",
+      heading: "3. How We Collect Information",
       body: [
-        "Partner hospitals and doctors in India, to plan and give your treatment.",
-        "Airlines, hotels and visa services, only what they need to book your travel and stay. Travel may be booked through Travgrub Private Limited, our parent company.",
-        "Your insurer, if you ask us to deal with them for you.",
-        "Companies that run services for us, such as hosting (Cloudflare), messaging (WhatsApp) and email, under their own privacy duties.",
-        "Government authorities, when the law requires it.",
+        "We may collect information directly from you through website forms, registration forms, telephone calls, emails or messaging platforms.",
+        "We may collect information when you voluntarily share medical records or travel documents with us, from your authorised representative or attendant, or from hospitals, doctors or other service providers involved in coordinating your requested services, where lawfully permitted.",
+        "We may also collect information automatically through cookies, analytics tools and website technologies, or from other lawful sources where necessary to provide the requested services or meet legal obligations.",
+        "Where consent is required, we will seek it in the applicable manner before processing the relevant information.",
       ],
     },
     {
-      heading: "Data outside India",
-      body: "Our hosting and messaging providers may store data on servers outside India. We use only providers that protect it to the standard Indian law requires.",
-    },
-    {
-      heading: "How long we keep it",
-      body: "If your enquiry does not go ahead, we delete your details and reports 24 months after your last contact with us. If you are treated, we keep your records for as long as the law requires, and then delete them.",
-    },
-    {
-      heading: "Your rights",
+      heading: "4. Purposes for Which We Use Your Information",
       body: [
-        "You can ask us for a summary of the data we hold about you and who we have shared it with, ask us to correct or complete it, ask us to delete it, and withdraw your consent.",
-        "You can name someone to use these rights for you if you die or cannot act yourself.",
-        "To use any of these rights, write to us at the address below. We reply within 30 days.",
+        "To respond to enquiries and understand your healthcare requirements.",
+        "To coordinate consultations, treatment evaluations, appointments and related services.",
+        "To share relevant medical information with hospitals, doctors, diagnostic centres and other healthcare providers selected for your treatment coordination.",
+        "To facilitate travel, accommodation, airport transfers and attendant arrangements, where requested.",
+        "To communicate appointment confirmations, treatment updates, service information and travel arrangements.",
+        "To provide customer support and respond to complaints or requests.",
+        "To maintain internal records, improve service quality and administer our website.",
+        "To prevent fraud, protect security and investigate misuse of our services.",
+        "To comply with applicable legal, regulatory, accounting or reporting requirements.",
+        "To send promotional communications, newsletters or educational content where the required consent has been obtained.",
+        "To conduct aggregated or de-identified analysis to understand service usage and improve our offerings.",
+        "We will not use your medical information for unrelated marketing purposes without the appropriate lawful basis and consent, where required.",
       ],
     },
     {
-      heading: "Children",
-      body: "If the patient is under 18, a parent or legal guardian must send the enquiry and give consent for them.",
+      heading: "5. Consent and Lawful Processing",
+      body: [
+        "We process personal information on applicable lawful grounds, which may include your consent, where required by law; processing necessary to provide services that you have requested or agreed to receive, where legally permitted; compliance with applicable legal obligations; and other lawful grounds available under applicable legislation.",
+        "Where we rely on consent, you may withdraw it subject to applicable law. Withdrawal of consent will not affect the lawfulness of processing undertaken before withdrawal.",
+        "If you choose not to provide information necessary for a requested service, we may be unable to coordinate certain consultations, treatment evaluations or travel arrangements.",
+      ],
     },
     {
-      heading: "Complaints",
-      body: `Write to us first at ${email}, with "Privacy" in the subject line. If you are not satisfied with our answer, you can complain to the Data Protection Board of India.`,
+      heading: "6. Sharing and Disclosure of Information",
+      body: [
+        "We do not sell your personal or medical information.",
+        "Hospitals, treating doctors, specialists, diagnostic laboratories and other healthcare providers involved in evaluating or coordinating your requested treatment.",
+        "Airlines, travel agencies, visa assistance providers, hotels, transport operators and other relevant service providers, where required to arrange travel or accommodation.",
+        "Website hosting providers, information technology vendors, CRM platforms, cloud storage providers, communication services and other vendors who support our operations.",
+        "Government authorities, courts, regulators or law enforcement agencies where disclosure is required or permitted under applicable law.",
+        "Your authorised attendant, family member, representative or another person where you have authorised disclosure or where disclosure is otherwise lawful.",
+        "We seek to limit disclosures to information reasonably necessary for the relevant purpose. Third-party service providers may process information under their own privacy policies and contractual obligations, as applicable.",
+      ],
     },
     {
-      heading: "Changes to this policy",
-      body: "If we change this policy, we put the new version on this page and change the date at the top. If a change affects how we use data you have already given us, we tell you first.",
+      heading: "7. International Transfers of Information",
+      body: [
+        "Medsafar India may coordinate treatment for patients residing in India or other countries. Accordingly, relevant personal or medical information may need to be shared with healthcare providers or service partners located in India or abroad.",
+        "Any cross-border transfer or processing of personal information will be undertaken subject to applicable Indian law, including any restrictions or conditions imposed by the relevant authorities, and other applicable legal requirements.",
+        "We take reasonable steps to ensure that information is shared only with appropriate recipients for legitimate service-related purposes.",
+      ],
     },
     {
-      heading: "Contact",
-      body: `Medsafar India, ${office}. Email ${email}. Phone or WhatsApp ${phone}.`,
+      heading: "8. Cookies and Similar Technologies",
+      body: [
+        "Our website may use cookies and similar technologies to ensure proper website functionality; remember preferences and improve user experience; understand website traffic and usage patterns; identify technical issues and improve performance; and support analytics and, where applicable, consent-based marketing activities.",
+        "You may manage or disable cookies through your browser settings. Some website features may not function properly if certain cookies are disabled.",
+        "Where required, we will obtain consent before using non-essential cookies or similar technologies.",
+      ],
+    },
+    {
+      heading: "9. Data Security",
+      body: [
+        "We implement reasonable technical, organisational and administrative safeguards designed to protect personal information against unauthorised access, disclosure, alteration, loss or misuse.",
+        "Depending on the nature of the information and the systems used, safeguards may include access restrictions and role-based permissions; secure data transmission and encryption where appropriate; password protection and account security controls; confidentiality requirements for employees and relevant service providers; security monitoring, backups and incident response procedures; and periodic review of data-handling practices.",
+        "However, no website, electronic transmission or storage system can be guaranteed to be completely secure. We cannot guarantee absolute security, but we will take appropriate steps to address security incidents in accordance with applicable law.",
+      ],
+    },
+    {
+      heading: "10. Data Retention and Deletion",
+      body: [
+        "We retain personal information only for as long as reasonably necessary to fulfil the purposes described in this Policy, provide requested services, maintain required records, resolve disputes, protect legitimate interests or comply with applicable legal obligations.",
+        "Retention periods may vary depending on the type of information and the nature of the services provided.",
+        "When information is no longer required, we will take appropriate steps to delete it or anonymise it, subject to applicable legal requirements and any legitimate need to retain it.",
+        "You may request deletion of your personal information, subject to applicable law. Certain information may need to be retained where required by law or for the establishment, exercise or defence of legal claims.",
+      ],
+    },
+    {
+      heading: "11. Your Privacy Rights",
+      body: [
+        "Subject to applicable law, you may have the right to request information about the personal data we process about you; request correction or updating of inaccurate or incomplete information; request erasure of personal information where legally permissible; withdraw consent for processing where processing is based on consent; raise a grievance regarding the handling of your personal information; nominate another individual to exercise applicable rights in the event of death or incapacity, where provided by law; and exercise any other rights available under applicable data protection legislation.",
+        "To exercise your rights, please contact us using the details provided in the Contact Us section below. We may need to verify your identity before acting on your request.",
+      ],
+    },
+    {
+      heading: "12. Marketing Communications",
+      body: [
+        "We may send information about our services, healthcare programmes, patient assistance services, events or educational content where permitted by applicable law and where the necessary consent has been obtained.",
+        "You may opt out of promotional communications at any time by following the unsubscribe instructions in the communication or contacting us directly.",
+        "Even if you opt out of marketing, we may continue to send essential service-related communications, such as appointment information or updates concerning a request you have made.",
+      ],
+    },
+    {
+      heading: "13. Third-Party Websites and Services",
+      body: "Our website may contain links to external websites, hospital websites, booking platforms or other third-party services. These websites and services may operate under their own privacy policies and terms. Medsafar India does not control the privacy practices of independent third parties and encourages you to review their policies before sharing personal information.",
+    },
+    {
+      heading: "14. Medical Disclaimer and Role of Medsafar India",
+      body: [
+        "Medsafar India acts as a medical tourism facilitator and patient coordination service. Unless expressly stated otherwise in a separate written agreement, we do not independently diagnose medical conditions, prescribe medication or provide medical treatment.",
+        "Medical assessments, diagnoses, treatment recommendations and clinical decisions are the responsibility of the relevant qualified healthcare professionals and healthcare institutions.",
+        "Sharing medical information with us does not by itself establish a doctor-patient relationship with Medsafar India.",
+      ],
+    },
+    {
+      heading: "15. Children’s Privacy",
+      body: [
+        "Our services may occasionally involve medical or travel coordination for individuals under the age of 18.",
+        "Where personal information relates to a child, we will handle it in accordance with applicable law and obtain verifiable parental or lawful guardian consent where required.",
+        "We do not knowingly collect children’s personal information for unrelated purposes or use it for targeted advertising where prohibited by law.",
+      ],
+    },
+    {
+      heading: "16. Changes to This Privacy Policy",
+      body: [
+        "We may update this Privacy Policy from time to time to reflect changes in our services, technology, business practices or applicable legal requirements.",
+        "The revised version will be published on our website with an updated “Last Updated” date. Where required by law, we will provide additional notice or obtain consent for material changes.",
+        "We encourage you to review this page periodically.",
+      ],
+    },
+    {
+      heading: "17. Contact Us and Grievance Redressal",
+      body: [
+        "If you have any questions, concerns or requests regarding this Privacy Policy or the handling of your personal information, please contact us:",
+        "Medsafar India",
+        `Email: ${email}`,
+        `Website: ${website}`,
+        `Registered Office: ${office}`,
+        "Privacy and Grievance Contact: Medsafar India Privacy Team",
+        "We will review and respond to privacy-related requests or grievances within the timelines prescribed by applicable law.",
+      ],
+    },
+    {
+      heading: "Our Commitment to Patients",
+      body: "At Medsafar India, we recognise that medical information is deeply personal. We are committed to treating patient information with care, confidentiality and respect, and to using it responsibly for healthcare facilitation and related services.",
     },
   ],
 };

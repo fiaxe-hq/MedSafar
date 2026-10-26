@@ -1,13 +1,14 @@
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import type { Post } from "@/content/types";
-import { catalog } from "@/content/catalog";
 import { formatDate } from "@/lib/format";
 import { CardFoot } from "./CardFoot";
+import { getLang, getText } from "@/lib/i18n/text";
 
 /** The date line of a post. Says so plainly while the post has no date. */
-export function PostDate({ post }: { post: Post }) {
+export async function PostDate({ post }: { post: Post }) {
+  const [{ catalog }, lang] = await Promise.all([getText(), getLang()]);
   return post.date ? (
-    <time dateTime={post.date}>{formatDate(post.date)}</time>
+    <time dateTime={post.date}>{formatDate(post.date, lang.code)}</time>
   ) : (
     <span>{catalog.blog.undated}</span>
   );

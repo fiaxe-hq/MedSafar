@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { AirplaneTiltIcon } from "@phosphor-icons/react/dist/ssr/AirplaneTilt";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
 import { CalendarCheckIcon } from "@phosphor-icons/react/dist/ssr/CalendarCheck";
@@ -11,7 +11,6 @@ import { StethoscopeIcon } from "@phosphor-icons/react/dist/ssr/Stethoscope";
 import { TranslateIcon } from "@phosphor-icons/react/dist/ssr/Translate";
 import { UserCircleIcon } from "@phosphor-icons/react/dist/ssr/UserCircle";
 import { DoctorFeature } from "@/components/catalog/DoctorFeature";
-import { home } from "@/content/home";
 import { showUpcoming } from "@/lib/preview";
 import { CheckIcon } from "@phosphor-icons/react/dist/ssr/Check";
 import { FirstAidIcon } from "@phosphor-icons/react/dist/ssr/FirstAid";
@@ -22,9 +21,10 @@ import { BodyPicker, FinderSearch } from "@/components/catalog/TreatmentFinder";
 import { Container } from "@/components/ui/Container";
 import { handledIcons } from "@/components/ui/HandledIcon";
 import { btnPrimary, eyebrow } from "@/components/ui/styles";
-import { global as content } from "@/content/countries";
-import { site } from "@/content/site";
-import { dialCodesFor, defaultIso } from "@/content/dial-codes";
+import { getText } from "@/lib/i18n/text";
+import { finderWords, type Text } from "@/lib/i18n/source";
+import { defaultIso } from "@/content/dial-codes";
+import { getDialCodes } from "@/lib/i18n/dialCodes";
 import {
   getDoctorsBySlugs,
   getHospitals,
@@ -105,10 +105,18 @@ function More({ href, children }: { href: string; children: React.ReactNode }) {
   );
 }
 
-export async function HomeC() {
+/** `place` is the visitor's country; it only changes the hero photo. */
+export async function HomeC({ place }: { place: string }) {
+  const text = await getText();
+  const { home, site, global: content } = text;
   const { hero, trust, hospitals, countryInfo, faq, enquiry } = content;
   const { journey, treatment, compare, opinion, visa, travel, aftercare } = home;
-  const [cards, doctors, finder] = await Promise.all([featuredHospitals(), featuredDoctors(), finderData()]);
+  const picture = (text.places.find((p) => p.slug === place) ?? text.places[0]).picture;
+  const [cards, doctors, finder] = await Promise.all([
+    featuredHospitals(content.hospitals.featured),
+    featuredDoctors(home.doctors.featured),
+    finderData(),
+  ]);
 
   return (
     <>
@@ -136,7 +144,7 @@ export async function HomeC() {
           </div>
           <div className="hero-rise min-w-0 [animation-delay:320ms] lg:col-span-5">
             <div className="rounded-xl bg-surface p-5 text-ink shadow-[0_30px_60px_-20px_rgb(2_20_16/0.6)] sm:p-7">
-              <HomeForm compact />
+              <HomeForm site={site} compact />
             </div>
           </div>
         </Container>
@@ -146,8 +154,16 @@ export async function HomeC() {
         <div className="hero-rise [animation-delay:400ms]">
           <div className="home-expand relative overflow-hidden">
             <div className="relative aspect-[4/3] sm:aspect-[5/2] lg:aspect-[3/1]">
-              {hero.picture.src ? (
-                <Image src={hero.picture.src} alt={hero.picture.alt} fill priority sizes="100vw" className="object-cover" />
+              {picture.src ? (
+                <Image
+                  src={picture.src}
+                  alt={picture.alt}
+                  fill
+                  priority
+                  sizes="100vw"
+                  className="object-cover"
+                  style={picture.focus ? { objectPosition: picture.focus } : undefined}
+                />
               ) : null}
               <div aria-hidden className="absolute inset-0 bg-linear-to-t from-deep via-deep/40 to-transparent md:via-deep/20" />
             </div>
@@ -214,8 +230,8 @@ export async function HomeC() {
       {/* Step 01 */}
       <Block id="treatment" heading={treatment.heading} intro={treatment.intro} tone="bg-surface-2" stacked>
         <div className="reveal grid gap-5 lg:grid-cols-2 lg:gap-6">
-          <FinderSearch treatments={finder.treatments} types={finder.types} base="/treatments" />
-          <BodyPicker treatments={finder.treatments} />
+          <FinderSearch treatments={finder.treatments} types={finder.types} base="/treatments" words={finderWords(text)} />
+          <BodyPicker treatments={finder.treatments} words={finderWords(text)} />
         </div>
         <div className="mt-8">
           <More href="/treatments">{treatment.all}</More>
@@ -318,7 +334,7 @@ export async function HomeC() {
       <Block id="visa" heading={visa.heading} intro={visa.intro} stacked>
         <div className="grid gap-5 lg:grid-cols-2">
           <div className="band-deep reveal relative isolate flex items-center overflow-hidden rounded-lg p-7">
-            <VisaPapers />
+            <VisaPapers words={visa.papers} />
           </div>
           <div className="reveal rounded-lg border border-hairline bg-surface p-7">
             <h3 className="text-lg font-medium">{countryInfo.visa.heading}</h3>
@@ -396,7 +412,7 @@ export async function HomeC() {
             <p className="mt-6 max-w-[46ch] text-lg text-white/75">{enquiry.support}</p>
           </div>
           <div className="reveal min-w-0 rounded-xl bg-surface p-5 text-ink sm:p-7 lg:col-span-6">
-            <HomeForm />
+            <HomeForm site={site} />
           </div>
         </Container>
       </section>
@@ -421,7 +437,7 @@ async function finderData() {
       slug: t.slug,
       name: t.name,
       speciality: t.speciality,
-      summary: t.summary.replace(/\s*Draft, to be checked by a doctor before it is published\.$/, ""),
+      summary: t.summary,
     })),
     types: specialities.filter((sp) => treatments.some((t) => t.speciality === sp.slug)).map((sp) => sp.slug),
   };
@@ -432,12 +448,12 @@ async function finderData() {
  * and signed, resting on a passport. Built from markup, so it stays sharp and
  * costs no download. Decorative only.
  */
-function VisaPapers() {
+function VisaPapers({ words }: { words: Text["home"]["visa"]["papers"] }) {
   const line = "block h-1.5 rounded-full bg-ink/10";
   return (
     <div aria-hidden className="relative mx-auto h-56 w-full max-w-md select-none sm:h-64">
       <div className="home-float-late absolute start-[6%] top-8 flex aspect-[5/7] w-36 -rotate-8 flex-col items-center justify-between rounded-lg bg-[#0d4a3a] px-4 py-5 shadow-[0_24px_40px_-20px_rgb(0_0_0/0.7)] ring-1 ring-white/15 sm:w-40">
-        <span className="text-[0.625rem] font-medium tracking-[0.25em] text-glow/80 uppercase">Passport</span>
+        <span className="text-[0.625rem] font-medium tracking-[0.25em] text-glow/80 uppercase">{words.passport}</span>
         <GlobeHemisphereEastIcon size={52} weight="thin" className="text-glow/70" />
         <span className="h-1 w-12 rounded-full bg-glow/30" />
       </div>
@@ -451,7 +467,7 @@ function VisaPapers() {
           <span className="ms-auto h-1.5 w-10 rounded-full bg-ink/10" />
         </div>
         <p className="mt-4 text-[0.75rem] leading-snug font-semibold tracking-[-0.01em]">
-          Invitation letter for medical treatment
+          {words.letter}
         </p>
         <div className="mt-3 space-y-2">
           <span className={`${line} w-full`} />
@@ -470,9 +486,7 @@ function VisaPapers() {
             />
           </svg>
           <span className="grid size-16 -rotate-12 place-items-center rounded-full border-2 border-accent/70 text-center text-[0.5625rem] leading-tight font-bold tracking-[0.12em] text-accent uppercase">
-            Visa
-            <br />
-            ready
+            {words.stamp}
           </span>
         </div>
       </div>
@@ -480,11 +494,11 @@ function VisaPapers() {
   );
 }
 
-function HomeForm({ compact = false }: { compact?: boolean }) {
+async function HomeForm({ site, compact = false }: { site: Text["site"]; compact?: boolean }) {
   return (
     <EnquiryForm
       text={site.form}
-      dialCodes={dialCodesFor(null)}
+      dialCodes={await getDialCodes(null)}
       defaultIso={defaultIso}
       defaultCountry=""
       source="/"
@@ -496,9 +510,9 @@ function HomeForm({ compact = false }: { compact?: boolean }) {
 /** One per item in content/home.ts, in the same order. */
 const selectionIcons = [StethoscopeIcon, HospitalIcon, SealCheckIcon, TranslateIcon, ReceiptIcon, ChatsCircleIcon];
 
-async function featuredDoctors() {
+async function featuredDoctors(featured: string[]) {
   const [doctors, specialities, hospitals] = await Promise.all([
-    getDoctorsBySlugs(home.doctors.featured),
+    getDoctorsBySlugs(featured),
     getSpecialities(),
     getHospitals(),
   ]);
@@ -509,9 +523,9 @@ async function featuredDoctors() {
   }));
 }
 
-async function featuredHospitals() {
+async function featuredHospitals(featured: string[]) {
   const [cards, specialities] = await Promise.all([
-    getHospitalsBySlugs(content.hospitals.featured),
+    getHospitalsBySlugs(featured),
     getSpecialities(),
   ]);
   return cards.map((hospital) => ({

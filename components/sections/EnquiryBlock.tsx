@@ -1,8 +1,9 @@
 import type { CountryContent } from "@/content/types";
-import { site } from "@/content/site";
-import { defaultIso, dialCodesFor } from "@/content/dial-codes";
+import { defaultIso } from "@/content/dial-codes";
+import { getDialCodes } from "@/lib/i18n/dialCodes";
 import { Container } from "@/components/ui/Container";
 import { EnquiryForm } from "@/components/form/EnquiryForm";
+import { getText } from "@/lib/i18n/text";
 
 /**
  * The form again, near the foot of the page. Same component as the hero,
@@ -11,7 +12,7 @@ import { EnquiryForm } from "@/components/form/EnquiryForm";
  * Shared pages pass no country, and a treatment page passes its treatment so
  * the form opens with it already chosen.
  */
-export function EnquiryBlock({
+export async function EnquiryBlock({
   content,
   source,
   treatment = "",
@@ -20,6 +21,7 @@ export function EnquiryBlock({
   source: string;
   treatment?: string;
 }) {
+  const { site } = await getText();
   const { enquiry } = content;
 
   return (
@@ -34,7 +36,7 @@ export function EnquiryBlock({
           <div className="min-w-0 rounded-lg bg-surface p-5 sm:p-7 lg:col-span-6">
             <EnquiryForm
               text={site.form}
-              dialCodes={dialCodesFor(content.iso ?? null)}
+              dialCodes={await getDialCodes(content.iso ?? null)}
               defaultIso={content.iso ?? defaultIso}
               defaultCountry={content.countryName ?? ""}
               defaultTreatment={treatment}

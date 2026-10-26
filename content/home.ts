@@ -108,6 +108,7 @@ export const home: HomeContent = {
     step: "Step 06",
     heading: "Visa assistance",
     intro: "We prepare the hospital invitation letter and tell you exactly which papers to carry to the embassy.",
+    papers: { passport: "Passport", letter: "Invitation letter for medical treatment", stamp: "Visa ready" },
   },
   travel: {
     step: "Step 07 and 08",

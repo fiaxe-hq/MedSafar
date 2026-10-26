@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import type { Doctor } from "@/content/types";
 import { Figure } from "@/components/ui/Pending";
 import { btnPrimary } from "@/components/ui/styles";

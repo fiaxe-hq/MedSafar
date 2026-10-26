@@ -1,15 +1,18 @@
+"use client";
+
 import Image from "next/image";
 import { ImageIcon } from "@phosphor-icons/react/dist/ssr/Image";
 import type { Picture } from "@/content/types";
-import { site } from "@/content/site";
+import { useLabels } from "@/components/site/Labels";
 
 /** Marks anything on the page that is a stand-in, not real content. */
 export function Mark({ className = "" }: { className?: string }) {
+  const labels = useLabels();
   return (
     <span
       className={`inline-flex items-center rounded-sm bg-surface-2 px-2.5 py-1 text-[0.6875rem] font-medium tracking-[0.08em] text-ink-3 uppercase ${className}`}
     >
-      {site.pendingLabel}
+      {labels.pending}
     </span>
   );
 }
@@ -42,16 +45,17 @@ export function Figure({
   compact?: boolean;
   position?: "object-center" | "object-top";
 }) {
+  const labels = useLabels();
   if (picture.pending || !picture.src) {
     if (compact) {
       return (
         <div
-          title={`${site.photoLabel}: ${picture.alt}`}
+          title={`${labels.photo}: ${picture.alt}`}
           className={`pending-surface flex min-w-0 ${ratio} ${rounded} items-center justify-center ${className}`}
         >
           <ImageIcon size={18} className="text-ink-3" aria-hidden />
           <span className="sr-only">
-            {site.pendingLabel}. {site.photoLabel}: {picture.alt}
+            {labels.pending}. {labels.photo}: {picture.alt}
           </span>
         </div>
       );
@@ -67,7 +71,7 @@ export function Figure({
         />
         <p className="max-w-[34ch] text-base text-ink-2">{picture.alt}</p>
         <div className="mt-4 flex items-center gap-2">
-          <span className="text-sm text-ink-3">{site.photoLabel}</span>
+          <span className="text-sm text-ink-3">{labels.photo}</span>
           <Mark />
         </div>
       </div>

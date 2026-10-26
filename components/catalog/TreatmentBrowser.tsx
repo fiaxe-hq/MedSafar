@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
 import type { Treatment } from "@/content/types";
-import { plainSpeciality } from "@/data/bodyMap";
+import { fill, type Ui } from "@/content/ui";
 import { Container } from "@/components/ui/Container";
 import { SpecialityIcon } from "@/components/ui/SpecialityIcon";
 import { TreatmentCard } from "./TreatmentCard";
@@ -22,8 +22,15 @@ export function TreatmentBrowser({
   groups,
   total,
   more,
+  text,
+  plainSpeciality,
+  back,
 }: {
   groups: BrowseGroup[];
+  text: Ui["browser"];
+  plainSpeciality: Record<string, string>;
+  /** Label for the link back up to the body. */
+  back: string;
   total: number;
   /** Label for the link to the speciality page, or null while it is hidden. */
   more: string | null;
@@ -52,22 +59,22 @@ export function TreatmentBrowser({
       <Container>
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-sm font-medium text-accent">If you know the name</p>
+            <p className="text-sm font-medium text-accent">{text.know}</p>
             <h2 className="mt-1 font-display text-2xl font-semibold tracking-[-0.02em] text-balance sm:text-[1.75rem]">
-              Browse by type
+              {text.heading}
             </h2>
             <p className="mt-2 max-w-[56ch] text-base text-ink-2">
-              {total} treatments in {groups.length} groups. Pick a type to see its treatments.
+              {fill(text.count, { total, groups: groups.length })}
             </p>
           </div>
-          <BackToBody />
+          <BackToBody label={back} />
         </div>
 
         <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-12 lg:gap-10">
           {/* Types: a row of chips under the header on a phone, a list beside
               the treatments on a laptop. */}
           <nav
-            aria-label="Treatment types"
+            aria-label={text.label}
             className="sticky top-16 z-20 -mx-5 min-w-0 border-y border-hairline bg-bg/90 backdrop-blur-md sm:-mx-8 lg:top-24 lg:mx-0 lg:self-start lg:border-0 lg:bg-transparent lg:backdrop-blur-none lg:col-span-4 xl:col-span-3"
           >
             <ul className="flex gap-2 overflow-x-auto px-5 py-3 [scrollbar-width:none] sm:px-8 lg:flex-col lg:gap-1 lg:overflow-visible lg:p-0">

@@ -19,8 +19,6 @@ import type { Faq, Treatment } from "@/content/types";
  * patient gets an individual quote. Other stays are typical ranges.
  */
 
-const check = "Draft, to be checked by a doctor before it is published.";
-
 const atNanavati = (days: string) =>
   `${days} at Nanavati Max Super Speciality Hospital. Your hospital confirms it for your case.`;
 
@@ -28,9 +26,9 @@ const usually = (text: string) => `${text}. Your hospital confirms it for your c
 
 type Text = Pick<Treatment, "what" | "who" | "stay" | "recovery" | "faq">;
 
-/** Every record stays pending until a doctor has checked it. */
+/** Every record stays pending until a doctor has checked it; pages then add catalog.draft after the summary. */
 function treatment(slug: string, name: string, speciality: string, summary: string, text: Text): Treatment {
-  return { slug, name, speciality, summary: `${summary} ${check}`, pending: true, ...text };
+  return { slug, name, speciality, summary, pending: true, ...text };
 }
 
 const q = (question: string, answer: string): Faq => ({ question, answer });

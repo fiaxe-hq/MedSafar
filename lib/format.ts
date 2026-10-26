@@ -1,12 +1,11 @@
-const dateFormat = new Intl.DateTimeFormat("en-GB", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-});
-
-/** "2026-03-14" becomes "14 March 2026". */
-export function formatDate(iso: string): string {
+/** "2026-03-14" becomes "14 March 2026", in the reader's language. */
+export function formatDate(iso: string, lang = "en"): string {
   const date = new Date(iso);
-  return Number.isNaN(date.getTime()) ? iso : dateFormat.format(date);
+  if (Number.isNaN(date.getTime())) return iso;
+  const options = { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" } as const;
+  try {
+    return new Intl.DateTimeFormat(lang === "en" ? "en-GB" : lang, options).format(date);
+  } catch {
+    return new Intl.DateTimeFormat("en-GB", options).format(date);
+  }
 }

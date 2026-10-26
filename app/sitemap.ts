@@ -1,26 +1,23 @@
 import type { MetadataRoute } from "next";
-import { countrySlugs } from "@/content/countries";
 import { questionnaires } from "@/content/questionnaires";
-import { getDoctors, getHospitals, getPosts, getSpecialities, getTreatments } from "@/lib/catalog";
+import { doctors } from "@/data/doctors";
+import { hospitals } from "@/data/hospitals";
+import { posts } from "@/data/posts";
+import { specialities } from "@/data/specialities";
+import { treatments } from "@/data/treatments";
+import { languages, localPath } from "@/lib/i18n/languages";
 import { siteUrl } from "@/lib/seo";
 import { hiddenLink } from "@/lib/preview";
 
 /**
  * Pages worth finding in search. Hospital, doctor and blog detail pages are
- * left out while they are placeholders.
+ * left out while they are placeholders. Each page lists itself in every
+ * language.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [treatments, hospitals, doctors, posts, specialities] = await Promise.all([
-    getTreatments(),
-    getHospitals(),
-    getDoctors(),
-    getPosts(),
-    getSpecialities(),
-  ]);
   const real = <T extends { pending?: boolean }>(records: T[]) => records.filter((r) => !r.pending);
   const paths = [
-    { path: "", priority: 1 },
-    ...countrySlugs.map((slug) => ({ path: `/${slug}`, priority: 0.9 })),
+    { path: "/", priority: 1 },
     { path: "/specialities", priority: 0.8 },
     ...specialities.map((s) => ({ path: `/specialities/${s.slug}`, priority: 0.7 })),
     { path: "/treatments", priority: 0.8 },
@@ -41,5 +38,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/questionnaires", priority: 0.5 },
     ...questionnaires.map((q) => ({ path: `/questionnaires/${q.slug}`, priority: 0.6 })),
   ];
-  return paths.filter(({ path }) => !hiddenLink(path)).map(({ path, priority }) => ({ url: `${siteUrl}${path}`, priority }));
+  return paths
+    .filter(({ path }) => !hiddenLink(path))
+    .map(({ path, priority }) => ({
+      url: `${siteUrl}${path === "/" ? "" : path}`,
+      priority,
+      alternates: {
+        languages: Object.fromEntries(languages.map((l) => [l.code, `${siteUrl}${localPath(l.code, path)}`])),
+      },
+    }));
 }
