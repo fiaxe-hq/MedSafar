@@ -616,6 +616,7 @@ export type LegalContent = Pending & {
   meta: PageMeta;
   heading: string;
   intro: string;
+  effective?: { label: string; value: string };
   updated: { label: string; value: string };
   sections: { heading: string; body: string | string[] }[];
 };

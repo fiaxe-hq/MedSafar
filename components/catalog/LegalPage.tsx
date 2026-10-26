@@ -24,9 +24,16 @@ export async function LegalPage({ content, source }: { content: LegalContent; so
               </a>
             </p>
           )}
-          <p className="text-sm text-ink-3">
-            {content.updated.label}: {content.updated.value}
-          </p>
+          <div className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-ink-3">
+            {content.effective ? (
+              <span>
+                {content.effective.label}: {content.effective.value}
+              </span>
+            ) : null}
+            <span>
+              {content.updated.label}: {content.updated.value}
+            </span>
+          </div>
 
           <div className="mt-8 border-t border-hairline">
             {content.sections.map((section) => (
