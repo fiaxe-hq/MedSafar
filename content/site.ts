@@ -46,7 +46,7 @@ export const site: SiteContent = {
     label: "Language",
     country: "Your country",
     countryNote: "Changes the photos on the home page. The language stays as you set it.",
-    global: "Another country",
+    global: "Select country",
   },
 
   cta: {

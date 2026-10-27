@@ -84,7 +84,7 @@ export function TreatmentBrowser({
               the treatments on a laptop. */}
           <nav
             aria-label={text.label}
-            className="sticky top-[4.5rem] z-20 -mx-5 min-w-0 border-y border-hairline bg-bg/90 backdrop-blur-md sm:-mx-8 lg:top-24 lg:mx-0 lg:self-start lg:border-0 lg:bg-transparent lg:backdrop-blur-none lg:col-span-4 xl:col-span-3"
+            className="sticky top-16 z-20 -mx-5 min-w-0 border-y border-hairline bg-bg/90 backdrop-blur-md sm:-mx-8 lg:top-24 lg:mx-0 lg:self-start lg:border-0 lg:bg-transparent lg:backdrop-blur-none lg:col-span-4 xl:col-span-3"
           >
             <ul className="flex gap-2 overflow-x-auto px-5 py-3 [scrollbar-width:none] sm:px-8 lg:flex-col lg:gap-1 lg:overflow-visible lg:p-0">
               {groups.map((g) => {

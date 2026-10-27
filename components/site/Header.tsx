@@ -54,13 +54,13 @@ async function menuLinks(
 }
 
 const topLink =
-  "relative flex h-11 items-center gap-1.5 px-3 text-[1rem] font-medium whitespace-nowrap text-ink transition-colors duration-200 hover:text-accent aria-[current=page]:text-accent";
+  "relative flex h-10 items-center gap-1 px-3 text-[0.9375rem] whitespace-nowrap text-ink-2 transition-colors duration-200 hover:text-ink aria-[current=page]:text-ink";
 
 const panelLink =
   "flex min-h-11 items-center rounded-lg px-3 text-[0.9375rem] text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink";
 
 const barLink =
-  "inline-flex items-center gap-2 text-white/85 transition-colors hover:text-white";
+  "inline-flex items-center gap-1.5 text-white/70 transition-colors hover:text-white";
 
 export async function Header({
   home,
@@ -95,10 +95,10 @@ export async function Header({
     <>
       {/* A slim bar above the header on computers: how to reach a person, and
           the language. It scrolls away; the header below stays. */}
-      <div className="band-deep relative z-40 hidden text-sm lg:block">
-        <Container className="flex h-10 items-center gap-6">
+      <div className="band-deep relative z-40 hidden text-[0.8125rem] tracking-[0.01em] lg:block">
+        <Container className="flex h-9 items-center gap-6">
           <a href={`tel:${contact.phone.number}`} className={barLink}>
-            <PhoneIcon size={16} className="text-glow" aria-hidden />
+            <PhoneIcon size={14} className="text-glow" aria-hidden />
             <span className="sr-only">{nav.top.call}: </span>
             {contact.phone.display}
           </a>
@@ -106,15 +106,15 @@ export async function Header({
             href={`https://wa.me/${contact.whatsapp.number}?text=${encodeURIComponent(contact.whatsapp.message)}`}
             className={barLink}
           >
-            <WhatsappLogoIcon size={16} className="text-glow" aria-hidden />
+            <WhatsappLogoIcon size={14} className="text-glow" aria-hidden />
             {nav.top.whatsapp}
           </a>
           <a href={`mailto:${contact.email}`} className={barLink}>
-            <EnvelopeSimpleIcon size={16} className="text-glow" aria-hidden />
+            <EnvelopeSimpleIcon size={14} className="text-glow" aria-hidden />
             <span className="sr-only">{nav.top.email}: </span>
             {contact.email}
           </a>
-          <p className="ms-auto inline-flex items-center gap-2 text-white/85">
+          <p className="ms-auto inline-flex items-center gap-1.5 text-white/70">
             <CheckCircleIcon
               size={16}
               weight="fill"
@@ -127,12 +127,12 @@ export async function Header({
       </div>
 
       <header
-        className={`pointer-events-none sticky top-0 z-40 px-3 sm:px-6 ${overlay ? "-mb-[4.5rem] lg:-mb-20" : ""}`}
+        className={`pointer-events-none sticky top-0 z-40 px-3 sm:px-6 ${overlay ? "-mb-16 lg:-mb-[4.25rem]" : ""}`}
       >
         {/* A bar hanging from the top of the screen, rounded below. Beside it
             the page shows through. */}
         <div className="nav-notch pointer-events-auto relative mx-auto max-w-[80rem] rounded-b-[1.75rem] shadow-[0_12px_30px_-18px_rgb(2_20_16/0.4)]">
-          <Container className="flex h-[4.5rem] items-center gap-3 px-4! sm:gap-6 sm:px-7! lg:h-20">
+          <Container className="flex h-16 items-center gap-3 px-4! sm:gap-6 sm:px-7! lg:h-[4.25rem]">
             <Logo href={home} />
 
             {/* Six entries need the room, so narrower screens use the menu
@@ -177,7 +177,7 @@ export async function Header({
                     >
                       {entry.label}
                       <CaretDownIcon
-                        size={13}
+                        size={11}
                         weight="bold"
                         className="text-ink-3 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
                         aria-hidden
@@ -330,13 +330,13 @@ export async function Header({
               <NavUnderline current={current} />
             </nav>
 
-            <div className="ms-auto -me-2 flex items-center gap-2 sm:-me-4 lg:-me-6 xl:ms-0">
+            <div className="ms-auto flex items-center gap-2 xl:ms-0">
               {/* The shorter of the two approved labels. The long one is on the
                   buttons that actually carry the page. */}
               <span className="hidden lg:block">
                 <ConsultationDialog
                   label={cta.secondary}
-                  className={`${btnPrimary.replace("rounded-md", "rounded-full").replace("min-h-13", "h-11")} px-5 text-[0.9375rem] sm:px-5`}
+                  className={`${btnPrimary.replace("rounded-md", "rounded-full").replace("min-h-13", "h-10")} px-4.5 text-[0.875rem] sm:px-4.5`}
                   text={site.consultation}
                   form={site.form}
                   dialCodes={dialCodesFor(iso, lang.code)}
@@ -346,10 +346,10 @@ export async function Header({
               </span>
 
               {/* Mobile menu. <details> keeps it working with no JavaScript. */}
-              <details className="relative xl:hidden">
-                <summary className="flex h-10 cursor-pointer list-none items-center gap-2 rounded-full px-2.5 text-ink ring-1 ring-hairline transition-colors hover:bg-surface-2 sm:h-11 sm:px-3">
-                  <ListIcon size={22} aria-hidden />
-                  <span className="hidden text-[0.9375rem] font-medium sm:inline">
+              <details name="header-menu" className="relative open:z-[60] xl:hidden">
+                <summary className="flex h-9 cursor-pointer list-none items-center gap-2 rounded-full px-2.5 text-ink-2 ring-1 ring-hairline transition-colors hover:bg-surface-2 hover:text-ink sm:px-3">
+                  <ListIcon size={19} aria-hidden />
+                  <span className="hidden text-[0.875rem] sm:inline">
                     {nav.menuLabel}
                   </span>
                 </summary>

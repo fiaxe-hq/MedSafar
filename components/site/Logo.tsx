@@ -15,7 +15,7 @@ export async function Logo({ href = "/" }: { href?: string }) {
         priority
         width={123}
         height={52}
-        className="h-9 w-auto sm:h-11 lg:h-13"
+        className="h-9 w-auto sm:h-10 lg:h-11"
       />
     </Link>
   );

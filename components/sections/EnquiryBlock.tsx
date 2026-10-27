@@ -10,16 +10,20 @@ import { getText } from "@/lib/i18n/text";
  * given weight by a single tinted panel rather than by inverting the theme.
  *
  * Shared pages pass no country, and a treatment page passes its treatment so
- * the form opens with it already chosen.
+ * the form opens with it already chosen. A doctor's page passes its own
+ * label for the send button.
  */
 export async function EnquiryBlock({
   content,
   source,
   treatment = "",
+  submit,
 }: {
   content: Pick<CountryContent, "enquiry"> & Partial<Pick<CountryContent, "iso" | "countryName">>;
   source: string;
   treatment?: string;
+  /** Label for the send button, in place of the usual one. */
+  submit?: string;
 }) {
   const { site } = await getText();
   const { enquiry } = content;
@@ -35,7 +39,7 @@ export async function EnquiryBlock({
 
           <div className="min-w-0 rounded-lg bg-surface p-5 sm:p-7 lg:col-span-6">
             <EnquiryForm
-              text={site.form}
+              text={submit ? { ...site.form, step1: { ...site.form.step1, submit } } : site.form}
               dialCodes={await getDialCodes(content.iso ?? null)}
               defaultIso={content.iso ?? defaultIso}
               defaultCountry={content.countryName ?? ""}

@@ -16,11 +16,13 @@ import { CountryFlag } from "./CountryFlag";
  * Country: only the home page's photo. Remembered in a cookie; until it is
  * picked, the proxy uses the country of the visitor's IP address.
  *
- * Both are <details> menus, so they open without JavaScript.
+ * Both are <details> menus, so they open without JavaScript. They share a
+ * name with the phone menu, so opening one closes the others, and the open
+ * one is raised above its neighbours.
  */
 
 const summary =
-  "flex h-10 cursor-pointer list-none items-center gap-1.5 rounded-full px-2.5 text-ink-2 sm:h-11 sm:px-3 ring-1 ring-hairline transition-[background-color,color,box-shadow] duration-200 hover:bg-surface-2 hover:text-ink hover:ring-line group-open/pick:bg-surface-2 group-open/pick:ring-line";
+  "flex h-9 cursor-pointer list-none items-center gap-1.5 rounded-full px-2.5 text-ink-2 ring-1 ring-hairline transition-[background-color,color,box-shadow] duration-200 hover:bg-surface-2 hover:text-ink hover:ring-line group-open/pick:bg-surface-2 group-open/pick:ring-line";
 
 const panel =
   "absolute end-0 z-50 mt-2 rounded-2xl bg-surface p-2 shadow-lift ring-1 ring-hairline";
@@ -63,15 +65,15 @@ export function LanguagePicker({
   const current = languages.find((l) => l.code === lang) ?? languages[0];
 
   return (
-    <details className="group/pick relative">
+    <details name="header-menu" className="group/pick relative open:z-[60]">
       <summary className={summary}>
-        <TranslateIcon size={19} className="text-ink-3" aria-hidden />
+        <TranslateIcon size={17} className="text-ink-3" aria-hidden />
         <span className="sr-only">
           {label}: {current.name}
         </span>
         <span
           aria-hidden
-          className="text-[0.875rem] font-medium tracking-[0.06em] uppercase"
+          className="text-[0.75rem] font-medium tracking-[0.06em] uppercase"
         >
           {current.code.split("-")[0]}
         </span>
@@ -154,10 +156,29 @@ export function CountryPicker({
     () => null,
   );
   const here = current ?? visitor ?? "global";
-  const place = places.find((p) => p.slug === here) ?? places[0];
+  // The visitor's own country, found from their IP address. When it is not
+  // one of the countries with its own photo, the default ("global") option
+  // carries its name and flag instead of "Select country".
+  const own = useSyncExternalStore(
+    noop,
+    () => document.cookie.match(/(?:^|;\s*)country=([A-Z]{2})/)?.[1] ?? null,
+    () => null,
+  );
+  const ownName = (() => {
+    if (!own || places.some((p) => p.iso === own)) return null;
+    try {
+      return new Intl.DisplayNames([lang], { type: "region" }).of(own) ?? null;
+    } catch {
+      return null;
+    }
+  })();
+  const shown = places.map((p) =>
+    p.slug === "global" && own && ownName ? { ...p, iso: own, name: ownName } : p,
+  );
+  const place = shown.find((p) => p.slug === here) ?? shown[0];
 
   return (
-    <details className="group/pick relative">
+    <details name="header-menu" className="group/pick relative open:z-[60]">
       <summary className={summary}>
         <Flag iso={place.iso} />
         <span className="sr-only">
@@ -170,7 +191,7 @@ export function CountryPicker({
           {label}
         </p>
         <ul>
-          {places.map((p) => (
+          {shown.map((p) => (
             <li key={p.slug}>
               <a
                 href={localPath(lang, `/?country=${p.slug}`)}

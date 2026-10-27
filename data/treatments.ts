@@ -1250,7 +1250,7 @@ export const treatments: Treatment[] = [
   ),
   treatment(
     "hair-transplant",
-    "Hair transplant (FUE)",
+    "Hair transplant (FUE and FUT)",
     "cosmetic-plastic-surgery",
     "Hair follicles are moved one by one from the back or sides of the head to thinning or bald areas.",
     {
@@ -2671,6 +2671,473 @@ export const treatments: Treatment[] = [
       who: "People with impacted teeth, a misaligned jaw, facial injuries or jaw cysts.",
       stay: usually("A day case for teeth; 2 to 4 days for jaw surgery"),
       recovery: "After jaw surgery, a soft diet is needed for about 6 weeks.",
+      faq: [],
+    },
+  ),
+
+  // A second pass over the treatments listed on Nanavati Max's speciality
+  // pages (their bullet lists, not only the procedures list), October 2026.
+
+  // Neurology and neurosurgery: back, spine and nerves
+  treatment(
+    "back-pain-management",
+    "Back pain management (without surgery)",
+    "neurology-neurosurgery",
+    "Treatment for long-lasting back and neck pain using injections, nerve blocks and therapy, often avoiding an operation.",
+    {
+      what: "After scans find the cause, a pain specialist uses guided injections into the spine (epidural or facet joint injections), nerve blocks or radiofrequency treatment to calm the painful nerves, with a physiotherapy plan alongside.",
+      who: "People with chronic back or neck pain, sciatica or a slipped disc who want to avoid surgery or are not fit for it.",
+      stay: usually("Usually a day case"),
+      recovery: "Most people walk out the same day. Relief can last months, and exercises keep it going.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "spinal-cord-stimulation",
+    "Spinal cord and nerve stimulation",
+    "neurology-neurosurgery",
+    "A small implanted device that sends mild electrical pulses to the spinal cord or a nerve to block long-term pain.",
+    {
+      what: "Thin wires are placed near the spinal cord (or the nerves at the back of the head, for occipital nerve stimulation) and connected to a small battery under the skin. A trial comes first to check it helps.",
+      who: "People with long-term back or leg pain after spine surgery, nerve pain, or severe headaches that other treatments have not helped.",
+      stay: usually("Usually 1 to 2 days"),
+      recovery: "Most people return to light activity within 2 weeks and avoid bending and lifting for about 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "spinal-tumour-trauma-surgery",
+    "Spinal tumour, injury and infection surgery",
+    "neurology-neurosurgery",
+    "Surgery to remove a tumour from the spine, fix a broken spine, or clear an infection, with nerve monitoring during the operation.",
+    {
+      what: "The surgeon removes the tumour or infected tissue and, where needed, holds the spine steady with screws and rods. The spinal cord's signals are watched throughout to protect movement and feeling.",
+      who: "People with a tumour in or near the spine, a spinal fracture, or spinal tuberculosis or other infection.",
+      stay: usually("Usually 5 to 10 days"),
+      recovery: "Recovery takes weeks to months, with physiotherapy. The team plans rehabilitation before you go home.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "hydrocephalus-treatment",
+    "Hydrocephalus treatment (VP shunt and ETV)",
+    "neurology-neurosurgery",
+    "Treatment for fluid building up in the brain, by draining it with a shunt or opening a new path with an endoscope.",
+    {
+      what: "A VP shunt is a thin tube that drains extra fluid from the brain to the belly. In endoscopic third ventriculostomy (ETV), a camera is used to make a small opening so the fluid can flow on its own.",
+      who: "Babies, children and adults with hydrocephalus, from birth, a tumour, bleeding or infection.",
+      stay: atNanavati("About 4 days for a VP shunt: 1 in intensive care and 3 on the ward"),
+      recovery: "Most people return to normal activity in 2 to 4 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "botulinum-toxin-injections",
+    "Botulinum toxin injections for spasticity and movement disorders",
+    "neurology-neurosurgery",
+    "Injections guided by muscle testing (EMG) to relax stiff or overactive muscles.",
+    {
+      what: "A neurologist tests which muscles are overactive, then injects small doses of botulinum toxin into them. The effect lasts about 3 months and can be repeated.",
+      who: "People with stiffness after a stroke or brain injury, cerebral palsy, dystonia, facial spasm or chronic migraine.",
+      stay: usually("No hospital stay: a clinic visit"),
+      recovery: "No recovery time. The effect starts within 1 to 2 weeks.",
+      faq: [],
+    },
+  ),
+
+  // Orthopaedics: feet, legs and fractures
+  treatment(
+    "foot-ankle-surgery",
+    "Foot and ankle surgery",
+    "orthopaedics",
+    "Surgery for foot and ankle fractures, toe deformities such as bunions, flat feet and a weak or paralysed foot.",
+    {
+      what: "Depending on the problem, the surgeon straightens toe bones, rebuilds the arch, repairs tendons, fixes broken bones with plates or screws, or transfers tendons to help a foot that drops.",
+      who: "People with foot or ankle fractures, bunions, hammer toes, flat feet, foot drop or a deformed foot from paralysis.",
+      stay: usually("Usually 1 to 3 days"),
+      recovery: "A cast or special boot is worn for about 6 weeks. Full recovery takes 3 to 6 months.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "diabetic-foot-care",
+    "Diabetic foot and chronic wound care",
+    "cosmetic-plastic-surgery",
+    "Treatment for foot ulcers and wounds that will not heal, especially in people with diabetes, to save the foot.",
+    {
+      what: "The wound is cleaned, dead tissue removed and infection treated. Blood flow is checked and improved if needed, and the wound is closed with skin grafts or flaps. Special footwear helps prevent new ulcers.",
+      who: "People with diabetes and a foot ulcer, infection or poor healing, and anyone with a long-lasting wound or ulcer.",
+      stay: usually("From clinic visits to 1 to 2 weeks, depending on the wound"),
+      recovery: "Healing takes weeks to months. Good blood sugar control and foot care are key.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "limb-lengthening",
+    "Limb lengthening and deformity correction",
+    "orthopaedics",
+    "Surgery to straighten a bent leg or arm, or to lengthen a short one, done gradually with a special frame or nail.",
+    {
+      what: "The bone is cut and slowly pulled apart, about 1 mm a day, with an external frame or an internal nail, so new bone grows in the gap. Bent bones can be straightened in the same way.",
+      who: "Children and adults with unequal leg length, bowed legs or knock knees, or deformity after a fracture or infection.",
+      stay: usually("Usually 3 to 5 days"),
+      recovery: "Lengthening takes months, with regular checks and physiotherapy. The team plans the timeline with you.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "tendon-repair",
+    "Tendon repair and reconstruction",
+    "orthopaedics",
+    "Surgery to stitch or rebuild a torn tendon in the hand, foot, shoulder or ankle.",
+    {
+      what: "The torn ends are stitched together, or the tendon is rebuilt using a tendon from elsewhere in the body. Hand therapy or physiotherapy restores movement.",
+      who: "People with a torn Achilles tendon, cut tendons in the hand, or a torn rotator cuff or other tendon.",
+      stay: usually("Usually a day case or 1 to 2 nights"),
+      recovery: "A splint or boot is worn for about 6 weeks. Full strength returns over 3 to 6 months.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "revision-joint-replacement",
+    "Revision joint replacement",
+    "orthopaedics",
+    "Replacing a worn, loose or painful artificial knee or hip with a new one.",
+    {
+      what: "The old implant is removed and a new one fitted, sometimes with bone grafts or special implants to make up for lost bone.",
+      who: "People whose knee or hip replacement has worn out, loosened, become infected or remains painful.",
+      stay: usually("Usually 5 to 7 days"),
+      recovery: "Recovery is longer than after a first replacement, usually 2 to 3 months, with physiotherapy.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "fracture-surgery",
+    "Fracture and trauma surgery",
+    "orthopaedics",
+    "Surgery to fix broken bones with plates, screws, rods or frames so they heal straight.",
+    {
+      what: "The bone pieces are lined up and held with metal implants. Complex or old fractures that healed badly can also be corrected.",
+      who: "People with broken bones, fractures that have not healed (non-union), or bones that healed crooked.",
+      stay: usually("Usually 2 to 5 days"),
+      recovery: "Bones usually heal in 6 to 12 weeks, with physiotherapy to restore movement.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "nerve-decompression",
+    "Nerve decompression surgery (carpal tunnel and others)",
+    "orthopaedics",
+    "Surgery to free a trapped nerve, such as at the wrist in carpal tunnel syndrome, to relieve numbness and pain.",
+    {
+      what: "The tight band of tissue pressing on the nerve is released through a small cut or by keyhole surgery, giving the nerve room.",
+      who: "People with numbness, tingling or weakness from a trapped nerve at the wrist, elbow or ankle.",
+      stay: usually("Usually a day case"),
+      recovery: "Most people use the hand for light tasks within days and return to normal in 4 to 6 weeks.",
+      faq: [],
+    },
+  ),
+
+  // Cardiology and heart surgery
+  treatment(
+    "tavi",
+    "TAVI (aortic valve replacement through a catheter)",
+    "cardiology",
+    "A new aortic valve placed through a blood vessel in the leg, without opening the chest.",
+    {
+      what: "A folded valve on a thin tube is guided from the groin to the heart and opened inside the old, narrowed valve.",
+      who: "People with severe aortic stenosis, especially older people or those at high risk from open heart surgery.",
+      stay: usually("Usually 3 to 5 days"),
+      recovery: "Most people return to normal activity within 1 to 2 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "balloon-valvuloplasty",
+    "Balloon valvuloplasty",
+    "cardiology",
+    "A balloon passed through a blood vessel opens a narrowed heart valve, without surgery.",
+    {
+      what: "A thin tube with a balloon is guided to the narrowed valve and inflated to widen it.",
+      who: "Children and adults with a narrowed mitral, pulmonary or aortic valve, often from rheumatic heart disease or a birth defect.",
+      stay: usually("Usually 1 to 2 days"),
+      recovery: "Most people return to normal activity within a week.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "vascular-surgery",
+    "Aortic aneurysm and vascular surgery",
+    "cardiology",
+    "Surgery or stent grafts to repair a bulging or blocked main artery, such as an aortic aneurysm.",
+    {
+      what: "A weak, bulging section of the aorta is reinforced with a stent graft placed through the groin (EVAR or TEVAR), or replaced in open surgery. Blocked arteries in the neck and legs can also be cleared or bypassed.",
+      who: "People with an aortic aneurysm or dissection, narrowed neck (carotid) arteries, or badly blocked leg arteries.",
+      stay: usually("Usually 2 to 4 days with a stent graft; 7 to 10 days after open surgery"),
+      recovery: "From 2 weeks after a stent graft to 6 to 8 weeks after open surgery.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "lung-surgery",
+    "Lung surgery (keyhole and open)",
+    "cardiology",
+    "Removal of part of a lung for cancer, cysts or infection, often by keyhole (VATS) or robotic surgery.",
+    {
+      what: "A section, lobe or, rarely, a whole lung is removed. Keyhole surgery uses small cuts between the ribs, with a quicker recovery.",
+      who: "People with lung cancer, lung cysts, damaged lung from infection or tuberculosis, or a collapsed lung that keeps coming back.",
+      stay: usually("Usually 4 to 7 days"),
+      recovery: "Most people return to normal activity in 4 to 6 weeks. Breathing exercises help.",
+      faq: [],
+    },
+  ),
+
+  // Organ transplant
+  treatment(
+    "lung-transplant",
+    "Lung transplant",
+    "organ-transplant",
+    "Replacing one or both failing lungs with healthy lungs from a deceased donor.",
+    {
+      what: "The diseased lungs are removed and donor lungs joined to the airway and blood vessels. Anti-rejection medicines are taken for life.",
+      who: "People with end-stage lung disease, such as pulmonary fibrosis or severe COPD, that other treatment cannot help.",
+      stay: usually("Usually 3 to 4 weeks in hospital"),
+      recovery: "Plan to stay in India for about 3 months for close checks and rehabilitation.",
+      faq: [],
+    },
+  ),
+
+  // Gastroenterology
+  treatment(
+    "poem",
+    "POEM for achalasia (endoscopic myotomy)",
+    "gastroenterology",
+    "A procedure through the mouth that relaxes a tight food pipe muscle so food can pass again, with no cuts on the body.",
+    {
+      what: "Using an endoscope, the doctor makes a tunnel inside the wall of the food pipe and cuts the tight muscle at its lower end.",
+      who: "People with achalasia and other swallowing disorders where food sticks in the chest.",
+      stay: usually("Usually 2 to 3 days"),
+      recovery: "A liquid then soft diet for about 2 weeks. Most people return to normal activity within a week.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "capsule-endoscopy",
+    "Capsule endoscopy and small bowel endoscopy",
+    "gastroenterology",
+    "A swallowed camera capsule, or a long endoscope, to look inside the small bowel where ordinary scopes cannot reach.",
+    {
+      what: "In capsule endoscopy you swallow a pill-sized camera that takes pictures as it passes. Balloon or spiral enteroscopy uses a long scope to look and treat, such as stopping bleeding.",
+      who: "People with unexplained bleeding or anaemia, suspected Crohn's disease, or small bowel tumours.",
+      stay: usually("No hospital stay for a capsule; a day case or one night for enteroscopy"),
+      recovery: "Most people return to normal activity the same or next day.",
+      faq: [],
+    },
+  ),
+
+  // Weight loss (bariatric) surgery
+  treatment(
+    "endoscopic-sleeve-gastroplasty",
+    "Endoscopic sleeve gastroplasty",
+    "bariatric-surgery",
+    "Making the stomach smaller with stitches placed through the mouth, for weight loss without cuts.",
+    {
+      what: "Under anaesthetic, an endoscope is passed into the stomach and stitches fold it into a narrow tube, so you feel full sooner.",
+      who: "People with obesity who do not want, or do not qualify for, weight loss surgery.",
+      stay: usually("Usually one night"),
+      recovery: "A liquid then soft diet for a few weeks. Most people return to work within a week.",
+      faq: [],
+    },
+  ),
+
+  // General and keyhole surgery
+  treatment(
+    "splenectomy",
+    "Spleen removal (splenectomy)",
+    "general-surgery",
+    "Keyhole removal of the spleen, for blood disorders, injury or an enlarged spleen.",
+    {
+      what: "The spleen is removed through small cuts. Vaccines are given before or after to protect against infections.",
+      who: "People with some blood disorders (such as ITP or thalassaemia), an enlarged or injured spleen, or a cyst or tumour in the spleen.",
+      stay: usually("Usually 2 to 4 days"),
+      recovery: "Most people return to normal activity in 2 to 4 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "paediatric-surgery",
+    "Children's surgery (paediatric and newborn surgery)",
+    "general-surgery",
+    "Operations for babies and children, from hernias and birth defects to complex chest, bowel and liver surgery.",
+    {
+      what: "Paediatric surgeons treat conditions present at birth and in childhood, often by keyhole or robotic surgery suited to small bodies, with a children's intensive care unit on hand.",
+      who: "Newborns and children with birth defects of the bowel, food pipe, lungs or kidneys, hernias, undescended testes, or tumours.",
+      stay: usually("From a day case to 2 weeks, depending on the operation"),
+      recovery: "Children often recover quickly. The surgeon gives a plan for your child.",
+      faq: [],
+    },
+  ),
+
+  // Gynaecology
+  treatment(
+    "myomectomy",
+    "Myomectomy (fibroid removal, keeping the womb)",
+    "gynaecology",
+    "Removal of fibroids while keeping the womb, by keyhole, robotic or open surgery.",
+    {
+      what: "Each fibroid is cut out and the womb is stitched closed, so a future pregnancy is still possible.",
+      who: "Women with fibroids causing heavy periods, pain, pressure or trouble getting pregnant, who want to keep their womb.",
+      stay: usually("Usually 1 to 3 days"),
+      recovery: "Most women return to normal activity in 2 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "hysteroscopy",
+    "Hysteroscopy (polyp and fibroid removal inside the womb)",
+    "gynaecology",
+    "A thin camera passed through the cervix to look inside the womb and remove polyps, small fibroids or scar tissue.",
+    {
+      what: "No cuts are made. Through the camera the doctor can take samples, remove polyps or fibroids, or a lost coil.",
+      who: "Women with heavy or irregular bleeding, bleeding after menopause, polyps, or problems getting pregnant.",
+      stay: usually("Usually a day case"),
+      recovery: "Most women return to normal activity in 1 to 2 days.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "prolapse-repair",
+    "Pelvic organ prolapse repair",
+    "gynaecology",
+    "Surgery to lift and support a womb, bladder or bowel that has dropped into the vagina.",
+    {
+      what: "The weakened supports are repaired through the vagina or by keyhole surgery, sometimes with a hysterectomy.",
+      who: "Women with a feeling of a bulge or heaviness, or bladder or bowel problems from prolapse.",
+      stay: usually("Usually 1 to 3 days"),
+      recovery: "Avoid heavy lifting for about 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "vaginal-reconstruction",
+    "Vaginal reconstructive surgery and labiaplasty",
+    "gynaecology",
+    "Surgery to repair or reshape the vagina and labia, after childbirth, injury or for comfort.",
+    {
+      what: "Stretched or torn tissues are repaired and tightened, or the labia reshaped, under anaesthetic.",
+      who: "Women with damage after childbirth, a fistula, discomfort, or concerns about appearance.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "Most women return to normal activity in 1 to 2 weeks; avoid sex for about 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "high-risk-pregnancy-care",
+    "High-risk pregnancy care and delivery",
+    "gynaecology",
+    "Close care for pregnancies with extra risks, and a planned delivery with intensive care for mother and baby on hand.",
+    {
+      what: "Obstetricians monitor and treat conditions such as high blood pressure, diabetes in pregnancy, twins or poor baby growth, and plan a safe vaginal or caesarean delivery, with a newborn intensive care unit.",
+      who: "Women with twins, pre-eclampsia, gestational diabetes, previous pregnancy losses or other risks.",
+      stay: usually("Usually 2 to 4 days after delivery"),
+      recovery: "The team plans checks for mother and baby after the birth.",
+      faq: [],
+    },
+  ),
+
+  // Oncology
+  treatment(
+    "vulvar-cancer-surgery",
+    "Vulvar cancer surgery (vulvectomy)",
+    "oncology",
+    "Removal of cancer of the vulva, with lymph nodes from the groin where needed.",
+    {
+      what: "Part (hemivulvectomy) or all (radical vulvectomy) of the vulva is removed with a margin of healthy tissue, and the area is rebuilt where needed.",
+      who: "Women with vulvar cancer or some pre-cancers.",
+      stay: usually("Usually 3 to 7 days"),
+      recovery: "Most women return to normal activity in 4 to 8 weeks.",
+      faq: [],
+    },
+  ),
+
+  // Urology
+  treatment(
+    "reconstructive-urology",
+    "Reconstructive urology (urethral stricture and more)",
+    "urology",
+    "Surgery to repair a narrowed urine tube (urethra) or rebuild the urinary tract after injury or earlier surgery.",
+    {
+      what: "The narrowed section is opened or replaced with tissue from the mouth or elsewhere, so urine flows freely again.",
+      who: "Men and women with a urethral stricture, injury to the urinary tract, or problems after earlier surgery.",
+      stay: usually("Usually 2 to 5 days"),
+      recovery: "A catheter stays in for 1 to 3 weeks. Most people return to normal in 4 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "urinary-incontinence-surgery",
+    "Urinary incontinence surgery",
+    "urology",
+    "Treatment for leaking urine, from slings and injections to bladder surgery.",
+    {
+      what: "For stress leakage, a sling supports the urethra. For an overactive bladder, medicines, Botox injections into the bladder or nerve stimulation help. Bladder augmentation enlarges a small bladder.",
+      who: "Women and men who leak urine when coughing or laughing, or who have a sudden urge to pass urine.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "Most people return to normal activity in 1 to 2 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "paediatric-urology",
+    "Children's urology surgery",
+    "urology",
+    "Surgery for children's kidney, bladder and genital problems, often by keyhole or robotic surgery.",
+    {
+      what: "Surgeons correct a blocked kidney, urine flowing back to the kidneys (reflux), undescended testes, hypospadias and other conditions children are born with.",
+      who: "Babies and children with hydronephrosis, reflux, hypospadias, undescended testes or bladder problems.",
+      stay: usually("Usually a day case to 3 days"),
+      recovery: "Children usually recover in 1 to 2 weeks.",
+      faq: [],
+    },
+  ),
+
+  // Plastic, reconstructive and cosmetic surgery
+  treatment(
+    "burn-reconstruction",
+    "Burn treatment and burn scar reconstruction",
+    "cosmetic-plastic-surgery",
+    "Care for fresh burns and surgery to release tight burn scars and restore movement and appearance.",
+    {
+      what: "Skin grafts and flaps cover burned areas. For old burns, tight scars that limit movement are released and the skin rebuilt, with laser and pressure therapy to improve scars.",
+      who: "People with recent burns, or old burn scars that are tight, painful or limit movement.",
+      stay: usually("From a day case to several weeks, depending on the burn"),
+      recovery: "Scar care and therapy continue for months.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "facial-palsy-reconstruction",
+    "Facial palsy reconstruction",
+    "cosmetic-plastic-surgery",
+    "Surgery to bring back movement and balance to a face weakened by nerve damage.",
+    {
+      what: "Nerve transfers, muscle transfers with microsurgery and static slings help restore a smile, eye closure and a balanced face.",
+      who: "People with facial paralysis from Bell's palsy that did not recover, surgery, injury or birth.",
+      stay: usually("Usually 2 to 5 days"),
+      recovery: "Movement improves gradually over 6 to 12 months, with facial therapy.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "skin-laser-treatments",
+    "Skin, scar and laser treatments (dermatology)",
+    "cosmetic-plastic-surgery",
+    "Laser and minor procedures for acne scars, moles, warts, skin tags, vitiligo and patchy hair loss.",
+    {
+      what: "Treatments include CO2 laser and dermabrasion for acne scars, radiocautery to remove growths, nail surgery, and treatments for vitiligo and alopecia areata.",
+      who: "People with acne scars, unwanted growths, vitiligo, patchy hair loss or other skin concerns.",
+      stay: usually("No hospital stay: clinic sessions"),
+      recovery: "Redness usually settles in a few days to 2 weeks.",
       faq: [],
     },
   ),

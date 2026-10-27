@@ -485,6 +485,8 @@ export type CatalogContent = {
     stats: { doctors: string; specialities: string; hospitals: string };
     /** Label on each card's link. */
     view: string;
+    /** A doctor's own page asks for a consultation with that doctor. {name} is the doctor. */
+    book: { button: string; short: string; heading: string; support: string; submit: string };
     detail: {
       profile: string;
       speciality: string;

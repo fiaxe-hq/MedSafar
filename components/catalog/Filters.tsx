@@ -87,11 +87,11 @@ export async function Filters({ action, fields }: { action: string; fields: Filt
 }
 
 /** How many records the filters left, so a change is never silent. */
-export async function ResultCount({ count }: { count: number }) {
+export async function ResultCount({ count, className = "mt-8" }: { count: number; className?: string }) {
   const { catalog } = await getText();
   const text = catalog.filters;
   return (
-    <p role="status" className="mt-8 text-sm text-ink-3">
+    <p role="status" className={`text-sm text-ink-3 ${className}`}>
       {count} {count === 1 ? text.result : text.results}
     </p>
   );

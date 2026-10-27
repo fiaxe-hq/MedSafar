@@ -51,10 +51,10 @@ export const about: AboutContent = {
     name: "Vicky Prabhu",
     role: "Founder and CEO, Medsafar India",
     picture: {
-      src: "/photos/about/vicky-prabhu.jpg",
+      src: "/photos/about/vicky-prabhu-headroom.jpg",
       alt: "Vicky Prabhu, founder and CEO of Medsafar",
       pending: false,
-      focus: "50% 15%",
+      focus: "50% 0%",
     },
     quote: {
       text: "Medsafar exists to turn my lifelong desire to serve humanity into action: helping patients find the care they need, and bringing hope to families in their most difficult moments.",

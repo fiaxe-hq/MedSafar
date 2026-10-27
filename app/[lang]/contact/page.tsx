@@ -45,7 +45,7 @@ export default async function Page() {
 
       <Section className="!pt-6 sm:!pt-10">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
-          <div id="plan" className="min-w-0 scroll-mt-24 lg:order-2 lg:col-span-7">
+          <div id="plan" className="min-w-0 scroll-mt-24 lg:sticky lg:top-24 lg:order-2 lg:col-span-7 lg:self-start">
             <div className="rounded-xl bg-accent-soft p-3 sm:p-5">
               <div className="rounded-lg bg-surface p-5 shadow-card sm:p-8">
                 <h2 className="font-display text-2xl font-semibold tracking-[-0.02em]">{form.heading}</h2>

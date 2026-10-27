@@ -79,6 +79,14 @@ export const catalog: CatalogContent = {
     filters: { speciality: "Speciality", hospital: "Hospital" },
     stats: { doctors: "Doctors", specialities: "Specialities", hospitals: "Partner hospitals" },
     view: "View profile",
+    book: {
+      button: "Book a consultation with {name}",
+      short: "Book a consultation",
+      heading: "Book a consultation with {name}",
+      support:
+        "Leave your mobile number. We arrange a one-on-one consultation with {name} and confirm the time with you. It costs nothing to ask.",
+      submit: "Book my consultation",
+    },
     detail: {
       profile: "Profile",
       speciality: "Speciality",

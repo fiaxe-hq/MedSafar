@@ -144,7 +144,7 @@ export async function HomeC({ place }: { place: string }) {
     <>
       {/* Hero */}
       {/* The top padding runs the green up behind the header. */}
-      <section className="band-deep relative isolate overflow-hidden pt-[4.5rem] text-white lg:pt-20">
+      <section className="band-deep relative isolate overflow-hidden pt-16 text-white lg:pt-[4.25rem]">
         <div
           aria-hidden
           className="home-grid-pan absolute inset-0 -z-10 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:4rem_4rem] [mask-image:radial-gradient(ellipse_at_30%_20%,black,transparent_75%)]"
@@ -182,7 +182,7 @@ export async function HomeC({ place }: { place: string }) {
             screen as you scroll. Along its foot, the journey's three phases. */}
         <div className="hero-rise [animation-delay:400ms]">
           <div className="home-expand relative overflow-hidden">
-            <div className="relative aspect-[4/3] sm:aspect-[5/2] lg:aspect-[3/1]">
+            <div className="relative aspect-[4/3] sm:aspect-[2/1] lg:aspect-[5/2]">
               {picture.src ? (
                 <Image
                   src={picture.src}
@@ -293,12 +293,12 @@ export async function HomeC({ place }: { place: string }) {
                         href={step.href}
                         className="group flex h-full items-center gap-4 overflow-hidden rounded-lg border border-hairline bg-surface p-3 transition-[border-color,box-shadow] duration-300 hover:border-line hover:shadow-lift sm:block sm:p-0"
                       >
-                        <span className="relative block size-20 shrink-0 overflow-hidden rounded-md bg-surface-2 sm:aspect-[16/9] sm:size-auto sm:rounded-none">
+                        <span className="relative block size-20 shrink-0 overflow-hidden rounded-md bg-surface-2 sm:aspect-[3/2] sm:size-auto sm:rounded-none">
                           <Image
                             src={stepPhotos[n]}
                             alt=""
                             fill
-                            sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 80px"
+                            sizes="(min-width: 1280px) 400px, (min-width: 640px) 33vw, 80px"
                             className="object-cover transition-transform duration-700 ease-(--ease-soft) group-hover:scale-[1.05]"
                           />
                           <span className="absolute start-2 top-2 grid size-8 place-items-center rounded-full bg-white/90 font-mono text-xs text-accent shadow-sm sm:start-3 sm:top-3 sm:size-9 sm:text-sm">
@@ -347,38 +347,33 @@ export async function HomeC({ place }: { place: string }) {
           <h3 className="text-xl font-medium tracking-[-0.01em]">
             {treatment.browse}
           </h3>
-          <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+          <ul className="mt-4 grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-4 lg:grid-cols-8">
             {finder.types.map((slug) => {
               const photo = specialityPhoto(slug);
               return (
                 <li key={slug} className="reveal min-w-0">
-                  <Link
-                    href={`/treatments#${slug}`}
-                    className="group relative block aspect-[4/5] overflow-hidden rounded-lg bg-deep"
-                  >
-                    {photo?.src ? (
-                      <Image
-                        src={photo.src}
-                        alt=""
-                        fill
-                        sizes="(min-width: 1024px) 12vw, (min-width: 640px) 24vw, 48vw"
-                        className="object-cover transition-transform duration-700 ease-(--ease-soft) group-hover:scale-[1.06]"
-                      />
-                    ) : null}
-                    <span
-                      aria-hidden
-                      className="absolute inset-0 bg-linear-to-t from-deep/90 via-deep/30 to-transparent"
-                    />
-                    <span className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-3">
+                  {/* The photo keeps its own 3:2 shape, so nothing is cut;
+                      the name sits under it. */}
+                  <Link href={`/treatments#${slug}`} className="group block">
+                    <span className="relative block aspect-[3/2] overflow-hidden rounded-lg bg-surface-2">
+                      {photo?.src ? (
+                        <Image
+                          src={photo.src}
+                          alt=""
+                          fill
+                          sizes="(min-width: 1024px) 12vw, (min-width: 640px) 24vw, 48vw"
+                          className="object-cover transition-transform duration-700 ease-(--ease-soft) group-hover:scale-[1.06]"
+                        />
+                      ) : null}
+                    </span>
+                    <span className="mt-2 flex items-start gap-1.5 text-sm leading-tight font-medium text-ink transition-colors group-hover:text-accent">
                       <SpecialityIcon
                         slug={slug}
-                        size={20}
-                        className="text-glow"
+                        size={16}
+                        className="mt-px shrink-0 text-accent"
                         aria-hidden
                       />
-                      <span className="text-sm leading-tight font-medium text-white">
-                        {text.plainSpeciality[slug] ?? slug}
-                      </span>
+                      {text.plainSpeciality[slug] ?? slug}
                     </span>
                   </Link>
                 </li>
@@ -491,7 +486,7 @@ export async function HomeC({ place }: { place: string }) {
                 key={item.title}
                 className="reveal flex flex-col overflow-hidden rounded-lg border border-hairline bg-surface"
               >
-                <div className="relative aspect-[16/9] bg-surface-2">
+                <div className="relative aspect-[3/2] bg-surface-2">
                   <Image
                     src={stepPhotos[3 + i]}
                     alt=""
@@ -566,7 +561,7 @@ export async function HomeC({ place }: { place: string }) {
                 key={item.title}
                 className="reveal flex flex-col overflow-hidden rounded-lg border border-hairline bg-surface"
               >
-                <div className="relative aspect-[16/10] bg-surface-2">
+                <div className="relative aspect-[3/2] bg-surface-2">
                   <Image
                     src={travelPhotos[item.icon]}
                     alt=""
@@ -666,15 +661,15 @@ export async function HomeC({ place }: { place: string }) {
 /** One photo per journey step, in order. Stock photos illustrate the step;
  *  the hospital photo is Nanavati Max's own. */
 const stepPhotos = [
-  "/photos/treatments/knee.jpg",
-  "/photos/treatments/brain.jpg",
+  "/photos/journey/find.jpg",
+  "/photos/care/consult.jpg",
   "/photos/hospitals/nanavati-max/lobby.jpg",
-  "/photos/treatments/mri.jpg",
-  "/photos/journey/calendar.jpg",
-  "/photos/journey/passport.jpg",
-  "/photos/journey/plane.jpg",
-  "/photos/journey/interpreter.jpg",
-  "/photos/journey/video.jpg",
+  "/photos/care/mri.jpg",
+  "/photos/journey/estimate.jpg",
+  "/photos/journey/visa.jpg",
+  "/photos/journey/flight.jpg",
+  "/photos/journey/reception.jpg",
+  "/photos/journey/followup.jpg",
 ];
 
 const quickIcons = {
@@ -686,12 +681,12 @@ const quickIcons = {
 
 /** A photo for each travel item, by its icon key. */
 const travelPhotos = {
-  flight: "/photos/journey/plane.jpg",
+  flight: "/photos/journey/flight.jpg",
   pickup: "/photos/journey/pickup.jpg",
   stay: "/photos/journey/hotel.jpg",
-  manager: "/photos/journey/interpreter.jpg",
-  interpreter: "/photos/treatments/bedside.jpg",
-  dates: "/photos/journey/calendar.jpg",
+  manager: "/photos/journey/reception.jpg",
+  interpreter: "/photos/care/bedside.jpg",
+  dates: "/photos/journey/estimate.jpg",
 } as const;
 
 const travelIcons = {
