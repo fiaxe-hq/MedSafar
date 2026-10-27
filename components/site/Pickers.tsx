@@ -20,9 +20,10 @@ import { CountryFlag } from "./CountryFlag";
  */
 
 const summary =
-  "flex h-8 cursor-pointer list-none items-center gap-1.5 rounded-full px-2.5 text-ink-2 ring-1 ring-hairline transition-[background-color,color,box-shadow] duration-200 hover:bg-surface-2 hover:text-ink hover:ring-line group-open/pick:bg-surface-2 group-open/pick:ring-line";
+  "flex h-10 cursor-pointer list-none items-center gap-1.5 rounded-full px-2.5 text-ink-2 sm:h-11 sm:px-3 ring-1 ring-hairline transition-[background-color,color,box-shadow] duration-200 hover:bg-surface-2 hover:text-ink hover:ring-line group-open/pick:bg-surface-2 group-open/pick:ring-line";
 
-const panel = "absolute end-0 z-50 mt-2 rounded-2xl bg-surface p-2 shadow-lift ring-1 ring-hairline";
+const panel =
+  "absolute end-0 z-50 mt-2 rounded-2xl bg-surface p-2 shadow-lift ring-1 ring-hairline";
 
 const row = (here: boolean) =>
   `flex min-h-11 items-center gap-3 rounded-lg px-3 text-[0.9375rem] transition-colors hover:bg-surface-2 hover:text-ink ${
@@ -31,7 +32,11 @@ const row = (here: boolean) =>
 
 function Caret() {
   return (
-    <svg viewBox="0 0 10 6" className="h-1.5 w-2.5 fill-current transition-transform duration-200 group-open/pick:rotate-180" aria-hidden>
+    <svg
+      viewBox="0 0 10 6"
+      className="h-1.5 w-2.5 fill-current transition-transform duration-200 group-open/pick:rotate-180"
+      aria-hidden
+    >
       <path d="M0 0h10L5 6z" />
     </svg>
   );
@@ -40,29 +45,42 @@ function Caret() {
 /** The page's address with its language taken off, and the home page's inner address undone. */
 function pageAddress(pathname: string): string {
   const parts = pathname.split("/");
-  let rest = languageCodes.includes(parts[1]) ? `/${parts.slice(2).join("/")}` : pathname;
+  let rest = languageCodes.includes(parts[1])
+    ? `/${parts.slice(2).join("/")}`
+    : pathname;
   if (rest === "/home" || rest.startsWith("/home/")) rest = "/";
   return rest || "/";
 }
 
-export function LanguagePicker({ lang, label }: { lang: string; label: string }) {
+export function LanguagePicker({
+  lang,
+  label,
+}: {
+  lang: string;
+  label: string;
+}) {
   const rest = pageAddress(usePathname() ?? "/");
   const current = languages.find((l) => l.code === lang) ?? languages[0];
 
   return (
     <details className="group/pick relative">
       <summary className={summary}>
-        <TranslateIcon size={17} className="text-ink-3" aria-hidden />
+        <TranslateIcon size={19} className="text-ink-3" aria-hidden />
         <span className="sr-only">
           {label}: {current.name}
         </span>
-        <span aria-hidden className="text-[0.75rem] font-medium tracking-[0.06em] uppercase">
+        <span
+          aria-hidden
+          className="text-[0.875rem] font-medium tracking-[0.06em] uppercase"
+        >
           {current.code.split("-")[0]}
         </span>
         <Caret />
       </summary>
       <div className={`${panel} w-[min(34rem,calc(100vw-2.5rem))]`}>
-        <p className="px-3 pt-1.5 pb-2 text-[0.8125rem] font-medium text-ink-3">{label}</p>
+        <p className="px-3 pt-1.5 pb-2 text-[0.8125rem] font-medium text-ink-3">
+          {label}
+        </p>
         <ul className="grid max-h-[min(28rem,calc(100dvh-8rem))] grid-cols-1 overflow-y-auto overscroll-contain sm:grid-cols-2">
           {languages.map((l) => {
             const here = l.code === lang;
@@ -78,7 +96,14 @@ export function LanguagePicker({ lang, label }: { lang: string; label: string })
                   className={row(here)}
                 >
                   <span className="flex-1">{l.name}</span>
-                  {here ? <CheckIcon size={14} weight="bold" className="text-accent" aria-hidden /> : null}
+                  {here ? (
+                    <CheckIcon
+                      size={14}
+                      weight="bold"
+                      className="text-accent"
+                      aria-hidden
+                    />
+                  ) : null}
                 </a>
               </li>
             );
@@ -102,7 +127,11 @@ function readPlace(places: PlaceOption[]) {
 const noop = () => () => {};
 
 function Flag({ iso }: { iso: string | null }) {
-  return iso ? <CountryFlag iso={iso} /> : <GlobeHemisphereEastIcon size={20} className="text-ink-3" aria-hidden />;
+  return iso ? (
+    <CountryFlag iso={iso} />
+  ) : (
+    <GlobeHemisphereEastIcon size={20} className="text-ink-3" aria-hidden />
+  );
 }
 
 export function CountryPicker({
@@ -119,7 +148,11 @@ export function CountryPicker({
   /** Set on the home page, which knows which country it was drawn for. */
   current?: string;
 }) {
-  const visitor = useSyncExternalStore(noop, () => readPlace(places), () => null);
+  const visitor = useSyncExternalStore(
+    noop,
+    () => readPlace(places),
+    () => null,
+  );
   const here = current ?? visitor ?? "global";
   const place = places.find((p) => p.slug === here) ?? places[0];
 
@@ -133,19 +166,34 @@ export function CountryPicker({
         <Caret />
       </summary>
       <div className={`${panel} w-64`}>
-        <p className="px-3 pt-1.5 pb-2 text-[0.8125rem] font-medium text-ink-3">{label}</p>
+        <p className="px-3 pt-1.5 pb-2 text-[0.8125rem] font-medium text-ink-3">
+          {label}
+        </p>
         <ul>
           {places.map((p) => (
             <li key={p.slug}>
-              <a href={localPath(lang, `/?country=${p.slug}`)} aria-current={p.slug === here ? "true" : undefined} className={row(p.slug === here)}>
+              <a
+                href={localPath(lang, `/?country=${p.slug}`)}
+                aria-current={p.slug === here ? "true" : undefined}
+                className={row(p.slug === here)}
+              >
                 <Flag iso={p.iso} />
                 <span className="flex-1">{p.name}</span>
-                {p.slug === here ? <CheckIcon size={14} weight="bold" className="text-accent" aria-hidden /> : null}
+                {p.slug === here ? (
+                  <CheckIcon
+                    size={14}
+                    weight="bold"
+                    className="text-accent"
+                    aria-hidden
+                  />
+                ) : null}
               </a>
             </li>
           ))}
         </ul>
-        <p className="mt-1 border-t border-hairline px-3 pt-2.5 pb-1.5 text-[0.8125rem] text-ink-3">{note}</p>
+        <p className="mt-1 border-t border-hairline px-3 pt-2.5 pb-1.5 text-[0.8125rem] text-ink-3">
+          {note}
+        </p>
       </div>
     </details>
   );

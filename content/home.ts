@@ -5,9 +5,18 @@ import type { HomeContent } from "./types";
  * here repeats one already made on the About and Contact pages.
  */
 export const home: HomeContent = {
+  quick: {
+    heading: "What would you like to do?",
+    items: [
+      { icon: "treatment", title: "Find a treatment", body: "Search, or tap the body", href: "/treatments" },
+      { icon: "doctor", title: "Find a doctor", body: "Senior specialists", href: "/doctors" },
+      { icon: "hospital", title: "Compare hospitals", body: "Side by side", href: "/hospitals" },
+      { icon: "opinion", title: "Get a free opinion", body: "Send your reports", href: "#plan" },
+    ],
+  },
   journey: {
     heading: "Your journey, step by step",
-    intro: "Nine steps from your first question to your follow-up at home. One team walks every one of them with you.",
+    intro: "Nine steps, one team with you at every one.",
     strip: "From your first question to your follow-up at home.",
     phases: [
       {
@@ -15,17 +24,17 @@ export const home: HomeContent = {
         steps: [
           {
             title: "Find the right treatment",
-            body: "Search in your own words, or tell us what the doctors at home have said.",
+            body: "Search in your own words.",
             href: "#treatment",
           },
           {
             title: "Find the right specialist",
-            body: "A senior doctor in your condition, chosen once your reports have been read.",
+            body: "A senior doctor, chosen for your case.",
             href: "#specialist",
           },
           {
             title: "Compare suitable hospitals",
-            body: "See the hospitals that treat your condition, side by side.",
+            body: "Hospitals for your condition, side by side.",
             href: "#hospitals",
           },
         ],
@@ -35,17 +44,17 @@ export const home: HomeContent = {
         steps: [
           {
             title: "Get a medical opinion",
-            body: "A specialist reads your reports and says what treatment they recommend.",
+            body: "A specialist reads your reports.",
             href: "#opinion",
           },
           {
             title: "Receive a treatment estimate",
-            body: "The hospital puts the cost in writing before you decide anything.",
+            body: "The cost in writing, before you decide.",
             href: "#opinion",
           },
           {
             title: "Visa assistance",
-            body: "The invitation letter from the hospital, and a check of your papers.",
+            body: "Invitation letter and papers checked.",
             href: "#visa",
           },
         ],
@@ -55,17 +64,17 @@ export const home: HomeContent = {
         steps: [
           {
             title: "Travel and accommodation",
-            body: "Flights, airport pickup and a room close to the hospital.",
+            body: "Flights, pickup and a room nearby.",
             href: "#travel",
           },
           {
             title: "Hospital coordination",
-            body: "Your case manager and an interpreter with you at the hospital.",
+            body: "A case manager and interpreter with you.",
             href: "#travel",
           },
           {
             title: "Post-treatment support",
-            body: "Medicines, follow-up dates and a line to your doctor once you are home.",
+            body: "Follow-up with your doctor from home.",
             href: "#aftercare",
           },
         ],
@@ -75,7 +84,7 @@ export const home: HomeContent = {
   treatment: {
     step: "Step 01",
     heading: "Find the right treatment",
-    intro: "Not sure what it is called? Search in your own words, or start from the kind of care you need.",
+    intro: "Search in your own words, tap the body, or pick a type of care.",
     browse: "Or start from a speciality",
     all: "See all treatments",
     body: "Point to where it hurts on the body map",
@@ -84,7 +93,7 @@ export const home: HomeContent = {
   compare: {
     step: "Step 03",
     heading: "Compare suitable hospitals",
-    intro: "We match the hospital to the case, not the other way round. You see the choice, the doctor and the estimate before you decide.",
+    intro: "You see the hospital, the doctor and the cost before you decide.",
     all: "Compare all hospitals",
   },
   opinion: {
@@ -94,11 +103,11 @@ export const home: HomeContent = {
     items: [
       {
         title: "Medical opinion",
-        body: "A specialist at a partner hospital reads your diagnosis, scans or discharge summary, and tells you what treatment they recommend and how long you would stay. A photo of a paper report is enough.",
+        body: "A specialist reads your reports and recommends a treatment. A phone photo of a report is enough.",
       },
       {
         title: "Treatment estimate",
-        body: "The hospital prepares a written cost estimate for your case. You see every cost before you agree to it, and anything Medsafar charges is written down too.",
+        body: "The hospital's written cost for your case, before you agree to anything.",
       },
     ],
     cta: "Send your reports",
@@ -107,43 +116,43 @@ export const home: HomeContent = {
   visa: {
     step: "Step 06",
     heading: "Visa assistance",
-    intro: "We prepare the hospital invitation letter and tell you exactly which papers to carry to the embassy.",
+    intro: "The hospital's invitation letter, and a check of every paper you need.",
     papers: { passport: "Passport", letter: "Invitation letter for medical treatment", stamp: "Visa ready" },
   },
   travel: {
     step: "Step 07 and 08",
     heading: "Travel, stay and the hospital, arranged",
-    intro: "Everything outside the operating theatre is ours to organise.",
+    intro: "Everything outside the operating theatre, arranged.",
     items: [
       {
         icon: "flight",
         title: "Flights",
-        body: "We book the route that suits your condition and your budget, and plan the arrival so someone can meet you.",
+        body: "The right route for your condition and budget.",
       },
       {
         icon: "pickup",
         title: "Airport pickup",
-        body: "Someone from Medsafar meets you at the airport and takes you to the hospital or to your room.",
+        body: "We meet you at the airport.",
       },
       {
         icon: "stay",
         title: "Where you stay",
-        body: "A room for you and the person travelling with you, close to the hospital and chosen to fit your budget.",
+        body: "A room near the hospital for you and your companion.",
       },
       {
         icon: "manager",
         title: "One case manager",
-        body: "The same person from your first message to your flight home, and with you in India.",
+        body: "One person, from first message to flight home.",
       },
       {
         icon: "interpreter",
         title: "Interpreter",
-        body: "Someone who speaks your language is with you in the consultation room, so nothing is lost.",
+        body: "Someone who speaks your language, in every consultation.",
       },
       {
         icon: "dates",
         title: "Hospital dates",
-        body: "We agree the admission and treatment dates with the hospital before you fly, and keep you posted while you are there.",
+        body: "Admission dates agreed before you fly.",
       },
     ],
   },
@@ -160,37 +169,37 @@ export const home: HomeContent = {
   },
   selection: {
     heading: "How we choose doctors and hospitals",
-    intro: "Your safety comes first. These are the checks behind every name we put in front of you.",
+    intro: "The checks behind every name we show you.",
     items: [
       {
         title: "Senior doctors only",
-        body: "Your case goes to a specialist in your condition with more than 15 years of experience.",
+        body: "Specialists with more than 15 years of experience.",
       },
       {
         title: "Multi-speciality hospitals",
-        body: "Large hospitals with intensive care, laboratories and every department under one roof, in case you need more than one.",
+        body: "Intensive care and every department under one roof.",
       },
       {
         title: "Certificates checked",
-        body: "We look at each hospital's accreditations and each doctor's training before we work with them.",
+        body: "Accreditations and training checked first.",
       },
       {
         title: "Ready for patients from abroad",
-        body: "Partner hospitals have a team for international patients, and we add an interpreter when you need one.",
+        body: "International patient teams and interpreters.",
       },
       {
         title: "Costs in writing",
-        body: "The estimate comes in writing from the hospital before you travel. You see every cost before you agree to it.",
+        body: "Every cost in writing before you travel.",
       },
       {
         title: "With you before and after",
-        body: "One case manager from your first message, and follow-up calls with your doctor once you are home.",
+        body: "One case manager, and follow-up once you are home.",
       },
     ],
   },
   doctors: {
     heading: "Find the right specialist",
-    intro: "Senior specialists at our partner hospitals. Your doctor is chosen for your case once your reports have been read.",
+    intro: "Senior specialists at our partner hospitals.",
     featured: ["ganesh-nagarajan", "jatin-kothari", "amandeep-gujral", "nilesh-satbhai"],
     book: "Book a consultation",
     profile: "View profile",

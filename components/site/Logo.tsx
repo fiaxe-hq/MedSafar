@@ -13,9 +13,9 @@ export async function Logo({ href = "/" }: { href?: string }) {
         src={logo}
         alt={`${site.brand.name} ${site.brand.country}`}
         priority
-        width={104}
-        height={44}
-        className="h-11 w-auto"
+        width={123}
+        height={52}
+        className="h-9 w-auto sm:h-11 lg:h-13"
       />
     </Link>
   );

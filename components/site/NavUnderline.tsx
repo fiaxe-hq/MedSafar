@@ -20,9 +20,15 @@ export function NavUnderline({ current }: { current?: string }) {
     if (!el || !nav) return;
 
     const target = () => {
-      const page = nav.querySelector<HTMLElement>('[data-nav-top][aria-current="page"]');
+      const page = nav.querySelector<HTMLElement>(
+        '[data-nav-top][aria-current="page"]',
+      );
       if (page || !location.hash) return page;
-      return [...nav.querySelectorAll<HTMLAnchorElement>("a[data-nav-top][href*='#']")].find(
+      return [
+        ...nav.querySelectorAll<HTMLAnchorElement>(
+          "a[data-nav-top][href*='#']",
+        ),
+      ].find(
         (a) => a.hash === location.hash && a.pathname === location.pathname,
       );
     };
@@ -50,7 +56,10 @@ export function NavUnderline({ current }: { current?: string }) {
       const inset = parseFloat(getComputedStyle(link).paddingInlineStart);
       // Measured against the nav, since a link inside a dropdown wrapper has
       // that wrapper as its offset parent.
-      const left = link.getBoundingClientRect().left - nav.getBoundingClientRect().left + inset;
+      const left =
+        link.getBoundingClientRect().left -
+        nav.getBoundingClientRect().left +
+        inset;
       const width = link.offsetWidth - inset * 2;
 
       // Already showing: the transition carries it from the last link. A
@@ -86,14 +95,20 @@ export function NavUnderline({ current }: { current?: string }) {
     const later = setTimeout(() => sync(), 50);
     const onClick = () => setTimeout(() => sync(), 50);
     const onHash = () => sync();
+    // The links widen when the web fonts arrive, and with the window.
+    let live = true;
+    document.fonts?.ready.then(() => live && sync());
     nav.addEventListener("click", onClick);
     addEventListener("hashchange", onHash);
     addEventListener("popstate", onHash);
+    addEventListener("resize", onHash);
     return () => {
+      live = false;
       clearTimeout(later);
       nav.removeEventListener("click", onClick);
       removeEventListener("hashchange", onHash);
       removeEventListener("popstate", onHash);
+      removeEventListener("resize", onHash);
     };
   }, [current]);
 

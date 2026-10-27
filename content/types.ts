@@ -22,6 +22,10 @@ export type Pending = { pending?: boolean };
 export type NavItem = {
   label: string;
   href: string;
+  /** A photo shown beside the link in a dropdown. */
+  image?: string;
+  /** A short second line, such as a hospital's city. */
+  note?: string;
 };
 
 /** A top nav entry. `menu` fills its dropdown from the catalog; `items` is a
@@ -51,6 +55,8 @@ export type SiteContent = {
     items: NavEntry[];
     menuLabel: string;
     contact: NavItem;
+    /** The slim bar above the header on computers. */
+    top: { call: string; whatsapp: string; email: string; free: string };
   };
   languages: {
     /** Heading of the language picker. */
@@ -369,8 +375,10 @@ export type Doctor = Pending & {
   picture: Picture;
 };
 
-export type Treatment = Pending & {
+export type Treatment = {
   slug: string;
+  /** False until a doctor has checked the text; the page then says so. */
+  checked: boolean;
   name: string;
   /** Speciality slug. */
   speciality: string;
@@ -618,6 +626,10 @@ export type LegalContent = Pending & {
   intro: string;
   effective?: { label: string; value: string };
   updated: { label: string; value: string };
+  /** Shown above the text while it waits for legal review. */
+  draft?: string;
+  /** Paragraphs between the intro and the first section. */
+  preamble?: string[];
   sections: { heading: string; body: string | string[] }[];
 };
 
@@ -643,6 +655,11 @@ export type JourneySection = {
 };
 
 export type HomeContent = {
+  /** Big buttons under the hero for the four things most visitors came to do. */
+  quick: {
+    heading: string;
+    items: { icon: "treatment" | "doctor" | "hospital" | "opinion"; title: string; body: string; href: string }[];
+  };
   journey: {
     heading: string;
     intro: string;

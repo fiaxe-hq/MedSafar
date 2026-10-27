@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "@/components/ui/Link";
+import { specialityPhoto } from "@/data/treatmentPhotos";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
 import type { Treatment } from "@/content/types";
@@ -10,7 +12,11 @@ import { SpecialityIcon } from "@/components/ui/SpecialityIcon";
 import { TreatmentCard } from "./TreatmentCard";
 import { BackToBody } from "./TreatmentFinder";
 
-export type BrowseGroup = { slug: string; name: string; treatments: Treatment[] };
+export type BrowseGroup = {
+  slug: string;
+  name: string;
+  treatments: Treatment[];
+};
 
 /**
  * Every treatment, one type at a time: the types on the left in everyday
@@ -40,7 +46,10 @@ export function TreatmentBrowser({
 
   const choose = (slug: string, scroll: boolean) => {
     setOn(slug);
-    if (scroll) requestAnimationFrame(() => list.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    if (scroll)
+      requestAnimationFrame(() =>
+        list.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+      );
   };
 
   useEffect(() => {
@@ -75,7 +84,7 @@ export function TreatmentBrowser({
               the treatments on a laptop. */}
           <nav
             aria-label={text.label}
-            className="sticky top-16 z-20 -mx-5 min-w-0 border-y border-hairline bg-bg/90 backdrop-blur-md sm:-mx-8 lg:top-24 lg:mx-0 lg:self-start lg:border-0 lg:bg-transparent lg:backdrop-blur-none lg:col-span-4 xl:col-span-3"
+            className="sticky top-[4.5rem] z-20 -mx-5 min-w-0 border-y border-hairline bg-bg/90 backdrop-blur-md sm:-mx-8 lg:top-24 lg:mx-0 lg:self-start lg:border-0 lg:bg-transparent lg:backdrop-blur-none lg:col-span-4 xl:col-span-3"
           >
             <ul className="flex gap-2 overflow-x-auto px-5 py-3 [scrollbar-width:none] sm:px-8 lg:flex-col lg:gap-1 lg:overflow-visible lg:p-0">
               {groups.map((g) => {
@@ -83,7 +92,12 @@ export function TreatmentBrowser({
                 return (
                   <li key={g.slug} className="shrink-0">
                     <button
-                      onClick={() => choose(g.slug, window.matchMedia("(max-width: 1023px)").matches)}
+                      onClick={() =>
+                        choose(
+                          g.slug,
+                          window.matchMedia("(max-width: 1023px)").matches,
+                        )
+                      }
                       aria-pressed={active}
                       className={`flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-full border px-4 text-start text-sm font-medium whitespace-nowrap transition-[background-color,border-color,color] duration-300 ease-(--ease-soft) lg:rounded-lg lg:py-2.5 lg:whitespace-normal ${
                         active
@@ -91,11 +105,20 @@ export function TreatmentBrowser({
                           : "border-hairline bg-surface text-ink-2 hover:border-line hover:bg-accent-quiet hover:text-ink lg:border-transparent lg:bg-transparent"
                       }`}
                     >
-                      <SpecialityIcon slug={g.slug} size={18} className={active ? "text-glow" : "text-accent"} aria-hidden />
-                      <span className="flex-1">{plainSpeciality[g.slug] ?? g.name}</span>
+                      <SpecialityIcon
+                        slug={g.slug}
+                        size={18}
+                        className={active ? "text-glow" : "text-accent"}
+                        aria-hidden
+                      />
+                      <span className="flex-1">
+                        {plainSpeciality[g.slug] ?? g.name}
+                      </span>
                       <span
                         className={`hidden rounded-full px-2 py-0.5 text-xs tabular-nums lg:inline ${
-                          active ? "bg-white/15 text-white" : "bg-surface-2 text-ink-3"
+                          active
+                            ? "bg-white/15 text-white"
+                            : "bg-surface-2 text-ink-3"
                         }`}
                       >
                         {g.treatments.length}
@@ -107,19 +130,51 @@ export function TreatmentBrowser({
             </ul>
           </nav>
 
-          <div ref={list} className="min-w-0 scroll-mt-12 lg:col-span-8 xl:col-span-9">
+          <div
+            ref={list}
+            className="min-w-0 scroll-mt-12 lg:col-span-8 xl:col-span-9"
+          >
             {groups.map((g) => (
-              <div key={g.slug} id={g.slug} hidden={g.slug !== on} className="scroll-mt-12">
-                <div className="finder-in flex flex-wrap items-center gap-4 rounded-[1.5rem] bg-surface-2 p-5 ring-1 ring-hairline sm:p-6">
-                  <span className="grid size-14 shrink-0 place-items-center rounded-md bg-accent text-accent-ink">
-                    <SpecialityIcon slug={g.slug} size={28} weight="light" aria-hidden />
-                  </span>
+              <div
+                key={g.slug}
+                id={g.slug}
+                hidden={g.slug !== on}
+                className="scroll-mt-12"
+              >
+                <div className="finder-in flex flex-wrap items-center gap-4 rounded-[1.5rem] bg-surface-2 p-4 ring-1 ring-hairline sm:p-5">
+                  {(() => {
+                    const photo = specialityPhoto(g.slug);
+                    return photo?.src ? (
+                      <span className="relative size-20 shrink-0 overflow-hidden rounded-xl sm:size-24">
+                        <Image
+                          src={photo.src}
+                          alt=""
+                          fill
+                          sizes="96px"
+                          className="object-cover"
+                        />
+                        <span className="absolute start-1.5 bottom-1.5 grid size-7 place-items-center rounded-md bg-accent text-accent-ink">
+                          <SpecialityIcon slug={g.slug} size={16} aria-hidden />
+                        </span>
+                      </span>
+                    ) : (
+                      <span className="grid size-14 shrink-0 place-items-center rounded-md bg-accent text-accent-ink">
+                        <SpecialityIcon
+                          slug={g.slug}
+                          size={28}
+                          weight="light"
+                          aria-hidden
+                        />
+                      </span>
+                    );
+                  })()}
                   <div className="min-w-0 flex-1">
                     <h3 className="font-display text-2xl font-semibold tracking-[-0.02em]">
                       {plainSpeciality[g.slug] ?? g.name}
                     </h3>
                     <p className="mt-0.5 text-base text-ink-3">
-                      {g.name} · {g.treatments.length} {g.treatments.length === 1 ? "treatment" : "treatments"}
+                      {g.name} · {g.treatments.length}{" "}
+                      {g.treatments.length === 1 ? "treatment" : "treatments"}
                     </p>
                   </div>
                   {more ? (
@@ -136,7 +191,7 @@ export function TreatmentBrowser({
                     </Link>
                   ) : null}
                 </div>
-                <ul className="mt-5 grid gap-5 sm:grid-cols-2">
+                <ul className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                   {g.treatments.map((t) => (
                     <li key={t.slug} className="min-w-0">
                       <TreatmentCard treatment={t} />

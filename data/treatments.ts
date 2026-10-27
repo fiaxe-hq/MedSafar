@@ -1,7 +1,7 @@
 import type { Faq, Treatment } from "@/content/types";
 
 /**
- * Placeholder records. The admin panel manages these later.
+ * Treatment records. The admin panel manages these later.
  * Read them through lib/catalog.ts, never directly.
  *
  * The list follows what the partner doctors actually do: each treatment is
@@ -26,9 +26,9 @@ const usually = (text: string) => `${text}. Your hospital confirms it for your c
 
 type Text = Pick<Treatment, "what" | "who" | "stay" | "recovery" | "faq">;
 
-/** Every record stays pending until a doctor has checked it; pages then add catalog.draft after the summary. */
+/** Every record is marked "Pending doctor check" (catalog.draft) until a doctor has checked it. */
 function treatment(slug: string, name: string, speciality: string, summary: string, text: Text): Treatment {
-  return { slug, name, speciality, summary, pending: true, ...text };
+  return { slug, name, speciality, summary, checked: false, ...text };
 }
 
 const q = (question: string, answer: string): Faq => ({ question, answer });
@@ -196,7 +196,7 @@ export const treatments: Treatment[] = [
   ),
   treatment(
     "car-t-cell-therapy",
-    "CAR-T cell therapy",
+    "CAR-T cell therapy (adoptive cell therapy)",
     "haematology-bmt",
     "The patient's own immune cells are collected, changed in a laboratory to recognise their cancer, and given back by drip. Used for some leukaemias, lymphomas and myeloma.",
     {
@@ -286,7 +286,7 @@ export const treatments: Treatment[] = [
   ),
   treatment(
     "radiation-therapy",
-    "Radiation therapy (radiotherapy)",
+    "Radiation therapy (external beam, EBRT)",
     "oncology",
     "Treatment that uses carefully aimed high-energy beams to destroy cancer cells in one part of the body.",
     {
@@ -352,7 +352,7 @@ export const treatments: Treatment[] = [
   ),
   treatment(
     "thyroid-surgery",
-    "Thyroid and parathyroid surgery",
+    "Thyroid and parathyroid surgery (thyroidectomy)",
     "oncology",
     "An operation to remove part or all of the thyroid or a parathyroid gland in the neck, for cancer, large lumps or overactive glands.",
     {
@@ -706,7 +706,7 @@ export const treatments: Treatment[] = [
   ),
   treatment(
     "endoscopic-spine-surgery",
-    "Endoscopic spine surgery",
+    "Endoscopic and minimal access spine surgery",
     "neurology-neurosurgery",
     "Spine surgery through a cut of about one centimetre, using a thin camera, to free a trapped nerve.",
     {
@@ -916,7 +916,7 @@ export const treatments: Treatment[] = [
   // Cardiology and heart surgery
   treatment(
     "heart-bypass-surgery",
-    "Coronary artery bypass grafting (CABG)",
+    "Coronary artery bypass grafting (CABG, open heart surgery)",
     "cardiology",
     "Heart bypass surgery: a blood vessel from elsewhere in the body is used to route blood around a narrowed or blocked artery of the heart.",
     {
@@ -940,7 +940,7 @@ export const treatments: Treatment[] = [
   ),
   treatment(
     "minimally-invasive-heart-surgery",
-    "Minimally invasive heart surgery",
+    "Minimally invasive and robotic heart surgery",
     "cardiology",
     "Heart surgery through small cuts between the ribs instead of opening the breastbone.",
     {
@@ -1050,11 +1050,11 @@ export const treatments: Treatment[] = [
   ),
   treatment(
     "varicose-veins",
-    "Varicose vein treatment",
+    "Varicose vein treatment (laser and sclerotherapy)",
     "cardiology",
     "Bulging, painful leg veins closed from the inside with heat or medicine, through a pinhole, without open surgery.",
     {
-      what: "Guided by ultrasound, a thin tube is passed into the faulty vein and heat (laser or radiofrequency) or a medical glue closes it. Blood then flows through healthy veins. Smaller veins can be treated with injections. Deep vein clots (DVT) can also be treated through a catheter.",
+      what: "Guided by ultrasound, a thin tube is passed into the faulty vein and heat (laser or radiofrequency) or a medical glue closes it. Blood then flows through healthy veins. Smaller veins can be treated with injections (sclerotherapy). Deep vein clots (DVT) can also be treated through a catheter.",
       who: "People with varicose veins causing pain, swelling, skin changes or ulcers, and some people with deep vein thrombosis.",
       stay: usually("Usually a day procedure, or 1 night in hospital"),
       recovery: "Most people walk straight away and return to normal activity in a few days, wearing a support stocking for a week or two.",
@@ -1532,6 +1532,1146 @@ export const treatments: Treatment[] = [
           "Often yes with clear aligners: the first visit is in person, and later sets of aligners can be sent to you.",
         ),
       ],
+    },
+  ),
+
+  // From here on: the procedures Nanavati Max Super Speciality Hospital lists
+  // on its own website (nanavatimaxhospital.org/top-procedures and its
+  // speciality pages), October 2026.
+
+  // Organ transplant
+  treatment(
+    "heart-transplant",
+    "Heart transplant",
+    "organ-transplant",
+    "An operation that replaces a failing heart with a healthy heart from a deceased donor.",
+    {
+      what: "The diseased heart is removed and a donor heart is joined to the main blood vessels. While waiting for a donor, some patients are supported by a pump (a ventricular assist device, VAD). After the transplant, medicines are taken every day so the body does not reject the new heart.",
+      who: "People with end-stage heart failure that medicines, devices and other operations can no longer help.",
+      stay: usually("Usually about 3 to 4 weeks in hospital, including time in intensive care"),
+      recovery: "Plan to stay in India for about 3 months for close checks. Anti-rejection medicines are taken for life.",
+      faq: [
+        q(
+          "Is there a waiting time?",
+          "Yes. Hearts come from deceased donors, so patients join a waiting list. The transplant team explains how it works for international patients.",
+        ),
+      ],
+    },
+  ),
+
+  // Oncology
+  treatment(
+    "robotic-cancer-surgery",
+    "Robotic cancer surgery",
+    "oncology",
+    "Cancer operations done through small cuts with a surgical robot, for more precise removal and a quicker recovery.",
+    {
+      what: "The surgeon controls robotic arms from a console, with a magnified 3D view. It is used for cancers of the prostate, kidney, bladder, womb, bowel, food pipe, lung, thyroid and more.",
+      who: "People with a cancer that can be removed by surgery, where the team decides robotic surgery suits the case.",
+      stay: usually("Usually 2 to 5 days, depending on the operation"),
+      recovery: "Most people return to light activity in 2 to 3 weeks, sooner than after open surgery.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "robotic-prostatectomy",
+    "Robotic prostatectomy (prostate cancer surgery)",
+    "oncology",
+    "Removal of the prostate with a surgical robot, to treat prostate cancer that has not spread.",
+    {
+      what: "The whole prostate and nearby glands are removed through small cuts. The robot's precision helps the surgeon protect the nerves that control urine and erections.",
+      who: "Men with prostate cancer that is confined to the prostate and who are fit for surgery.",
+      stay: usually("Usually 2 to 3 days"),
+      recovery: "A urine catheter stays in for about 1 to 2 weeks. Most men return to normal activity in 4 to 6 weeks; bladder control usually improves over weeks to months.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "radical-nephrectomy",
+    "Radical nephrectomy (kidney removal)",
+    "oncology",
+    "Removal of a whole kidney, most often to treat a large kidney cancer.",
+    {
+      what: "The kidney, the fat around it and sometimes the adrenal gland are removed, usually by keyhole or robotic surgery. The other kidney takes over its work.",
+      who: "People with a kidney tumour too large or too central to remove on its own.",
+      stay: usually("Usually 3 to 5 days"),
+      recovery: "Most people return to normal activity in 4 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "partial-nephrectomy",
+    "Robotic partial nephrectomy",
+    "oncology",
+    "Removal of only the tumour and a small rim of healthy kidney, keeping the rest of the kidney working.",
+    {
+      what: "Using a surgical robot, the surgeon cuts out the tumour and stitches the kidney closed, so most of the kidney is saved.",
+      who: "People with a small kidney tumour, especially those who have one kidney or reduced kidney function.",
+      stay: usually("Usually 2 to 4 days"),
+      recovery: "Most people return to normal activity in 3 to 4 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "cystectomy",
+    "Cystectomy (bladder removal)",
+    "oncology",
+    "Removal of part or all of the bladder, mainly to treat bladder cancer.",
+    {
+      what: "The bladder is removed, often by robotic surgery. When the whole bladder goes, the surgeon makes a new way for urine to leave the body, either a small pouch on the belly or a new bladder made from bowel.",
+      who: "People with bladder cancer that has grown into the bladder muscle, or that keeps coming back.",
+      stay: usually("Usually 7 to 10 days"),
+      recovery: "Plan for 6 to 8 weeks before normal activity, with nurse support to learn how to look after the new urine route.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "orchiectomy",
+    "Orchiectomy (testicle removal)",
+    "oncology",
+    "Removal of one or both testicles, to treat testicular cancer or to lower hormones in prostate cancer.",
+    {
+      what: "Through a small cut in the groin or scrotum, the testicle is removed. An artificial implant can be placed for appearance if wanted.",
+      who: "Men with testicular cancer, and some men with advanced prostate cancer.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "Most men return to normal activity in 1 to 2 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "lumpectomy",
+    "Lumpectomy (breast-conserving surgery)",
+    "oncology",
+    "Removal of a breast cancer with a margin of healthy tissue, keeping the rest of the breast.",
+    {
+      what: "The tumour and a small rim around it are removed, usually with some lymph nodes from the armpit. Radiation therapy normally follows to lower the chance of the cancer coming back.",
+      who: "Women with an early breast cancer that is small compared with the size of the breast.",
+      stay: usually("Usually 1 to 2 days"),
+      recovery: "Most women return to normal activity in 1 to 2 weeks, before radiation therapy starts.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "mastectomy",
+    "Mastectomy (breast removal)",
+    "oncology",
+    "Removal of the whole breast to treat or prevent breast cancer, with the option of rebuilding it.",
+    {
+      what: "The breast tissue is removed, sometimes keeping the skin or nipple. Lymph nodes from the armpit may also be removed. Breast reconstruction can be done in the same operation or later.",
+      who: "Women with a large or widespread breast cancer, or a high inherited risk of breast cancer.",
+      stay: usually("Usually 2 to 4 days, longer with reconstruction"),
+      recovery: "Most women return to normal activity in 3 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "hemicolectomy",
+    "Hemicolectomy (bowel cancer surgery)",
+    "oncology",
+    "Removal of the right or left half of the large bowel, most often for bowel cancer.",
+    {
+      what: "The affected part of the colon and its lymph nodes are removed, and the two healthy ends are joined. It is usually done by keyhole or robotic surgery.",
+      who: "People with bowel cancer, and some with severe bowel disease such as Crohn's disease.",
+      stay: usually("Usually 5 to 7 days"),
+      recovery: "Most people return to normal activity in 4 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "hepatectomy",
+    "Hepatectomy (liver resection)",
+    "oncology",
+    "Removal of part of the liver to take out a tumour. The liver that is left grows back.",
+    {
+      what: "The surgeon removes the part of the liver that holds the tumour. The remaining liver regrows over a few weeks. It can be open, keyhole or robotic surgery.",
+      who: "People with liver cancer, or cancer that has spread to the liver from the bowel, when enough healthy liver will be left.",
+      stay: usually("Usually 5 to 10 days"),
+      recovery: "Most people return to normal activity in 6 to 8 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "whipple-surgery",
+    "Whipple surgery (pancreaticoduodenectomy)",
+    "oncology",
+    "A major operation that removes the head of the pancreas and nearby organs, to treat cancer in that area.",
+    {
+      what: "The head of the pancreas, the first part of the small bowel, the gallbladder and part of the bile duct are removed. The pancreas, bile duct and stomach are then joined back to the bowel.",
+      who: "People with cancer of the head of the pancreas, the bile duct or the ampulla, and some with non-cancerous tumours there.",
+      stay: usually("Usually 10 to 14 days"),
+      recovery: "Plan to stay in India for about 3 to 4 weeks. Full recovery takes 2 to 3 months.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "pancreatectomy",
+    "Pancreatectomy (pancreas surgery)",
+    "oncology",
+    "Removal of part or all of the pancreas, for tumours, cysts or long-term inflammation.",
+    {
+      what: "Depending on where the problem is, the tail, the body or the whole pancreas is removed. Some operations also remove the spleen. If the whole pancreas goes, insulin and digestive enzymes are needed afterwards.",
+      who: "People with pancreatic tumours or cysts, and some with severe chronic pancreatitis.",
+      stay: usually("Usually 7 to 12 days"),
+      recovery: "Full recovery usually takes 6 to 8 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "laryngectomy",
+    "Laryngectomy (voice box removal)",
+    "oncology",
+    "Removal of part or all of the voice box (larynx), to treat cancer of the throat.",
+    {
+      what: "In a partial laryngectomy, only the affected part is removed and the voice is often kept. In a total laryngectomy, the whole voice box is removed and the person breathes through an opening in the neck. Speech can be restored with a voice valve or other methods.",
+      who: "People with cancer of the voice box, or cancer that has come back after radiation therapy.",
+      stay: usually("Usually 10 to 14 days"),
+      recovery: "Speech and swallowing therapy starts in hospital. Plan for about 4 to 6 weeks in India.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "neck-dissection",
+    "Neck dissection",
+    "oncology",
+    "Removal of lymph nodes in the neck, to treat or check for the spread of head and neck cancer.",
+    {
+      what: "The lymph nodes on one or both sides of the neck are removed, sometimes with nearby muscle or a vein. It is often done in the same operation as removing the main tumour.",
+      who: "People with cancer of the mouth, throat, voice box, thyroid or skin that has spread, or may spread, to the neck.",
+      stay: usually("Usually 3 to 5 days"),
+      recovery: "Most people return to normal activity in 3 to 4 weeks. Neck and shoulder exercises help.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "glossectomy",
+    "Glossectomy (tongue cancer surgery)",
+    "oncology",
+    "Removal of part or all of the tongue to treat tongue cancer, often with rebuilding of the tongue.",
+    {
+      what: "The part of the tongue with the cancer is removed. When a large part is taken, the surgeon rebuilds it with tissue from the arm or thigh, to help with speech and swallowing.",
+      who: "People with cancer of the tongue.",
+      stay: usually("Usually 7 to 14 days"),
+      recovery: "Speech and swallowing therapy helps. Plan for about 3 to 4 weeks in India.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "maxillectomy",
+    "Maxillectomy (upper jaw surgery)",
+    "oncology",
+    "Removal of part of the upper jaw, to treat cancer of the sinus, palate or upper gum.",
+    {
+      what: "The affected bone of the upper jaw is removed. The gap is filled with a dental plate (obturator) or rebuilt with bone and tissue from elsewhere in the body.",
+      who: "People with cancer of the upper jaw, hard palate, upper gum or maxillary sinus.",
+      stay: usually("Usually 5 to 10 days"),
+      recovery: "Plan for about 3 to 4 weeks in India, with follow-up for the plate or rebuilt jaw.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "mandibulectomy",
+    "Mandibulectomy (lower jaw surgery)",
+    "oncology",
+    "Removal of part of the lower jaw, to treat cancer of the mouth or jaw bone, with rebuilding of the jaw.",
+    {
+      what: "The affected part of the lower jaw is removed. The jaw is usually rebuilt in the same operation with bone from the leg (fibula), joined with microsurgery.",
+      who: "People with mouth cancer that has reached the jaw bone, and some jaw bone tumours.",
+      stay: usually("Usually 10 to 14 days"),
+      recovery: "Plan for about 4 weeks in India. Eating and speech improve over the following weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "lymph-node-removal",
+    "Lymph node removal (lymphadenectomy)",
+    "oncology",
+    "Removal of lymph nodes near a cancer, to treat it or to see whether it has spread.",
+    {
+      what: "The surgeon removes the group of lymph nodes that drains the area of the cancer, for example in the armpit, groin, pelvis or belly. A pathologist then checks them for cancer cells.",
+      who: "People with cancers that spread through the lymph nodes, such as breast, skin, womb, prostate and bowel cancer.",
+      stay: usually("Usually 1 to 4 days, depending on the area"),
+      recovery: "Most people return to normal activity in 2 to 4 weeks. Swelling of the arm or leg can sometimes follow.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "omentectomy",
+    "Omentectomy",
+    "oncology",
+    "Removal of the omentum, a fatty layer in the belly, often as part of ovarian or stomach cancer surgery.",
+    {
+      what: "The omentum, which hangs in front of the bowel, is removed because cancer can spread to it. It is usually done along with another cancer operation.",
+      who: "People with ovarian, womb, stomach or bowel cancer, or cancer that has spread in the belly.",
+      stay: usually("Usually as for the main operation, about 5 to 7 days"),
+      recovery: "Most people return to normal activity in 4 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "radical-hysterectomy",
+    "Radical hysterectomy",
+    "oncology",
+    "Removal of the womb, cervix, top of the vagina and nearby tissue, to treat cervical or womb cancer.",
+    {
+      what: "More tissue is removed than in a standard hysterectomy, often with the pelvic lymph nodes. It is usually done by keyhole or robotic surgery.",
+      who: "Women with early cervical cancer, and some with womb cancer.",
+      stay: usually("Usually 3 to 5 days"),
+      recovery: "Most women return to normal activity in 6 to 8 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "mohs-surgery",
+    "Mohs surgery (skin cancer)",
+    "oncology",
+    "Skin cancer removed layer by layer, checking each layer under the microscope, so as little healthy skin as possible is lost.",
+    {
+      what: "Under local anaesthetic, the surgeon removes a thin layer and checks it straight away. This repeats until no cancer is left. The wound is then closed or repaired.",
+      who: "People with basal cell or squamous cell skin cancer, especially on the face, ears, hands or other places where saving skin matters.",
+      stay: usually("No hospital stay: done in a day"),
+      recovery: "Most people return to normal activity in a few days. Stitches come out in about a week.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "adjuvant-neoadjuvant-chemotherapy",
+    "Neoadjuvant and adjuvant chemotherapy",
+    "oncology",
+    "Chemotherapy given before surgery to shrink a tumour (neoadjuvant), or after it to lower the chance of the cancer coming back (adjuvant).",
+    {
+      what: "Cancer medicines are given in cycles, usually by drip, over a few months. Before surgery, they can make a tumour smaller and easier to remove. After surgery, they treat any cancer cells left behind. Adjuvant therapy can also mean radiation, hormone or targeted therapy after surgery.",
+      who: "People with cancers such as breast, bowel, stomach, food pipe, bladder and lung cancer, as advised by the cancer team.",
+      stay: usually("Usually given as a day patient"),
+      recovery: "Tiredness and other side effects usually ease a few weeks after the last cycle.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "hormone-therapy",
+    "Hormone therapy for cancer",
+    "oncology",
+    "Medicines that block or lower the hormones some cancers need to grow.",
+    {
+      what: "Tablets or injections stop the body making a hormone, or stop the cancer using it. It is often given for months or years, alongside or after other treatment.",
+      who: "People with hormone-sensitive cancers, mainly breast and prostate cancer, and some womb cancers.",
+      stay: usually("No hospital stay: tablets or clinic injections"),
+      recovery: "Treatment is usually continued at home, with checks by your own doctor.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "photodynamic-therapy",
+    "Photodynamic therapy",
+    "oncology",
+    "A light-sensitive medicine and a special light used together to destroy cancer or pre-cancer cells.",
+    {
+      what: "A medicine that collects in abnormal cells is given, then the area is lit with a laser or lamp. The light switches the medicine on and it destroys those cells.",
+      who: "People with some skin cancers and pre-cancers, and some early cancers of the food pipe or lung.",
+      stay: usually("Usually no hospital stay, or one night"),
+      recovery: "Treated skin is sore for a few days. You must keep out of bright light for some time afterwards.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "brachytherapy",
+    "Brachytherapy (internal radiation)",
+    "oncology",
+    "Radiation given from inside the body, by placing a radioactive source in or next to the tumour.",
+    {
+      what: "Thin tubes or tiny seeds carry the radiation right to the cancer, so a high dose reaches the tumour and little reaches healthy tissue. It may be given in a few short sessions or as seeds left in place.",
+      who: "People with cervical, womb, prostate, breast, and some head and neck cancers.",
+      stay: usually("Often a day case; some treatments need 1 to 3 nights"),
+      recovery: "Most people return to normal activity within a few days.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "stereotactic-radiosurgery",
+    "Stereotactic radiosurgery (SRS and SBRT)",
+    "oncology",
+    "Very precise, high-dose radiation aimed at a small target from many angles, in one to five sessions.",
+    {
+      what: "No cut is made. Detailed scans guide many thin beams that meet at the tumour. It is used in the brain (SRS) and in the body, such as the lung, liver and spine (SBRT).",
+      who: "People with small brain tumours, cancer that has spread to the brain or spine, early lung cancer, and some liver and prostate cancers.",
+      stay: usually("No hospital stay: one to five outpatient sessions"),
+      recovery: "Most people return to normal activity the same day or the next.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "tomotherapy",
+    "Tomotherapy",
+    "oncology",
+    "Radiation therapy delivered in a spiral, with a scan before each session, to shape the dose closely to the tumour.",
+    {
+      what: "The machine combines a CT scanner and a radiation unit. It rotates around you, checking the tumour's position and shaping the beam to spare nearby organs.",
+      who: "People with complex cancers close to important organs, such as head and neck, prostate and some children's cancers.",
+      stay: usually("No hospital stay: daily outpatient sessions over several weeks"),
+      recovery: "Side effects depend on the area treated and usually ease weeks after treatment ends.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "radiation-therapy-brain-tumour",
+    "Radiation therapy for brain tumours",
+    "oncology",
+    "Radiation aimed at a tumour in the brain, alone or after surgery.",
+    {
+      what: "Beams of radiation are shaped to the tumour using scans and a mask that keeps the head still. It may be given over several weeks or as radiosurgery in a few sessions.",
+      who: "People with brain tumours such as gliomas and meningiomas, and cancer that has spread to the brain.",
+      stay: usually("No hospital stay: outpatient sessions"),
+      recovery: "Tiredness is common during treatment and for a few weeks after.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "radiation-therapy-breast-cancer",
+    "Radiation therapy for breast cancer",
+    "oncology",
+    "Radiation to the breast or chest wall after surgery, to lower the chance of breast cancer coming back.",
+    {
+      what: "Daily sessions of a few minutes each, usually over 1 to 4 weeks. Breath-hold methods help protect the heart.",
+      who: "Women after lumpectomy, and some after mastectomy.",
+      stay: usually("No hospital stay: daily outpatient sessions"),
+      recovery: "The skin may be red and sore for a few weeks. Most women keep up daily life during treatment.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "radiation-therapy-lung-cancer",
+    "Radiation therapy for lung cancer",
+    "oncology",
+    "Radiation aimed at a lung cancer, as the main treatment or together with chemotherapy or surgery.",
+    {
+      what: "Beams are shaped to the tumour and timed to your breathing. Small early cancers can be treated with SBRT in a few sessions; larger ones over several weeks.",
+      who: "People with lung cancer at any stage, including those not fit for surgery.",
+      stay: usually("No hospital stay: outpatient sessions"),
+      recovery: "Tiredness, a cough or a sore throat can occur and usually ease weeks after treatment.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "radiation-therapy-prostate-cancer",
+    "Radiation therapy for prostate cancer",
+    "oncology",
+    "Radiation to treat prostate cancer, as an alternative to surgery or after it.",
+    {
+      what: "External beams over a few weeks, or brachytherapy seeds placed in the prostate. Hormone therapy is sometimes given alongside.",
+      who: "Men with prostate cancer that has not spread far, and men whose cancer returns after surgery.",
+      stay: usually("No hospital stay: outpatient sessions"),
+      recovery: "Passing urine more often and loose bowels can occur and usually settle after treatment.",
+      faq: [],
+    },
+  ),
+  // Haematology and bone marrow transplant
+  treatment(
+    "allogeneic-transplant",
+    "Allogeneic bone marrow transplant (donor transplant)",
+    "haematology-bmt",
+    "A stem cell transplant using healthy blood-forming cells from a donor, often a brother, sister or parent.",
+    {
+      what: "High-dose treatment clears the diseased marrow, then the donor's stem cells are given by drip. They settle in the bones and make new, healthy blood and immune cells. The donor can be a full match or a half match (haploidentical).",
+      who: "People with leukaemia, some lymphomas, myelodysplasia, aplastic anaemia, thalassaemia and sickle cell disease.",
+      stay: atNanavati("About 30 days"),
+      recovery: "Plan to stay in India for about 3 months. Blood counts and immunity take months to recover fully.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "autologous-transplant",
+    "Autologous bone marrow transplant (own cells)",
+    "haematology-bmt",
+    "A stem cell transplant using the patient's own stem cells, collected and stored before high-dose treatment.",
+    {
+      what: "Stem cells are collected from the blood and frozen. High-dose chemotherapy is then given to destroy the disease, and the stored cells are returned by drip to restart the marrow.",
+      who: "Mainly people with multiple myeloma and some lymphomas.",
+      stay: atNanavati("About 30 days"),
+      recovery: "Plan to stay in India for about 6 to 8 weeks. Energy returns over the following months.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "plasmapheresis",
+    "Plasmapheresis (plasma exchange)",
+    "haematology-bmt",
+    "A machine removes the liquid part of the blood (plasma) and replaces it, to clear harmful antibodies or proteins.",
+    {
+      what: "Blood is drawn through a line, the plasma is separated and replaced with donor plasma or a protein solution, and the blood is returned. Each session takes 2 to 3 hours, often repeated over days.",
+      who: "People with some immune, nerve, blood and kidney conditions, such as Guillain-Barré syndrome, myasthenia gravis and TTP, and some transplant patients.",
+      stay: usually("Depends on the condition; often given during a hospital stay"),
+      recovery: "Most people feel tired for a few hours after a session.",
+      faq: [],
+    },
+  ),
+
+  // Neurology and neurosurgery
+  treatment(
+    "epilepsy-surgery",
+    "Epilepsy surgery",
+    "neurology-neurosurgery",
+    "Surgery to remove or disconnect the part of the brain where seizures start, when medicines do not control them.",
+    {
+      what: "Tests including video EEG and MRI find where seizures start. The surgeon then removes that small area, or places a device that calms the brain's signals, such as a vagus nerve stimulator.",
+      who: "People whose seizures continue despite trying two or more epilepsy medicines.",
+      stay: usually("Usually 5 to 7 days, after testing"),
+      recovery: "Most people return to normal activity in 4 to 6 weeks. Epilepsy medicines usually continue for a while.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "aneurysm-treatment",
+    "Brain aneurysm treatment (coiling and clipping)",
+    "neurology-neurosurgery",
+    "Treatment to seal a weak, bulging blood vessel in the brain before it bursts, or after it has bled.",
+    {
+      what: "In coiling, a thin tube is passed from the groin to the brain and fills the bulge with soft coils or a stent. In clipping, the surgeon opens the skull and places a small clip across the neck of the bulge.",
+      who: "People with a brain aneurysm found on a scan, or who have had bleeding in the brain from one.",
+      stay: usually("Usually 2 to 4 days after coiling; longer after clipping or bleeding"),
+      recovery: "After coiling, most people return to normal activity in 1 to 2 weeks; after clipping, 4 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "stroke-treatment",
+    "Stroke treatment (clot removal)",
+    "neurology-neurosurgery",
+    "Emergency and follow-on care for a stroke, including removal of a clot from a brain artery.",
+    {
+      what: "A clot-busting medicine or a thin tube passed from the groin to the brain (thrombectomy) reopens the blocked artery. Stroke unit care and rehabilitation then help recovery.",
+      who: "People who have had a stroke, and people needing rehabilitation or prevention after one.",
+      stay: usually("Usually 5 to 10 days"),
+      recovery: "Recovery varies widely. Physiotherapy, speech and occupational therapy continue for weeks or months.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "cranioplasty",
+    "Cranioplasty (skull repair)",
+    "neurology-neurosurgery",
+    "An operation to repair a gap in the skull, usually after earlier brain surgery or an injury.",
+    {
+      what: "The missing piece of skull is replaced with the patient's own stored bone or with a custom-made implant.",
+      who: "People who had part of the skull removed to relieve pressure on the brain, or who have a skull defect from injury.",
+      stay: usually("Usually 3 to 5 days"),
+      recovery: "Most people return to normal activity in 4 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "neuro-endoscopy",
+    "Neuro-endoscopic surgery",
+    "neurology-neurosurgery",
+    "Brain surgery through a small opening or through the nose, using a thin camera.",
+    {
+      what: "An endoscope is passed through a small hole in the skull or through the nose to reach tumours, cysts or blocked fluid pathways without a large opening.",
+      who: "People with pituitary tumours, some skull base tumours, brain cysts and hydrocephalus.",
+      stay: usually("Usually 3 to 5 days"),
+      recovery: "Most people return to normal activity in 2 to 4 weeks.",
+      faq: [],
+    },
+  ),
+
+  // Orthopaedics
+  treatment(
+    "robotic-joint-replacement",
+    "Robotic knee and joint replacement",
+    "orthopaedics",
+    "Knee or hip replacement done with a surgical robot, for a precise fit of the new joint.",
+    {
+      what: "A scan of your joint builds a 3D plan. During surgery, the robotic arm helps the surgeon remove only the damaged bone and place the implant exactly as planned.",
+      who: "People with arthritis of the knee or hip who need a joint replacement.",
+      stay: usually("Usually 3 to 5 days"),
+      recovery: "Most people walk with support the next day and return to daily life in 4 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "partial-knee-replacement",
+    "Partial knee replacement",
+    "orthopaedics",
+    "Replacing only the worn part of the knee, keeping the healthy parts and ligaments.",
+    {
+      what: "Through a smaller cut, only the damaged compartment of the knee is resurfaced with an implant. The knee often feels more natural than after a full replacement.",
+      who: "People whose arthritis affects only one part of the knee, with healthy ligaments.",
+      stay: usually("Usually 2 to 3 days"),
+      recovery: "Most people return to daily life in 3 to 4 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "shoulder-replacement",
+    "Shoulder replacement",
+    "orthopaedics",
+    "Replacing a worn or broken shoulder joint with an artificial one, to ease pain and restore movement.",
+    {
+      what: "The damaged ball and socket are replaced with metal and plastic parts. A reverse shoulder replacement swaps the ball and socket, for people whose rotator cuff is torn.",
+      who: "People with severe shoulder arthritis, a large rotator cuff tear, or a complex fracture.",
+      stay: usually("Usually 2 to 4 days"),
+      recovery: "The arm rests in a sling for about 4 to 6 weeks. Full recovery with physiotherapy takes about 6 months.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "elbow-replacement",
+    "Elbow replacement",
+    "orthopaedics",
+    "Replacing a damaged elbow joint with an artificial one.",
+    {
+      what: "The worn ends of the arm bones at the elbow are replaced with metal and plastic parts joined by a hinge.",
+      who: "People with severe elbow arthritis, often from rheumatoid arthritis, or a complex fracture.",
+      stay: usually("Usually 2 to 3 days"),
+      recovery: "Most people return to light daily use in 6 to 8 weeks; heavy lifting is avoided afterwards.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "knee-arthroscopy",
+    "Knee arthroscopy (keyhole knee surgery)",
+    "orthopaedics",
+    "Keyhole surgery to look inside the knee and repair damage through tiny cuts.",
+    {
+      what: "A small camera and fine instruments go into the knee to trim or repair cartilage, remove loose pieces or treat ligament damage.",
+      who: "People with knee pain, locking or swelling from a cartilage tear, loose bodies or a sports injury.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "Most people walk the same day and return to daily life in 1 to 3 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "meniscus-repair",
+    "Knee meniscus repair",
+    "orthopaedics",
+    "Keyhole surgery to stitch a torn meniscus, the cushioning cartilage in the knee.",
+    {
+      what: "Through an arthroscope, the surgeon stitches the tear so it can heal, or trims the torn part if it cannot be repaired.",
+      who: "People with a torn meniscus causing pain, locking or giving way, often after a twisting injury.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "After a repair, crutches are used for a few weeks. Sport usually resumes in 4 to 6 months.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "shoulder-arthroscopy",
+    "Shoulder arthroscopy",
+    "orthopaedics",
+    "Keyhole shoulder surgery to repair a torn rotator cuff, an unstable shoulder or a stiff joint.",
+    {
+      what: "A small camera and instruments go into the shoulder through tiny cuts. The surgeon can repair tendons, tighten the joint or free up stiffness.",
+      who: "People with rotator cuff tears, repeated dislocations, frozen shoulder or impingement.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "A sling is often worn for a few weeks. Full recovery with physiotherapy takes 3 to 6 months.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "elbow-arthroscopy",
+    "Elbow arthroscopy",
+    "orthopaedics",
+    "Keyhole elbow surgery to remove loose pieces, free a stiff joint or treat tennis elbow.",
+    {
+      what: "A thin camera and small instruments go into the elbow through tiny cuts to clean out or repair the joint.",
+      who: "People with elbow pain, locking or stiffness from loose bodies, arthritis or sports injuries.",
+      stay: usually("Usually a day case"),
+      recovery: "Most people return to daily use in 2 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "wrist-arthroscopy",
+    "Wrist arthroscopy",
+    "orthopaedics",
+    "Keyhole wrist surgery to find and repair torn ligaments or cartilage.",
+    {
+      what: "A tiny camera goes into the wrist so the surgeon can see and repair ligament or cartilage tears, or remove a cyst.",
+      who: "People with ongoing wrist pain after an injury, a ganglion cyst, or some wrist fractures.",
+      stay: usually("Usually a day case"),
+      recovery: "A splint may be worn for a few weeks. Most people return to normal use in 4 to 8 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "wrist-surgery",
+    "Wrist surgery",
+    "orthopaedics",
+    "Surgery for wrist fractures, carpal tunnel syndrome, arthritis and other wrist problems.",
+    {
+      what: "Depending on the problem, the surgeon fixes broken bones with plates or screws, frees a trapped nerve, or fuses or replaces a worn joint.",
+      who: "People with a broken wrist, numb fingers from carpal tunnel syndrome, or wrist arthritis.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "Most people return to light use in 2 to 6 weeks, with hand therapy.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "hip-arthroscopy",
+    "Hip arthroscopy",
+    "orthopaedics",
+    "Keyhole hip surgery to repair torn cartilage and reshape the joint.",
+    {
+      what: "A camera and instruments are passed into the hip joint to repair a torn labrum, remove loose pieces or trim bone that pinches the joint.",
+      who: "Active people with hip pain from a labral tear or hip impingement, before arthritis is advanced.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "Crutches for a few weeks. Most people return to sport in 3 to 6 months.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "ankle-arthroscopy",
+    "Ankle arthroscopy",
+    "orthopaedics",
+    "Keyhole ankle surgery to treat pain, stiffness or cartilage damage.",
+    {
+      what: "A camera and small instruments go into the ankle to remove scar tissue, bone spurs or loose pieces, and to treat cartilage damage.",
+      who: "People with ongoing ankle pain or swelling after a sprain, or with early ankle arthritis.",
+      stay: usually("Usually a day case"),
+      recovery: "Most people return to walking normally in 2 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "cartilage-surgery",
+    "Cartilage repair surgery",
+    "orthopaedics",
+    "Surgery to repair or regrow damaged joint cartilage, mainly in the knee.",
+    {
+      what: "Methods include microfracture, which helps new cartilage grow, and transplanting healthy cartilage from another part of the joint or grown in a lab.",
+      who: "Younger, active people with a small area of cartilage damage, before arthritis sets in.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "Crutches for 4 to 6 weeks. Full recovery and return to sport can take 6 to 12 months.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "physiotherapy",
+    "Physiotherapy and rehabilitation",
+    "orthopaedics",
+    "Exercise, hands-on therapy and heat or electrical treatments to restore movement and strength.",
+    {
+      what: "A physiotherapist plans exercises and treatments such as infrared and other heat therapy, ultrasound and electrical stimulation, before and after surgery, or for injuries and long-term pain.",
+      who: "People recovering from joint replacement, spine or sports surgery, stroke, or living with back and joint pain.",
+      stay: usually("No hospital stay: outpatient sessions, or during your hospital stay"),
+      recovery: "Most plans run for a few weeks, with exercises to continue at home.",
+      faq: [],
+    },
+  ),
+
+  // Cardiology and heart surgery
+  treatment(
+    "paediatric-heart-surgery",
+    "Children's heart surgery",
+    "cardiology",
+    "Operations and keyhole procedures to repair heart problems babies and children are born with.",
+    {
+      what: "Holes in the heart, narrowed valves and other birth defects are repaired by open surgery or with devices passed through a blood vessel, without opening the chest.",
+      who: "Babies and children with congenital heart disease, such as ASD, VSD, PDA and tetralogy of Fallot.",
+      stay: usually("Usually 1 to 3 days after a catheter procedure; 7 to 14 days after open surgery"),
+      recovery: "Children often recover quickly. Plan for about 2 to 3 weeks in India after open surgery.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "icd-implantation",
+    "ICD and CRT device implantation",
+    "cardiology",
+    "A small device placed under the skin that watches the heartbeat and corrects dangerous rhythms or a weak pump.",
+    {
+      what: "Through a small cut below the collarbone, wires are passed to the heart and connected to the device. An ICD gives a shock to stop a life-threatening rhythm. A CRT device helps both sides of the heart pump together.",
+      who: "People at risk of sudden cardiac arrest, and people with heart failure whose heart beats out of step.",
+      stay: usually("Usually 1 to 2 days"),
+      recovery: "Avoid lifting the arm on that side above the shoulder for about 4 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "arrhythmia-ablation",
+    "Arrhythmia treatment (EP study and ablation)",
+    "cardiology",
+    "Finding and treating the cause of an irregular or fast heartbeat with thin wires passed to the heart.",
+    {
+      what: "In an electrophysiology (EP) study, wires map the heart's electrical signals. Ablation then uses heat or cold to treat the small area causing the abnormal rhythm.",
+      who: "People with atrial fibrillation, SVT, flutter and other rhythm problems that medicines do not control.",
+      stay: usually("Usually 1 to 2 days"),
+      recovery: "Most people return to normal activity within a week.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "heart-tumour-treatment",
+    "Heart tumour treatment",
+    "cardiology",
+    "Surgery and other treatment for tumours that grow in or on the heart.",
+    {
+      what: "Most heart tumours are non-cancerous, such as a myxoma, and are removed by open heart surgery. Rare cancerous heart tumours are treated with surgery, chemotherapy and radiation together.",
+      who: "People with a mass found in the heart on a scan.",
+      stay: usually("Usually 7 to 10 days after surgery"),
+      recovery: "Plan for about 4 to 6 weeks before normal activity.",
+      faq: [],
+    },
+  ),
+  // Weight loss (bariatric) surgery
+  treatment(
+    "gastric-balloon",
+    "Gastric balloon",
+    "bariatric-surgery",
+    "A soft balloon placed in the stomach through the mouth, to help you feel full sooner and lose weight. No cut is needed.",
+    {
+      what: "Under light sedation, a deflated balloon is passed into the stomach with an endoscope and filled with salt water. It stays for about 6 to 12 months, then is removed the same way.",
+      who: "People who are overweight and want help losing weight without surgery, or who need to lose weight before an operation.",
+      stay: usually("Usually a day case"),
+      recovery: "Nausea is common for a few days. A diet plan and follow-up help you keep the weight off.",
+      faq: [],
+    },
+  ),
+
+  // General and keyhole surgery
+  treatment(
+    "gallbladder-surgery",
+    "Gallbladder removal (laparoscopic cholecystectomy)",
+    "general-surgery",
+    "Keyhole removal of the gallbladder, the usual treatment for painful gallstones.",
+    {
+      what: "Through three or four small cuts, the gallbladder and its stones are removed. You can live normally without a gallbladder.",
+      who: "People with gallstones that cause pain, infection, jaundice or pancreatitis.",
+      stay: usually("Usually 1 to 2 days"),
+      recovery: "Most people return to normal activity in 1 to 2 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "hernia-surgery",
+    "Hernia repair (keyhole and robotic)",
+    "general-surgery",
+    "Surgery to push a bulge back into place and strengthen the weak spot, usually with a mesh.",
+    {
+      what: "The hernia is repaired through small cuts by keyhole or robotic surgery, or through one cut in open surgery. A mesh is usually placed to support the area.",
+      who: "People with an inguinal (groin), umbilical, incisional or hiatus hernia that is painful or growing.",
+      stay: usually("Usually a day case or 1 to 2 days"),
+      recovery: "Most people return to light activity in 1 to 2 weeks and heavy lifting in 4 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "appendectomy",
+    "Appendix removal (appendectomy)",
+    "general-surgery",
+    "Removal of an inflamed appendix, usually by keyhole surgery.",
+    {
+      what: "The appendix is removed through small cuts in the belly. It is often an emergency operation.",
+      who: "People with appendicitis, or repeated attacks of appendix pain.",
+      stay: usually("Usually 1 to 3 days"),
+      recovery: "Most people return to normal activity in 1 to 3 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "robotic-surgery",
+    "Robotic and da Vinci keyhole surgery",
+    "general-surgery",
+    "Operations done with the da Vinci robot through small cuts, for less pain, less blood loss and a quicker return home.",
+    {
+      what: "The surgeon controls robotic instruments from a console with a magnified 3D view. It is used for hernia, gallbladder, bowel, weight loss, urology, gynaecology and cancer surgery.",
+      who: "People needing an operation where the surgeon advises a robotic approach.",
+      stay: usually("Usually 1 to 4 days, depending on the operation"),
+      recovery: "Usually quicker than open surgery; many people return to daily life within 1 to 3 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "hepatobiliary-surgery",
+    "Liver, bile duct and pancreas surgery",
+    "general-surgery",
+    "Surgery for non-cancerous problems of the liver, bile ducts and pancreas, such as stones, cysts and blockages.",
+    {
+      what: "Operations include removing liver cysts, repairing or bypassing blocked bile ducts, and draining or removing part of a damaged pancreas, often by keyhole surgery.",
+      who: "People with bile duct stones or narrowing, choledochal cysts, liver cysts and chronic pancreatitis.",
+      stay: usually("Usually 3 to 10 days, depending on the operation"),
+      recovery: "Most people return to normal activity in 2 to 6 weeks.",
+      faq: [],
+    },
+  ),
+
+  // Gastroenterology and liver care
+  treatment(
+    "endoscopy",
+    "Endoscopy and colonoscopy",
+    "gastroenterology",
+    "A thin camera passed through the mouth or the back passage to look inside the gut, take samples and treat problems.",
+    {
+      what: "Under light sedation, the doctor checks the food pipe, stomach and bowel. Polyps can be removed and bleeding treated during the same test.",
+      who: "People with heartburn, swallowing trouble, bleeding, long-term stomach pain or bowel changes, and for cancer screening.",
+      stay: usually("No hospital stay: a few hours"),
+      recovery: "Most people return to normal activity the next day.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "ercp-eus",
+    "ERCP and endoscopic ultrasound (EUS)",
+    "gastroenterology",
+    "Advanced endoscopy to see and treat the bile ducts and pancreas without surgery.",
+    {
+      what: "In ERCP, a camera through the mouth reaches the bile duct to remove stones or place a stent. In EUS, an ultrasound on the camera gives close views of the pancreas and nearby organs and can take samples.",
+      who: "People with bile duct stones, jaundice, narrowing of the bile duct, or a lump in the pancreas.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "Most people return to normal activity in 1 to 2 days.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "fatty-liver-treatment",
+    "Fatty liver treatment",
+    "gastroenterology",
+    "Tests and a plan to reverse fat build-up in the liver before it causes lasting damage.",
+    {
+      what: "A FibroScan and blood tests measure fat and scarring in the liver. Treatment is a weight, diet and exercise plan, control of diabetes and cholesterol, and medicines where needed.",
+      who: "People told they have a fatty liver, often with weight gain, diabetes or high cholesterol.",
+      stay: usually("No hospital stay: clinic visits"),
+      recovery: "Steady weight loss over months can reverse early fatty liver.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "liver-cirrhosis-treatment",
+    "Liver cirrhosis treatment",
+    "gastroenterology",
+    "Care to slow liver scarring and treat its complications, and to plan a transplant if needed.",
+    {
+      what: "The cause, such as hepatitis, alcohol or fatty liver, is treated. Complications like swollen veins, fluid in the belly and confusion are managed with medicines and endoscopy. A liver transplant is planned when the liver is failing.",
+      who: "People with cirrhosis from any cause.",
+      stay: usually("Often clinic care; a short hospital stay for complications"),
+      recovery: "Cirrhosis needs lifelong follow-up with a liver specialist.",
+      faq: [],
+    },
+  ),
+
+  // Urology
+  treatment(
+    "kidney-stone-treatment",
+    "Kidney stone treatment",
+    "urology",
+    "Breaking up or removing kidney and ureter stones, mostly without any cut.",
+    {
+      what: "Methods include shock waves from outside the body (ESWL), a thin scope with a laser passed up the urine tube (RIRS and URS), and keyhole removal of large stones through the back (PCNL).",
+      who: "People with kidney or ureter stones that cause pain, infection or blockage, or that will not pass on their own.",
+      stay: usually("Usually a day case to 2 days"),
+      recovery: "Most people return to normal activity in a few days. A small tube (stent) may stay in for 1 to 2 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "robotic-urology-surgery",
+    "Robotic kidney and urology surgery",
+    "urology",
+    "Robotic surgery for kidney, ureter, bladder and prostate problems, both cancer and non-cancer.",
+    {
+      what: "Using the da Vinci robot, surgeons repair a blocked kidney drain (pyeloplasty), rebuild the ureter, remove kidney or prostate tumours and treat other urinary problems through small cuts.",
+      who: "People with a blocked kidney, ureter narrowing, an enlarged prostate, or kidney, bladder or prostate cancer.",
+      stay: usually("Usually 2 to 4 days"),
+      recovery: "Most people return to normal activity in 2 to 4 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "circumcision",
+    "Circumcision",
+    "urology",
+    "Removal of the foreskin, for medical reasons or by choice.",
+    {
+      what: "The foreskin is removed under anaesthetic, sometimes with a stapler or laser, and the skin is closed with dissolving stitches.",
+      who: "Boys and men with a tight foreskin (phimosis), repeated infections, or who choose it for cultural or religious reasons.",
+      stay: usually("Usually a day case"),
+      recovery: "Most people return to normal activity in 1 to 2 weeks.",
+      faq: [],
+    },
+  ),
+
+  // Gynaecology
+  treatment(
+    "hysterectomy",
+    "Hysterectomy (keyhole and robotic)",
+    "gynaecology",
+    "Removal of the womb, usually through small cuts by keyhole or robotic surgery.",
+    {
+      what: "The womb, and sometimes the cervix, tubes and ovaries, are removed. Keyhole and robotic methods mean less pain and a faster recovery than open surgery.",
+      who: "Women with fibroids, heavy bleeding, endometriosis, prolapse or pre-cancer that other treatments have not helped.",
+      stay: usually("Usually 1 to 3 days"),
+      recovery: "Most women return to normal activity in 4 to 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "ovarian-cystectomy",
+    "Ovarian cyst removal (ovarian cystectomy)",
+    "gynaecology",
+    "Keyhole removal of a cyst from the ovary, keeping the ovary.",
+    {
+      what: "Through small cuts, the cyst is separated from the ovary and removed, saving the ovary and fertility.",
+      who: "Women with large, painful or lasting ovarian cysts, including endometriomas and dermoid cysts.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "Most women return to normal activity in 1 to 2 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "salpingo-oophorectomy",
+    "Salpingo-oophorectomy (removal of tube and ovary)",
+    "gynaecology",
+    "Removal of one or both fallopian tubes and ovaries (unilateral or bilateral).",
+    {
+      what: "The tube and ovary on one side, or both sides, are removed by keyhole or robotic surgery.",
+      who: "Women with ovarian cysts or tumours, a high inherited cancer risk (such as BRCA), severe endometriosis or infection.",
+      stay: usually("Usually 1 to 2 days"),
+      recovery: "Most women return to normal activity in 2 to 4 weeks. Removing both ovaries brings on menopause.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "robotic-gynaecology-surgery",
+    "Robotic gynaecological surgery",
+    "gynaecology",
+    "Robotic surgery for fibroids, endometriosis, prolapse and other gynaecological problems.",
+    {
+      what: "With the da Vinci robot, surgeons remove fibroids while keeping the womb (myomectomy), remove endometriosis, repair prolapse and carry out hysterectomy through small cuts.",
+      who: "Women needing gynaecological surgery where precision matters, such as complex fibroids or deep endometriosis.",
+      stay: usually("Usually 1 to 3 days"),
+      recovery: "Most women return to normal activity in 2 to 4 weeks.",
+      faq: [],
+    },
+  ),
+
+  // Ear, nose and throat
+  treatment(
+    "sinus-surgery",
+    "Sinus surgery (FESS)",
+    "ent",
+    "Keyhole surgery through the nose to open blocked sinuses and remove polyps.",
+    {
+      what: "A thin camera is passed into the nose, and the surgeon clears blocked sinus openings and removes polyps. There is no cut on the face.",
+      who: "People with long-term sinusitis, nasal polyps or a blocked nose that medicines have not helped.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "Most people return to normal activity in 1 to 2 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "robotic-thyroidectomy",
+    "Robotic thyroidectomy (scarless thyroid surgery)",
+    "ent",
+    "Removal of the thyroid with a surgical robot through cuts away from the neck, leaving no visible neck scar.",
+    {
+      what: "The robot reaches the thyroid through small cuts in the armpit, behind the ear or inside the mouth. Part or all of the thyroid (total thyroidectomy) is removed.",
+      who: "People with thyroid nodules, goitre or thyroid cancer who want to avoid a neck scar and are suitable for this method.",
+      stay: usually("Usually 1 to 2 days"),
+      recovery: "Most people return to normal activity in 1 to 2 weeks. Thyroid tablets may be needed for life.",
+      faq: [],
+    },
+  ),
+
+  // Plastic, reconstructive and cosmetic surgery
+  treatment(
+    "breast-reconstruction",
+    "Breast reconstruction",
+    "cosmetic-plastic-surgery",
+    "Rebuilding the breast after mastectomy, with an implant or with tissue from your own body.",
+    {
+      what: "The breast is rebuilt with a silicone implant, or with skin and fat from the belly, back or thigh moved with microsurgery. It can be done at the time of mastectomy or later.",
+      who: "Women who have had, or are having, a mastectomy.",
+      stay: usually("Usually 2 to 6 days, depending on the method"),
+      recovery: "Most women return to normal activity in 4 to 8 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "body-contouring",
+    "Cosmetic, aesthetic and body contouring surgery",
+    "cosmetic-plastic-surgery",
+    "Surgery to reshape the body, such as tummy tuck, breast lift or reduction, arm and thigh lift.",
+    {
+      what: "Loose skin and fat are removed and tissues tightened, often after big weight loss or pregnancy. Liposuction is often combined.",
+      who: "Healthy adults at a stable weight who want to change the shape of the body.",
+      stay: usually("Usually 1 to 3 days"),
+      recovery: "Most people return to light activity in 2 to 3 weeks. Compression garments are worn for several weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "facial-plastic-surgery",
+    "Facial plastic surgery",
+    "cosmetic-plastic-surgery",
+    "Surgery to rejuvenate or reshape the face, such as a facelift, eyelid surgery and chin or ear correction.",
+    {
+      what: "The surgeon lifts sagging skin and tissue, removes excess eyelid skin, or reshapes the chin, cheeks or ears, with cuts hidden in natural lines.",
+      who: "Adults who want to look fresher or correct a feature, and people needing repair after injury.",
+      stay: usually("Usually a day case or one night"),
+      recovery: "Swelling and bruising settle over 2 to 3 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "gender-affirming-surgery",
+    "Gender-affirming surgery",
+    "cosmetic-plastic-surgery",
+    "Surgery to align the body with a person's gender identity, as part of a planned care pathway.",
+    {
+      what: "Operations can include chest surgery, genital surgery and facial surgery, planned with mental health and hormone care.",
+      who: "Adults with gender dysphoria who have had the assessments the surgical team needs.",
+      stay: usually("Usually 2 to 7 days, depending on the operation"),
+      recovery: "Recovery ranges from 2 weeks to 2 months, depending on the operation.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "male-genital-aesthetic-surgery",
+    "Male genital aesthetic and penile surgery",
+    "cosmetic-plastic-surgery",
+    "Surgery to correct the shape or size of the penis, or to treat a curve or erection problems.",
+    {
+      what: "Procedures include correcting a curve (Peyronie's disease), penile implants for erection problems, and aesthetic enhancement.",
+      who: "Men with a curved penis, erection problems that medicines do not help, or concerns about appearance.",
+      stay: usually("Usually a day case to 2 days"),
+      recovery: "Most men return to normal activity in 2 to 4 weeks; sexual activity after about 6 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "regenerative-plastic-surgery",
+    "Regenerative plastic surgery (fat grafting and PRP)",
+    "cosmetic-plastic-surgery",
+    "Using your own fat, plasma or cells to restore volume, heal scars and improve skin.",
+    {
+      what: "Fat is taken by gentle liposuction, purified and injected where it is needed. Platelet-rich plasma (PRP) from your blood is used to help healing and hair growth.",
+      who: "People with scars, hollow areas after injury or surgery, ageing skin, or hair thinning.",
+      stay: usually("Usually a day case"),
+      recovery: "Swelling settles in 1 to 2 weeks.",
+      faq: [],
+    },
+  ),
+  treatment(
+    "reconstructive-surgery",
+    "Reconstructive surgery",
+    "cosmetic-plastic-surgery",
+    "Surgery to restore the shape and function of the body after cancer, injury, burns or a birth difference.",
+    {
+      what: "Skin grafts, tissue moved from nearby (flaps) and microsurgery are used to repair the face, head and neck, limbs and body.",
+      who: "People after cancer surgery, accidents, burns, or with birth differences.",
+      stay: usually("Depends on the operation, from a day case to 2 weeks"),
+      recovery: "Depends on the repair; the surgeon gives a plan.",
+      faq: [],
+    },
+  ),
+
+  // Dental care
+  treatment(
+    "oral-maxillofacial-surgery",
+    "Oral and maxillofacial (jaw) surgery",
+    "dentistry",
+    "Surgery of the mouth, jaws and face, from wisdom teeth to jaw correction.",
+    {
+      what: "Includes removal of impacted wisdom teeth, jaw correction surgery (orthognathic surgery), fixing facial fractures and removing jaw cysts.",
+      who: "People with impacted teeth, a misaligned jaw, facial injuries or jaw cysts.",
+      stay: usually("A day case for teeth; 2 to 4 days for jaw surgery"),
+      recovery: "After jaw surgery, a soft diet is needed for about 6 weeks.",
+      faq: [],
     },
   ),
 ];

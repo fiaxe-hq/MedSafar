@@ -68,8 +68,8 @@ export default async function Page({ params }: Props) {
       <PageHead
         back={{ href: "/treatments", label: text.back }}
         heading={treatment.name}
-        intro={treatment.pending ? `${treatment.summary} ${catalog.draft}` : treatment.summary}
-        pending={treatment.pending}
+        intro={treatment.summary}
+        pending={treatment.checked ? false : "check"}
         cta
       >
         {showUpcoming ? (
