@@ -34,13 +34,19 @@ export const site: SiteContent = {
     ],
     menuLabel: "Menu",
     contact: { label: "Contact us", href: "/contact" },
+    top: {
+      call: "Call us",
+      whatsapp: "WhatsApp",
+      email: "Email",
+      free: "The medical opinion and the estimate are free",
+    },
   },
 
   languages: {
     label: "Language",
     country: "Your country",
     countryNote: "Changes the photos on the home page. The language stays as you set it.",
-    global: "Another country",
+    global: "Select country",
   },
 
   cta: {
@@ -128,6 +134,11 @@ export const site: SiteContent = {
           "Fertility and IVF",
           "Orthopaedics",
           "Cardiology and heart surgery",
+          "General and keyhole surgery",
+          "Stomach, liver and gut",
+          "Urology (kidney, bladder, prostate)",
+          "Gynaecology",
+          "Ear, nose and throat",
           "Plastic, reconstructive and cosmetic surgery",
           "Eye care (ophthalmology)",
           "Dental care",

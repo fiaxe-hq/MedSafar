@@ -58,6 +58,36 @@ export const specialities: Speciality[] = [
       "Tests, procedures and operations for the heart, from angioplasty to bypass surgery and valve replacement.",
   },
   {
+    slug: "general-surgery",
+    name: "General and keyhole surgery",
+    summary:
+      "Common operations such as gallbladder removal, hernia repair and appendix removal, mostly done by keyhole or robotic surgery so recovery is quicker.",
+  },
+  {
+    slug: "gastroenterology",
+    name: "Gastroenterology and liver care",
+    summary:
+      "Tests and treatment for the stomach, bowel, liver and pancreas, including endoscopy, ERCP and care for fatty liver and cirrhosis.",
+  },
+  {
+    slug: "urology",
+    name: "Urology",
+    summary:
+      "Care for the kidneys, bladder and prostate, and the male reproductive organs, from kidney stones to robotic kidney and prostate surgery.",
+  },
+  {
+    slug: "gynaecology",
+    name: "Gynaecology",
+    summary:
+      "Care and surgery for the womb, ovaries and fallopian tubes, much of it done by keyhole or robotic surgery.",
+  },
+  {
+    slug: "ent",
+    name: "Ear, nose and throat (ENT)",
+    summary:
+      "Treatment for the ears, nose, sinuses, throat and voice box, including sinus surgery.",
+  },
+  {
     slug: "cosmetic-plastic-surgery",
     name: "Plastic, reconstructive and cosmetic surgery",
     summary:

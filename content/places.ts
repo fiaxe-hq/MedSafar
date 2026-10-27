@@ -14,12 +14,13 @@ export type Place = {
   picture: Picture;
 };
 
+// Each photo's focus keeps faces in view when the wide home banner crops it.
 export const places: Place[] = [
   {
     slug: "global",
     iso: null,
     // Stock photo, illustration only: Pexels 31499386, Adarsh MP. Pexels Licence.
-    picture: { src: "/photos/hero-global.jpg", alt: "Two nurses talking in a hospital corridor in India", pending: false },
+    picture: { src: "/photos/hero-global.jpg", alt: "Two nurses talking in a hospital corridor in India", pending: false, focus: "50% 28%" },
   },
   {
     slug: "bd",
@@ -31,31 +32,31 @@ export const places: Place[] = [
     slug: "ge",
     iso: "GE",
     // Pexels 6129651, Tima Miroshnichenko. Pexels Licence.
-    picture: { src: "/photos/hero-ge.jpg", alt: "A doctor talking with a young woman resting in a hospital bed", pending: false },
+    picture: { src: "/photos/hero-ge.jpg", alt: "A doctor talking with a young woman resting in a hospital bed", pending: false, focus: "50% 22%" },
   },
   {
     slug: "iq",
     iso: "IQ",
     // Pexels 34007073, khezez. Pexels Licence.
-    picture: { src: "/photos/hero-iq.jpg", alt: "Dentists treating patients in a modern clinic in Baghdad", pending: false },
+    picture: { src: "/photos/hero-iq.jpg", alt: "Dentists treating patients in a modern clinic in Baghdad", pending: false, focus: "50% 22%" },
   },
   {
     slug: "ke",
     iso: "KE",
     // Pexels 35043676, OfficialDesign Africa. Pexels Licence.
-    picture: { src: "/photos/hero-ke.jpg", alt: "A patient in a hospital room talking with a member of the medical team", pending: false },
+    picture: { src: "/photos/hero-ke.jpg", alt: "A patient in a hospital room talking with a member of the medical team", pending: false, focus: "50% 12%" },
   },
   {
     slug: "ng",
     iso: "NG",
     // Pexels 30677591, Ninthgrid. Pexels Licence.
-    picture: { src: "/photos/hero-ng.jpg", alt: "A doctor checking a man's blood pressure at a clinic in Lagos", pending: false },
+    picture: { src: "/photos/hero-ng.jpg", alt: "A doctor checking a man's blood pressure at a clinic in Lagos", pending: false, focus: "50% 30%" },
   },
   {
     slug: "uz",
     iso: "UZ",
     // Pexels 7659572, Thirdman. Pexels Licence.
-    picture: { src: "/photos/hero-uz.jpg", alt: "A doctor taking the blood pressure of a woman in a headscarf", pending: false },
+    picture: { src: "/photos/hero-uz.jpg", alt: "A doctor taking the blood pressure of a woman in a headscarf", pending: false, focus: "50% 42%" },
   },
 ];
 

@@ -19,6 +19,8 @@ import { Figure } from "@/components/ui/Pending";
 import { Section, SectionHead } from "@/components/ui/Section";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
+import { fill } from "@/content/ui";
+import { btnPrimary } from "@/components/ui/styles";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -52,6 +54,8 @@ export default async function Page({ params }: Props) {
     getSpecialities(),
   ]);
   const speciality = nameOf(specialities, doctor.speciality);
+  // Every button on this page books a consultation with this doctor.
+  const book = (line: string) => fill(line, { name: doctor.name });
 
   return (
     <PageShell current="/doctors">
@@ -60,18 +64,24 @@ export default async function Page({ params }: Props) {
         heading={doctor.name}
         intro={doctor.role}
         pending={doctor.pending}
-        cta
+        cta={book(text.book.button)}
       />
 
       <Section tone="quiet">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="min-w-0 sm:max-w-sm lg:col-span-4 lg:max-w-none">
+          {/* On a laptop the photo stays in view while the profile scrolls
+              past it, then both move on together. */}
+          <div className="min-w-0 sm:max-w-sm lg:sticky lg:top-24 lg:col-span-4 lg:max-w-none lg:self-start">
             <Figure
               picture={doctor.picture}
               ratio="aspect-[4/5]"
+              position="object-top"
               priority
               sizes="(min-width: 1024px) 30vw, (min-width: 640px) 24rem, 100vw"
             />
+            <a href="#plan" className={`${btnPrimary} mt-5 w-full`}>
+              {text.book.short}
+            </a>
           </div>
 
           <div className="reveal min-w-0 lg:col-span-7 lg:col-start-6">
@@ -143,7 +153,11 @@ export default async function Page({ params }: Props) {
         </Section>
       ) : null}
 
-      <EnquiryBlock content={{ enquiry: catalog.enquiry }} source={`/doctors/${doctor.slug}`} />
+      <EnquiryBlock
+        content={{ enquiry: { heading: book(text.book.heading), support: book(text.book.support) } }}
+        source={`/doctors/${doctor.slug}`}
+        submit={text.book.submit}
+      />
     </PageShell>
   );
 }

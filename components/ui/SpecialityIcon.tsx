@@ -10,6 +10,11 @@ import { SparkleIcon } from "@phosphor-icons/react/dist/ssr/Sparkle";
 import { EyeIcon } from "@phosphor-icons/react/dist/ssr/Eye";
 import { ToothIcon } from "@phosphor-icons/react/dist/ssr/Tooth";
 import { FirstAidIcon } from "@phosphor-icons/react/dist/ssr/FirstAid";
+import { BandaidsIcon } from "@phosphor-icons/react/dist/ssr/Bandaids";
+import { StethoscopeIcon } from "@phosphor-icons/react/dist/ssr/Stethoscope";
+import { FlaskIcon } from "@phosphor-icons/react/dist/ssr/Flask";
+import { GenderFemaleIcon } from "@phosphor-icons/react/dist/ssr/GenderFemale";
+import { EarIcon } from "@phosphor-icons/react/dist/ssr/Ear";
 
 /** One glyph per speciality slug. A new speciality falls back to a first-aid
  *  cross until it is given its own. */
@@ -22,6 +27,11 @@ const icons: Record<string, typeof FirstAidIcon> = {
   "fertility-ivf": BabyIcon,
   orthopaedics: BoneIcon,
   cardiology: HeartIcon,
+  "general-surgery": BandaidsIcon,
+  gastroenterology: StethoscopeIcon,
+  urology: FlaskIcon,
+  gynaecology: GenderFemaleIcon,
+  ent: EarIcon,
   "cosmetic-plastic-surgery": SparkleIcon,
   ophthalmology: EyeIcon,
   dentistry: ToothIcon,

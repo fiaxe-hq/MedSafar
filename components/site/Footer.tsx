@@ -17,104 +17,135 @@ export async function Footer({ home = "/" }: { home?: string }) {
   const year = new Date().getFullYear();
 
   const reach = [
-    { label: footer.contact.whatsapp, value: contact.whatsapp.display, href: whatsappHref, Icon: WhatsappLogoIcon, external: true },
-    { label: footer.contact.phone, value: contact.phone.display, href: phoneHref, Icon: PhoneIcon, external: false },
-    { label: footer.contact.email, value: contact.email, href: emailHref, Icon: EnvelopeSimpleIcon, external: false },
+    {
+      label: footer.contact.whatsapp,
+      value: contact.whatsapp.display,
+      href: whatsappHref,
+      Icon: WhatsappLogoIcon,
+      external: true,
+    },
+    {
+      label: footer.contact.phone,
+      value: contact.phone.display,
+      href: phoneHref,
+      Icon: PhoneIcon,
+      external: false,
+    },
+    {
+      label: footer.contact.email,
+      value: contact.email,
+      href: emailHref,
+      Icon: EnvelopeSimpleIcon,
+      external: false,
+    },
   ];
 
   // Each company detail appears as soon as it is filled in.
   const details = [
-    { label: footer.company.registeredAddress, value: company.registeredAddress },
+    {
+      label: footer.company.registeredAddress,
+      value: company.registeredAddress,
+    },
     { label: footer.company.gstin, value: company.gstin },
-  ].filter((detail): detail is { label: string; value: string } => detail.value !== null);
+  ].filter(
+    (detail): detail is { label: string; value: string } =>
+      detail.value !== null,
+  );
 
   return (
-    <footer className="border-t border-hairline bg-surface-2 py-16 sm:py-20">
+    <footer className="border-t border-hairline bg-surface-2 pt-14 pb-8 sm:pt-16">
       <Container>
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
-          <div>
-            <p className="font-display text-2xl font-semibold tracking-[-0.02em]">{brand.tagline}</p>
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
+          {/* Who we are and how to reach us. */}
+          <div className="lg:col-span-4">
+            <p className="max-w-[22ch] font-display text-xl font-semibold tracking-[-0.02em]">
+              {brand.tagline}
+            </p>
 
-            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
-              {/* Travgrub's own red and grey live in this logo only. */}
-              <Image
-                src={travgrubLogo}
-                alt={footer.parentLogoAlt}
-                width={92}
-                height={32}
-                className="h-8 w-auto"
-              />
-              <p className="text-base text-ink-2">{footer.legalName}</p>
-            </div>
-
-            <div className="mt-6 max-w-[58ch] space-y-3">
-              {(showUpcoming ? [...footer.lines, footer.payment] : footer.lines).map((line) => (
-                <p key={line} className="text-sm text-ink-3">
-                  {line}
-                </p>
+            <ul className="mt-6 space-y-2">
+              {reach.map(({ label, value, href, Icon, external }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener" : undefined}
+                    className="group inline-flex min-h-9 items-center gap-2.5 text-[0.9375rem] text-ink-2 transition-colors hover:text-ink"
+                  >
+                    <Icon
+                      size={17}
+                      className="shrink-0 text-accent"
+                      aria-hidden
+                    />
+                    <span className="sr-only">{label}: </span>
+                    <span className="underline-offset-4 group-hover:underline">
+                      {value}
+                    </span>
+                  </a>
+                </li>
               ))}
-            </div>
+            </ul>
 
-            <div className="mt-10">
-              <p className="text-sm font-medium text-ink">{footer.contact.heading}</p>
-              <ul className="mt-3 space-y-1">
-                {reach.map(({ label, value, href, Icon, external }) => (
-                  <li key={label}>
-                    <a
-                      href={href}
-                      target={external ? "_blank" : undefined}
-                      rel={external ? "noopener" : undefined}
-                      className="group flex min-h-11 items-center gap-3 text-base text-ink-2 transition-colors hover:text-ink"
-                    >
-                      <Icon size={20} className="shrink-0 text-accent" aria-hidden />
-                      <span className="w-20 shrink-0 text-sm text-ink-3">{label}</span>
-                      <span className="underline-offset-4 group-hover:underline">{value}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mt-8">
-              <p className="text-sm font-medium text-ink">{footer.follow}</p>
-              <SocialLinks className="mt-3" />
-            </div>
-
-            {details.length > 0 ? (
-              <dl className="mt-8 max-w-[58ch] space-y-2 text-sm">
-                {details.map((detail) => (
-                  <div key={detail.label} className="flex flex-wrap gap-x-3">
-                    <dt className="text-ink-3">{detail.label}</dt>
-                    <dd className="text-ink-2">{detail.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            ) : null}
+            <SocialLinks className="mt-5" />
           </div>
 
-          <div className="grid gap-10 sm:grid-cols-2 lg:justify-items-end">
+          {/* Links, four short columns. */}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:col-span-8">
             {footer.columns.map((column) => (
               <div key={column.heading}>
-                <p className="text-sm font-medium text-ink">{column.heading}</p>
-                <ul className="mt-4 space-y-1">
-                  {column.items.filter((item) => !hiddenLink(item.href)).map((item) => (
-                    <li key={item.label}>
-                      <Link
-                        href={resolveHref(item.href, home)}
-                        className="flex min-h-11 w-fit items-center text-base text-ink-2 transition-[color,translate] duration-300 ease-(--ease-soft) hover:translate-x-1 hover:text-ink rtl:hover:-translate-x-1"
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
+                <p className="text-[0.8125rem] font-medium tracking-[0.08em] text-ink-3 uppercase">
+                  {column.heading}
+                </p>
+                <ul className="mt-4 space-y-0.5">
+                  {column.items
+                    .filter((item) => !hiddenLink(item.href))
+                    .map((item) => (
+                      <li key={item.label}>
+                        <Link
+                          href={resolveHref(item.href, home)}
+                          className="flex min-h-9 w-fit items-center text-[0.9375rem] text-ink-2 transition-colors hover:text-accent"
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
                 </ul>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="mt-16 border-t border-hairline pt-8 text-sm text-ink-3">
-          <p>
+        {/* The company behind Medsafar, and the fine print. */}
+        <div className="mt-14 border-t border-hairline pt-8">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+            {/* Travgrub's own red and grey live in this logo only. */}
+            <Image
+              src={travgrubLogo}
+              alt={footer.parentLogoAlt}
+              width={80}
+              height={28}
+              className="h-7 w-auto"
+            />
+            <p className="text-[0.9375rem] text-ink-2">{footer.legalName}</p>
+          </div>
+          <div className="mt-4 max-w-[80ch] space-y-2 text-[0.8125rem] leading-relaxed text-ink-3">
+            {(showUpcoming
+              ? [...footer.lines, footer.payment]
+              : footer.lines
+            ).map((line) => (
+              <p key={line}>{line}</p>
+            ))}
+            {details.length > 0 ? (
+              <dl className="flex flex-wrap gap-x-6 gap-y-1">
+                {details.map((detail) => (
+                  <div key={detail.label} className="flex flex-wrap gap-x-2">
+                    <dt>{detail.label}:</dt>
+                    <dd className="text-ink-2">{detail.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            ) : null}
+          </div>
+          <p className="mt-6 text-[0.8125rem] text-ink-3">
             © {year} {brand.name} {brand.country}. {footer.copyright}
           </p>
         </div>

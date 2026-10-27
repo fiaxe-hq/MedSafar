@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "@/components/ui/Link";
+import { CheckIcon } from "@phosphor-icons/react/dist/ssr/Check";
 import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
 import { getDoctors, getHospitals, getSpecialities, nameOf } from "@/lib/catalog";
 import { first } from "@/lib/query";
@@ -7,7 +8,7 @@ import { PageShell } from "@/components/site/PageShell";
 import { Container } from "@/components/ui/Container";
 import { PageHead } from "@/components/catalog/PageHead";
 import { DoctorTile } from "@/components/catalog/DoctorTile";
-import { ShowCurrent } from "@/components/catalog/ShowCurrent";
+import { FilterMenu } from "@/components/catalog/FilterMenu";
 import { NoResults, ResultCount } from "@/components/catalog/Filters";
 import { EnquiryBlock } from "@/components/sections/EnquiryBlock";
 import { Note } from "@/components/ui/Section";
@@ -83,89 +84,96 @@ export default async function Page({ searchParams }: Props) {
     // One option filters nothing, so that group is not shown.
   ].filter((g) => g.options.length > 1);
 
-  // A pill in a swipeable row on a phone, a full-width row in the sidebar on
-  // a laptop. Long names stay on one line on a phone and wrap in the sidebar.
+  // One row of an open filter menu.
   const option =
-    "flex min-h-11 shrink-0 snap-start items-center justify-between gap-3 rounded-full px-4 text-base whitespace-nowrap transition-[background-color,color] duration-300 ease-(--ease-soft) lg:w-full lg:rounded-xl lg:px-3.5 lg:py-2.5 lg:text-start lg:whitespace-normal";
-  const optionOff = `${option} bg-surface text-ink-2 ring-1 ring-hairline hover:bg-accent-quiet hover:text-ink lg:bg-transparent lg:ring-0`;
-  const optionOn = `${option} bg-deep font-medium text-white`;
+    "flex min-h-11 items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-[0.9375rem] transition-[background-color,color] duration-200";
+  const optionOff = `${option} text-ink-2 hover:bg-surface-2 hover:text-ink`;
+  const optionOn = `${option} bg-accent-quiet font-medium text-ink`;
 
   return (
     <PageShell current="/doctors">
       <PageHead heading={text.heading} intro={text.intro} stats={stats} />
 
-      <section className="bg-surface-2 py-12 sm:py-16 lg:py-20">
-        <Container className="grid gap-8 lg:grid-cols-[16.5rem_minmax(0,1fr)] lg:gap-12">
-          {groups.length ? (
-            <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">
-              <nav
-                id="doctor-filters"
-                aria-label={catalog.filters.heading}
-                className="space-y-6 lg:rounded-[1.5rem] lg:bg-surface lg:p-3 lg:ring-1 lg:ring-hairline"
-              >
-                {groups.map((g) => (
-                  <div key={g.name}>
-                    <h2 className="px-1 text-sm font-medium text-ink-3 lg:px-3.5 lg:pt-2">{g.label}</h2>
-                    <ul className="-mx-5 mt-3 flex snap-x scroll-px-5 gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] sm:-mx-8 sm:scroll-px-8 sm:px-8 lg:mx-0 lg:mt-2 lg:flex-col lg:gap-0.5 lg:overflow-visible lg:p-0">
+      <section className="bg-surface-2 pb-12 sm:pb-16 lg:pb-20">
+        {/* A slim filter bar that stays under the header while the doctors
+            scroll, so every filter is always in reach. */}
+        {groups.length ? (
+          <div className="sticky top-16 z-30 border-b border-hairline bg-surface-2/90 backdrop-blur-md lg:top-[4.25rem]">
+            <Container className="relative flex flex-wrap items-center gap-2 py-3 sm:gap-3">
+              <span className="sr-only">{catalog.filters.heading}</span>
+              {groups.map((g) => {
+                const chosen = g.options.find((o) => o.value === g.value);
+                return (
+                  <FilterMenu
+                    key={g.name}
+                    name="doctor-filter"
+                    label={g.label}
+                    current={chosen?.label ?? catalog.filters.all}
+                    active={Boolean(chosen)}
+                  >
+                    <ul>
                       {[{ value: "", label: catalog.filters.all, count: everyone.length }, ...g.options].map((o) => {
                         const on = o.value === g.value;
                         return (
-                          <li key={o.value || "all"} className="shrink-0">
+                          <li key={o.value || "all"}>
                             <Link
                               href={href({ speciality, hospital, [g.name]: o.value })}
                               scroll={false}
                               aria-current={on ? "true" : undefined}
                               className={on ? optionOn : optionOff}
                             >
-                              {o.label}
-                              <span className={`text-sm tabular-nums ${on ? "text-glow" : "text-ink-3"}`}>
-                                {o.count}
+                              <span className="flex items-center gap-2">
+                                {on ? <CheckIcon size={14} weight="bold" className="text-accent" aria-hidden /> : null}
+                                {o.label}
                               </span>
+                              <span className="text-sm text-ink-3 tabular-nums">{o.count}</span>
                             </Link>
                           </li>
                         );
                       })}
                     </ul>
-                  </div>
-                ))}
+                  </FilterMenu>
+                );
+              })}
 
-                {speciality || hospital ? (
-                  <Link
-                    href="/doctors"
-                    scroll={false}
-                    className="inline-flex min-h-11 items-center gap-2 px-1 text-sm font-medium text-accent transition-colors hover:text-accent-hover lg:border-t lg:border-hairline lg:px-3.5 lg:pt-1"
-                  >
-                    <XIcon size={14} weight="bold" aria-hidden />
-                    {catalog.filters.clear}
-                  </Link>
-                ) : null}
-              </nav>
-              <ShowCurrent id="doctor-filters" />
-            </aside>
-          ) : null}
+              {speciality || hospital ? (
+                <Link
+                  href="/doctors"
+                  scroll={false}
+                  className="inline-flex min-h-11 items-center gap-1.5 px-2 text-sm font-medium text-accent transition-colors hover:text-accent-hover"
+                >
+                  <XIcon size={14} weight="bold" aria-hidden />
+                  {catalog.filters.clear}
+                </Link>
+              ) : null}
 
-          <div className={`min-w-0 ${groups.length ? "" : "lg:col-span-2"}`}>
-            <ResultCount count={doctors.length} />
-
-            {doctors.length ? (
-              <ul className="mt-5 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                {doctors.map((doctor) => (
-                  <li key={doctor.slug} className="min-w-0">
-                    <DoctorTile
-                      doctor={doctor}
-                      speciality={nameOf(specialities, doctor.speciality)}
-                      hospital={nameOf(hospitals, doctor.hospital)}
-                      view={text.view}
-                    />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <NoResults action="/doctors" />
-            )}
-
-            <Note>{text.note}</Note>
+              <ResultCount count={doctors.length} className="ms-auto hidden sm:block" />
+            </Container>
           </div>
+        ) : null}
+
+        <Container className="pt-8 sm:pt-10">
+          {/* On a phone the count sits here, keeping the filter bar to one row. */}
+          <ResultCount count={doctors.length} className={`mb-5 ${groups.length ? "sm:hidden" : ""}`} />
+
+          {doctors.length ? (
+            <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {doctors.map((doctor) => (
+                <li key={doctor.slug} className="min-w-0">
+                  <DoctorTile
+                    doctor={doctor}
+                    speciality={nameOf(specialities, doctor.speciality)}
+                    hospital={nameOf(hospitals, doctor.hospital)}
+                    view={text.view}
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <NoResults action="/doctors" />
+          )}
+
+          <Note>{text.note}</Note>
         </Container>
       </section>
 

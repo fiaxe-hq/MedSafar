@@ -1,4 +1,5 @@
 import logo from "@/public/brand/medsafar-logo.png";
+import { InlineScript } from "@/components/ui/InlineScript";
 import "./intro.css";
 
 /**
@@ -14,7 +15,7 @@ import "./intro.css";
  * up before anything else paints, and it needs no hydration.
  */
 export function Intro() {
-  return <script dangerouslySetInnerHTML={{ __html: `(${intro.toString()})(${JSON.stringify(logo.src)})` }} />;
+  return <InlineScript html={`(${intro.toString()})(${JSON.stringify(logo.src)})`} />;
 }
 
 /** Stringified into the page, so it must not use anything from outside. */

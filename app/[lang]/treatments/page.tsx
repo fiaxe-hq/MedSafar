@@ -69,7 +69,7 @@ export default async function Page() {
               {ui.finder.question}
             </p>
           </div>
-          <div className="hero-rise mt-8 grid gap-5 [animation-delay:220ms] lg:grid-cols-2 lg:gap-6">
+          <div className="hero-rise mt-8 grid grid-cols-[minmax(0,1fr)] gap-5 [animation-delay:220ms] lg:grid-cols-2 lg:gap-6">
             <FinderSearch treatments={finder} types={groups.map((g) => g.slug)} words={words} />
             <BodyPicker treatments={finder} words={words} />
           </div>

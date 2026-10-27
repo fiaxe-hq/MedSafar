@@ -3,8 +3,9 @@
  * lays a translation back over it.
  *
  * Every sentence has a path, such as "treatments.knee-replacement.summary".
- * A record with a slug is addressed by its slug rather than its position, so a
- * translation keeps working when records are added or reordered. Anything that
+ * A record with a slug (or failing that an id) is addressed by it rather than
+ * by its position, so a translation keeps working when records are added or
+ * reordered. Anything that
  * is not reader-facing text (slugs, links, photos, codes) is left alone.
  */
 
@@ -58,7 +59,10 @@ function isCode(value: string): boolean {
 const isCodeList = (key: string, list: unknown[]) => codeKeys.has(key) && list.every((item) => typeof item === "string");
 
 function segment(item: unknown, index: number): string {
-  if (item && typeof item === "object" && "slug" in item && typeof item.slug === "string") return item.slug;
+  if (item && typeof item === "object") {
+    if ("slug" in item && typeof item.slug === "string") return item.slug;
+    if ("id" in item && typeof item.id === "string") return item.id;
+  }
   return String(index);
 }
 

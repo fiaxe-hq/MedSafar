@@ -55,7 +55,7 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
-  const [{ site }, lang] = await Promise.all([getText(), getLang()]);
+  const [{ site, catalog }, lang] = await Promise.all([getText(), getLang()]);
   return (
     <html
       lang={lang.code}
@@ -64,7 +64,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
       className={`${inter.variable} ${figtree.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col overflow-x-clip">
-        <LabelsProvider value={{ pending: site.pendingLabel, photo: site.photoLabel }}>{children}</LabelsProvider>
+        <LabelsProvider value={{ pending: site.pendingLabel, photo: site.photoLabel, check: catalog.draft }}>{children}</LabelsProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLd(organizationJsonLd) }}

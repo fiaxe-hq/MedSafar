@@ -351,11 +351,12 @@ function makeBody(THREE: Three, sex: Sex): T.Mesh[] {
     add(lathe(pts, ...front), frontArea, { pos: [0, 0, gap], scale: [1, 1, depth] });
     add(lathe(pts, ...back), backArea, { pos: [0, 0, -gap], scale: [1, 1, depth] });
   };
-  torso(chest, "chest", null);
-  torso(belly, "belly", null);
-  torso(pelvis, "pelvis", null);
+  torso(chest, "chest", "upper-back");
+  torso(belly, "belly", "middle-back");
+  torso(pelvis, "pelvis", "lower-back");
 
-  // Back: a column of small bones, and a kidney either side.
+  // Back: upper, middle and lower zones (the back halves above), with a
+  // column of small bones for the whole spine and a kidney either side.
   const all = [...pelvis, ...belly, ...chest].filter(([r]) => r > 0).sort((a, b) => a[1] - b[1]);
   const radiusAt = (y: number) => {
     for (let i = 1; i < all.length; i++) {
@@ -393,7 +394,9 @@ function makeBody(THREE: Three, sex: Sex): T.Mesh[] {
     add(new THREE.CapsuleGeometry(male ? 0.066 : 0.07, 0.2, 8, 20), "legs", { pos: [x, 0.65, 0], rot: [0, 0, -s * 0.03] });
     add(new THREE.SphereGeometry(0.054, 20, 14), "knees", { pos: [x * 0.92, 0.475, 0.01] });
     add(new THREE.CapsuleGeometry(0.046, 0.26, 8, 20), "legs", { pos: [x * 0.88, 0.27, 0] });
-    add(new THREE.SphereGeometry(1, 20, 14), null, { pos: [x * 0.88, 0.035, 0.04], scale: [0.042, 0.03, 0.1] });
+    // Ankle and foot, one area.
+    add(new THREE.SphereGeometry(0.05, 20, 14), "feet", { pos: [x * 0.88, 0.085, 0] });
+    add(new THREE.SphereGeometry(1, 20, 14), "feet", { pos: [x * 0.88, 0.035, 0.04], scale: [0.045, 0.034, 0.105] });
   });
 
   return out;

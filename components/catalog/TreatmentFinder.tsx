@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "@/components/ui/Link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { treatmentPhoto } from "@/data/treatmentPhotos";
 import { useParams } from "next/navigation";
 import { localPath } from "@/lib/i18n/languages";
 import { ArrowDownIcon } from "@phosphor-icons/react/dist/ssr/ArrowDown";
@@ -22,7 +24,44 @@ import { SpecialityIcon } from "@/components/ui/SpecialityIcon";
 import { btnPrimary, field } from "@/components/ui/styles";
 import { contactHref, saveIssue } from "@/lib/enquiryMemory";
 
-export type FinderTreatment = { slug: string; name: string; speciality: string; summary: string };
+export type FinderTreatment = {
+  slug: string;
+  name: string;
+  speciality: string;
+  summary: string;
+};
+
+/** A small photo of the treatment, or its speciality icon when it has none. */
+function Thumb({
+  slug,
+  speciality,
+  className,
+}: {
+  slug: string;
+  speciality: string;
+  className: string;
+}) {
+  const photo = treatmentPhoto(slug, speciality);
+  return photo?.src ? (
+    <span
+      className={`relative shrink-0 overflow-hidden rounded-md bg-surface-2 ${className}`}
+    >
+      <Image
+        src={photo.src}
+        alt=""
+        fill
+        sizes="80px"
+        className="object-cover"
+      />
+    </span>
+  ) : (
+    <span
+      className={`grid shrink-0 place-items-center rounded-md bg-accent-soft text-accent ${className}`}
+    >
+      <SpecialityIcon slug={speciality} size={18} aria-hidden />
+    </span>
+  );
+}
 
 /** The finder's words and body map, in the page's language. */
 export type FinderText = {
@@ -36,20 +75,31 @@ export type FinderText = {
 /* Hero: "Yes, I know the name"                                        */
 /* ------------------------------------------------------------------ */
 
-function useSearch(treatments: FinderTreatment[], q: string, plainSpeciality: Record<string, string>) {
+function useSearch(
+  treatments: FinderTreatment[],
+  q: string,
+  plainSpeciality: Record<string, string>,
+) {
   return useMemo(() => {
-    const words = q.toLowerCase().split(/\s+/).filter((w) => w.length > 1);
+    const words = q
+      .toLowerCase()
+      .split(/\s+/)
+      .filter((w) => w.length > 1);
     if (!words.length) return null;
     const scored = treatments.map((t) => {
-      const hay = `${t.name} ${t.summary} ${plainSpeciality[t.speciality] ?? ""} ${searchWords[t.slug] ?? ""}`.toLowerCase();
+      const hay =
+        `${t.name} ${t.summary} ${plainSpeciality[t.speciality] ?? ""} ${searchWords[t.slug] ?? ""}`.toLowerCase();
       const hits = words.filter((w) => hay.includes(w)).length;
-      const score = hits + words.filter((w) => t.name.toLowerCase().includes(w)).length * 2;
+      const score =
+        hits + words.filter((w) => t.name.toLowerCase().includes(w)).length * 2;
       return { t, hits, score };
     });
     // Matches for every word come first; the rest only if there are none.
     const best = Math.max(0, ...scored.map((r) => r.hits));
     return scored
-      .filter((r) => r.hits > 0 && (best < words.length || r.hits === words.length))
+      .filter(
+        (r) => r.hits > 0 && (best < words.length || r.hits === words.length),
+      )
       .sort((x, y) => y.score - x.score)
       .map((r) => r.t);
   }, [treatments, q, plainSpeciality]);
@@ -76,7 +126,8 @@ export function FinderSearch({
 
   useEffect(() => {
     const away = (e: PointerEvent) => {
-      if (box.current && !box.current.contains(e.target as Node)) setOpen(false);
+      if (box.current && !box.current.contains(e.target as Node))
+        setOpen(false);
     };
     document.addEventListener("pointerdown", away);
     return () => document.removeEventListener("pointerdown", away);
@@ -90,10 +141,16 @@ export function FinderSearch({
         <CheckCircleIcon size={16} weight="fill" aria-hidden />
         {text.know}
       </p>
-      <h2 className="mt-4 font-display text-2xl font-semibold tracking-[-0.02em]">{text.searchHeading}</h2>
+      <h2 className="mt-4 font-display text-2xl font-semibold tracking-[-0.02em]">
+        {text.searchHeading}
+      </h2>
       <p className="mt-1 text-base text-ink-2">{text.searchIntro}</p>
 
-      <div ref={box} className="relative mt-5" onKeyDown={(e) => e.key === "Escape" && setOpen(false)}>
+      <div
+        ref={box}
+        className="relative mt-5"
+        onKeyDown={(e) => e.key === "Escape" && setOpen(false)}
+      >
         <label className="relative block">
           <span className="sr-only">{text.searchLabel}</span>
           <MagnifyingGlassIcon
@@ -122,7 +179,9 @@ export function FinderSearch({
             {results.length ? (
               <>
                 <p className="px-3 pt-2 pb-1 text-sm text-ink-3">
-                  {results.length === 1 ? text.matchOne : fill(text.matchMany, { n: results.length })}
+                  {results.length === 1
+                    ? text.matchOne
+                    : fill(text.matchMany, { n: results.length })}
                 </p>
                 <ul>
                   {results.map((t) => (
@@ -131,16 +190,24 @@ export function FinderSearch({
                         href={`/treatments/${t.slug}`}
                         className="group flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-accent-quiet"
                       >
-                        <span className="grid size-9 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
-                          <SpecialityIcon slug={t.speciality} size={18} aria-hidden />
-                        </span>
+                        <Thumb
+                          slug={t.slug}
+                          speciality={t.speciality}
+                          className="size-11"
+                        />
                         <span className="min-w-0 flex-1">
-                          <span className="block truncate font-medium text-ink group-hover:text-accent">{t.name}</span>
+                          <span className="block truncate font-medium text-ink group-hover:text-accent">
+                            {t.name}
+                          </span>
                           <span className="block truncate text-sm text-ink-3">
                             {plainSpeciality[t.speciality] ?? t.speciality}
                           </span>
                         </span>
-                        <ArrowRightIcon size={16} className="shrink-0 text-ink-3 rtl:rotate-180" aria-hidden />
+                        <ArrowRightIcon
+                          size={16}
+                          className="shrink-0 text-ink-3 rtl:rotate-180"
+                          aria-hidden
+                        />
                       </Link>
                     </li>
                   ))}
@@ -149,7 +216,10 @@ export function FinderSearch({
             ) : (
               <p className="p-3 text-base text-ink-2">
                 {fill(text.noMatch, { q })}{" "}
-                <a href="#body" className="font-medium text-accent underline underline-offset-2">
+                <a
+                  href="#body"
+                  className="font-medium text-accent underline underline-offset-2"
+                >
                   {text.noMatchLink}
                 </a>{" "}
                 {text.noMatchEnd}
@@ -185,7 +255,12 @@ export function FinderSearch({
                   href={`${base}#${slug}`}
                   className="flex min-h-10 items-center gap-2 rounded-full bg-surface-2 px-4 text-sm font-medium text-ink-2 ring-1 ring-hairline transition-[background-color,color] duration-300 hover:bg-accent-quiet hover:text-ink"
                 >
-                  <SpecialityIcon slug={slug} size={18} className="shrink-0 text-accent" aria-hidden />
+                  <SpecialityIcon
+                    slug={slug}
+                    size={18}
+                    className="shrink-0 text-accent"
+                    aria-hidden
+                  />
                   {plainSpeciality[slug] ?? slug}
                 </a>
               </li>
@@ -196,7 +271,11 @@ export function FinderSearch({
                 className="group flex min-h-10 items-center justify-center gap-2 rounded-full px-4 text-sm font-medium text-accent ring-1 ring-accent/30 transition-colors hover:bg-accent-quiet"
               >
                 {fill(text.allTypes, { n: types.length })}
-                <ArrowDownIcon size={14} className="transition-[translate] duration-300 group-hover:translate-y-0.5" aria-hidden />
+                <ArrowDownIcon
+                  size={14}
+                  className="transition-[translate] duration-300 group-hover:translate-y-0.5"
+                  aria-hidden
+                />
               </a>
             </li>
           </ul>
@@ -215,10 +294,19 @@ export function FinderSearch({
  * opens a pop-up with the treatments for that part, and from there one button
  * takes the problem to the contact form.
  */
-export function BodyPicker({ treatments, words }: { treatments: FinderTreatment[]; words: FinderText }) {
+export function BodyPicker({
+  treatments,
+  words,
+}: {
+  treatments: FinderTreatment[];
+  words: FinderText;
+}) {
   const { text, bodyAreas, wholeBody } = words;
   const allAreas = [...bodyAreas, ...wholeBody];
-  const bySlug = useMemo(() => new Map(treatments.map((t) => [t.slug, t])), [treatments]);
+  const bySlug = useMemo(
+    () => new Map(treatments.map((t) => [t.slug, t])),
+    [treatments],
+  );
   const [sex, setSex] = useState<Sex>("female");
   const [turn, setTurn] = useState(0);
   const [dragging, setDragging] = useState(false);
@@ -234,19 +322,28 @@ export function BodyPicker({ treatments, words }: { treatments: FinderTreatment[
   };
 
   return (
-    <div id="body" className="flex h-full scroll-mt-24 flex-col rounded-[1.5rem] bg-surface shadow-card ring-1 ring-hairline">
+    <div
+      id="body"
+      className="flex h-full scroll-mt-24 flex-col rounded-[1.5rem] bg-surface shadow-card ring-1 ring-hairline"
+    >
       <div className="p-5 pb-0 sm:p-7 sm:pb-0">
         <p className="inline-flex w-fit items-center gap-2 rounded-full bg-deep px-3 py-1 text-sm font-medium text-glow">
           <QuestionIcon size={16} weight="fill" aria-hidden />
           {text.notSure}
         </p>
-        <h2 className="mt-4 font-display text-2xl font-semibold tracking-[-0.02em]">{text.bodyHeading}</h2>
+        <h2 className="mt-4 font-display text-2xl font-semibold tracking-[-0.02em]">
+          {text.bodyHeading}
+        </h2>
         <p className="mt-1 text-base text-ink-2">{text.bodyIntro}</p>
       </div>
 
       <div className="relative mx-3 mt-4 flex grow flex-col overflow-hidden rounded-[1.25rem] bg-[radial-gradient(28rem_22rem_at_50%_35%,rgb(94_224_189/0.22),transparent_70%)] bg-surface-2 ring-1 ring-hairline sm:mx-4">
         <div className="relative z-10 flex items-center justify-between gap-3 p-3">
-          <div className="inline-flex rounded-full bg-surface p-1 ring-1 ring-hairline" role="radiogroup" aria-label={text.bodyLabel}>
+          <div
+            className="inline-flex rounded-full bg-surface p-1 ring-1 ring-hairline"
+            role="radiogroup"
+            aria-label={text.bodyLabel}
+          >
             {(["female", "male"] as Sex[]).map((s) => (
               <button
                 key={s}
@@ -304,7 +401,9 @@ export function BodyPicker({ treatments, words }: { treatments: FinderTreatment[
       {/* Problems the figure can't show, and a plain list for anyone who
           would rather not use the figure. */}
       <div className="flex flex-wrap items-center gap-2 p-5 sm:px-7">
-        <span className="text-sm font-medium text-ink-3">{text.notOnePlace}</span>
+        <span className="text-sm font-medium text-ink-3">
+          {text.notOnePlace}
+        </span>
         {wholeBody.map((a) => (
           <button
             key={a.id}
@@ -328,7 +427,11 @@ export function BodyPicker({ treatments, words }: { treatments: FinderTreatment[
               </option>
             ))}
           </select>
-          <CaretDownIcon size={14} className="pointer-events-none absolute end-3.5 top-1/2 -translate-y-1/2 text-ink-3" aria-hidden />
+          <CaretDownIcon
+            size={14}
+            className="pointer-events-none absolute end-3.5 top-1/2 -translate-y-1/2 text-ink-3"
+            aria-hidden
+          />
         </label>
       </div>
 
@@ -342,7 +445,15 @@ export function BodyPicker({ treatments, words }: { treatments: FinderTreatment[
         }}
         className="consultation-dialog m-auto mb-0 max-h-[calc(100dvh-1rem)] w-full max-w-xl overflow-hidden rounded-t-xl border border-hairline bg-surface p-0 text-ink shadow-lift sm:mb-auto sm:max-h-[calc(100dvh-4rem)] sm:w-[calc(100%-2rem)] sm:rounded-xl"
       >
-        {area ? <AreaSheet key={area.id} area={area} bySlug={bySlug} text={text} onClose={() => dialog.current?.close()} /> : null}
+        {area ? (
+          <AreaSheet
+            key={area.id}
+            area={area}
+            bySlug={bySlug}
+            text={text}
+            onClose={() => dialog.current?.close()}
+          />
+        ) : null}
       </dialog>
     </div>
   );
@@ -360,7 +471,9 @@ function AreaSheet({
   text: Ui["finder"];
   onClose: () => void;
 }) {
-  const list = area.treatments.map((s) => bySlug.get(s)).filter((t): t is FinderTreatment => Boolean(t));
+  const list = area.treatments
+    .map((s) => bySlug.get(s))
+    .filter((t): t is FinderTreatment => Boolean(t));
   // "" means not sure: a doctor will advise.
   const [choice, setChoice] = useState("");
   const chosen = list.find((t) => t.slug === choice);
@@ -375,7 +488,10 @@ function AreaSheet({
       {/* Title and close stay put; everything under them scrolls as one, so
           a swipe anywhere in the sheet moves it, even on a short phone. */}
       <div className="flex items-center justify-between gap-4 border-b border-hairline px-5 py-3 sm:px-6 sm:py-4">
-        <h2 id="area-heading" className="font-display text-2xl font-semibold tracking-[-0.02em]">
+        <h2
+          id="area-heading"
+          className="font-display text-2xl font-semibold tracking-[-0.02em]"
+        >
           {area.name}
         </h2>
         <button
@@ -391,7 +507,9 @@ function AreaSheet({
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         <div className="px-5 pt-5 sm:px-6 sm:pt-6">
           <p className="text-sm font-medium text-accent">
-            {list.length === 1 ? text.treatmentOne : fill(text.treatmentMany, { n: list.length })}
+            {list.length === 1
+              ? text.treatmentOne
+              : fill(text.treatmentMany, { n: list.length })}
           </p>
           <p className="mt-1 text-base text-ink-2">{area.hint}</p>
         </div>
@@ -411,15 +529,28 @@ function AreaSheet({
                     onChange={() => setChoice(t.slug)}
                     className="mt-1 size-4 shrink-0 accent-accent"
                   />
+                  <Thumb
+                    slug={t.slug}
+                    speciality={t.speciality}
+                    className="size-16 sm:size-20"
+                  />
                   <span className="min-w-0 flex-1">
-                    <span className="block font-semibold text-ink">{t.name}</span>
-                    <span className="mt-0.5 block text-sm text-ink-2">{t.summary}</span>
+                    <span className="block font-semibold text-ink">
+                      {t.name}
+                    </span>
+                    <span className="mt-0.5 block text-sm text-ink-2">
+                      {t.summary}
+                    </span>
                     <Link
                       href={`/treatments/${t.slug}`}
                       className="mt-1.5 inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-hover"
                     >
                       {text.readMore}
-                      <ArrowRightIcon size={14} className="rtl:rotate-180" aria-hidden />
+                      <ArrowRightIcon
+                        size={14}
+                        className="rtl:rotate-180"
+                        aria-hidden
+                      />
                     </Link>
                   </span>
                 </label>
@@ -436,8 +567,12 @@ function AreaSheet({
                   className="mt-1 size-4 shrink-0 accent-accent"
                 />
                 <span>
-                  <span className="block font-semibold text-ink">{text.unsure}</span>
-                  <span className="mt-0.5 block text-sm text-ink-2">{text.unsureBody}</span>
+                  <span className="block font-semibold text-ink">
+                    {text.unsure}
+                  </span>
+                  <span className="mt-0.5 block text-sm text-ink-2">
+                    {text.unsureBody}
+                  </span>
                 </span>
               </label>
             </li>
@@ -446,9 +581,15 @@ function AreaSheet({
       </div>
 
       <div className="border-t border-hairline bg-surface-2 p-5 sm:p-6">
-        <a href={localPath(lang, contactHref(issue))} onClick={() => saveIssue(issue)} className={`${btnPrimary} w-full`}>
+        <a
+          href={localPath(lang, contactHref(issue))}
+          onClick={() => saveIssue(issue)}
+          className={`${btnPrimary} w-full`}
+        >
           <ChatCircleTextIcon size={20} aria-hidden />
-          {chosen ? fill(text.askAbout, { name: chosen.name }) : text.askProblem}
+          {chosen
+            ? fill(text.askAbout, { name: chosen.name })
+            : text.askProblem}
         </a>
         <p className="mt-2 text-center text-sm text-ink-3">{text.askNote}</p>
       </div>
@@ -464,7 +605,11 @@ export function BackToBody({ label }: { label: string }) {
       className="group inline-flex min-h-11 shrink-0 items-center gap-2 text-base font-medium text-accent transition-colors hover:text-accent-hover"
     >
       {label}
-      <ArrowUpIcon size={16} className="transition-[translate] duration-300 group-hover:-translate-y-0.5" aria-hidden />
+      <ArrowUpIcon
+        size={16}
+        className="transition-[translate] duration-300 group-hover:-translate-y-0.5"
+        aria-hidden
+      />
     </a>
   );
 }

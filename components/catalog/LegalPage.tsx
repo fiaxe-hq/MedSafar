@@ -24,6 +24,11 @@ export async function LegalPage({ content, source }: { content: LegalContent; so
               </a>
             </p>
           )}
+          {content.draft ? (
+            <p className="mb-6 rounded-md border border-line bg-accent-quiet p-4 text-base font-medium text-ink">
+              {content.draft}
+            </p>
+          ) : null}
           <div className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-ink-3">
             {content.effective ? (
               <span>
@@ -34,6 +39,16 @@ export async function LegalPage({ content, source }: { content: LegalContent; so
               {content.updated.label}: {content.updated.value}
             </span>
           </div>
+
+          {content.preamble ? (
+            <div className="mt-8 space-y-3">
+              {content.preamble.map((paragraph, i) => (
+                <p key={i} className="max-w-[68ch] text-base text-ink-2">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          ) : null}
 
           <div className="mt-8 border-t border-hairline">
             {content.sections.map((section) => (

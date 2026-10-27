@@ -54,7 +54,7 @@ export default async function Page() {
               ))}
             </div>
           </div>
-          <div className="reveal min-w-0 lg:col-span-5">
+          <div className="reveal min-w-0 lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
             <h2 className="text-2xl font-medium tracking-[-0.02em]">{about.glance.heading}</h2>
             <dl className="mt-6 divide-y divide-hairline border-y border-hairline">
               {about.glance.items.map((item) => (
@@ -73,8 +73,17 @@ export default async function Page() {
 
       <Section id="founder">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-          <div className="reveal min-w-0 lg:col-span-5">
-            <Figure picture={founder.picture} ratio="aspect-[4/5]" sizes="(min-width: 1024px) 40vw, 100vw" />
+          {/* On a laptop the photo stays in view while the story scrolls past
+              it, then both move on together. It is capped to the screen's
+              height so the story has room to scroll past it. */}
+          <div className="reveal min-w-0 lg:sticky lg:top-24 lg:col-span-5 lg:self-start">
+            {/* The photo's own shape, so nothing of it is cut off. */}
+            <Figure
+              picture={founder.picture}
+              ratio="aspect-[914/1460]"
+              className="lg:max-w-[calc(62svh*914/1460)]"
+              sizes="(min-width: 1024px) 40vw, 100vw"
+            />
           </div>
           <div className="min-w-0 lg:col-span-7">
             <div className="reveal">

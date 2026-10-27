@@ -159,12 +159,12 @@ export const global: CountryContent = {
     visa: {
       heading: "Medical visa",
       steps: [
-        "We send you an invitation letter from the treating hospital, with the plan and the dates.",
-        "You apply for an Indian medical visa with that letter, your passport and your reports.",
-        "One or two people travelling with you can apply as medical attendants.",
-        "We tell you which documents to carry and check them with you before the appointment.",
+        "We send the hospital's invitation letter.",
+        "You apply with it, your passport and reports.",
+        "Up to two companions can come as attendants.",
+        "We check your papers before the appointment.",
       ],
-      note: "Visa rules are set by the Indian government and can change. We confirm the current requirement for your country before you apply.",
+      note: "Visa rules can change. We confirm them for your country first.",
     },
     flights: {
       heading: "Flights",
