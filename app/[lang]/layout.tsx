@@ -1,10 +1,11 @@
+import { notFound } from "next/navigation";
 import type { Metadata, Viewport } from "next";
 import { Figtree, Inter } from "next/font/google";
 import "../globals.css";
 import { jsonLd, organizationJsonLd, siteUrl } from "@/lib/seo";
 import { analyticsToken } from "@/lib/analytics";
 import { getLang, getText } from "@/lib/i18n/text";
-import { languageCodes } from "@/lib/i18n/languages";
+import { languageCodes, defaultLanguage } from "@/lib/i18n/languages";
 import { LabelsProvider } from "@/components/site/Labels";
 
 /**
@@ -24,12 +25,12 @@ const figtree = Figtree({
   display: "swap",
 });
 
+// Only English is built ahead: every language times every page is about
+// 8,000 pages, too slow to build. Other languages render on first visit and
+// are then cached.
 export function generateStaticParams() {
-  return languageCodes.map((lang) => ({ lang }));
+  return [{ lang: defaultLanguage }];
 }
-
-/** Only the languages in lib/i18n/languages.ts exist. */
-export const dynamicParams = false;
 
 export async function generateMetadata(): Promise<Metadata> {
   const [{ global, site }, lang] = await Promise.all([getText(), getLang()]);
@@ -54,7 +55,9 @@ export const viewport: Viewport = {
   colorScheme: "only light",
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
+export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
+  // Only the languages in lib/i18n/languages.ts exist.
+  if (!languageCodes.includes((await params).lang)) notFound();
   const [{ site, catalog }, lang] = await Promise.all([getText(), getLang()]);
   return (
     <html
