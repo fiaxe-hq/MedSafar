@@ -65,6 +65,12 @@ export function EnquiryForm({
       setKnown(contact);
       if (contact.iso && dialCodes.some((c) => c.iso === contact.iso)) setIso(contact.iso);
     }
+    // Otherwise the country code of the visitor's own country, from their
+    // location (set by the proxy or the location prompt).
+    if (!contact?.iso && !defaultIso) {
+      const own = document.cookie.match(/(?:^|;\s*)country=([A-Z]{2})/)?.[1];
+      if (own && dialCodes.some((c) => c.iso === own)) setIso(own);
+    }
     if (defaultTreatment) return;
     const params = new URLSearchParams(window.location.search);
     const fromLink = { area: params.get("area") ?? undefined, treatment: params.get("treatment") ?? undefined };

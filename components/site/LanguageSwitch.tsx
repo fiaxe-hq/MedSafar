@@ -1,26 +1,14 @@
-import { places } from "@/content/places";
-import { countryName } from "@/lib/i18n/dialCodes";
 import { getLang, getText } from "@/lib/i18n/text";
-import { CountryPicker, LanguagePicker } from "./Pickers";
+import { LanguagePicker } from "./Pickers";
+import { LocationPrompt } from "./LocationPrompt";
 
-/** The country and language pickers, with country names in the page's language. */
-export async function LanguageSwitch({ place }: { place?: string }) {
+/** The language picker. There is no country picker: the country comes from
+ *  the visitor's location (see LocationPrompt). */
+export async function LanguageSwitch() {
   const [{ site }, lang] = await Promise.all([getText(), getLang()]);
-  const options = places.map((p) => ({
-    slug: p.slug,
-    iso: p.iso,
-    name: p.iso ? countryName(p.iso, lang.code) : site.languages.global,
-  }));
-
   return (
     <div className="flex items-center gap-1.5">
-      <CountryPicker
-        lang={lang.code}
-        places={options}
-        label={site.languages.country}
-        note={site.languages.countryNote}
-        current={place}
-      />
+      <LocationPrompt />
       <LanguagePicker lang={lang.code} label={site.languages.label} />
     </div>
   );

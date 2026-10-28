@@ -2,7 +2,9 @@
 
 import { useLayoutEffect, useRef } from "react";
 
-const KEY = "nav-underline";
+// Kept per language: the links have different widths (and direction) in
+// each, so a spot saved in one language would make the line jump in another.
+const key = () => `nav-underline:${document.documentElement.lang}`;
 
 /**
  * The line under the current nav link. It slides from the last link to the
@@ -46,7 +48,7 @@ export function NavUnderline({ current }: { current?: string }) {
         el.style.opacity = "0";
         if (settled) {
           try {
-            sessionStorage.removeItem(KEY);
+            sessionStorage.removeItem(key());
           } catch {}
         }
         return;
@@ -69,7 +71,7 @@ export function NavUnderline({ current }: { current?: string }) {
       if (el.style.opacity !== "1") {
         let previous: { left: number; width: number } | null = null;
         try {
-          previous = JSON.parse(sessionStorage.getItem(KEY) ?? "null");
+          previous = JSON.parse(sessionStorage.getItem(key()) ?? "null");
         } catch {}
         const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
         el.style.transition = "none";
@@ -85,7 +87,7 @@ export function NavUnderline({ current }: { current?: string }) {
       el.style.opacity = "1";
       place(left, width);
       try {
-        sessionStorage.setItem(KEY, JSON.stringify({ left, width }));
+        sessionStorage.setItem(key(), JSON.stringify({ left, width }));
       } catch {}
     };
 

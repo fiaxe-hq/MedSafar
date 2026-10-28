@@ -67,11 +67,8 @@ export async function Header({
   current,
   iso = null,
   countryName = "",
-  place,
   overlay = false,
 }: {
-  /** On the home page, the country it was drawn for. */
-  place?: string;
   /** Lay the bar over the top of a full-bleed band (the home hero), so its
    *  rounded corners sit on that band instead of on empty page. */
   overlay?: boolean;
@@ -454,7 +451,7 @@ export async function Header({
 
               {/* Country (the home page's photos) and language (the whole site):
                   always the last things on the right. */}
-              <LanguageSwitch place={place} />
+              <LanguageSwitch />
             </div>
           </Container>
         </div>
