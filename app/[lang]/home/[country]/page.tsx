@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
@@ -21,8 +22,6 @@ export function generateStaticParams() {
   return placeSlugs.map((country) => ({ country }));
 }
 
-export const dynamicParams = false;
-
 export async function generateMetadata(): Promise<Metadata> {
   const lang = await getLang();
   return { alternates: languageAlternates("/", lang.code) };
@@ -30,6 +29,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Home({ params }: PageProps<"/[lang]/home/[country]">) {
   const { country } = await params;
+  // Pages in other languages render on first visit, so the country is
+  // checked here rather than by refusing unbuilt addresses.
+  if (!placeSlugs.includes(country)) notFound();
   return (
     <div data-home>
       <Intro />

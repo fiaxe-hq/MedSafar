@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { defaultLanguage, languageCodes } from "@/lib/i18n/languages";
+import { defaultLanguage, languageCodes, retiredCodes } from "@/lib/i18n/languages";
 import { placeForIso, placeSlugs } from "@/content/places";
 
 /**
@@ -30,6 +30,12 @@ export function proxy(request: NextRequest) {
   // English has no prefix: /en/about becomes /about.
   if (first === defaultLanguage) {
     url.pathname = url.pathname.slice(defaultLanguage.length + 1) || "/";
+    return NextResponse.redirect(url, 308);
+  }
+
+  // A language no longer offered: the same page in English.
+  if (retiredCodes.includes(first)) {
+    url.pathname = `/${parts.slice(2).join("/")}`;
     return NextResponse.redirect(url, 308);
   }
 

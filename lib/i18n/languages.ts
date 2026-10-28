@@ -68,12 +68,18 @@ const planned: Language[] = [
   { code: "so", name: "Soomaali", english: "Somali" },
 ];
 
-/** Languages with a finished public/i18n/<code>.json. Add a code here once its file is in. */
-const translated = new Set([
-  "ar", "az", "bn", "ckb", "de", "en", "es", "fa", "fr", "gu", "ha", "hi", "ig", "it", "ka", "mr", "nl", "pa", "pl", "ps", "pt", "ro", "ru", "sd", "sw", "ta", "te", "tr", "uk", "ur", "uz", "yo",
-]);
+/**
+ * The languages offered: those spoken in the countries the site serves.
+ * Iraq: Arabic, Kurdish. Bangladesh: Bengali. Georgia: Georgian. Kenya:
+ * Swahili. Nigeria: Hausa, Yoruba, Igbo. Uzbekistan: Uzbek, Russian. English
+ * for everyone. Each has a finished public/i18n/<code>.json.
+ */
+const translated = new Set(["en", "ar", "ckb", "bn", "ka", "sw", "ha", "yo", "ig", "uz", "ru"]);
 
 export const languages = planned.filter((l) => translated.has(l.code));
+
+/** Languages once offered or planned but not offered now: their addresses lead to English. */
+export const retiredCodes = planned.map((l) => l.code).filter((c) => !translated.has(c));
 
 export const defaultLanguage = "en";
 
