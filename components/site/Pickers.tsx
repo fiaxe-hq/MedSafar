@@ -1,24 +1,17 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { CheckIcon } from "@phosphor-icons/react/dist/ssr/Check";
-import { GlobeHemisphereEastIcon } from "@phosphor-icons/react/dist/ssr/GlobeHemisphereEast";
 import { TranslateIcon } from "@phosphor-icons/react/dist/ssr/Translate";
 import { languageCodes, languages, localPath } from "@/lib/i18n/languages";
-import { CountryFlag } from "./CountryFlag";
 
 /**
- * Two pickers, side by side in the header.
+ * The language picker in the header: the whole site, kept in the address
+ * (/bn/...). Picking one opens the same page in that language.
  *
- * Language: the whole site, kept in the address (/bn/...). Picking one opens
- * the same page in that language.
- * Country: only the home page's photo. Remembered in a cookie; until it is
- * picked, the proxy uses the country of the visitor's IP address.
- *
- * Both are <details> menus, so they open without JavaScript. They share a
- * name with the phone menu, so opening one closes the others, and the open
- * one is raised above its neighbours.
+ * A <details> menu, so it opens without JavaScript. It shares a name with
+ * the phone menu, so opening one closes the other, and the open one is
+ * raised above its neighbour.
  */
 
 const summary =
@@ -111,110 +104,6 @@ export function LanguagePicker({
             );
           })}
         </ul>
-      </div>
-    </details>
-  );
-}
-
-export type PlaceOption = { slug: string; iso: string | null; name: string };
-
-/** Which place the home page shows: the one picked, or else the visitor's own country. */
-function readPlace(places: PlaceOption[]) {
-  const picked = document.cookie.match(/(?:^|;\s*)place=([a-z]+)/)?.[1];
-  if (picked && places.some((p) => p.slug === picked)) return picked;
-  const iso = document.cookie.match(/(?:^|;\s*)country=([A-Z]{2})/)?.[1];
-  return places.find((p) => p.iso && p.iso === iso)?.slug ?? "global";
-}
-
-const noop = () => () => {};
-
-function Flag({ iso }: { iso: string | null }) {
-  return iso ? (
-    <CountryFlag iso={iso} />
-  ) : (
-    <GlobeHemisphereEastIcon size={20} className="text-ink-3" aria-hidden />
-  );
-}
-
-export function CountryPicker({
-  lang,
-  places,
-  label,
-  note,
-  current,
-}: {
-  lang: string;
-  places: PlaceOption[];
-  label: string;
-  note: string;
-  /** Set on the home page, which knows which country it was drawn for. */
-  current?: string;
-}) {
-  const visitor = useSyncExternalStore(
-    noop,
-    () => readPlace(places),
-    () => null,
-  );
-  const here = current ?? visitor ?? "global";
-  // The visitor's own country, found from their IP address. When it is not
-  // one of the countries with its own photo, the default ("global") option
-  // carries its name and flag instead of "Select country".
-  const own = useSyncExternalStore(
-    noop,
-    () => document.cookie.match(/(?:^|;\s*)country=([A-Z]{2})/)?.[1] ?? null,
-    () => null,
-  );
-  const ownName = (() => {
-    if (!own || places.some((p) => p.iso === own)) return null;
-    try {
-      return new Intl.DisplayNames([lang], { type: "region" }).of(own) ?? null;
-    } catch {
-      return null;
-    }
-  })();
-  const shown = places.map((p) =>
-    p.slug === "global" && own && ownName ? { ...p, iso: own, name: ownName } : p,
-  );
-  const place = shown.find((p) => p.slug === here) ?? shown[0];
-
-  return (
-    <details name="header-menu" className="group/pick relative open:z-[60]">
-      <summary className={summary}>
-        <Flag iso={place.iso} />
-        <span className="sr-only">
-          {label}: {place.name}
-        </span>
-        <Caret />
-      </summary>
-      <div className={`${panel} w-64`}>
-        <p className="px-3 pt-1.5 pb-2 text-[0.8125rem] font-medium text-ink-3">
-          {label}
-        </p>
-        <ul>
-          {shown.map((p) => (
-            <li key={p.slug}>
-              <a
-                href={localPath(lang, `/?country=${p.slug}`)}
-                aria-current={p.slug === here ? "true" : undefined}
-                className={row(p.slug === here)}
-              >
-                <Flag iso={p.iso} />
-                <span className="flex-1">{p.name}</span>
-                {p.slug === here ? (
-                  <CheckIcon
-                    size={14}
-                    weight="bold"
-                    className="text-accent"
-                    aria-hidden
-                  />
-                ) : null}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-1 border-t border-hairline px-3 pt-2.5 pb-1.5 text-[0.8125rem] text-ink-3">
-          {note}
-        </p>
       </div>
     </details>
   );

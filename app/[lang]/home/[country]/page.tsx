@@ -34,7 +34,7 @@ export default async function Home({ params }: PageProps<"/[lang]/home/[country]
     <div data-home>
       <Intro />
       <div aria-hidden className="home-progress" />
-      <Header home="/" place={country} overlay />
+      <Header home="/" overlay />
       {/* Room at the foot of the page for the fixed bar on phones. */}
       <main className="w-full max-w-full overflow-x-clip pb-24 lg:pb-0">
         <HomeC place={country} />

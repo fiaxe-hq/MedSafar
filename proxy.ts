@@ -50,16 +50,20 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  const ipIso = request.headers.get("cf-ipcountry")?.toUpperCase();
+  // Cloudflare's country for the IP address; "XX" and "T1" mean unknown.
+  const header = request.headers.get("cf-ipcountry")?.toUpperCase();
+  const ipIso = header && /^[A-Z]{2}$/.test(header) && header !== "XX" && header !== "T1" ? header : undefined;
+  // Failing that, the country the browser's location prompt found.
+  const ownIso = ipIso ?? request.cookies.get("country")?.value;
   const chosen = request.cookies.get("place")?.value;
-  const place = chosen && placeSlugs.includes(chosen) ? chosen : placeForIso(ipIso);
+  const place = chosen && placeSlugs.includes(chosen) ? chosen : placeForIso(ownIso);
 
   const target = url.clone();
   target.pathname = rest === "/" || rest === "" ? `/${lang}/home/${place}` : `/${lang}${rest}`;
   const response = NextResponse.rewrite(target);
 
   // The visitor's own country, for the phone field and the header flag.
-  if (ipIso && /^[A-Z]{2}$/.test(ipIso) && request.cookies.get("country")?.value !== ipIso) {
+  if (ipIso && request.cookies.get("country")?.value !== ipIso) {
     response.cookies.set("country", ipIso, { path: "/", maxAge: month, sameSite: "lax" });
   }
   return response;
