@@ -3,3 +3,17 @@
 
 # Password for /admin. At least 8 characters.
 ADMIN_PASSWORD=change-me-to-a-long-random-string
+
+# Signs the mobile number check's cookies (lib/otp.ts). Any long random
+# string, e.g. `openssl rand -hex 32`. Never reuse another key here.
+OTP_SECRET=
+
+# Enquiry alert email (lib/alert.ts), sent over SMTP from an existing mailbox.
+# Leave empty locally: the alert is then written to the dev server's log.
+SMTP_HOST=
+# 465 (SSL) or 587 (STARTTLS)
+SMTP_PORT=465
+SMTP_USER=
+SMTP_PASSWORD=
+# Who gets the alert. Several addresses: separate with commas.
+ALERT_EMAIL_TO=

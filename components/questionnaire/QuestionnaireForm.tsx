@@ -3,6 +3,7 @@
 import Link from "@/components/ui/Link";
 import { startTransition, useActionState, useId, useState } from "react";
 import { saveQuestionnaire } from "@/app/actions";
+import { CodeStep, formError, useCodeStep } from "@/components/form/CodeStep";
 import { DialPicker } from "@/components/form/DialPicker";
 import type { DialCode, FormContent, Question, Questionnaire, QuestionnaireText } from "@/content/types";
 import { PrivacyNote } from "@/components/form/EnquiryForm";
@@ -14,7 +15,8 @@ const option =
 /**
  * A questionnaire and the contact details, sent together in one go. Posts to
  * a Server Action, so it works before the JavaScript has arrived; the live
- * BMI is the only part that needs it.
+ * BMI is the only part that needs it. The first send asks for the code sent
+ * to the mobile number; sending again with the code saves it all.
  */
 export function QuestionnaireForm({
   questionnaire,
@@ -32,6 +34,7 @@ export function QuestionnaireForm({
 }) {
   const uid = useId();
   const [state, submit, sending] = useActionState(saveQuestionnaire, null);
+  const [codeSent, closeCode] = useCodeStep(state);
   const [iso, setIso] = useState(defaultIso);
   const [numbers, setNumbers] = useState<Record<string, string>>({});
   const [missing, setMissing] = useState(false);
@@ -57,22 +60,10 @@ export function QuestionnaireForm({
   })();
 
   const error = missing ? "required" : state && !state.ok ? state.error : null;
+  // A wrong or expired code belongs to the code step, not to the number.
+  const codeError = error === "code" || error === "expired" || error === "attempts";
   const message =
-    error === "required"
-      ? text.errors.required
-      : error === "phone"
-        ? form.errors.phone
-        : error === "name"
-          ? form.errors.name
-          : error === "email"
-            ? form.errors.email
-            : error === "consent"
-              ? form.errors.consent
-              : error === "limit"
-                ? form.errors.limit
-                : error
-                  ? form.errors.generic
-                  : null;
+    error === "required" ? text.errors.required : formError(form, codeError && !codeSent ? null : error);
 
   return (
     <form
@@ -81,7 +72,8 @@ export function QuestionnaireForm({
       // React does after a form action.
       onSubmit={(e) => {
         e.preventDefault();
-        const data = new FormData(e.currentTarget);
+        // With the button that sent it, so "Send a new code" is seen as such.
+        const data = new FormData(e.currentTarget, (e.nativeEvent as SubmitEvent).submitter);
         const gap = questionnaire.sections
           .flatMap((section) => section.questions)
           .some((q) => !q.optional && !data.getAll(q.id).some((v) => String(v).trim()));
@@ -150,12 +142,16 @@ export function QuestionnaireForm({
                 inputMode="tel"
                 autoComplete="tel-national"
                 required
+                // Fixed while a code sent to it is waiting.
+                readOnly={codeSent !== null}
                 placeholder="000 000 0000"
                 className="min-w-0 flex-1 rounded-e-md bg-transparent px-4 text-base text-ink placeholder:text-ink-3 focus:outline-none"
               />
             </div>
             <p className="mt-2 text-sm text-ink-3">{form.step1.hint}</p>
           </div>
+
+          {codeSent ? <CodeStep text={form} sent={codeSent} sending={sending} onChange={closeCode} /> : null}
 
           <div>
             <label htmlFor={`${uid}-name`} className={label}>

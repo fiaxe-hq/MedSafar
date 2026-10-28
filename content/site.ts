@@ -177,6 +177,14 @@ export const site: SiteContent = {
       },
       submit: "Send my details",
     },
+    otp: {
+      sent: "We sent a 6-digit code to {phone}.",
+      label: "Code",
+      submit: "Confirm",
+      resend: "Send a new code",
+      resendIn: "New code in {n} s",
+      change: "Change number",
+    },
     privacyNote: "Your medical details stay private. We use them only to plan your care.",
     saved: {
       heading: "Number saved",
@@ -196,6 +204,12 @@ export const site: SiteContent = {
       limit:
         "We already have your enquiries from today. A case manager will contact you. For anything urgent, message us on WhatsApp.",
       generic: "Something went wrong. Please try again, or reach us on WhatsApp.",
+      code: "That code is not right. Please check it and try again.",
+      expired: "This code has expired. Please ask for a new one.",
+      attempts: "Too many wrong codes. Please try again in an hour, or reach us on WhatsApp.",
+      sendLimit: "Too many codes sent to this number. Please try again later, or reach us on WhatsApp.",
+      wait: "A code was sent a moment ago. Please wait a few seconds before asking again.",
+      sms: "We could not send a code to this number. Please check it, or reach us on WhatsApp.",
     },
     sending: "Sending",
   },
