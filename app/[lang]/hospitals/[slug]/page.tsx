@@ -144,34 +144,34 @@ export default async function Page({ params }: Props) {
 
               <dl className="divide-y divide-hairline">
                 {hospital.address ? (
-                  <div className="flex gap-3 py-4">
-                    <MapPinIcon size={20} className="mt-0.5 shrink-0 text-accent" aria-hidden />
-                    <div className="min-w-0">
-                      <dt className="text-sm text-ink-3">{text.detail.address}</dt>
-                      <dd className="mt-0.5 text-base text-ink">{hospital.address}</dd>
-                    </div>
+                  <div className="relative py-4 ps-8">
+                    <dt className="text-sm text-ink-3">
+                      <MapPinIcon size={20} className="absolute start-0 top-[1.125rem] text-accent" aria-hidden />
+                      {text.detail.address}
+                    </dt>
+                    <dd className="mt-0.5 text-base text-ink">{hospital.address}</dd>
                   </div>
                 ) : null}
                 {hospital.accreditation ? (
-                  <div className="flex gap-3 py-4">
-                    <SealCheckIcon size={20} className="mt-0.5 shrink-0 text-accent" aria-hidden />
-                    <div className="min-w-0">
-                      <dt className="text-sm text-ink-3">{text.detail.accreditation}</dt>
-                      <dd className="mt-0.5 text-base text-ink">{hospital.accreditation}</dd>
-                    </div>
+                  <div className="relative py-4 ps-8">
+                    <dt className="text-sm text-ink-3">
+                      <SealCheckIcon size={20} className="absolute start-0 top-[1.125rem] text-accent" aria-hidden />
+                      {text.detail.accreditation}
+                    </dt>
+                    <dd className="mt-0.5 text-base text-ink">{hospital.accreditation}</dd>
                   </div>
                 ) : null}
                 {lowest !== null ? (
-                  <div className="flex gap-3 py-4">
-                    <TagIcon size={20} className="mt-0.5 shrink-0 text-accent" aria-hidden />
-                    <div className="min-w-0">
-                      <dt className="text-sm text-ink-3">{text.detail.priceFrom}</dt>
-                      <dd className="mt-0.5 text-base text-ink">
-                        <a href="#packages" className="font-semibold text-accent underline-offset-4 hover:underline">
-                          {usd.format(lowest)}
-                        </a>
-                      </dd>
-                    </div>
+                  <div className="relative py-4 ps-8">
+                    <dt className="text-sm text-ink-3">
+                      <TagIcon size={20} className="absolute start-0 top-[1.125rem] text-accent" aria-hidden />
+                      {text.detail.priceFrom}
+                    </dt>
+                    <dd className="mt-0.5 text-base text-ink">
+                      <a href="#packages" className="font-semibold text-accent underline-offset-4 hover:underline">
+                        {usd.format(lowest)}
+                      </a>
+                    </dd>
                   </div>
                 ) : null}
               </dl>

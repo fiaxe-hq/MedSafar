@@ -229,9 +229,30 @@ function start(
   ro.observe(el);
   resize();
 
+  // Draw only while the canvas is on screen and the tab is open; otherwise the
+  // loop keeps a phone's processor busy for nothing.
   let frame = 0;
+  let onScreen = true;
+  const running = () => onScreen && !document.hidden;
+  const wake = () => {
+    if (running() && !frame) {
+      last = performance.now();
+      frame = requestAnimationFrame(tick);
+    }
+  };
+  const io = new IntersectionObserver(([entry]) => {
+    onScreen = entry.isIntersecting;
+    wake();
+  });
+  io.observe(el);
+  document.addEventListener("visibilitychange", wake);
+
   let last = performance.now();
   const tick = (now: number) => {
+    if (!running()) {
+      frame = 0;
+      return;
+    }
     const dt = Math.min(50, now - last) / 16.7;
     last = now;
 
@@ -266,6 +287,8 @@ function start(
   return () => {
     cancelAnimationFrame(frame);
     ro.disconnect();
+    io.disconnect();
+    document.removeEventListener("visibilitychange", wake);
     canvas.removeEventListener("pointerdown", down);
     canvas.removeEventListener("pointermove", move);
     canvas.removeEventListener("pointerup", up);
@@ -276,6 +299,9 @@ function start(
       (m.material as T.Material).dispose();
     }
     renderer.dispose();
+    // Browsers allow only a few WebGL contexts at once; free this one now
+    // rather than when the garbage collector gets round to it.
+    renderer.forceContextLoss();
     canvas.remove();
     api.current = null;
   };

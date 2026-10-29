@@ -101,14 +101,19 @@ export default async function Page({ params }: Props) {
             { label: text.detail.stay, value: treatment.stay, Glyph: BedIcon },
             { label: text.detail.recovery, value: treatment.recovery, Glyph: ClockIcon },
           ].map(({ label, value, Glyph }) => (
-            <div key={label} className="reveal flex gap-5 rounded-lg border border-hairline bg-surface p-6 sm:p-7">
-              <span className="home-pop grid size-12 shrink-0 place-items-center rounded-md bg-accent text-accent-ink">
-                <Glyph size={22} aria-hidden />
-              </span>
-              <div className="min-w-0">
-                <dt className="text-sm font-medium text-ink-3">{label}</dt>
-                <dd className="mt-1.5 text-lg font-medium text-ink">{value}</dd>
-              </div>
+            // A <dl> row may hold only <dt> and <dd>, so the icon sits inside
+            // the <dt> and is placed in the card's padding.
+            <div
+              key={label}
+              className="reveal relative min-w-0 rounded-lg border border-hairline bg-surface p-6 ps-[5.75rem] sm:p-7 sm:ps-24"
+            >
+              <dt className="text-sm font-medium text-ink-3">
+                <span className="home-pop absolute start-6 top-6 grid size-12 place-items-center rounded-md bg-accent text-accent-ink sm:start-7 sm:top-7">
+                  <Glyph size={22} aria-hidden />
+                </span>
+                {label}
+              </dt>
+              <dd className="mt-1.5 text-lg font-medium text-ink">{value}</dd>
             </div>
           ))}
         </dl>
