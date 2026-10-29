@@ -161,6 +161,8 @@ export type FormContent = {
   step2: {
     heading: string;
     intro: string;
+    /** Opens the optional fields in the short form. */
+    more: string;
     name: { label: string; placeholder: string };
     email: { label: string; placeholder: string; hint: string };
     country: { label: string; placeholder: string };
@@ -175,6 +177,18 @@ export type FormContent = {
     /** `privacy` is the link text that follows the label and opens /privacy. */
     consent: { label: string; privacy: string };
     submit: string;
+  };
+  /** The step where the code sent to the mobile number is typed in. `{phone}` and `{n}` (seconds) are filled in. */
+  otp: {
+    sent: string;
+    label: string;
+    submit: string;
+    resend: string;
+    resendIn: string;
+    change: string;
+    /** Shown with a number already checked in this browser. */
+    verified: string;
+    useOther: string;
   };
   /** Under the form: how medical details are handled. */
   privacyNote: string;
@@ -195,6 +209,12 @@ export type FormContent = {
     file: string;
     limit: string;
     generic: string;
+    code: string;
+    expired: string;
+    attempts: string;
+    sendLimit: string;
+    wait: string;
+    sms: string;
   };
   sending: string;
 };

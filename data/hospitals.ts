@@ -20,25 +20,6 @@ const keniaPhoto = photos("kenia-eye");
 // From keniadentalclinic.com.
 const keniaDentalPhoto = photos("kenia-dental");
 
-/** A stand-in hospital with no real details, marked as pending on the page. */
-const placeholder = (slug: string, city: string, specialities: string[]): Hospital => ({
-  slug,
-  name: `Partner hospital, ${city}`,
-  city,
-  accreditation: "Accreditation to be confirmed",
-  overview: "Details of this partner hospital are being added.",
-  specialities,
-  treatments: [],
-  services: ["Services for international patients to be confirmed"],
-  picture: { src: null, alt: `The main building of the partner hospital in ${city}`, pending: true },
-  gallery: [
-    { src: null, alt: "The reception area", pending: true },
-    { src: null, alt: "A patient room", pending: true },
-    { src: null, alt: "An operating theatre", pending: true },
-  ],
-  pending: true,
-});
-
 export const hospitals: Hospital[] = [
   {
     slug: "nanavati-max",
@@ -475,10 +456,4 @@ export const hospitals: Hospital[] = [
       { ...keniaDentalPhoto("tooth-shelf", "A tooth-shaped shelf of oral care products"), focus: "50% 35%" },
     ],
   },
-
-  // Placeholders, to show how the lists look with more hospitals. Replace
-  // each with a real partner hospital.
-  placeholder("partner-hospital-delhi", "New Delhi", ["oncology", "cardiology", "orthopaedics"]),
-  placeholder("partner-hospital-chennai", "Chennai", ["organ-transplant", "neurology-neurosurgery", "fertility-ivf"]),
-  placeholder("partner-hospital-bengaluru", "Bengaluru", ["haematology-bmt", "bariatric-surgery", "cosmetic-plastic-surgery"]),
 ];

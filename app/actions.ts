@@ -3,7 +3,10 @@
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import type { CountryCode } from "libphonenumber-js";
 import { headers } from "next/headers";
-import { createLead, hashIp, overLeadLimit, saveReport, updateLead } from "@/lib/leads";
+import { after } from "next/server";
+import { syncLeadToCrm } from "@/lib/crm";
+import { createLead, hashIp, overLeadLimit, saveReport, updateLead, type Lead } from "@/lib/leads";
+import { checkPhone, rememberVerified, verifiedPhone, type PhoneCheck } from "@/lib/otp";
 import { getQuestionnaire } from "@/content/questionnaires";
 import { dialCodes } from "@/content/dial-codes";
 
@@ -16,7 +19,18 @@ export type ActionResult =
   | { ok: true; leadId: string }
   | {
       ok: false;
-      error: "phone" | "name" | "email" | "consent" | "file" | "limit" | "required" | "generic";
+      error:
+        | "phone"
+        | "name"
+        | "email"
+        | "consent"
+        | "file"
+        | "limit"
+        | "required"
+        | "generic"
+        | Exclude<PhoneCheck, "verified">;
+      /** Set while the visitor is at the code step: the number, written out. */
+      sentTo?: string;
     };
 
 /**
@@ -35,7 +49,45 @@ const ALLOWED_REPORT_TYPES = [
   "image/heif",
 ];
 
-/** Step 1: mobile number only. Saved immediately, before anything else is asked. */
+/**
+ * The code step, shared by both forms. A `code` field in the form means the
+ * visitor typed one; without it (or with the resend button) a new code is
+ * sent. A number already checked in this browser passes straight through.
+ */
+async function verifyPhone(formData: FormData, phone: string, ipHash: string | null): Promise<PhoneCheck> {
+  const code = formData.get("code");
+  if (formData.get("resend") !== "yes" && typeof code === "string") {
+    // TEMP: an empty code passes outside production, for testing.
+    if (!code.trim() && process.env.NODE_ENV !== "production") {
+      await rememberVerified(phone);
+      return "verified";
+    }
+    return code.trim() ? checkPhone(phone, ipHash, code) : "code";
+  }
+  return checkPhone(phone, ipHash, null);
+}
+
+/** Sends the enquiry to the CRM once the response has gone, so the visitor never waits on it. The CRM emails the team. */
+async function alertTeam(lead: Lead) {
+  after(() => syncLeadToCrm(lead));
+}
+
+/** The number already checked in this browser, so the forms need not ask again. */
+export async function getVerified(): Promise<{ phone: string; iso: string; shown: string } | null> {
+  try {
+    const phone = await verifiedPhone();
+    const parsed = phone ? parsePhoneNumberFromString(phone) : null;
+    if (!parsed?.country) return null;
+    return { phone: parsed.number, iso: parsed.country, shown: parsed.formatInternational() };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Step 1: mobile number only. Saved as soon as the number is confirmed with
+ * its code, before anything else is asked.
+ */
 export async function saveNumber(
   _prev: ActionResult | null,
   formData: FormData,
@@ -52,6 +104,9 @@ export async function saveNumber(
     const ipHash = ip ? await hashIp(ip) : null;
     if (await overLeadLimit(parsed.number, ipHash)) return { ok: false, error: "limit" };
 
+    const check = await verifyPhone(formData, parsed.number, ipHash);
+    if (check !== "verified") return { ok: false, error: check, sentTo: parsed.formatInternational() };
+
     const lead = await createLead({
       phone: parsed.number,
       phoneIso: parsed.country ?? iso,
@@ -62,7 +117,8 @@ export async function saveNumber(
     // is kept even if step 2 is never sent.
     const treatment = String(formData.get("treatment") ?? "").slice(0, 200);
     const notes = String(formData.get("notes") ?? "").slice(0, 500);
-    if (treatment || notes) await updateLead(lead.id, { treatment, notes });
+    const saved = treatment || notes ? ((await updateLead(lead.id, { treatment, notes })) ?? lead) : lead;
+    after(() => syncLeadToCrm(saved));
     return { ok: true, leadId: lead.id };
   } catch {
     return { ok: false, error: "generic" };
@@ -110,6 +166,7 @@ export async function saveDetails(
     });
     if (!updated) return { ok: false, error: "generic" };
 
+    await alertTeam(updated);
     return { ok: true, leadId };
   } catch {
     return { ok: false, error: "generic" };
@@ -170,6 +227,9 @@ export async function saveQuestionnaire(
     const ipHash = ip ? await hashIp(ip) : null;
     if (await overLeadLimit(parsed.number, ipHash)) return { ok: false, error: "limit" };
 
+    const check = await verifyPhone(formData, parsed.number, ipHash);
+    if (check !== "verified") return { ok: false, error: check, sentTo: parsed.formatInternational() };
+
     const phoneIso = parsed.country ?? iso;
     const lead = await createLead({
       phone: parsed.number,
@@ -188,6 +248,7 @@ export async function saveQuestionnaire(
     });
     if (!updated) return { ok: false, error: "generic" };
 
+    await alertTeam(updated);
     return { ok: true, leadId: lead.id };
   } catch {
     return { ok: false, error: "generic" };
