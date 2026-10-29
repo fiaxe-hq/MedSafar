@@ -19,7 +19,7 @@ type Props = {
 /**
  * A simple body in 3D, made of separate pieces, that turns all the way round
  * when dragged. Each piece that leads to treatments is tagged with its body
- * area; tapping it picks that area. three.js loads only when this mounts.
+ * area; tapping it picks that area. three.js loads only when it nears the screen.
  */
 export function Body3D({ sex, hover, picked, turn, onHover, onPick, onDragging }: Props) {
   const box = useRef<HTMLDivElement>(null);
@@ -37,14 +37,27 @@ export function Body3D({ sex, hover, picked, turn, onHover, onPick, onDragging }
   useEffect(() => {
     let disposed = false;
     let cleanup = () => {};
+    const el = box.current;
+    if (!el) return;
 
-    import("three").then((THREE) => {
-      if (disposed || !box.current) return;
-      cleanup = start(THREE, box.current, state, cb, api);
-    });
+    // three.js is about 170 KB; fetch it only when the body map is about a
+    // screen away, not with the rest of the page.
+    const near = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        near.disconnect();
+        import("three").then((THREE) => {
+          if (disposed || !box.current) return;
+          cleanup = start(THREE, box.current, state, cb, api);
+        });
+      },
+      { rootMargin: "100% 0px" },
+    );
+    near.observe(el);
 
     return () => {
       disposed = true;
+      near.disconnect();
       cleanup();
     };
   }, []);
