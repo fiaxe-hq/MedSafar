@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr/WhatsappLogo";
 import { getHospitals, getSpecialities, getTreatments } from "@/lib/catalog";
-import { whatsappHref } from "@/lib/contact";
+import { contactLinks } from "@/lib/contact";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHead } from "@/components/catalog/PageHead";
 import { CheckList } from "@/components/catalog/CheckList";
@@ -25,7 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  const { catalog, about } = await getText();
+  const { catalog, about, site } = await getText();
+  const whatsappHref = contactLinks(site.contact).whatsapp;
   const [hospitals, treatments, specialities] = await Promise.all([
     getHospitals(),
     getTreatments(),

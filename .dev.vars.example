@@ -1,7 +1,8 @@
 # Local secrets for `npm run dev` and `wrangler dev`. Copy to .dev.vars.
 # Never commit .dev.vars.
 
-# Password for /admin. At least 8 characters.
+# Setup key for /admin: creates the first account at /admin/setup, and signs
+# the sign-in cookies. At least 8 characters.
 ADMIN_PASSWORD=change-me-to-a-long-random-string
 
 # Signs the mobile number check's cookies (lib/otp.ts). Any long random

@@ -8,6 +8,7 @@ import { SquaresFourIcon } from "@phosphor-icons/react/dist/ssr/SquaresFour";
 import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
 import type { Picture } from "@/content/types";
 import { Figure } from "@/components/ui/Pending";
+import { isUploaded } from "@/lib/uploaded";
 
 /** Grid shape on large screens, by how many tiles are shown. */
 const layouts: Record<number, { grid: string; first: string }> = {
@@ -127,7 +128,7 @@ export function HospitalGallery({
               className={`group relative min-w-0 cursor-zoom-in overflow-hidden bg-surface-2 focus-visible:-outline-offset-4 ${shape}`}
             >
               <Image
-                src={picture.src}
+                src={picture.src} unoptimized={isUploaded(picture.src)}
                 alt=""
                 fill
                 priority={i === 0}
@@ -181,7 +182,7 @@ export function HospitalGallery({
                 <figure key={i} className="flex h-full w-full shrink-0 snap-center flex-col px-4 sm:px-20">
                   <div className="relative min-h-0 grow">
                     <Image
-                      src={picture.src!}
+                      src={picture.src!} unoptimized={isUploaded(picture.src)}
                       alt={picture.alt}
                       fill
                       sizes="100vw"
@@ -231,7 +232,7 @@ export function HospitalGallery({
                     i === current ? "opacity-100 ring-2 ring-white" : "opacity-45 hover:opacity-80"
                   }`}
                 >
-                  <Image src={picture.src!} alt="" fill sizes="80px" loading="eager" className="object-cover" />
+                  <Image src={picture.src!} unoptimized={isUploaded(picture.src)} alt="" fill sizes="80px" loading="eager" className="object-cover" />
                 </button>
               ))}
             </div>

@@ -3,7 +3,6 @@ import Link from "@/components/ui/Link";
 import { notFound } from "next/navigation";
 import {
   getDoctor,
-  getDoctors,
   getHospital,
   getSpecialities,
   getTreatmentsBySlugs,
@@ -24,8 +23,10 @@ import { btnPrimary } from "@/components/ui/styles";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  return (await getDoctors()).map((doctor) => ({ slug: doctor.slug }));
+// Drawn on first visit, like every page (see app/[lang]/layout.tsx), so
+// records added in /admin get a page too.
+export function generateStaticParams() {
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

@@ -1,7 +1,8 @@
 import type { Faq, Treatment } from "@/content/types";
 
 /**
- * Treatment records. The admin panel manages these later.
+ * Treatment records. The starting point: changes made in /admin are laid over
+ * these (lib/content.ts), so an edit there wins over this file.
  * Read them through lib/catalog.ts, never directly.
  *
  * The list follows what the partner doctors actually do: each treatment is

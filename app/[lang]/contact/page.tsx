@@ -13,6 +13,7 @@ import { Faq } from "@/components/sections/Faq";
 import { Mark } from "@/components/ui/Pending";
 import { Note, Section, SectionHead } from "@/components/ui/Section";
 import { getLang, getText } from "@/lib/i18n/text";
+import { contactLinks } from "@/lib/contact";
 import { languageAlternates } from "@/lib/i18n/alternates";
 
 /** Shared page: one copy for every country. The form and the direct ways to
@@ -38,6 +39,15 @@ const icons: Record<string, typeof PhoneIcon> = {
 export default async function Page() {
   const { site, contact } = await getText();
   const { details, form, steps, why, faq } = contact;
+  // The first three cards are WhatsApp, phone and email: always the current
+  // details, which can be changed in /admin.
+  const links = contactLinks(site.contact);
+  const reach = [
+    { value: site.contact.whatsapp.display, href: links.whatsapp },
+    { value: site.contact.phone.display, href: links.phone },
+    { value: site.contact.email, href: links.email },
+  ];
+  const items = details.items.map((item, i) => (reach[i] ? { ...item, ...reach[i] } : item));
 
   return (
     <PageShell>
@@ -69,7 +79,7 @@ export default async function Page() {
             <p className="mt-2 text-base text-ink-2">{details.intro}</p>
 
             <ul className="mt-6 space-y-3">
-              {details.items.map((item) => {
+              {items.map((item) => {
                 const Icon = icons[item.label] ?? MapPinIcon;
                 const external = item.href?.startsWith("https:");
                 const body = (

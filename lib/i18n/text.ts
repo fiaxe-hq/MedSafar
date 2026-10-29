@@ -2,6 +2,7 @@ import { lang as rootLang } from "next/root-params";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { defaultLanguage, getLanguage, type Language } from "./languages";
 import { source, type Text } from "./source";
+import { applyEntries, getEntries } from "@/lib/content";
 import { localize, type Dict } from "./walk";
 
 /**
@@ -53,7 +54,13 @@ export async function getLang(): Promise<Language> {
   return getLanguage((await rootLang()) ?? defaultLanguage) ?? getLanguage(defaultLanguage)!;
 }
 
+/** The site's text in one language, with the changes made in /admin. */
+export async function textWithEdits(code: string): Promise<Text> {
+  const [local, entries] = await Promise.all([textFor(code), getEntries()]);
+  return applyEntries(source, local, entries);
+}
+
 /** All the site's text, in the language of the page being drawn. */
 export async function getText(): Promise<Text> {
-  return textFor((await getLang()).code);
+  return textWithEdits((await getLang()).code);
 }

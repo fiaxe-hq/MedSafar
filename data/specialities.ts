@@ -1,7 +1,7 @@
 import type { Speciality } from "@/content/types";
 
 /**
- * Placeholder records. The admin panel manages these later.
+ * The specialities. Fixed: /admin edits the records inside them, not these.
  * Read them through lib/catalog.ts, never directly.
  *
  * The order is the order the client leads with, and the order of the groups

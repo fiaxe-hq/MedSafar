@@ -1,4 +1,4 @@
-import { site } from "@/content/site";
+import type { Text } from "@/lib/i18n/source";
 
 /**
  * The public address of the site. Used for canonical links, the sitemap and
@@ -7,7 +7,7 @@ import { site } from "@/content/site";
 export const siteUrl = "https://medsafar.xaif.workers.dev";
 
 /** Describes Medsafar to search engines (schema.org, rendered as JSON-LD). */
-export const organizationJsonLd = {
+export const organizationJsonLd = (site: Text["site"]) => ({
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Medsafar India",
@@ -37,7 +37,7 @@ export const organizationJsonLd = {
     email: site.contact.email,
     availableLanguage: ["English"],
   },
-};
+});
 
 /** A JSON-LD payload, made safe to place inside a <script> tag. */
 export function jsonLd(data: object): string {

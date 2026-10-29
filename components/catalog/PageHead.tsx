@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { Mark } from "@/components/ui/Pending";
 import { btnPrimary } from "@/components/ui/styles";
 import { getText } from "@/lib/i18n/text";
+import { isUploaded } from "@/lib/uploaded";
 
 /**
  * Opener for a list or detail page: where you are, what it is, what to do.
@@ -123,7 +124,7 @@ export async function PageHead({
           <div className="home-expand relative overflow-hidden">
             <div className="relative aspect-[16/9] sm:aspect-[3/1] lg:aspect-[7/2]">
               <Image
-                src={photo.src!}
+                src={photo.src!} unoptimized={isUploaded(photo.src)}
                 alt={photo.alt}
                 fill
                 priority

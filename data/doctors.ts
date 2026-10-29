@@ -1,7 +1,8 @@
 import type { Doctor, Picture } from "@/content/types";
 
 /**
- * Doctors at partner hospitals. The admin panel manages these later.
+ * Doctors at partner hospitals. The starting point: changes made in /admin are laid over
+ * these (lib/content.ts), so an edit there wins over this file.
  * Read them through lib/catalog.ts, never directly.
  *
  * Every profile is taken from the doctor's profile card, supplied by the

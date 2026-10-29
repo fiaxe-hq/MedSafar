@@ -1,7 +1,8 @@
 import type { Post, PostCategory } from "@/content/types";
 
 /**
- * Blog posts. The admin panel manages these later.
+ * Blog posts. The starting point: changes made in /admin are laid over
+ * these (lib/content.ts), so an edit there wins over this file.
  * Read them through lib/catalog.ts, never directly.
  *
  * Every post is written from the sources it lists. Patients are not named.

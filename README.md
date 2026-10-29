@@ -27,6 +27,10 @@ The client sees it at <https://building-medsafar.xaif-0e9.workers.dev/>.
 Locally, the mobile number code is written to the dev server's log and an empty
 code passes, so the form can be tried without an SMS provider.
 
+For the admin, open `/admin`: the first time, it asks for the setup key (the
+`ADMIN_PASSWORD` in `.dev.vars`) and creates your account. To try the page
+cache as the Worker runs it, use `pnpm run preview`.
+
 ## Branches and deploying
 
 - `main` holds all work, finished or not. It is pushed to GitHub but never
@@ -40,6 +44,12 @@ code passes, so the form can be tried without an SMS provider.
 - Database changes are not applied by the deploy. When `design-variants` gains
   a file in `migrations/`, apply it to that Worker's database from the same
   branch.
+- The admin panel needs three more bindings on the deployed Worker, besides
+  `LEADS_DB` and `REPORTS` (see `wrangler.jsonc` on `main` for the shape):
+  a KV namespace `NEXT_INC_CACHE_KV` (the page cache), a second D1 binding
+  `NEXT_TAG_CACHE_D1` pointing at the same database as `LEADS_DB`, and an R2
+  bucket `MEDIA` (photos uploaded in `/admin`). Deploy with
+  `opennextjs-cloudflare deploy`, which also fills the page cache.
 
 Never use the WebVerge Cloudflare account.
 
@@ -59,6 +69,11 @@ language at `/<code>/...` (`lib/i18n/languages.ts`).
 ## Content
 
 No copy and no image path lives in a component.
+
+The files below are the starting point. Hospitals, doctors, treatments, blog
+posts and the contact details can also be changed in `/admin`; those changes
+live in D1 (table `content_entries`) and are laid over the files on every page
+(`lib/content.ts`, through `getText`). An edit in `/admin` wins over the file.
 
 | File | Holds |
 | --- | --- |
@@ -149,41 +164,77 @@ the server.
 
 ## Admin
 
-`/admin` is a small back end for the team. It is server-rendered and needs no
-client JavaScript.
+`/admin` is the back end for the team. Each person signs in with their own
+email and password. It is English only.
 
-- **Enquiries** (`/admin/enquiries`): every enquiry, newest first, with a
-  download link for each uploaded report.
+- **Home**: a card for each section and the latest changes, with who made them.
+- **Hospitals, Doctors, Treatments, Blog**: list, search, edit, add, hide.
+  One editor serves all four, driven by `lib/admin/schema.ts` (which fields,
+  their labels and help text) and checked on the server by
+  `lib/admin/validate.ts`. The team can add records inside these sections but
+  cannot create new sections or pages. Specialities and blog categories are
+  fixed.
+- **Contact details**: WhatsApp, phone, email and social links, everywhere on
+  the site.
 - **Trust figures** (`/admin/stats`): add, edit, reorder, publish and unpublish.
+- **Enquiries** (`/admin/enquiries`): a read-only copy of what goes to the CRM,
+  with a download link for each uploaded report. Leads are worked in the CRM.
+- **Team** (owners only): add people, change roles, set new passwords, remove
+  access. **My account**: change one's own name and password.
+
+### How a change reaches the site
+
+Saving writes a row to `content_entries` and marks every page stale
+(`refreshSite()` in `lib/admin/records.ts`). Pages are not built ahead: each is
+drawn on its first visit and kept in the page cache (KV) until the next change
+in `/admin` (`open-next.config.ts`). So a save shows on the next visit.
+
+- **Records from the files** can be edited, hidden, or restored to the file's
+  version. They cannot be deleted.
+- **Records added in `/admin`** can be edited, hidden or deleted. Their web
+  address is made from the name when they are added and never changes.
+- **Other languages**: the team writes in English. A field nobody changed keeps
+  its translation; a changed field shows the new English until it is
+  translated, so an out-of-date translation (an old price) never shows.
+- **Photos** uploaded in `/admin` are shrunk in the browser, stored in the R2
+  bucket `MEDIA` and served at `/media/...` (`lib/media.ts`).
 
 ### Trust figures
 
 The home page has a figures row just under the hero (`components/home/TrustFigures.tsx`).
 It stays invisible until at least one figure is published in `/admin/stats`, so
-no zeros are ever shown. Publish a figure and it appears within a minute, with
-no deploy. Figures are in D1 table `site_stats`. The page loads them in the
-browser from `/api/figures`, so the home pages stay pre-built.
+no zeros are ever shown. Figures are in D1 table `site_stats`. The page loads
+them in the browser from `/api/figures`, so they show within a minute.
 
 Decided: no patient counts until there are real patients. Hospital and treatment
 counts are fine to publish.
 
 ### Sign-in
 
-The admin password is the `ADMIN_PASSWORD` secret on the Worker, at least 8
-characters. Signing in sets a signed, httpOnly cookie that lasts 12 hours and is
-sent only to `/admin`. Set or change it with:
+Accounts are in D1 table `admin_users`, passwords stored only as PBKDF2 hashes.
+Roles: **owner** (everything, including the team) and **editor** (everything
+except the team). There is always at least one owner.
+
+The first account is made at `/admin/setup`, which only works while there are
+no accounts and asks for the setup key: the `ADMIN_PASSWORD` secret on the
+Worker (at least 8 characters). Set it with:
 
 ```bash
 npx wrangler secret put ADMIN_PASSWORD
 ```
 
-Changing it signs everyone out. Never write the password in this README, in code
-or in a commit.
+Signing in sets a signed, httpOnly cookie that lasts 12 hours and is sent only
+to `/admin`. It is checked against the account on every request, so removing
+someone or changing their password signs them out at once. Changing
+`ADMIN_PASSWORD` signs everyone out. Five wrong passwords for one email, or 20
+from one connection, pause sign-in for 15 minutes. A forgotten password is
+reset by an owner in Team. Never write a password in this README, in code or
+in a commit.
 
 ### Cloudflare Access (at launch)
 
 Cloudflare Access can add a second check in front of `/admin` on the custom
-domain, so only the team's addresses reach the password page.
+domain, so only the team's addresses reach the sign-in page.
 
 1. Workers & Pages → the Worker → Settings → Domains & Routes: add the domain.
 2. Zero Trust → Access → Applications → Add → **Self-hosted**. Public hostname
@@ -191,7 +242,7 @@ domain, so only the team's addresses reach the password page.
 3. Turn off the `workers.dev` address and Preview URLs, so `/admin` cannot be
    reached around Access.
 4. In a private window, open `/admin`: Access should come first, then the
-   password page.
+   sign-in page.
 
 ## Search and analytics
 
@@ -208,7 +259,7 @@ domain, so only the team's addresses reach the password page.
 
 | Name | Used for |
 | --- | --- |
-| `ADMIN_PASSWORD` | Sign-in to `/admin`. |
+| `ADMIN_PASSWORD` | Setup key for the first `/admin` account; also signs the sign-in cookies. |
 | `OTP_SECRET` | Signs the mobile number check's cookies. |
 | `CRM_API_KEY` | Sends enquiries to the CRM. |
 | SMS provider keys | To be added when a provider is chosen. |

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ImageIcon } from "@phosphor-icons/react/dist/ssr/Image";
 import type { Picture } from "@/content/types";
 import { useLabels } from "@/components/site/Labels";
+import { isUploaded } from "@/lib/uploaded";
 
 /**
  * Marks anything on the page that is a stand-in, not real content, or with
@@ -86,7 +87,7 @@ export function Figure({
       className={`relative w-full min-w-0 ${ratio} ${rounded} overflow-hidden bg-surface-2 ${className}`}
     >
       <Image
-        src={picture.src}
+        src={picture.src} unoptimized={isUploaded(picture.src)}
         alt={picture.alt}
         fill
         sizes={sizes}

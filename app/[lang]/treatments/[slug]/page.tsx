@@ -6,7 +6,6 @@ import {
   getHospitalsByTreatment,
   getSpecialities,
   getTreatment,
-  getTreatments,
   nameOf,
   getQuestionnaireFor,
 } from "@/lib/catalog";
@@ -30,8 +29,10 @@ import { languageAlternates } from "@/lib/i18n/alternates";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  return (await getTreatments()).map((treatment) => ({ slug: treatment.slug }));
+// Drawn on first visit, like every page (see app/[lang]/layout.tsx), so
+// records added in /admin get a page too.
+export function generateStaticParams() {
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

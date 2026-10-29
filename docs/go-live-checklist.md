@@ -16,7 +16,8 @@ Updated 29 October 2026 (second pass, after the owner's decisions).
 - [x] Mobile number code check (built; off until an SMS provider is wired)
 - [x] Every enquiry goes to the CRM as a lead. Stages "Partial entry" and "New" exist in the CRM.
 - [x] Team email alerts go through the CRM (Gmail). The site's own SMTP sender is removed.
-- [x] Admin sign-in, enquiries list, trust figures
+- [x] Admin with team logins (owner and editor), enquiries list, trust figures
+- [x] Admin editing of hospitals, doctors, treatments, blog posts and contact details, with photo upload and a log of who changed what
 - [x] Trust figures row on the home page: hidden until a figure is published in `/admin/stats`
 - [x] Sitemap, robots, share image, icons
 - [x] README rewritten
@@ -25,7 +26,8 @@ Updated 29 October 2026 (second pass, after the owner's decisions).
 ## Waiting on you
 
 - [ ] **SMS provider** for the number check: choose one, then it gets wired into `lib/sms.ts`.
-- [ ] **Secrets to Cloudflare in one go** once SMS is done: `ADMIN_PASSWORD`, `OTP_SECRET`, `CRM_API_KEY`, SMS keys.
+- [ ] **Secrets to Cloudflare in one go** once SMS is done: `ADMIN_PASSWORD` (the admin setup key), `OTP_SECRET`, `CRM_API_KEY`, SMS keys.
+- [ ] **Auto-translation of admin edits:** ask the client. Until then, edits show in English on the other language pages.
 - [ ] **Real social links.** Current Instagram, Facebook and YouTube links are guesses. Flagged until the accounts are set up with the client.
 - [ ] **Treatment photos:** about 27 treatments still share a photo (`docs/treatments-still-need-images.md`). You will look at these.
 - [ ] **More partner hospitals** as the client sends them.
@@ -38,12 +40,15 @@ Updated 29 October 2026 (second pass, after the owner's decisions).
 
 - [ ] Full test pass: enquiry on a phone (both steps, upload), languages including right-to-left, slow connection, links, Lighthouse.
 - [ ] Check the new figures row once a figure is published.
+- [ ] On the deployed preview: edit a hospital in `/admin`, check the page shows it on the next visit.
 
 ## Launch day (not reviewed yet)
 
 - [ ] Change `siteUrl` in `lib/seo.ts` to `https://medsafar.com`.
 - [ ] Turn on R2 and create the reports bucket (the preview has none, so uploads fail there).
-- [ ] Create the live D1 database and apply all five migrations.
+- [ ] Create the live D1 database and apply all six migrations.
+- [ ] Create the KV namespace for the page cache (`NEXT_INC_CACHE_KV`) and the R2 bucket for admin photos (`MEDIA`); add both, and `NEXT_TAG_CACHE_D1` (the same database as `LEADS_DB`), to the Worker's config.
+- [ ] Open `/admin/setup`, create the owner account with the setup key, then add the team.
 - [ ] Deploy to the xaif@fiaxe.com account (never WebVerge).
 - [ ] Attach `medsafar.com` and `www.medsafar.com` to the app Worker.
 - [ ] Remove the coming-soon routes and old Hostinger web records. **Keep the email records** (MX, TXT, autoconfig, autodiscover).
