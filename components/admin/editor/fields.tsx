@@ -19,6 +19,7 @@ export function FieldShell({
   help,
   error,
   required,
+  aside,
   children,
 }: {
   id: string;
@@ -26,14 +27,19 @@ export function FieldShell({
   help?: string;
   error?: string;
   required?: boolean;
+  /** Shown at the end of the label's line: the field's Translate button. */
+  aside?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
     <div>
-      <label htmlFor={id} className={adminLabel}>
-        {label}
-        {required ? null : <span className="font-normal text-ink-3"> (optional)</span>}
-      </label>
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+        <label htmlFor={id} className={adminLabel}>
+          {label}
+          {required ? null : <span className="font-normal text-ink-3"> (optional)</span>}
+        </label>
+        {aside}
+      </div>
       {help ? (
         <p id={`${id}-help`} className="mt-0.5 text-sm text-ink-3">
           {help}

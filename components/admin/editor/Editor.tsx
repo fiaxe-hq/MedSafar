@@ -16,6 +16,9 @@ import { kindByPath, type Field, type OptionList } from "@/lib/admin/schema";
 import { AdminBadge, AdminNotice, adminButton, adminCard, adminWhen } from "../ui";
 import { Checklist, FaqList, FieldShell, Gallery, Packages, Select, SourceList, SplitText, TextArea, TextInput } from "./fields";
 import { PictureField, type PictureValue } from "./PictureField";
+import { TranslationPanel } from "../TranslationPanel";
+import type { Sentence } from "@/lib/admin/translate";
+import type { Language } from "@/lib/i18n/languages";
 
 type RecordValue = Record<string, unknown>;
 
@@ -47,6 +50,9 @@ export type EditorProps = {
   /** For a treatment: who lists it. */
   offeredBy?: { hospitals: { slug: string; name: string }[]; doctors: { slug: string; name: string }[] };
   doneMessage?: string;
+  /** Each field's sentences and their translations; null for a record not saved yet. */
+  translations: Record<string, Sentence[]> | null;
+  languages: Language[];
 };
 
 const asString = (v: unknown) => (typeof v === "string" ? v : "");
@@ -58,6 +64,7 @@ export function Editor(props: EditorProps) {
   const [record, setRecord] = useState<RecordValue>(props.record);
   const [visible, setVisible] = useState(!props.hidden);
   const [dirty, setDirty] = useState(false);
+  const [changedFields, setChangedFields] = useState<Set<string>>(new Set());
   const [state, formAction, saving] = useActionState(saveRecordAction, null);
   const errors = state?.errors ?? {};
   const name = asString(record[info.nameKey]);
@@ -79,6 +86,7 @@ export function Editor(props: EditorProps) {
   const set = (key: string, value: unknown) => {
     setRecord((r) => ({ ...r, [key]: value }));
     setDirty(true);
+    setChangedFields((f) => (f.has(key) ? f : new Set(f).add(key)));
   };
 
   function control(field: Field) {
@@ -148,6 +156,12 @@ export function Editor(props: EditorProps) {
       </div>
 
       {props.doneMessage && done[props.doneMessage] && !state ? <AdminNotice>{done[props.doneMessage]}</AdminNotice> : null}
+      <p className="mt-4 max-w-3xl text-sm text-ink-3">
+        Type everything in English.{" "}
+        {props.translations
+          ? "For the other languages, use Translate beside a field, or import many at once on the Translations page."
+          : `Once the ${info.singular} is added, each field gets a Translate button for the other languages.`}
+      </p>
       {state?.message ? (
         <div id="editor-message">
           <AdminNotice tone="error">{state.message}</AdminNotice>
@@ -190,6 +204,18 @@ export function Editor(props: EditorProps) {
                       help={field.help}
                       error={errors[field.key]}
                       required={"required" in field && field.required}
+                      aside={
+                        props.translations ? (
+                          <TranslationPanel
+                            kind={info.kind}
+                            slug={props.slug}
+                            label={field.label}
+                            sentences={props.translations[field.key] ?? []}
+                            languages={props.languages}
+                            englishDirty={changedFields.has(field.key)}
+                          />
+                        ) : null
+                      }
                     >
                       {control(field)}
                     </FieldShell>

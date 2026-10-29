@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 /** The admin panel has its own root layout: it is English only, outside the language routes. */
 export default function AdminLayout({ children }: LayoutProps<"/admin">) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <div className="flex min-h-full flex-1 flex-col bg-surface-2">{children}</div>
       </body>

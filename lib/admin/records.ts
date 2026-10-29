@@ -44,7 +44,7 @@ function statusOf(file: AnyRecord | undefined, entry: Entry | undefined): Status
 }
 
 /** Every record of a kind, as the editor sees it. */
-async function allOf(kind: ListKind) {
+export async function allOf(kind: ListKind) {
   const entries = (await getEntries()).filter((e) => e.kind === kind);
   const bySlug = new Map(entries.map((e) => [e.slug, e]));
   const files = fileRecords(kind);

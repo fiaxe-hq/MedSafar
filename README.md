@@ -4,7 +4,8 @@ Website for Medsafar India, a division of Travgrub Private Limited: a medical
 travel facilitator that arranges treatment in India for patients abroad.
 
 Next.js (App Router), TypeScript and Tailwind, running on Cloudflare Workers
-through OpenNext. Available in 31 languages.
+through OpenNext. Available in 12 languages: English, Hindi and the native
+languages of the countries served (`lib/i18n/languages.ts`).
 
 The client sees it at <https://building-medsafar.xaif-0e9.workers.dev/>.
 
@@ -106,7 +107,8 @@ own photo share a general one; the list is in
 English is the source. `node scripts/i18n.mjs` writes `public/i18n/en.json`
 with every English sentence; each language is `public/i18n/<code>.json` with the
 same paths. `node scripts/i18n.mjs check` reports missing or broken sentences.
-Only languages for the countries served are offered in the picker.
+Text added or changed in `/admin` is translated there, field by field or by CSV
+(see [Translations in the admin](#translations-in-the-admin)).
 
 ## Design
 
@@ -198,6 +200,31 @@ in `/admin` (`open-next.config.ts`). So a save shows on the next visit.
   translated, so an out-of-date translation (an old price) never shows.
 - **Photos** uploaded in `/admin` are shrunk in the browser, stored in the R2
   bucket `MEDIA` and served at `/media/...` (`lib/media.ts`).
+
+### Translations in the admin
+
+Everything is typed in English. The other 11 languages are added in the admin:
+
+- **One field at a time**: a **Translate** button beside each field (and beside
+  the WhatsApp greeting and each trust figure) opens a panel on the right.
+  Pick a language, see each English sentence with what that language shows
+  now, change it, save. The button shows how many languages are done.
+- **Many at once**: `/admin/translations` shows how far each language is,
+  offers three CSV downloads (what still needs translating, everything, or an
+  empty template with instructions) and imports a filled-in CSV. The import
+  shows what it will change and saves only after a confirm.
+
+The CSV has one row per sentence: `Section, ID, Field, English`, then one
+column per language (`hi (Hindi)`, `ar (Arabic)`...). English is for
+reference only. Rows starting with `HOW TO USE` or `EXAMPLE` are skipped.
+Comma or semicolon files both work; save as CSV UTF-8.
+
+Translations live in D1 (table `content_translations`, `lib/translations.ts`),
+each with the English it was made from. If the English is changed later, the
+old translation stops showing and the page shows the new English until it is
+translated again (the panel marks it "out of date"; "still correct" keeps it).
+Text nobody changed in the admin keeps its translation from
+`public/i18n/<code>.json`, and the panel shows that as the starting text.
 
 ### Trust figures
 

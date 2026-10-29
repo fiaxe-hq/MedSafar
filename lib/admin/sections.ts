@@ -9,6 +9,7 @@ export const adminSections = [
   { href: "/admin/doctors", label: "Doctors" },
   { href: "/admin/treatments", label: "Treatments" },
   { href: "/admin/blog", label: "Blog" },
+  { href: "/admin/translations", label: "Translations" },
   { href: "/admin/contact", label: "Contact details" },
   { href: "/admin/stats", label: "Trust figures" },
   { href: "/admin/enquiries", label: "Enquiries" },

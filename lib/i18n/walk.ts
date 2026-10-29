@@ -96,3 +96,38 @@ export function localize<T>(value: T, dict: Dict, path = "", key = ""): T {
   }
   return value;
 }
+
+/** The item of a list that a path segment names: by slug, then id, then position. */
+function itemAt(list: unknown[], segmentText: string): number {
+  const at = list.findIndex((item, i) => segment(item, i) === segmentText);
+  return at;
+}
+
+/** The sentence at `path` ("faq.0.answer") in `value`, if there is one. */
+export function textAt(value: unknown, path: string): string | undefined {
+  let node: unknown = value;
+  for (const part of path.split(".")) {
+    if (Array.isArray(node)) node = node[itemAt(node, part)];
+    else if (node && typeof node === "object") node = (node as Record<string, unknown>)[part];
+    else return undefined;
+  }
+  return typeof node === "string" ? node : undefined;
+}
+
+/** A copy of `value` with the sentence at `path` replaced. Unknown paths leave it as it is. */
+export function withTextAt<T>(value: T, path: string, text: string): T {
+  const [part, ...rest] = path.split(".");
+  if (Array.isArray(value)) {
+    const at = itemAt(value, part);
+    if (at < 0) return value;
+    const copy = [...value];
+    copy[at] = rest.length ? withTextAt(copy[at], rest.join("."), text) : text;
+    return copy as T;
+  }
+  if (value && typeof value === "object" && part in value) {
+    const child = (value as Record<string, unknown>)[part];
+    if (!rest.length && typeof child !== "string") return value;
+    return { ...value, [part]: rest.length ? withTextAt(child, rest.join("."), text) : text };
+  }
+  return value;
+}

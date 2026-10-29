@@ -2,6 +2,9 @@ import { ArrowDownIcon } from "@phosphor-icons/react/dist/ssr/ArrowDown";
 import { ArrowUpIcon } from "@phosphor-icons/react/dist/ssr/ArrowUp";
 import { TrashIcon } from "@phosphor-icons/react/dist/ssr/Trash";
 import { listStats } from "@/lib/stats";
+import { sentencesFor, targetLanguages } from "@/lib/admin/translate";
+import { getRecordTranslations } from "@/lib/translations";
+import { TranslationPanel } from "@/components/admin/TranslationPanel";
 import {
   AdminBadge,
   AdminHeading,
@@ -42,6 +45,15 @@ export default async function StatsPage({ searchParams }: PageProps<"/admin/stat
   const message = typeof params.done === "string" ? done[params.done] : undefined;
   const stats = await listStats();
   const live = stats.filter((s) => s.published);
+  // Each label's translations, for its Translate button.
+  const sentences = Object.fromEntries(
+    await Promise.all(
+      stats.map(async (stat) => [
+        stat.key,
+        await sentencesFor("figure", stat.key, { label: stat.label }, undefined, await getRecordTranslations("figure", stat.key)),
+      ]),
+    ),
+  );
 
   return (
     <>
@@ -92,9 +104,18 @@ export default async function StatsPage({ searchParams }: PageProps<"/admin/stat
               <form className="grid gap-4 lg:grid-cols-[1fr_12rem_auto] lg:items-end">
                 <input type="hidden" name="id" value={stat.id} />
                 <div>
-                  <label htmlFor={`label-${stat.id}`} className={adminLabel}>
-                    Label
-                  </label>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <label htmlFor={`label-${stat.id}`} className={adminLabel}>
+                      Label
+                    </label>
+                    <TranslationPanel
+                      kind="figure"
+                      slug={stat.key}
+                      label={`Trust figure: ${stat.label}`}
+                      sentences={sentences[stat.key] ?? []}
+                      languages={targetLanguages}
+                    />
+                  </div>
                   <input
                     id={`label-${stat.id}`}
                     name="label"

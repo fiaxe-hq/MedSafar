@@ -5,6 +5,7 @@ import { FirstAidKitIcon } from "@phosphor-icons/react/dist/ssr/FirstAidKit";
 import { HospitalIcon } from "@phosphor-icons/react/dist/ssr/Hospital";
 import { PhoneIcon } from "@phosphor-icons/react/dist/ssr/Phone";
 import { StethoscopeIcon } from "@phosphor-icons/react/dist/ssr/Stethoscope";
+import { TranslateIcon } from "@phosphor-icons/react/dist/ssr/Translate";
 import { TrayIcon } from "@phosphor-icons/react/dist/ssr/Tray";
 import { UsersThreeIcon } from "@phosphor-icons/react/dist/ssr/UsersThree";
 import { recentActivity, requireAdmin } from "@/lib/admin/auth";
@@ -29,6 +30,7 @@ export default async function AdminHome({ searchParams }: PageProps<"/admin">) {
     { href: "/admin/doctors", label: "Doctors", count: `${live(doctors)} on the site`, Icon: StethoscopeIcon },
     { href: "/admin/treatments", label: "Treatments", count: `${live(treatments)} on the site`, Icon: FirstAidKitIcon },
     { href: "/admin/blog", label: "Blog posts", count: `${live(posts)} on the site`, Icon: ArticleIcon },
+    { href: "/admin/translations", label: "Translations", count: "Other languages, one by one or by CSV", Icon: TranslateIcon },
     { href: "/admin/contact", label: "Contact details", count: "WhatsApp, phone, email, social", Icon: PhoneIcon },
     { href: "/admin/stats", label: "Trust figures", count: "The numbers under the home page photo", Icon: ChartBarIcon },
     { href: "/admin/enquiries", label: "Enquiries", count: "A copy of what goes to the CRM", Icon: TrayIcon },
@@ -42,7 +44,7 @@ export default async function AdminHome({ searchParams }: PageProps<"/admin">) {
       <AdminHeading
         eyebrow="Admin"
         title={`Hello, ${user.name.split(" ")[0]}`}
-        intro="Choose what you want to change. Saved changes show on the site within a minute. The site's other languages show your new text in English until it is translated."
+        intro="Choose what you want to change. Saved changes show on the site within a minute. Write in English; add the other languages with the Translate buttons or on the Translations page."
       />
       {welcome ? (
         <AdminNotice>Your account is ready. Add the rest of the team under Team.</AdminNotice>

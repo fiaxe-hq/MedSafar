@@ -1,5 +1,8 @@
 import { requireAdmin } from "@/lib/admin/auth";
-import { applyEntries, getEntries } from "@/lib/content";
+import { CONTACT, applyEntries, getEntries } from "@/lib/content";
+import { sentencesFor, targetLanguages } from "@/lib/admin/translate";
+import { getRecordTranslations } from "@/lib/translations";
+import { TranslationPanel } from "@/components/admin/TranslationPanel";
 import { source } from "@/lib/i18n/source";
 import { AdminHeading, AdminNotice, adminButton, adminCard, adminInput, adminLabel } from "@/components/admin/ui";
 import { saveContactAction } from "./actions";
@@ -44,6 +47,13 @@ export default async function ContactPage({ searchParams }: PageProps<"/admin/co
   const params = await searchParams;
   const error = typeof params.error === "string" ? errors[params.error] : undefined;
   const contact = applyEntries(source, source, await getEntries()).site.contact;
+  const greeting = await sentencesFor(
+    "settings",
+    CONTACT,
+    contact as unknown as Record<string, unknown>,
+    source.site.contact as unknown as Record<string, unknown>,
+    await getRecordTranslations("settings", CONTACT),
+  );
   const social = (network: string) => contact.social.find((s) => s.network === network)?.href ?? "";
 
   return (
@@ -68,9 +78,18 @@ export default async function ContactPage({ searchParams }: PageProps<"/admin/co
             type="tel"
           />
           <div>
-            <label htmlFor="message" className={adminLabel}>
-              WhatsApp greeting
-            </label>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <label htmlFor="message" className={adminLabel}>
+                WhatsApp greeting
+              </label>
+              <TranslationPanel
+                kind="settings"
+                slug={CONTACT}
+                label="WhatsApp greeting"
+                sentences={greeting}
+                languages={targetLanguages}
+              />
+            </div>
             <p className="mt-0.5 text-sm text-ink-3">Already typed for the visitor when they open the chat. They can change it before sending.</p>
             <textarea
               id="message"

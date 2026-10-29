@@ -10,7 +10,7 @@ Updated 29 October 2026 (second pass, after the owner's decisions).
 - [x] Package prices shown (decided)
 - [x] Terms and Privacy Policy, signed off by the client
 - [x] About page with the client's text and photos
-- [x] 31 languages; only the languages of countries served are offered
+- [x] 12 languages: English, Hindi and the languages of the countries served. The others were removed; their old addresses lead to English.
 - [x] Country from location; phone code follows it
 - [x] Enquiry form: number saved at step 1, report upload, spam limit
 - [x] Mobile number code check (built; off until an SMS provider is wired)
@@ -27,7 +27,7 @@ Updated 29 October 2026 (second pass, after the owner's decisions).
 
 - [ ] **SMS provider** for the number check: choose one, then it gets wired into `lib/sms.ts`.
 - [ ] **Secrets to Cloudflare in one go** once SMS is done: `ADMIN_PASSWORD` (the admin setup key), `OTP_SECRET`, `CRM_API_KEY`, SMS keys.
-- [ ] **Auto-translation of admin edits:** ask the client. Until then, edits show in English on the other language pages.
+- [ ] **Translations of admin edits:** the team adds them in `/admin` (Translate buttons or CSV on the Translations page). Until then, edited text shows in English on the other language pages.
 - [ ] **Real social links.** Current Instagram, Facebook and YouTube links are guesses. Flagged until the accounts are set up with the client.
 - [ ] **Treatment photos:** about 27 treatments still share a photo (`docs/treatments-still-need-images.md`). You will look at these.
 - [ ] **More partner hospitals** as the client sends them.
@@ -46,7 +46,7 @@ Updated 29 October 2026 (second pass, after the owner's decisions).
 
 - [ ] Change `siteUrl` in `lib/seo.ts` to `https://medsafar.com`.
 - [ ] Turn on R2 and create the reports bucket (the preview has none, so uploads fail there).
-- [ ] Create the live D1 database and apply all six migrations.
+- [ ] Create the live D1 database and apply all seven migrations.
 - [ ] Create the KV namespace for the page cache (`NEXT_INC_CACHE_KV`) and the R2 bucket for admin photos (`MEDIA`); add both, and `NEXT_TAG_CACHE_D1` (the same database as `LEADS_DB`), to the Worker's config.
 - [ ] Open `/admin/setup`, create the owner account with the setup key, then add the team.
 - [ ] Deploy to the xaif@fiaxe.com account (never WebVerge).

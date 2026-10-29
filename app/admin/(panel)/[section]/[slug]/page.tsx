@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/admin/auth";
-import { getOptions, getRecord, offeredBy } from "@/lib/admin/records";
+import { fileRecord, getOptions, getRecord, offeredBy } from "@/lib/admin/records";
+import { sentencesFor, targetLanguages, type Sentence } from "@/lib/admin/translate";
+import { getRecordTranslations } from "@/lib/translations";
 import { blankRecord, kindByPath } from "@/lib/admin/schema";
 import { Editor } from "@/components/admin/editor/Editor";
 
@@ -14,6 +16,20 @@ export default async function RecordPage({ params, searchParams }: PageProps<"/a
   const isNew = slug === "new";
   const [current, options] = await Promise.all([isNew ? null : getRecord(info.kind, slug), getOptions()]);
   if (!isNew && !current) notFound();
+
+  // Each field's sentences, with what every language shows now.
+  let translations: Record<string, Sentence[]> | null = null;
+  if (current) {
+    const sentences = await sentencesFor(
+      info.kind,
+      slug,
+      current.record,
+      fileRecord(info.kind, slug),
+      await getRecordTranslations(info.kind, slug),
+    );
+    translations = {};
+    for (const sentence of sentences) (translations[sentence.field] ??= []).push(sentence);
+  }
 
   return (
     <Editor
@@ -30,6 +46,8 @@ export default async function RecordPage({ params, searchParams }: PageProps<"/a
       options={options}
       offeredBy={info.kind === "treatment" && !isNew ? await offeredBy(slug) : undefined}
       doneMessage={typeof done === "string" ? done : undefined}
+      translations={translations}
+      languages={targetLanguages}
     />
   );
 }
