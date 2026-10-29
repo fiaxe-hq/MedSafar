@@ -34,6 +34,9 @@ export function generateStaticParams() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const [{ global, site }, lang] = await Promise.all([getText(), getLang()]);
+  // The share image in app/ is not picked up below this layout on its own,
+  // so it is named here (it is served at /opengraph-image.png).
+  const share = { url: "/opengraph-image.png", width: 1200, height: 630, alt: global.meta.title };
   return {
     metadataBase: new URL(siteUrl),
     title: global.meta.title,
@@ -43,8 +46,9 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       siteName: "Medsafar India",
       locale: lang.code,
+      images: [share],
     },
-    twitter: { card: "summary_large_image" },
+    twitter: { card: "summary_large_image", images: [share] },
   };
 }
 

@@ -6,6 +6,9 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "sw
 
 export const metadata: Metadata = {
   title: "Medsafar admin",
+  // No share image: the site's one in app/ would point at localhost here.
+  openGraph: { images: [] },
+  twitter: { images: [] },
   robots: { index: false, follow: false },
 };
 
