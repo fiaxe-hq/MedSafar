@@ -4,9 +4,9 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 import type { CountryCode } from "libphonenumber-js";
 import { headers } from "next/headers";
 import { after } from "next/server";
-import { sendLeadAlert } from "@/lib/alert";
+import { syncLeadToCrm } from "@/lib/crm";
 import { createLead, hashIp, overLeadLimit, saveReport, updateLead, type Lead } from "@/lib/leads";
-import { checkPhone, type PhoneCheck } from "@/lib/otp";
+import { checkPhone, rememberVerified, verifiedPhone, type PhoneCheck } from "@/lib/otp";
 import { getQuestionnaire } from "@/content/questionnaires";
 import { dialCodes } from "@/content/dial-codes";
 
@@ -57,16 +57,31 @@ const ALLOWED_REPORT_TYPES = [
 async function verifyPhone(formData: FormData, phone: string, ipHash: string | null): Promise<PhoneCheck> {
   const code = formData.get("code");
   if (formData.get("resend") !== "yes" && typeof code === "string") {
+    // TEMP: an empty code passes outside production, for testing.
+    if (!code.trim() && process.env.NODE_ENV !== "production") {
+      await rememberVerified(phone);
+      return "verified";
+    }
     return code.trim() ? checkPhone(phone, ipHash, code) : "code";
   }
   return checkPhone(phone, ipHash, null);
 }
 
-/** Emails the team once the response has gone, so the visitor never waits on it. */
+/** Sends the enquiry to the CRM once the response has gone, so the visitor never waits on it. The CRM emails the team. */
 async function alertTeam(lead: Lead) {
-  const h = await headers();
-  const origin = `${h.get("x-forwarded-proto") ?? "https"}://${h.get("host")}`;
-  after(() => sendLeadAlert(lead, origin));
+  after(() => syncLeadToCrm(lead));
+}
+
+/** The number already checked in this browser, so the forms need not ask again. */
+export async function getVerified(): Promise<{ phone: string; iso: string; shown: string } | null> {
+  try {
+    const phone = await verifiedPhone();
+    const parsed = phone ? parsePhoneNumberFromString(phone) : null;
+    if (!parsed?.country) return null;
+    return { phone: parsed.number, iso: parsed.country, shown: parsed.formatInternational() };
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -102,7 +117,8 @@ export async function saveNumber(
     // is kept even if step 2 is never sent.
     const treatment = String(formData.get("treatment") ?? "").slice(0, 200);
     const notes = String(formData.get("notes") ?? "").slice(0, 500);
-    if (treatment || notes) await updateLead(lead.id, { treatment, notes });
+    const saved = treatment || notes ? ((await updateLead(lead.id, { treatment, notes })) ?? lead) : lead;
+    after(() => syncLeadToCrm(saved));
     return { ok: true, leadId: lead.id };
   } catch {
     return { ok: false, error: "generic" };

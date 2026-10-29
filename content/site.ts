@@ -115,6 +115,7 @@ export const site: SiteContent = {
     step2: {
       heading: "A few more details",
       intro: "This helps us put the right doctor and cost estimate in front of you.",
+      more: "Add more details (optional)",
       name: { label: "Full name", placeholder: "First and last name" },
       email: {
         label: "Email",
@@ -184,6 +185,8 @@ export const site: SiteContent = {
       resend: "Send a new code",
       resendIn: "New code in {n} s",
       change: "Change number",
+      verified: "Verified number",
+      useOther: "Use a different number",
     },
     privacyNote: "Your medical details stay private. We use them only to plan your care.",
     saved: {

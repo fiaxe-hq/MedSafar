@@ -80,6 +80,12 @@ export async function checkPhone(
   return code === null ? sendCode(phone, ipHash) : checkCode(phone, code);
 }
 
+/** The number this browser has already checked, if any: lets every form skip the code. */
+export async function verifiedPhone(): Promise<string | null> {
+  if (!otpRequired()) return null;
+  return readVerified((await cookies()).get(VERIFIED_COOKIE)?.value);
+}
+
 async function sendCode(phone: string, ipHash: string | null): Promise<PhoneCheck> {
   const jar = await cookies();
   const cooldownUntil = Number(jar.get(COOLDOWN_COOKIE)?.value);
@@ -131,9 +137,18 @@ async function checkCode(phone: string, code: string): Promise<PhoneCheck> {
   // A right code does not count against the limit.
   await releaseRow("otp_attempts", attemptId).catch(() => {});
   jar.delete(CHALLENGE_COOKIE);
-  const until = Date.now() + VERIFIED_TTL_MS;
-  jar.set(VERIFIED_COOKIE, `${phone}.${until}.${await sign(`verified:${phone}:${until}`)}`, cookieOptions(VERIFIED_TTL_MS));
+  await rememberVerified(phone);
   return "verified";
+}
+
+/** Remembers `phone` as checked in this browser, so no form asks for its code again. */
+export async function rememberVerified(phone: string): Promise<void> {
+  const until = Date.now() + VERIFIED_TTL_MS;
+  (await cookies()).set(
+    VERIFIED_COOKIE,
+    `${phone}.${until}.${await sign(`verified:${phone}:${until}`)}`,
+    cookieOptions(VERIFIED_TTL_MS),
+  );
 }
 
 function cookieOptions(ttlMs: number) {

@@ -1,18 +1,17 @@
 # Medsafar India
 
-Marketing site for Medsafar India, a division of Travgrub Private Limited: a
-medical travel facilitator that arranges treatment in India for patients
-abroad.
+Website for Medsafar India, a division of Travgrub Private Limited: a medical
+travel facilitator that arranges treatment in India for patients abroad.
 
 Next.js (App Router), TypeScript and Tailwind, running on Cloudflare Workers
-through OpenNext. English only for now.
+through OpenNext. Available in 31 languages.
 
 The client sees it at <https://building-medsafar.xaif-0e9.workers.dev/>.
 
 ## Running it locally
 
-1. Copy `.dev.vars.example` to `.dev.vars` and set your own `ADMIN_PASSWORD`.
-   `.dev.vars` is ignored by git; never commit it.
+1. Copy `.dev.vars.example` to `.dev.vars` and fill it in. `.dev.vars` is
+   ignored by git; never commit it.
 2. Create the local database tables:
 
    ```bash
@@ -25,30 +24,37 @@ The client sees it at <https://building-medsafar.xaif-0e9.workers.dev/>.
    pnpm run dev
    ```
 
+Locally, the mobile number code is written to the dev server's log and an empty
+code passes, so the form can be tried without an SMS provider.
+
 ## Branches and deploying
 
 - `main` holds all work, finished or not. It is pushed to GitHub but never
   deployed. Its `wrangler.jsonc` is for local development only.
-- `design-variants` holds only what the client has been shown. It is the only
-  branch deployed to Cloudflare. Work moves over from `main` page by page, once
-  it is ready for the client.
+- `design-variants` holds what the client has been shown. It is the only branch
+  deployed to Cloudflare, by hand with `pnpm run deploy` from its own folder
+  (`../Medsafar-design`), to the `building-medsafar` Worker on the
+  xaif@fiaxe.com account. Cloudflare does not build from GitHub.
+- Work moves from `main` to `design-variants` only when it is ready for the
+  client.
+- Database changes are not applied by the deploy. When `design-variants` gains
+  a file in `migrations/`, apply it to that Worker's database from the same
+  branch.
 
-Cloudflare does not build from GitHub. Deploys are run by hand from
-`design-variants`, to the `building-medsafar` Worker on the xaif@fiaxe.com
-account.
-
-Database changes are not applied by the deploy. When `design-variants` gains a
-file in `migrations/`, apply it to that Worker's database from the same branch.
+Never use the WebVerge Cloudflare account.
 
 ## Pages
 
-- `/` is the home page. `/ng`, `/iq`, `/bd`, `/ke`, `/ge` and `/uz` are the
-  pages for Nigeria, Iraq, Bangladesh, Kenya, Georgia and Uzbekistan. All of
-  them use one component, `components/CountryPage.tsx`, with the same sections
-  in the same order. Only the content file changes.
-- `/treatments`, `/hospitals` and `/doctors`, each with a detail page.
-- `/blog`, `/about`, `/contact`, `/privacy` and `/terms`.
-- `/admin`, for the team (see [Admin](#admin)).
+Every page lives under a language: English at the plain address, any other
+language at `/<code>/...` (`lib/i18n/languages.ts`).
+
+- `/` is the home page. `/home/<country>` is the same page with a hero photo for
+  that country; the visitor's country comes from their location.
+- `/treatments`, `/specialities`, `/hospitals`, `/doctors`, each with detail
+  pages, plus `/questionnaires` (the body map and the question flows).
+- `/blog`, `/about`, `/contact`, `/privacy`, `/terms`, `/disclaimer`,
+  `/cancellations`, `/editorial-policy`.
+- `/admin`, for the team (see [Admin](#admin)). English only.
 
 ## Content
 
@@ -57,40 +63,35 @@ No copy and no image path lives in a component.
 | File | Holds |
 | --- | --- |
 | `content/site.ts` | Text shared by every page: header, footer, buttons, contact details, company details and every label in the enquiry form. |
-| `content/countries/global.ts` | The home page. |
-| `content/countries/<slug>.ts` | One file per country page. |
+| `content/home.ts`, `content/countries/global.ts` | The home page. |
 | `content/pages.ts` | About, Contact, Privacy and Terms. |
-| `content/catalog.ts` | Headings and labels for the treatment, hospital, doctor and blog pages. |
+| `content/catalog.ts`, `content/ui.ts` | Headings and labels for the catalogue pages and shared interface text. |
+| `content/questionnaires.ts` | The question flows. |
 | `content/dial-codes.ts` | The country codes in the phone field. |
 | `content/types.ts` | The shape all of the above must follow. |
-| `data/` | Specialities, treatments, hospitals, doctors and blog posts. Pages read these only through `lib/catalog.ts`. |
+| `data/` | Specialities, treatments, hospitals, doctors, blog posts, the body map and treatment photos. Pages read these only through `lib/catalog.ts`. |
 
-### Adding a country
+Hospital package prices are shown on the site. The hospital stay lengths on the
+treatment pages come from the hospital's price sheet. Originals of material the
+client supplied are kept in `docs/client-content/`, outside `public/`.
 
-1. Copy `content/countries/ng.ts` to `content/countries/<slug>.ts`. Rewrite the
-   words, photo briefs, stories and travel information. Put the source of each
-   travel fact in a comment next to it.
-2. Register it in `content/countries/index.ts`.
+Partner hospitals today: Nanavati Max, Kenia Eye and Kenia Dental. More are
+added to `data/hospitals.ts` as the client sends them. Treatment descriptions
+are still flagged "to be checked by a doctor" until a doctor has read them.
 
-The page then exists at `/<slug>`. Any slug that is not registered is a 404.
+### Treatment photos
 
-### Placeholders
+`data/treatmentPhotos.ts` maps each treatment and speciality to a photo in
+`public/photos/care/` and `public/photos/treatments/`. Treatments without their
+own photo share a general one; the list is in
+`docs/treatments-still-need-images.md`.
 
-Nothing invented is presented as real. Patient stories on the country pages,
-some photos and most treatment descriptions are still stand-ins. They are
-marked on the page with a **Placeholder** badge and flagged in the content
-files. Replace them only with things Medsafar can prove.
+### Translations
 
-The hospital (Nanavati Max), its doctors and the blog posts are real, written
-from material the client supplied. The originals are kept in
-`docs/client-content/`, outside `public/`, so they are not served. That folder
-includes the hospital's package price sheet: its hospital stay lengths are used
-on the treatment pages, its prices are not.
-
-The trust figures (patients helped and so on) are not in the code at all. They
-appear only once someone publishes them in `/admin`.
-
-No prices appear anywhere. Each patient gets an individual quote.
+English is the source. `node scripts/i18n.mjs` writes `public/i18n/en.json`
+with every English sentence; each language is `public/i18n/<code>.json` with the
+same paths. `node scripts/i18n.mjs check` reports missing or broken sentences.
+Only languages for the countries served are offered in the picker.
 
 ## Design
 
@@ -98,195 +99,120 @@ Tokens live in `app/globals.css` as semantic CSS variables (`--ink`,
 `--surface`, `--accent` and so on), mapped into Tailwind through
 `@theme inline`. The theme is light only.
 
-Colour is built on the logo green, `#0E9475`, sampled from
-`public/brand/medsafar-logo.png`. Every shade keeps the logo's exact hue
-(166°); only lightness and saturation change, so tints and darks read as the
-same green as the logo.
+Colour is built on the logo green, `#0E9475`. Text and buttons use
+`--accent`/`--cta` (`#0C7E63`), the logo green darkened just enough to pass WCAG
+AA; `--brand` (the exact logo green) is for marks, rules and icons only.
+Travgrub's red and grey appear only in the Travgrub logo in the footer.
 
-| Token | Value | Use |
-| --- | --- | --- |
-| `--brand` | `#0E9475` | The exact logo green. Marks, rules and icons only: 3.8:1 on white is enough for non-text, not for small text. |
-| `--accent`, `--cta` | `#0C7E63` | Links, small accent text and buttons. The logo green darkened only as far as WCAG AA needs: 5.0:1 on white, 4.6:1 on `--accent-soft`. |
-| `--accent-hover`, `--cta-hover` | `#09644F` | Hover state. |
-| `--accent-soft` | `#E8F7F4` | Tinted panels, numbered steps, photo placeholders. |
-| `--accent-quiet` | `#EEF9F7` | Selected options, notices. |
-| `--ink`, `--ink-2`, `--ink-3` | `#0B3D31`, `#415853`, `#566C67` | Text. The lowest pair, `--ink-3` on `--accent-soft`, is 5.1:1. |
-| `--surface-2` | `#F4FBF9` | Quiet sections, the footer. |
-| `--hairline`, `--line` | `#D9EDE8`, `#8EC2B6` | Dividers and control borders. |
-| `--danger` | `#A61B1B` | Errors and delete buttons in `/admin`. |
+Shape rule: buttons and inputs are `rounded-md`, cards are `rounded-lg`.
 
-Every text and background pair above passes WCAG AA for body text.
+Type: Figtree for headings, Inter for reading. Hero heading weight 525, body
+weight 415. Keep these when merging.
 
-Travgrub's red (`#EC3237`) and grey (`#555557`) appear only in the Travgrub
-logo in the footer, never as tokens.
-
-Shape rule, applied everywhere: buttons and inputs are `rounded-md`, cards are
-`rounded-lg`.
-
-Motion uses the native scroll-driven `animation-timeline: view()`, so reveals
-cost no JavaScript. The hidden start state sits inside an `@supports` block,
-so a browser without scroll timelines simply shows the content. Everything
-stops under `prefers-reduced-motion`.
-
-Type is Noto Sans for reading and Figtree for headings.
+Motion uses native scroll-driven animation, so reveals cost no JavaScript, and
+stops under `prefers-reduced-motion`. Layout uses logical CSS utilities (`ms-`,
+`pe-`, `text-start`), so right-to-left languages flip with no extra work.
 
 ### Brand files
 
-- `public/brand/medsafar-logo.png`: the header logo (420×177, transparent).
-- `public/brand/medsafar-mark-square.png`: the square version. The favicon and
-  app icons in `app/` are cropped from it to the heartbeat "M", widened 1.3
-  times so it reads as an M rather than a tall spike at tab size.
-- `public/brand/travgrub-logo.png`: the parent company logo, footer only.
-- `docs/brand-reference/`: a photo of the printed poster, kept for colour
-  reference. Not shipped.
+- `public/brand/medsafar-logo.png`, `medsafar-mark-square.png`,
+  `travgrub-logo.png`.
+- `docs/brand-reference/`: a photo of the printed poster, for colour reference.
+- `public/out_6ac38d6024b6b_p1.jpg` and `_p2.jpg` are the client's business card
+  scans. Nothing uses them; keep them.
 
 ## Enquiry form
 
 Two steps, in `components/form/EnquiryForm.tsx`:
 
-1. Mobile number with a country code picker. It is saved the moment it is
-   submitted, so an abandoned enquiry is still an enquiry the team can answer.
-2. Name, email, country, treatment, timeline, medical report upload and
-   consent.
+1. Mobile number with a country code picker, then a code sent to that number.
+   The number is saved at once, so an abandoned enquiry is still one the team
+   can call.
+2. Name, email, country, treatment, timeline, medical report upload and consent.
 
-Both steps post to Server Actions in `app/actions.ts`, so the form works before
-the JavaScript has loaded. The phone number is checked on the server.
+Both steps post to Server Actions in `app/actions.ts`. The number is checked on
+the server.
 
-Enquiries are stored by `lib/leads.ts`: the details in the D1 database
-(`LEADS_DB`, table `leads`) and uploaded reports in the R2 bucket (`REPORTS`).
-The team reads them in `/admin/enquiries`.
-
-Spam limit: one connection or one phone number can start at most 3 enquiries
-in 24 hours (`overLeadLimit` in `lib/leads.ts`). The IP address is never
-stored, only a one-way hash of it (`migrations/0003_add_lead_rate_limit.sql`). Nobody is alerted when one arrives
-yet; an email or WhatsApp alert would plug into `lib/leads.ts`.
+- **Storage** (`lib/leads.ts`): details in the D1 database (`LEADS_DB`, table
+  `leads`), uploaded reports in the R2 bucket (`REPORTS`). The team reads them in
+  `/admin/enquiries`.
+- **Spam limit:** one connection or one phone number can start at most 3
+  enquiries in 24 hours. The IP address is never stored, only a one-way hash.
+- **Number check** (`lib/otp.ts`, `lib/sms.ts`): signed cookies, limits counted
+  in D1. It switches on by itself once an SMS provider is wired into
+  `lib/sms.ts` (`smsReady()` returns true). Until then it is off on the Worker.
+  Secret: `OTP_SECRET`.
+- **CRM** (`lib/crm.ts`): every enquiry is sent to crm.fiaxe.com as a lead,
+  matched by mobile number. A number alone is "Partial entry"; a full form moves
+  it to "New". Secret: `CRM_API_KEY`; until set, nothing is sent. The CRM sends
+  the team's email alerts; the site sends none itself.
 
 ## Admin
 
 `/admin` is a small back end for the team. It is server-rendered and needs no
 client JavaScript.
 
-- **Enquiries** (`/admin/enquiries`): every enquiry, newest first, read-only,
-  with a download link for each uploaded report. A number with no name is a
-  visitor who stopped after step 1.
-- **Trust figures** (`/admin/stats`): the figures in the trust strip. Add,
-  edit, reorder, publish and unpublish.
+- **Enquiries** (`/admin/enquiries`): every enquiry, newest first, with a
+  download link for each uploaded report.
+- **Trust figures** (`/admin/stats`): add, edit, reorder, publish and unpublish.
 
-### How the trust figures work
+### Trust figures
 
-- They live in D1, table `site_stats`
-  (`migrations/0002_create_site_stats.sql`).
-- The site shows only published figures. With none published, the figures row
-  is not shown at all; the rest of the trust strip stays.
-- A figure with no country applies to every page. The table can also hold a
-  per-country figure that replaces the global one on that country's page. The
-  admin cannot edit those yet.
-- The home and country pages read the figures on every visit, so a change
-  shows at once. If the database cannot be read, the page shows no figures
-  rather than breaking.
+The home page has a figures row just under the hero (`components/home/TrustFigures.tsx`).
+It stays invisible until at least one figure is published in `/admin/stats`, so
+no zeros are ever shown. Publish a figure and it appears within a minute, with
+no deploy. Figures are in D1 table `site_stats`. The page loads them in the
+browser from `/api/figures`, so the home pages stay pre-built.
+
+Decided: no patient counts until there are real patients. Hospital and treatment
+counts are fine to publish.
 
 ### Sign-in
 
-The admin password is the `ADMIN_PASSWORD` secret on the Worker. It must be at
-least 8 characters; longer is safer. Signing in sets a signed, httpOnly cookie
-that lasts 12 hours and is sent only to `/admin`. Every admin page, action and
-report download checks it (`lib/admin/auth.ts`).
+The admin password is the `ADMIN_PASSWORD` secret on the Worker, at least 8
+characters. Signing in sets a signed, httpOnly cookie that lasts 12 hours and is
+sent only to `/admin`. Set or change it with:
 
-- To set or change the password, run the command below, or use the Cloudflare
-  dashboard: Workers & Pages → `medsafar` → Settings → Variables and Secrets.
-  Changing it signs everyone out.
+```bash
+npx wrangler secret put ADMIN_PASSWORD
+```
 
-  ```bash
-  npx wrangler secret put ADMIN_PASSWORD
-  ```
+Changing it signs everyone out. Never write the password in this README, in code
+or in a commit.
 
-- If the secret is missing or too short, nobody can sign in, and the sign-in
-  page says which.
-- Never write the password in this README, in code or in a commit. Share it
-  through a password manager.
+### Cloudflare Access (at launch)
 
-### Cloudflare Access (recommended)
+Cloudflare Access can add a second check in front of `/admin` on the custom
+domain, so only the team's addresses reach the password page.
 
-Cloudflare Access can add a second check in front of `/admin`, so only the
-team's own email addresses reach the password page at all.
-
-Access protects paths on a custom domain that is set up in Cloudflare. It
-cannot protect only `/admin` on the `workers.dev` address: Cloudflare's Access
-switch for `workers.dev` covers the whole address, which would lock the public
-site too. So while the site is live only on `medsafar.xaif.workers.dev`,
-the password is the only protection for `/admin`.
-
-Once the site moves to a custom domain:
-
-1. Workers & Pages → `medsafar` → Settings → Domains & Routes: add the custom
-   domain.
-2. Zero Trust dashboard → Access → Applications → Add an application →
-   **Self-hosted**.
-   - Name: `Medsafar admin`. Session duration: 24 hours.
-   - Add a public hostname for the domain (and `www`, if it is served), each
-     with path `admin`. This covers everything under `/admin`, including
-     report downloads.
-   - Policy: Action **Allow**, Include → **Emails**, listing each team
-     member's address (or **Emails ending in** the company domain).
-   - Login method: the default one-time PIN by email is enough.
-3. In the same Domains & Routes screen, turn off the `workers.dev` address and
-   Preview URLs, so `/admin` cannot be reached around Access.
-4. Check it: in a private window, open `https://<your domain>/admin`. The
-   Cloudflare Access sign-in should come first, then the Medsafar password
-   page.
-
-### Adding a section
-
-Hospitals and doctors move into the admin next. Every section has the same
-shape, described in `lib/admin/sections.ts`:
-
-1. A migration in `migrations/`.
-2. A file in `lib/` that holds all the database code for that table, like
-   `lib/stats.ts`.
-3. A page and an `actions.ts` under `app/admin/(panel)/<section>/`.
-4. An entry in the list in `lib/admin/sections.ts`.
-
-Shared form styles are in `components/admin/ui.tsx`. For hospitals and doctors,
-`lib/catalog.ts` then reads from the new `lib/` file instead of `data/`, and no
-public page has to change.
+1. Workers & Pages → the Worker → Settings → Domains & Routes: add the domain.
+2. Zero Trust → Access → Applications → Add → **Self-hosted**. Public hostname
+   for the domain (and `www`), path `admin`. Policy: Allow, Include → Emails.
+3. Turn off the `workers.dev` address and Preview URLs, so `/admin` cannot be
+   reached around Access.
+4. In a private window, open `/admin`: Access should come first, then the
+   password page.
 
 ## Search and analytics
 
-- `lib/seo.ts` holds the site address (`siteUrl`) and the organisation data
-  for search engines. Change `siteUrl` when the site moves to its own domain.
+- `lib/seo.ts` holds the site address (`siteUrl`) and the organisation data for
+  search engines. Change `siteUrl` on launch day when the site moves to
+  `medsafar.com`.
 - `app/sitemap.ts` and `app/robots.ts` build `/sitemap.xml` and `/robots.txt`.
-  Hospital, doctor and blog pages stay out of the sitemap while they are
-  placeholders. `/admin` is blocked.
+  `/admin` is blocked.
 - `app/opengraph-image.png` is the preview shown when a link is shared.
 - Cloudflare Web Analytics loads only once a site token is pasted into
-  `lib/analytics.ts` (Cloudflare dashboard → Web Analytics → Add a site). No
-  cookies, so no consent banner.
+  `lib/analytics.ts`. No cookies, so no consent banner. Not decided yet.
 
-## Photos
+## Settings (Worker secrets)
 
-Country heroes are free stock photos in `public/photos/`, chosen from
-`docs/stock-photos.md`. Each one's source and licence is in a comment next to
-it in the country file. They illustrate; none claims to show a real patient.
+| Name | Used for |
+| --- | --- |
+| `ADMIN_PASSWORD` | Sign-in to `/admin`. |
+| `OTP_SECRET` | Signs the mobile number check's cookies. |
+| `CRM_API_KEY` | Sends enquiries to the CRM. |
+| SMS provider keys | To be added when a provider is chosen. |
 
-## Later: other languages
+## Still open
 
-The site is English only. Four things are already in place for translation:
-
-- All text is in content files.
-- The language switch is in the header, showing English.
-- Layout uses logical CSS utilities (`ms-`, `pe-`, `text-start`, `border-s`),
-  so setting `dir="rtl"` in `app/layout.tsx` flips the site with no rework.
-- Noto Sans has a matching Arabic cut, Noto Sans Arabic, so the typeface does
-  not change when the site is translated.
-
-## Still to supply
-
-- Sign-off on the draft Privacy and Terms, and the answers they depend on.
-- Partner hospitals and doctors, and their accreditations.
-- Treatment descriptions, stays, recovery times and FAQs, written or checked by
-  a doctor.
-- Patient stories, with written consent, and their photos.
-- A Georgia-specific hero photo (it shows a hospital room for now).
-- Trust figures Medsafar can prove. Enter and publish them in `/admin/stats`.
-- The team, for `/about` (the section is hidden until then).
-- Real blog articles.
+See `docs/go-live-checklist.md`.

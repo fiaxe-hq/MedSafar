@@ -3,7 +3,8 @@
 import Link from "@/components/ui/Link";
 import { startTransition, useActionState, useId, useState } from "react";
 import { saveQuestionnaire } from "@/app/actions";
-import { CodeStep, formError, useCodeStep } from "@/components/form/CodeStep";
+import { CodeStep, VerifiedNumber, formError, useCodeStep } from "@/components/form/CodeStep";
+import { useVerified } from "@/components/form/useVerified";
 import { DialPicker } from "@/components/form/DialPicker";
 import type { DialCode, FormContent, Question, Questionnaire, QuestionnaireText } from "@/content/types";
 import { PrivacyNote } from "@/components/form/EnquiryForm";
@@ -38,6 +39,7 @@ export function QuestionnaireForm({
   const [iso, setIso] = useState(defaultIso);
   const [numbers, setNumbers] = useState<Record<string, string>>({});
   const [missing, setMissing] = useState(false);
+  const [verified, dropVerified] = useVerified();
 
   if (state?.ok) {
     return (
@@ -120,36 +122,44 @@ export function QuestionnaireForm({
         <p className="mt-2 text-base text-ink-2">{text.contact.intro}</p>
 
         <div className="mt-6 space-y-6">
-          <div>
-            <label htmlFor={`${uid}-phone`} className={label}>
-              {form.step1.label}
-            </label>
-            <div className="mt-2 flex min-h-13 items-stretch rounded-md border border-line bg-surface transition-[border-color,box-shadow] focus-within:border-accent focus-within:ring-4 focus-within:ring-accent/10">
-              <DialPicker
-                id={`${uid}-iso`}
-                label={form.step1.countryLabel}
-                search={form.step1.countrySearch}
-                none={form.step1.countryNone}
-                dialCodes={dialCodes}
-                value={iso}
-                onChange={setIso}
-              />
-              <span aria-hidden className="my-2.5 w-px bg-hairline" />
-              <input
-                id={`${uid}-phone`}
-                name="phone"
-                type="tel"
-                inputMode="tel"
-                autoComplete="tel-national"
-                required
-                // Fixed while a code sent to it is waiting.
-                readOnly={codeSent !== null}
-                placeholder="000 000 0000"
-                className="min-w-0 flex-1 rounded-e-md bg-transparent px-4 text-base text-ink placeholder:text-ink-3 focus:outline-none"
-              />
+          {verified ? (
+            <>
+              <input type="hidden" name="iso" value={verified.iso} />
+              <input type="hidden" name="phone" value={verified.phone} />
+              <VerifiedNumber text={form} verified={verified} onOther={dropVerified} />
+            </>
+          ) : (
+            <div>
+              <label htmlFor={`${uid}-phone`} className={label}>
+                {form.step1.label}
+              </label>
+              <div className="mt-2 flex min-h-13 items-stretch rounded-md border border-line bg-surface transition-[border-color,box-shadow] focus-within:border-accent focus-within:ring-4 focus-within:ring-accent/10">
+                <DialPicker
+                  id={`${uid}-iso`}
+                  label={form.step1.countryLabel}
+                  search={form.step1.countrySearch}
+                  none={form.step1.countryNone}
+                  dialCodes={dialCodes}
+                  value={iso}
+                  onChange={setIso}
+                />
+                <span aria-hidden className="my-2.5 w-px bg-hairline" />
+                <input
+                  id={`${uid}-phone`}
+                  name="phone"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel-national"
+                  required
+                  // Fixed while a code sent to it is waiting.
+                  readOnly={codeSent !== null}
+                  placeholder="000 000 0000"
+                  className="min-w-0 flex-1 rounded-e-md bg-transparent px-4 text-base text-ink placeholder:text-ink-3 focus:outline-none"
+                />
+              </div>
+              <p className="mt-2 text-sm text-ink-3">{form.step1.hint}</p>
             </div>
-            <p className="mt-2 text-sm text-ink-3">{form.step1.hint}</p>
-          </div>
+          )}
 
           {codeSent ? <CodeStep text={form} sent={codeSent} sending={sending} onChange={closeCode} /> : null}
 

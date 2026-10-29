@@ -23,6 +23,7 @@ import { HospitalCard } from "@/components/catalog/HospitalCard";
 import { HospitalCarousel } from "@/components/catalog/HospitalCarousel";
 import { BodyPicker, FinderSearch } from "@/components/catalog/TreatmentFinder";
 import { Container } from "@/components/ui/Container";
+import { TrustFigures } from "@/components/home/TrustFigures";
 import { handledIcons } from "@/components/ui/HandledIcon";
 import { btnPrimary, eyebrow } from "@/components/ui/styles";
 import { getText } from "@/lib/i18n/text";
@@ -232,6 +233,9 @@ export async function HomeC({ place }: { place: string }) {
           </div>
         </div>
       </section>
+
+      {/* Proof figures from /admin/stats; nothing shows until some are published. */}
+      <TrustFigures />
 
       {/* The four things most visitors came for, as big buttons. */}
       <section

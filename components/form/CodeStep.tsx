@@ -3,6 +3,7 @@
 import { useEffect, useId, useState } from "react";
 import type { ActionResult } from "@/app/actions";
 import type { FormContent } from "@/content/types";
+import type { Verified } from "@/components/form/useVerified";
 import { btnPlain, btnPrimary, field, label } from "@/components/ui/styles";
 
 /** Matches RESEND_AFTER_S in lib/otp.ts, which is what really holds a resend back. */
@@ -88,7 +89,7 @@ export function CodeStep({
           autoComplete="one-time-code"
           pattern="[0-9]*"
           maxLength={6}
-          required
+          required={process.env.NODE_ENV === "production" /* TEMP: empty code allowed while testing */}
           autoFocus
           placeholder="000000"
           dir="ltr"
@@ -109,6 +110,35 @@ export function CodeStep({
       >
         {wait > 0 ? text.otp.resendIn.replace("{n}", String(wait)) : text.otp.resend}
       </button>
+    </div>
+  );
+}
+
+/** A number this browser already checked, with the way to use another one. */
+export function VerifiedNumber({
+  text,
+  verified,
+  onOther,
+}: {
+  text: FormContent;
+  verified: Verified;
+  onOther: () => void;
+}) {
+  return (
+    <div className="rounded-md border border-accent/30 bg-accent-quiet p-4">
+      <p className="text-sm text-ink-3">{text.otp.verified}</p>
+      <p className="mt-0.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <bdi dir="ltr" className="text-lg font-medium whitespace-nowrap text-ink">
+          {verified.shown}
+        </bdi>
+        <button
+          type="button"
+          onClick={onOther}
+          className="cursor-pointer text-base font-medium text-accent underline underline-offset-4 transition-colors hover:text-accent-hover"
+        >
+          {text.otp.useOther}
+        </button>
+      </p>
     </div>
   );
 }

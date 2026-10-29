@@ -9,11 +9,7 @@ interface __BaseEnv_CloudflareEnv {
 	NEXTJS_ENV: string;
 	ADMIN_PASSWORD: string;
 	OTP_SECRET: string;
-	SMTP_HOST: string;
-	SMTP_PORT: string;
-	SMTP_USER: string;
-	SMTP_PASSWORD: string;
-	ALERT_EMAIL_TO: string;
+	CRM_API_KEY: string;
 	WORKER_SELF_REFERENCE: Fetcher /* medsafar-local */;
 }
 declare namespace Cloudflare {
@@ -24,7 +20,7 @@ type StringifyValues<EnvType extends Record<string, unknown>> = {
 	[Binding in keyof EnvType]: EnvType[Binding] extends string ? EnvType[Binding] : string;
 };
 declare namespace NodeJS {
-	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "NEXTJS_ENV" | "ADMIN_PASSWORD" | "OTP_SECRET" | "SMTP_HOST" | "SMTP_PORT" | "SMTP_USER" | "SMTP_PASSWORD" | "ALERT_EMAIL_TO">> {}
+	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "NEXTJS_ENV" | "ADMIN_PASSWORD" | "OTP_SECRET" | "CRM_API_KEY">> {}
 }
 
 // Begin runtime types

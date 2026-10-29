@@ -161,6 +161,8 @@ export type FormContent = {
   step2: {
     heading: string;
     intro: string;
+    /** Opens the optional fields in the short form. */
+    more: string;
     name: { label: string; placeholder: string };
     email: { label: string; placeholder: string; hint: string };
     country: { label: string; placeholder: string };
@@ -184,6 +186,9 @@ export type FormContent = {
     resend: string;
     resendIn: string;
     change: string;
+    /** Shown with a number already checked in this browser. */
+    verified: string;
+    useOther: string;
   };
   /** Under the form: how medical details are handled. */
   privacyNote: string;
