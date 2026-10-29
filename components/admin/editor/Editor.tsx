@@ -257,8 +257,11 @@ export function Editor(props: EditorProps) {
 
         {/* Save panel: beside the form on wide screens, fixed to the bottom on phones. */}
         <aside className="lg:sticky lg:top-36">
-          <div className={`${adminCard} fixed inset-x-0 bottom-0 z-30 rounded-none border-x-0 border-b-0 p-4 shadow-lift lg:static lg:rounded-lg lg:border lg:p-5 lg:shadow-none`}>
-            <label className="flex cursor-pointer items-start gap-3">
+          {/* One row on phones, so it covers little of the form. */}
+          <div
+            className={`${adminCard} fixed inset-x-0 bottom-0 z-30 flex items-center gap-3 rounded-none border-x-0 border-b-0 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lift lg:static lg:block lg:rounded-lg lg:border lg:p-5 lg:shadow-none`}
+          >
+            <label className="flex shrink-0 cursor-pointer items-center gap-2.5 lg:items-start lg:gap-3">
               <input
                 type="checkbox"
                 name="visible"
@@ -268,24 +271,28 @@ export function Editor(props: EditorProps) {
                   setVisible(e.target.checked);
                   setDirty(true);
                 }}
-                className="mt-1 size-[1.125rem] shrink-0 accent-accent"
+                className="size-5 shrink-0 accent-accent lg:mt-1 lg:size-[1.125rem]"
               />
               <span>
-                <span className="block text-base font-medium text-ink">Show on the site</span>
+                <span className="block text-sm font-medium text-ink lg:text-base">
+                  Show on <span className="lg:hidden">site</span>
+                  <span className="hidden lg:inline">the site</span>
+                </span>
                 <span className="hidden text-sm text-ink-3 lg:block">Untick to keep it hidden from visitors.</span>
               </span>
             </label>
-            <button type="submit" disabled={saving} className={`${adminButton.primary} mt-4 min-h-12 w-full text-base`}>
+            <button type="submit" disabled={saving} className={`${adminButton.primary} min-h-12 flex-1 text-base lg:mt-4 lg:w-full`}>
               <FloppyDiskIcon size={18} aria-hidden />
               {saving ? "Saving…" : props.slug ? "Save changes" : `Add ${info.singular}`}
+              {dirty && !saving ? <span aria-hidden className="size-2 rounded-full bg-cta-ink/80 lg:hidden" /> : null}
             </button>
-            {dirty ? <p className="mt-2 text-center text-sm text-ink-3">You have unsaved changes.</p> : null}
+            {dirty ? <p className="mt-2 hidden text-center text-sm text-ink-3 lg:block">You have unsaved changes.</p> : null}
           </div>
         </aside>
       </form>
 
       {props.slug ? (
-        <section className={`${adminCard} mt-10 mb-28 p-5 sm:p-6 lg:mb-0`}>
+        <section className={`${adminCard} mt-10 mb-24 p-5 sm:p-6 lg:mb-0`}>
           <h2 className="font-display text-xl font-semibold">Other actions</h2>
           <div className="mt-4 flex flex-wrap gap-3">
             <form action={setVisibleAction}>
@@ -332,7 +339,7 @@ export function Editor(props: EditorProps) {
           </p>
         </section>
       ) : (
-        <div className="mb-28 lg:mb-0" />
+        <div className="mb-24 lg:mb-0" />
       )}
     </>
   );

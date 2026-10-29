@@ -50,12 +50,12 @@ export default async function AdminHome({ searchParams }: PageProps<"/admin">) {
         <AdminNotice>Your account is ready. Add the rest of the team under Team.</AdminNotice>
       ) : null}
 
-      <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="mt-8 grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
         {cards.map(({ href, label, count, Icon }) => (
           <li key={href}>
             <Link
               href={href}
-              className={`${adminCard} group flex h-full items-start gap-4 p-5 transition-[border-color,box-shadow] hover:border-accent hover:shadow-card`}
+              className={`${adminCard} group flex h-full flex-col items-start gap-3 p-4 transition-[border-color,box-shadow] hover:border-accent hover:shadow-card sm:flex-row sm:gap-4 sm:p-5`}
             >
               <span className="grid size-11 shrink-0 place-items-center rounded-full bg-accent-soft text-accent">
                 <Icon size={22} aria-hidden />

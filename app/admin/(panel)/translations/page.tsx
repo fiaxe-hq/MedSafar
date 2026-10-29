@@ -70,19 +70,19 @@ export default async function TranslationsPage() {
           <p className="mt-1 text-sm text-ink-3">Open it in Excel or Google Sheets. Each row is one piece of text, with its English and a column per language.</p>
           <ul className="mt-5 space-y-3">
             <li>
-              <a href={href("missing=1")} className={`${adminButton.primary} w-full justify-start`}>
+              <a href={href("missing=1")} className={`${adminButton.primary} w-full justify-start py-2.5 text-start whitespace-normal`}>
                 <DownloadSimpleIcon size={18} aria-hidden />
                 What still needs translating
               </a>
             </li>
             <li>
-              <a href={href("")} className={`${adminButton.quiet} w-full justify-start`}>
+              <a href={href("")} className={`${adminButton.quiet} w-full justify-start py-2.5 text-start whitespace-normal`}>
                 <DownloadSimpleIcon size={18} aria-hidden />
                 Everything, with the current translations
               </a>
             </li>
             <li>
-              <a href={href("type=template")} className={`${adminButton.quiet} w-full justify-start`}>
+              <a href={href("type=template")} className={`${adminButton.quiet} w-full justify-start py-2.5 text-start whitespace-normal`}>
                 <DownloadSimpleIcon size={18} aria-hidden />
                 Empty template with instructions
               </a>
@@ -91,7 +91,7 @@ export default async function TranslationsPage() {
           <p className="mt-5 text-sm font-medium text-ink-2">One section only</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {sectionNames.map((s) => (
-              <a key={s} href={href(`section=${s}`)} className="rounded-full border border-line px-3 py-1.5 text-sm text-ink-2 hover:border-accent hover:text-accent">
+              <a key={s} href={href(`section=${s}`)} className="inline-flex min-h-10 items-center rounded-full border border-line px-3.5 text-sm text-ink-2 hover:border-accent hover:text-accent">
                 {sectionLabels[s] ?? s}
               </a>
             ))}

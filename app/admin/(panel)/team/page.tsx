@@ -91,7 +91,7 @@ export default async function TeamPage({ searchParams }: PageProps<"/admin/team"
             </p>
 
             <details className="mt-3">
-              <summary className="cursor-pointer text-sm font-medium text-accent">Change details or password</summary>
+              <summary className="cursor-pointer py-3 text-sm font-medium text-accent">Change details or password</summary>
               <div className="mt-4 grid gap-6 lg:grid-cols-2">
                 <form action={updateMemberAction} className="space-y-3">
                   <input type="hidden" name="id" value={user.id} />

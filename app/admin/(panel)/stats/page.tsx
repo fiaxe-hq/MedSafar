@@ -13,6 +13,7 @@ import {
   adminCard,
   adminInput,
   adminLabel,
+  adminWhen,
 } from "@/components/admin/ui";
 import {
   addStatAction,
@@ -196,9 +197,7 @@ export default async function StatsPage({ searchParams }: PageProps<"/admin/stat
                 <AdminBadge tone={stat.published ? "good" : "neutral"}>
                   {stat.published ? "Published" : "Hidden"}
                 </AdminBadge>
-                key {stat.key} · updated{" "}
-                {new Date(stat.updatedAt).toLocaleString("en-GB", { timeZone: "Asia/Kolkata" })}{" "}
-                IST
+                Last changed {adminWhen(stat.updatedAt)}
               </p>
             </li>
           ))}

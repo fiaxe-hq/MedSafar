@@ -39,14 +39,14 @@ export function RecordList({ rows, path, singular }: { rows: RecordRow[]; path: 
   return (
     <>
       <div className="mt-8 flex flex-wrap items-center gap-3">
-        <label className="relative min-w-0 flex-1 sm:max-w-sm">
+        <label className="relative w-full sm:w-auto sm:max-w-sm sm:flex-1">
           <span className="sr-only">Search</span>
           <MagnifyingGlassIcon size={18} className="pointer-events-none absolute start-3.5 top-1/2 -translate-y-1/2 text-ink-3" aria-hidden />
           <input
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={`Search by name`}
+            placeholder="Search by name"
             className={`${adminInput} ps-10`}
           />
         </label>
@@ -57,7 +57,7 @@ export function RecordList({ rows, path, singular }: { rows: RecordRow[]; path: 
               type="button"
               aria-pressed={filter === f.value}
               onClick={() => setFilter(f.value)}
-              className="min-h-9 cursor-pointer rounded-sm px-3 text-sm text-ink-2 transition-colors hover:text-ink aria-pressed:bg-accent-soft aria-pressed:font-medium aria-pressed:text-accent"
+              className="min-h-10 cursor-pointer rounded-sm px-3 text-sm text-ink-2 transition-colors hover:text-ink aria-pressed:bg-accent-soft aria-pressed:font-medium aria-pressed:text-accent"
             >
               {f.label}
             </button>

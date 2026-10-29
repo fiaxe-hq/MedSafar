@@ -1,4 +1,5 @@
 import { FileArrowDownIcon } from "@phosphor-icons/react/dist/ssr/FileArrowDown";
+import { PhoneIcon } from "@phosphor-icons/react/dist/ssr/Phone";
 import { TrashIcon } from "@phosphor-icons/react/dist/ssr/Trash";
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr/WhatsappLogo";
 import { REPORT_REVIEW_DAYS, listLeads, listOldReports } from "@/lib/leads";
@@ -97,7 +98,63 @@ export default async function EnquiriesPage({ searchParams }: PageProps<"/admin/
           </p>
         </div>
       ) : (
-        <div className={`${adminCard} mt-6 overflow-x-auto shadow-card`}>
+        <>
+        {/* Phones: one card per enquiry, with large call and WhatsApp buttons. */}
+        <ul className="mt-6 space-y-3 md:hidden">
+          {leads.map((lead) => {
+            const details = [
+              ["Email", lead.email],
+              ["From", lead.country ?? lead.phoneIso],
+              ["Treatment", lead.treatment],
+              ["When", lead.timeline],
+              ["Priority", lead.budget],
+              ["Prefers", lead.preference],
+              ["Page", lead.source],
+            ].filter(([, v]) => v);
+            return (
+              <li key={lead.id} className={`${adminCard} p-4`}>
+                <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                  {lead.name ? <p className="text-base font-medium">{lead.name}</p> : <AdminBadge>Step 1 only</AdminBadge>}
+                  <p className="text-sm text-ink-3">{when(lead.createdAt)}</p>
+                </div>
+                <p className="mt-1 text-base text-ink-2">{lead.phone}</p>
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <a href={`tel:${lead.phone}`} className={adminButton.quiet}>
+                    <PhoneIcon size={17} aria-hidden />
+                    Call
+                  </a>
+                  <a href={`https://wa.me/${lead.phone.replace(/\D/g, "")}`} target="_blank" rel="noreferrer" className={adminButton.quiet}>
+                    <WhatsappLogoIcon size={17} aria-hidden />
+                    WhatsApp
+                  </a>
+                </div>
+                {details.length ? (
+                  <dl className="mt-3 grid grid-cols-[6rem_1fr] gap-x-3 gap-y-1 text-sm">
+                    {details.map(([label, value]) => (
+                      <div key={label} className="contents">
+                        <dt className="text-ink-3">{label}</dt>
+                        <dd className="min-w-0 break-words text-ink">{value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                ) : null}
+                {lead.reportFile ? (
+                  <a href={`/admin/reports/${encodeURIComponent(lead.reportFile)}`} className={`${adminButton.quiet} mt-3 w-full`}>
+                    <FileArrowDownIcon size={17} aria-hidden />
+                    Download report
+                  </a>
+                ) : null}
+                {lead.notes ? (
+                  <details className="mt-3">
+                    <summary className="min-h-10 cursor-pointer py-2 text-sm font-medium text-accent">Notes</summary>
+                    <p className="whitespace-pre-wrap text-sm text-ink-2">{lead.notes}</p>
+                  </details>
+                ) : null}
+              </li>
+            );
+          })}
+        </ul>
+        <div className={`${adminCard} mt-6 hidden overflow-x-auto shadow-card md:block`}>
           <table className="w-full min-w-[80rem] text-start text-sm">
             <thead className="border-b border-hairline bg-surface-2 text-[0.8125rem] tracking-[0.06em] text-ink-3 uppercase">
               <tr>
@@ -192,6 +249,7 @@ export default async function EnquiriesPage({ searchParams }: PageProps<"/admin/
             </tbody>
           </table>
         </div>
+        </>
       )}
     </>
   );

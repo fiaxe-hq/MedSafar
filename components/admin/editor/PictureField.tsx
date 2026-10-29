@@ -43,7 +43,11 @@ export async function uploadPhoto(section: string, file: File): Promise<{ src: s
   }
 }
 
-/** One photo: a preview, a button to choose or replace it, and its description. */
+/**
+ * One photo: a preview, a button to choose or replace it, and its
+ * description. `compact` is a gallery row: a small preview beside the
+ * description, with removing left to the row's own button.
+ */
 export function PictureField({
   id,
   section,
@@ -74,8 +78,12 @@ export function PictureField({
   }
 
   return (
-    <div className={`flex flex-col gap-4 ${compact ? "" : "sm:flex-row"}`}>
-      <div className={`relative shrink-0 overflow-hidden rounded-md border border-line bg-surface-2 ${compact ? "aspect-[4/3] w-full" : "aspect-[4/3] w-full sm:w-56"}`}>
+    <div className={`flex gap-3 ${compact ? "items-start" : "flex-col gap-4 sm:flex-row"}`}>
+      <div
+        className={`relative shrink-0 overflow-hidden rounded-md border border-line bg-surface-2 ${
+          compact ? "aspect-[4/3] w-24 sm:w-36" : "aspect-[4/3] w-full sm:w-56"
+        }`}
+      >
         {picture.src ? (
           // Shown as uploaded; a plain img keeps the preview simple.
           // eslint-disable-next-line @next/next/no-img-element
@@ -83,7 +91,7 @@ export function PictureField({
         ) : (
           <span className="absolute inset-0 grid place-items-center text-ink-3">
             <span className="flex flex-col items-center gap-1 text-sm">
-              <ImageIcon size={28} aria-hidden />
+              <ImageIcon size={compact ? 22 : 28} aria-hidden />
               No photo
             </span>
           </span>
@@ -92,13 +100,13 @@ export function PictureField({
           <span className="absolute inset-0 grid place-items-center bg-surface/80 text-sm font-medium text-ink">Uploading…</span>
         ) : null}
       </div>
-      <div className="min-w-0 flex-1 space-y-3">
+      <div className={`min-w-0 flex-1 ${compact ? "space-y-2" : "space-y-3"}`}>
         <div className="flex flex-wrap gap-2">
           <button type="button" className={adminButton.quiet} onClick={() => input.current?.click()} disabled={busy}>
             <UploadSimpleIcon size={17} aria-hidden />
-            {picture.src ? "Replace photo" : "Choose photo"}
+            {picture.src ? (compact ? "Replace" : "Replace photo") : "Choose photo"}
           </button>
-          {picture.src ? (
+          {picture.src && !compact ? (
             <button
               type="button"
               className={adminButton.quiet}
@@ -124,17 +132,19 @@ export function PictureField({
           </p>
         ) : null}
         <div>
-          <label htmlFor={`${id}-alt`} className={adminLabel}>
+          <label htmlFor={`${id}-alt`} className={compact ? "sr-only" : adminLabel}>
             What the photo shows
           </label>
           <input
             id={`${id}-alt`}
             value={picture.alt}
             onChange={(e) => onChange({ ...picture, alt: e.target.value })}
-            placeholder="For example: The hospital's main entrance"
-            className={`${adminInput} mt-1.5`}
+            placeholder={compact ? "What the photo shows" : "For example: The hospital's main entrance"}
+            className={`${adminInput} ${compact ? "" : "mt-1.5"}`}
           />
-          <p className="mt-1.5 text-sm text-ink-3">Read out to people who cannot see the photo, and used by Google.</p>
+          {compact ? null : (
+            <p className="mt-1.5 text-sm text-ink-3">Read out to people who cannot see the photo, and used by Google.</p>
+          )}
         </div>
       </div>
     </div>
