@@ -11,6 +11,10 @@ import { Note, Section } from "@/components/ui/Section";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
 
+// The filters come from the address, so the page is drawn for each visit
+// rather than cached: with no page built ahead, Next cannot tell on its own.
+export const dynamic = "force-dynamic";
+
 /** Shared page: one copy for every country. */
 
 type Props = {
