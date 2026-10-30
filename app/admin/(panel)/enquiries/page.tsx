@@ -150,6 +150,16 @@ export default async function EnquiriesPage({ searchParams }: PageProps<"/admin/
                     <p className="whitespace-pre-wrap text-sm text-ink-2">{lead.notes}</p>
                   </details>
                 ) : null}
+                <details className="mt-1">
+                  <summary className="min-h-10 cursor-pointer list-none py-2 text-sm text-ink-3">Delete</summary>
+                  <form action={deleteLeadAction}>
+                    <input type="hidden" name="id" value={lead.id} />
+                    <button type="submit" className={`${adminButton.danger} w-full`}>
+                      <TrashIcon size={17} aria-hidden />
+                      Delete for good
+                    </button>
+                  </form>
+                </details>
               </li>
             );
           })}
