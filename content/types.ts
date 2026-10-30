@@ -314,8 +314,8 @@ export type CountryContent = {
 };
 
 /**
- * Hospitals, doctors and treatments. The admin panel manages these records
- * later, so pages never import them directly: they go through lib/catalog.ts.
+ * Hospitals, doctors and treatments. /admin can change these records, so pages
+ * never import them directly: they go through lib/catalog.ts.
  * Records point at each other by slug.
  */
 

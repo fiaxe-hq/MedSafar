@@ -1,5 +1,5 @@
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr/WhatsappLogo";
-import { whatsappHref } from "@/lib/contact";
+import { contactLinks } from "@/lib/contact";
 import { getText } from "@/lib/i18n/text";
 
 /**
@@ -9,6 +9,7 @@ import { getText } from "@/lib/i18n/text";
 export async function MobileBar() {
   const { site } = await getText();
   const { cta, mobileBar } = site;
+  const whatsappHref = contactLinks(site.contact).whatsapp;
 
   return (
     <>

@@ -21,6 +21,7 @@ import { NavUnderline } from "./NavUnderline";
 import { resolveHref } from "./resolveHref";
 import { getLang, getText } from "@/lib/i18n/text";
 import { dialCodesFor } from "@/lib/i18n/dialCodes";
+import { isUploaded } from "@/lib/uploaded";
 
 /** The links inside each dropdown. Catalog menus are read fresh, so a new
  *  speciality, hospital or doctor shows up without touching this file.
@@ -238,7 +239,7 @@ export async function Header({
                                   <span className="relative size-14 shrink-0 overflow-hidden rounded-lg bg-surface-2">
                                     {link.image ? (
                                       <Image
-                                        src={link.image}
+                                        src={link.image} unoptimized={isUploaded(link.image)}
                                         alt=""
                                         fill
                                         sizes="56px"
@@ -264,7 +265,7 @@ export async function Header({
                                   <span className="relative grid size-14 shrink-0 place-items-center overflow-hidden rounded-lg bg-surface-2 text-ink-3">
                                     {link.image ? (
                                       <Image
-                                        src={link.image}
+                                        src={link.image} unoptimized={isUploaded(link.image)}
                                         alt=""
                                         fill
                                         sizes="56px"
@@ -391,7 +392,7 @@ export async function Header({
                                 <span className="relative size-9 shrink-0 overflow-hidden rounded-md bg-surface-2">
                                   {link.image ? (
                                     <Image
-                                      src={link.image}
+                                      src={link.image} unoptimized={isUploaded(link.image)}
                                       alt=""
                                       fill
                                       sizes="36px"

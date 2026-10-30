@@ -12,10 +12,8 @@ import { getText } from "@/lib/i18n/text";
 /**
  * The only place the site reads hospitals, doctors and treatments from.
  *
- * Today the records come from the files in data/, in the page's language. When the admin
- * panel and its database arrive, they replace this file — nothing else has to
- * change, because pages only call the functions below. They are async for
- * that reason.
+ * The records come from the files in data/, in the page's language, with the
+ * changes made in /admin laid over them (lib/content.ts, through getText).
  */
 
 export type HospitalFilter = { city?: string; speciality?: string };

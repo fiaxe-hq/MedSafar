@@ -6,6 +6,7 @@ import { StethoscopeIcon } from "@phosphor-icons/react/dist/ssr/Stethoscope";
 import type { Doctor } from "@/content/types";
 import { Mark } from "@/components/ui/Pending";
 import { getText } from "@/lib/i18n/text";
+import { isUploaded } from "@/lib/uploaded";
 
 /**
  * A doctor on the /doctors list: portrait first, then who they are and where
@@ -40,7 +41,7 @@ export async function DoctorTile({
           <div className="relative aspect-[4/5] w-28 shrink-0 self-start overflow-hidden rounded-[1.25rem] bg-surface-2 sm:w-full">
             {photo ? (
               <Image
-                src={picture.src!}
+                src={picture.src!} unoptimized={isUploaded(picture.src)}
                 alt={picture.alt}
                 fill
                 sizes="(min-width: 1280px) 20rem, (min-width: 640px) 45vw, 7rem"

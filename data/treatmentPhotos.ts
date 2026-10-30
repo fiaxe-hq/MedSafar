@@ -2,8 +2,8 @@ import type { Picture } from "@/content/types";
 
 /**
  * Photos for treatment and speciality cards, so a patient can recognise
- * what a treatment is about before reading. Stock photos from Unsplash
- * (Unsplash Licence: free for commercial use, no credit needed), chosen
+ * what a treatment is about before reading. Stock photos from Unsplash,
+ * Pexels and Pixabay (all free for commercial use, no credit needed), chosen
  * to be bright and plain, with the treatment clear at a glance. They illustrate the kind of
  * treatment only, never a specific hospital, doctor or patient.
  */
@@ -374,6 +374,36 @@ const bySpeciality: Record<string, Topic> = {
 
 /** Treatments with a photo chosen for that treatment alone (public/photos/treatments/<slug>.jpg). */
 const own: Record<string, string> = {
+  // unsplash.com/photos/a-model-of-a-human-torso-with-a-model-of-a-human-torso-CzJUsyy6GH0
+  "gastric-bypass": "Anatomy model of the torso showing the stomach, liver and intestines",
+  // pexels.com/photo/person-with-tattoo-on-hand-holding-ceramic-figurine-of-human-heart-10064753/
+  "heart-transplant": "A model of a human heart held in an open hand",
+  // unsplash.com/photos/doctor-consults-with-mother-and-child-in-office-ibZ2QiKkEsg
+  "circumcision": "A doctor talking with a mother and her young son in a clinic",
+  // unsplash.com/photos/blue-and-pink-flag-uUkjeWxSh7c
+  "gender-affirming-surgery": "The transgender pride flag, in light blue, pink and white stripes",
+  // pixabay.com/photos/doctor-obstetrics-womens-health-9967033/
+  "salpingo-oophorectomy": "A gynaecologist pointing to the ovary on a model of the womb, tubes and ovaries",
+  // pixabay.com/photos/gynecologist-gyn-uterus-stretcher-5224339/
+  "vaginal-reconstruction": "A gynaecology procedure room with an examination chair and ultrasound",
+  // pixabay.com/photos/operation-theater-laparoscopy-6142851/
+  "splenectomy": "A surgical team doing keyhole (laparoscopic) surgery, watching the camera screen",
+  // pexels.com/photo/woman-doing-pelvic-floor-exercise-lying-on-purple-yoga-mat-with-personal-trainer-4587402/
+  "prolapse-repair": "A woman doing pelvic floor exercises with a physiotherapist",
+  // unsplash.com/photos/a-man-and-a-woman-holding-dumbs-in-their-hands-inoZpsBQRqk
+  "elbow-replacement": "A physiotherapist supporting a woman's elbow as she lifts light weights",
+  // unsplash.com/photos/person-in-white-gloves-with-blue-textile-on-lap-fi3zHLxWrYw
+  "botulinum-toxin-injections": "A clinician giving an injection into the muscle of a patient's upper arm",
+  // unsplash.com/photos/person-with-white-bandage-on-hand-mRWfY_CgDBw
+  "burn-reconstruction": "A hand in a white dressing after a burn",
+  // unsplash.com/photos/gray-and-black-electronic-devices-mBrfAiw_CZA
+  "radiation-therapy-prostate-cancer": "A radiotherapy machine beside its treatment couch",
+  // unsplash.com/photos/surgeon-in-mask-operating-robotic-surgical-equipment-in-operating-room-L2R8hKBXFak
+  "minimally-invasive-heart-surgery": "A surgeon guiding a keyhole instrument beside an X-ray imaging arm",
+  // pexels.com/photo/doctor-examine-patient-throat-7579830/
+  "laryngectomy": "A doctor examining a man's throat with a light and a tongue depressor",
+  // pexels.com/photo/a-testicular-cancer-awareness-illustration-7857909/
+  "orchiectomy": "Violet testicular cancer awareness ribbons",
   "urologic-cancer-surgery": "Surgeons doing laparoscopic nephrectomy",
   "lymphoedema-surgery": "Legs with stage-3 lymphedema, clinical photo",
   "partial-nephrectomy": "Surgeon at da Vinci robotic console",
@@ -532,10 +562,23 @@ const own: Record<string, string> = {
   "wrist-arthroscopy": "Gloved hands with an arthroscope-type instrument at a wrist",
 };
 
+/**
+ * Treatments so close to another that they share its photo: the same organ
+ * and much the same operation.
+ */
+const sameAs: Record<string, string> = {
+  "pancreatectomy": "whipple-surgery",
+  "hepatectomy": "hpb-cancer-surgery",
+  "lymph-node-removal": "neck-dissection",
+  "vulvar-cancer-surgery": "gynaecologic-cancer-surgery",
+  "male-genital-aesthetic-surgery": "reconstructive-urology",
+};
+
 /** The photo for a treatment, falling back to its speciality's. */
 export function treatmentPhoto(slug: string, speciality: string): Picture | undefined {
-  const alt = own[slug];
-  if (alt) return { src: `/photos/treatments/${slug}.jpg`, alt, pending: false };
+  const twin = sameAs[slug] ?? slug;
+  const alt = own[twin];
+  if (alt) return { src: `/photos/treatments/${twin}.jpg`, alt, pending: false };
   const topic = byTreatment[slug] ?? bySpeciality[speciality];
   return topic ? photos[topic] : undefined;
 }

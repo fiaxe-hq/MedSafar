@@ -1,20 +1,20 @@
 import type { MetadataRoute } from "next";
+import { connection } from "next/server";
 import { questionnaires } from "@/content/questionnaires";
-import { doctors } from "@/data/doctors";
-import { hospitals } from "@/data/hospitals";
-import { posts } from "@/data/posts";
-import { specialities } from "@/data/specialities";
-import { treatments } from "@/data/treatments";
 import { languages, localPath } from "@/lib/i18n/languages";
+import { textWithEdits } from "@/lib/i18n/text";
 import { siteUrl } from "@/lib/seo";
 import { hiddenLink } from "@/lib/preview";
 
 /**
  * Pages worth finding in search. Hospital, doctor and blog detail pages are
  * left out while they are placeholders. Each page lists itself in every
- * language.
+ * language. Includes the changes made in /admin.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Drawn per request, so hospitals, doctors and posts added in /admin are listed.
+  await connection();
+  const { specialities, treatments, hospitals, doctors, posts } = await textWithEdits("en");
   const real = <T extends { pending?: boolean }>(records: T[]) => records.filter((r) => !r.pending);
   const paths = [
     { path: "/", priority: 1 },

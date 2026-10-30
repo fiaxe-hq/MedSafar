@@ -4,7 +4,6 @@ import {
   getHospitalsBySlugs,
   getPost,
   getPostCategories,
-  getPosts,
   getRelatedPosts,
   getSpecialities,
   getTreatmentsBySlugs,
@@ -24,8 +23,10 @@ import { languageAlternates } from "@/lib/i18n/alternates";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  return (await getPosts()).map((post) => ({ slug: post.slug }));
+// Drawn on first visit, like every page (see app/[lang]/layout.tsx), so
+// records added in /admin get a page too.
+export function generateStaticParams() {
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

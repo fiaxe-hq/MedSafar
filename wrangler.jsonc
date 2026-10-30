@@ -19,16 +19,33 @@
   "images": {
     "binding": "IMAGES"
   },
-  // Enquiries (lib/leads.ts), local copy only.
+  // Enquiries (lib/leads.ts), admin accounts and the changes made in /admin
+  // (lib/content.ts), local copy only. NEXT_TAG_CACHE_D1 is the same database,
+  // under the name OpenNext looks for: it records when /admin last changed
+  // something, so cached pages are drawn again.
   "d1_databases": [
     {
       "binding": "LEADS_DB",
       "database_name": "medsafar-leads-local",
       "database_id": "medsafar-leads-local",
       "migrations_dir": "migrations"
+    },
+    {
+      "binding": "NEXT_TAG_CACHE_D1",
+      "database_name": "medsafar-leads-local",
+      "database_id": "medsafar-leads-local"
     }
   ],
-  // Uploaded medical reports (lib/leads.ts), local copy only.
+  // Drawn pages (open-next.config.ts), local copy only.
+  "kv_namespaces": [
+    {
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "medsafar-pages-local"
+    }
+  ],
+  // Uploaded medical reports (lib/leads.ts) and photos uploaded in /admin
+  // (lib/media.ts), local copies only. Reports stay private; photos are served
+  // at /media/<name>.
   "r2_buckets": [
     {
       "binding": "REPORTS",
@@ -39,6 +56,10 @@
     {
       "binding": "REPORTS_BACKUP",
       "bucket_name": "medsafar-reports-backup-local"
+    },
+    {
+      "binding": "MEDIA",
+      "bucket_name": "medsafar-media-local"
     }
   ],
   // Branch previews share the live database and report bucket.

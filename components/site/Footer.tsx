@@ -3,7 +3,7 @@ import Link from "@/components/ui/Link";
 import { EnvelopeSimpleIcon } from "@phosphor-icons/react/dist/ssr/EnvelopeSimple";
 import { PhoneIcon } from "@phosphor-icons/react/dist/ssr/Phone";
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr/WhatsappLogo";
-import { emailHref, phoneHref, whatsappHref } from "@/lib/contact";
+import { contactLinks } from "@/lib/contact";
 import travgrubLogo from "@/public/brand/travgrub-logo.png";
 import { Container } from "@/components/ui/Container";
 import { resolveHref } from "./resolveHref";
@@ -15,26 +15,27 @@ export async function Footer({ home = "/" }: { home?: string }) {
   const { site } = await getText();
   const { footer, brand, contact, company } = site;
   const year = new Date().getFullYear();
+  const links = contactLinks(contact);
 
   const reach = [
     {
       label: footer.contact.whatsapp,
       value: contact.whatsapp.display,
-      href: whatsappHref,
+      href: links.whatsapp,
       Icon: WhatsappLogoIcon,
       external: true,
     },
     {
       label: footer.contact.phone,
       value: contact.phone.display,
-      href: phoneHref,
+      href: links.phone,
       Icon: PhoneIcon,
       external: false,
     },
     {
       label: footer.contact.email,
       value: contact.email,
-      href: emailHref,
+      href: links.email,
       Icon: EnvelopeSimpleIcon,
       external: false,
     },

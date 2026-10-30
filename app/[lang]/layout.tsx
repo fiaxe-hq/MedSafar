@@ -5,7 +5,7 @@ import "../globals.css";
 import { jsonLd, organizationJsonLd, siteUrl } from "@/lib/seo";
 import { analyticsToken } from "@/lib/analytics";
 import { getLang, getText } from "@/lib/i18n/text";
-import { languageCodes, defaultLanguage } from "@/lib/i18n/languages";
+import { languageCodes } from "@/lib/i18n/languages";
 import { LabelsProvider } from "@/components/site/Labels";
 
 /**
@@ -25,11 +25,12 @@ const figtree = Figtree({
   display: "swap",
 });
 
-// Only English is built ahead: every language times every page is about
-// 8,000 pages, too slow to build. Other languages render on first visit and
-// are then cached.
+// No page is built ahead. Each is drawn on its first visit, with the changes
+// made in /admin, and then kept in the page cache until /admin changes
+// something (open-next.config.ts). A build has no access to the live
+// database, so pages built ahead would show the files' version instead.
 export function generateStaticParams() {
-  return [{ lang: defaultLanguage }];
+  return [];
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -74,7 +75,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <LabelsProvider value={{ pending: site.pendingLabel, photo: site.photoLabel, check: catalog.draft }}>{children}</LabelsProvider>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLd(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLd(organizationJsonLd(site)) }}
         />
         {analyticsToken ? (
           <script

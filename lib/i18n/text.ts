@@ -2,6 +2,8 @@ import { lang as rootLang } from "next/root-params";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { defaultLanguage, getLanguage, type Language } from "./languages";
 import { source, type Text } from "./source";
+import { applyEntries, getEntries } from "@/lib/content";
+import { applyTranslations, getLanguageTranslations } from "@/lib/translations";
 import { localize, type Dict } from "./walk";
 
 /**
@@ -14,6 +16,21 @@ import { localize, type Dict } from "./walk";
  */
 
 const cache = new Map<string, Promise<Text>>();
+
+const dicts = new Map<string, Promise<Dict>>();
+
+/** A language's translation file, read once per Worker (tried again if the read failed). */
+export function getDict(code: string): Promise<Dict> {
+  let dict = dicts.get(code);
+  if (!dict) {
+    dict = readDict(code).then((d) => {
+      if (!d) dicts.delete(code);
+      return d ?? {};
+    });
+    dicts.set(code, dict);
+  }
+  return dict;
+}
 
 /** The language's sentences, or null when the file could not be read. */
 async function readDict(code: string): Promise<Dict | null> {
@@ -53,7 +70,19 @@ export async function getLang(): Promise<Language> {
   return getLanguage((await rootLang()) ?? defaultLanguage) ?? getLanguage(defaultLanguage)!;
 }
 
+/**
+ * The site's text in one language, with the changes made in /admin: edits
+ * first (typed in English), then the translations typed for them.
+ */
+export async function textWithEdits(code: string): Promise<Text> {
+  const [local, entries] = await Promise.all([textFor(code), getEntries()]);
+  const edited = applyEntries(source, local, entries);
+  if (code === defaultLanguage) return edited;
+  const english = applyEntries(source, source, entries);
+  return applyTranslations(english, edited, await getLanguageTranslations(code));
+}
+
 /** All the site's text, in the language of the page being drawn. */
 export async function getText(): Promise<Text> {
-  return textFor((await getLang()).code);
+  return textWithEdits((await getLang()).code);
 }

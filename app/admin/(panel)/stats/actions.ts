@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { requireAdmin } from "@/lib/admin/auth";
+import { logActivity, requireAdmin } from "@/lib/admin/auth";
 import {
   createStat,
   deleteStat,
@@ -39,7 +39,7 @@ function keyFor(label: string): string {
 }
 
 export async function addStatAction(formData: FormData) {
-  await requireAdmin();
+  const user = await requireAdmin();
   const fields = readFields(formData);
   if (typeof fields === "string") redirect(`${PAGE}?error=${fields}`);
 
@@ -48,27 +48,31 @@ export async function addStatAction(formData: FormData) {
   if ((await listStats()).some((s) => s.key === key)) redirect(`${PAGE}?error=duplicate`);
 
   await createStat({ key, ...fields });
+  await logActivity(user, `added the trust figure "${fields.label}"`, PAGE);
   redirect(`${PAGE}?done=added`);
 }
 
 export async function saveStatAction(formData: FormData) {
-  await requireAdmin();
+  const user = await requireAdmin();
   const id = readId(formData);
   const fields = readFields(formData);
   if (typeof fields === "string") redirect(`${PAGE}?error=${fields}`);
   await updateStat(id, fields);
+  await logActivity(user, `edited the trust figure "${fields.label}"`, PAGE);
   redirect(`${PAGE}?done=saved`);
 }
 
 export async function publishStatAction(formData: FormData) {
-  await requireAdmin();
+  const user = await requireAdmin();
   await setStatPublished(readId(formData), true);
+  await logActivity(user, "published a trust figure", PAGE);
   redirect(`${PAGE}?done=published`);
 }
 
 export async function unpublishStatAction(formData: FormData) {
-  await requireAdmin();
+  const user = await requireAdmin();
   await setStatPublished(readId(formData), false);
+  await logActivity(user, "hid a trust figure", PAGE);
   redirect(`${PAGE}?done=unpublished`);
 }
 
@@ -85,7 +89,8 @@ export async function moveStatDownAction(formData: FormData) {
 }
 
 export async function deleteStatAction(formData: FormData) {
-  await requireAdmin();
+  const user = await requireAdmin();
   await deleteStat(readId(formData));
+  await logActivity(user, "deleted a trust figure", PAGE);
   redirect(`${PAGE}?done=deleted`);
 }

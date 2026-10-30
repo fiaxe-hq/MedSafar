@@ -15,7 +15,8 @@ export function TrustFigures() {
 
   useEffect(() => {
     let live = true;
-    fetch("/api/figures")
+    // The page's language, so the labels come in it where /admin has a translation.
+    fetch(`/api/figures?lang=${encodeURIComponent(document.documentElement.lang || "en")}`)
       .then((r) => (r.ok ? (r.json() as Promise<Figure[]>) : []))
       .then((rows) => live && Array.isArray(rows) && setFigures(rows))
       .catch(() => {});

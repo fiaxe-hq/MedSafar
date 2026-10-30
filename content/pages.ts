@@ -1,6 +1,6 @@
 import type { AboutContent, ContactContent, LegalContent } from "./types";
 import { site } from "./site";
-import { emailHref, phoneHref, whatsappHref } from "@/lib/contact";
+import { contactLinks } from "@/lib/contact";
 
 /**
  * Text for About, Contact, Privacy and Terms. Shared pages: one copy for
@@ -14,6 +14,7 @@ const { registeredAddress, gstin } = site.company;
 const office = registeredAddress ?? "Mumbai, India";
 const email = site.contact.email;
 const phone = site.contact.phone.display;
+const links = contactLinks(site.contact);
 
 export const about: AboutContent = {
   meta: {
@@ -152,9 +153,9 @@ export const contact: ContactContent = {
     heading: "Talk to us directly",
     intro: "Every message reaches a real case manager, not a call centre.",
     items: [
-      { label: "WhatsApp", value: site.contact.whatsapp.display, href: whatsappHref, hint: "Quickest reply" },
-      { label: "Phone", value: phone, href: phoneHref, hint: "Call us any time" },
-      { label: "Email", value: email, href: emailHref, hint: "Good for sending reports" },
+      { label: "WhatsApp", value: site.contact.whatsapp.display, href: links.whatsapp, hint: "Quickest reply" },
+      { label: "Phone", value: phone, href: links.phone, hint: "Call us any time" },
+      { label: "Email", value: email, href: links.email, hint: "Good for sending reports" },
       {
         label: "Office",
         value: office,

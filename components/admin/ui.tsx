@@ -1,4 +1,4 @@
-/** Small building blocks shared by every admin section. Server-rendered, no client JS. */
+/** Small building blocks shared by every admin section. No client JS, so they work in the editors too. */
 
 export const adminInput =
   "min-h-11 w-full rounded-md border border-line bg-surface px-3.5 text-base text-ink transition-[border-color,box-shadow] placeholder:text-ink-3 focus:border-accent focus:ring-4 focus:ring-accent/10 focus:outline-none";
@@ -65,23 +65,25 @@ export function AdminTile({
   );
 }
 
+const badgeTones = {
+  good: { box: "bg-accent-soft text-accent", dot: "bg-brand" },
+  neutral: { box: "bg-surface-2 text-ink-3 ring-1 ring-hairline", dot: "bg-line" },
+  warn: { box: "bg-amber-50 text-amber-800 ring-1 ring-amber-200", dot: "bg-amber-500" },
+  off: { box: "bg-danger-soft text-danger ring-1 ring-danger-line", dot: "bg-danger" },
+};
+
 export function AdminBadge({
   tone = "neutral",
   children,
 }: {
-  tone?: "neutral" | "good";
+  tone?: keyof typeof badgeTones;
   children: React.ReactNode;
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[0.8125rem] font-medium whitespace-nowrap ${
-        tone === "good" ? "bg-accent-soft text-accent" : "bg-surface-2 text-ink-3 ring-1 ring-hairline"
-      }`}
+      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[0.8125rem] font-medium whitespace-nowrap ${badgeTones[tone].box}`}
     >
-      <span
-        aria-hidden
-        className={`size-1.5 rounded-full ${tone === "good" ? "bg-brand" : "bg-line"}`}
-      />
+      <span aria-hidden className={`size-1.5 rounded-full ${badgeTones[tone].dot}`} />
       {children}
     </span>
   );
@@ -106,4 +108,13 @@ export function AdminNotice({
       {children}
     </p>
   );
+}
+
+/** A time as the team reads it: Indian time, day and month written out. */
+export function adminWhen(iso: string): string {
+  return new Date(iso).toLocaleString("en-GB", {
+    timeZone: "Asia/Kolkata",
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
 }

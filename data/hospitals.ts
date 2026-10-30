@@ -1,7 +1,8 @@
 import type { Hospital, Picture } from "@/content/types";
 
 /**
- * Partner hospitals. The admin panel manages these later.
+ * Partner hospitals. The starting point: changes made in /admin are laid over
+ * these (lib/content.ts), so an edit there wins over this file.
  * Read them through lib/catalog.ts, never directly.
  *
  * Every fact here comes from material the hospital supplied to Medsafar

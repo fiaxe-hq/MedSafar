@@ -14,72 +14,37 @@ export type Language = {
   dir?: "rtl";
 };
 
-/** Every language planned. Only those in `translated` are offered. */
-const planned: Language[] = [
+/**
+ * The languages offered: the native languages of the countries the site
+ * serves, plus English and Hindi for everyone. Iraq: Arabic, Kurdish
+ * (Sorani). Bangladesh: Bengali. Georgia: Georgian. Kenya: Swahili. Nigeria:
+ * Hausa, Yoruba, Igbo. Uzbekistan: Uzbek, Russian. Each has a
+ * public/i18n/<code>.json; text added in /admin is translated there.
+ */
+export const languages: Language[] = [
   { code: "en", name: "English", english: "English" },
+  { code: "hi", name: "हिन्दी", english: "Hindi" },
   { code: "ar", name: "العربية", english: "Arabic", dir: "rtl" },
+  { code: "ckb", name: "کوردی", english: "Kurdish (Sorani)", dir: "rtl" },
   { code: "bn", name: "বাংলা", english: "Bengali" },
   { code: "ka", name: "ქართული", english: "Georgian" },
   { code: "sw", name: "Kiswahili", english: "Swahili" },
-  { code: "uz", name: "Oʻzbekcha", english: "Uzbek" },
-  { code: "ckb", name: "کوردی", english: "Kurdish (Sorani)", dir: "rtl" },
   { code: "ha", name: "Hausa", english: "Hausa" },
   { code: "yo", name: "Yorùbá", english: "Yoruba" },
   { code: "ig", name: "Igbo", english: "Igbo" },
+  { code: "uz", name: "Oʻzbekcha", english: "Uzbek" },
   { code: "ru", name: "Русский", english: "Russian" },
-  { code: "fr", name: "Français", english: "French" },
-  { code: "es", name: "Español", english: "Spanish" },
-  { code: "pt", name: "Português", english: "Portuguese" },
-  { code: "de", name: "Deutsch", english: "German" },
-  { code: "it", name: "Italiano", english: "Italian" },
-  { code: "nl", name: "Nederlands", english: "Dutch" },
-  { code: "pl", name: "Polski", english: "Polish" },
-  { code: "ro", name: "Română", english: "Romanian" },
-  { code: "uk", name: "Українська", english: "Ukrainian" },
-  { code: "tr", name: "Türkçe", english: "Turkish" },
-  { code: "az", name: "Azərbaycanca", english: "Azerbaijani" },
-  { code: "fa", name: "فارسی", english: "Persian", dir: "rtl" },
-  { code: "ps", name: "پښتو", english: "Pashto", dir: "rtl" },
-  { code: "ur", name: "اردو", english: "Urdu", dir: "rtl" },
-  { code: "sd", name: "سنڌي", english: "Sindhi", dir: "rtl" },
-  { code: "hi", name: "हिन्दी", english: "Hindi" },
-  { code: "mr", name: "मराठी", english: "Marathi" },
-  { code: "gu", name: "ગુજરાતી", english: "Gujarati" },
-  { code: "pa", name: "ਪੰਜਾਬੀ", english: "Punjabi" },
-  { code: "ta", name: "தமிழ்", english: "Tamil" },
-  { code: "te", name: "తెలుగు", english: "Telugu" },
-  { code: "kn", name: "ಕನ್ನಡ", english: "Kannada" },
-  { code: "ml", name: "മലയാളം", english: "Malayalam" },
-  { code: "or", name: "ଓଡ଼ିଆ", english: "Odia" },
-  { code: "ne", name: "नेपाली", english: "Nepali" },
-  { code: "si", name: "සිංහල", english: "Sinhala" },
-  { code: "my", name: "မြန်မာ", english: "Burmese" },
-  { code: "th", name: "ไทย", english: "Thai" },
-  { code: "vi", name: "Tiếng Việt", english: "Vietnamese" },
-  { code: "id", name: "Bahasa Indonesia", english: "Indonesian" },
-  { code: "ms", name: "Bahasa Melayu", english: "Malay" },
-  { code: "jv", name: "Basa Jawa", english: "Javanese" },
-  { code: "fil", name: "Filipino", english: "Filipino" },
-  { code: "zh", name: "简体中文", english: "Chinese (Simplified)" },
-  { code: "zh-hant", name: "繁體中文", english: "Chinese (Traditional)" },
-  { code: "ja", name: "日本語", english: "Japanese" },
-  { code: "ko", name: "한국어", english: "Korean" },
-  { code: "am", name: "አማርኛ", english: "Amharic" },
-  { code: "so", name: "Soomaali", english: "Somali" },
 ];
 
 /**
- * The languages offered: those spoken in the countries the site serves.
- * Iraq: Arabic, Kurdish. Bangladesh: Bengali. Georgia: Georgian. Kenya:
- * Swahili. Nigeria: Hausa, Yoruba, Igbo. Uzbekistan: Uzbek, Russian. English
- * for everyone. Each has a finished public/i18n/<code>.json.
+ * Languages the site once had or planned. Their addresses (/fr/about) lead
+ * to the same page in English, so old links and search results still work.
  */
-const translated = new Set(["en", "ar", "ckb", "bn", "ka", "sw", "ha", "yo", "ig", "uz", "ru"]);
-
-export const languages = planned.filter((l) => translated.has(l.code));
-
-/** Languages once offered or planned but not offered now: their addresses lead to English. */
-export const retiredCodes = planned.map((l) => l.code).filter((c) => !translated.has(c));
+export const retiredCodes = [
+  "fr", "es", "pt", "de", "it", "nl", "pl", "ro", "uk", "tr", "az", "fa", "ps", "ur", "sd", "mr",
+  "gu", "pa", "ta", "te", "kn", "ml", "or", "ne", "si", "my", "th", "vi", "id", "ms", "jv", "fil",
+  "zh", "zh-hant", "ja", "ko", "am", "so",
+];
 
 export const defaultLanguage = "en";
 
