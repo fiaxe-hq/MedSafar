@@ -8,6 +8,7 @@ import "./intro.css";
  * the page with a circle wipe.
  *
  * Plays on the first visit, on a hard refresh, or with ?intro in the URL.
+ * Skipped for reduced motion and on slow connections.
  * A hard refresh is told from a normal one by the stylesheet: a hard refresh
  * downloads it in full, a normal one takes it from the cache.
  *
@@ -15,7 +16,15 @@ import "./intro.css";
  * up before anything else paints, and it needs no hydration.
  */
 export function Intro() {
-  return <InlineScript html={`(${intro.toString()})(${JSON.stringify(logo.src)})`} />;
+  // Wrangler bundles with esbuild's keepNames, which wraps functions in
+  // __name(fn, "name"). That helper does not exist on the page, so without
+  // this stand-in the script stops after raising the white screen and the
+  // page stays blank.
+  return (
+    <InlineScript
+      html={`(function(){var __name=function(f){return f};(${intro.toString()})(${JSON.stringify(logo.src)})})()`}
+    />
+  );
 }
 
 /** Stringified into the page, so it must not use anything from outside. */
@@ -23,6 +32,10 @@ function intro(src: string) {
   let play = false;
   try {
     if (!matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
+    // On a slow connection the intro would hold a white screen until the
+    // page has arrived, 10 to 20 seconds on 3G. Show the page instead.
+    const net = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    if (net && (net.saveData || /^(slow-2g|2g|3g)$/.test(net.effectiveType ?? ""))) return;
     const forced = /[?&]intro\b/.test(location.search);
     const seen = localStorage.getItem("ms-intro") === "1";
     const nav = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;

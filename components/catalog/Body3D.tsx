@@ -19,7 +19,7 @@ type Props = {
 /**
  * A simple body in 3D, made of separate pieces, that turns all the way round
  * when dragged. Each piece that leads to treatments is tagged with its body
- * area; tapping it picks that area. three.js loads only when this mounts.
+ * area; tapping it picks that area. three.js loads only when it nears the screen.
  */
 export function Body3D({ sex, hover, picked, turn, onHover, onPick, onDragging }: Props) {
   const box = useRef<HTMLDivElement>(null);
@@ -37,14 +37,27 @@ export function Body3D({ sex, hover, picked, turn, onHover, onPick, onDragging }
   useEffect(() => {
     let disposed = false;
     let cleanup = () => {};
+    const el = box.current;
+    if (!el) return;
 
-    import("three").then((THREE) => {
-      if (disposed || !box.current) return;
-      cleanup = start(THREE, box.current, state, cb, api);
-    });
+    // three.js is about 170 KB; fetch it only when the body map is about a
+    // screen away, not with the rest of the page.
+    const near = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        near.disconnect();
+        import("three").then((THREE) => {
+          if (disposed || !box.current) return;
+          cleanup = start(THREE, box.current, state, cb, api);
+        });
+      },
+      { rootMargin: "100% 0px" },
+    );
+    near.observe(el);
 
     return () => {
       disposed = true;
+      near.disconnect();
       cleanup();
     };
   }, []);
@@ -229,9 +242,30 @@ function start(
   ro.observe(el);
   resize();
 
+  // Draw only while the canvas is on screen and the tab is open; otherwise the
+  // loop keeps a phone's processor busy for nothing.
   let frame = 0;
+  let onScreen = true;
+  const running = () => onScreen && !document.hidden;
+  const wake = () => {
+    if (running() && !frame) {
+      last = performance.now();
+      frame = requestAnimationFrame(tick);
+    }
+  };
+  const io = new IntersectionObserver(([entry]) => {
+    onScreen = entry.isIntersecting;
+    wake();
+  });
+  io.observe(el);
+  document.addEventListener("visibilitychange", wake);
+
   let last = performance.now();
   const tick = (now: number) => {
+    if (!running()) {
+      frame = 0;
+      return;
+    }
     const dt = Math.min(50, now - last) / 16.7;
     last = now;
 
@@ -266,6 +300,8 @@ function start(
   return () => {
     cancelAnimationFrame(frame);
     ro.disconnect();
+    io.disconnect();
+    document.removeEventListener("visibilitychange", wake);
     canvas.removeEventListener("pointerdown", down);
     canvas.removeEventListener("pointermove", move);
     canvas.removeEventListener("pointerup", up);
@@ -276,6 +312,9 @@ function start(
       (m.material as T.Material).dispose();
     }
     renderer.dispose();
+    // Browsers allow only a few WebGL contexts at once; free this one now
+    // rather than when the garbage collector gets round to it.
+    renderer.forceContextLoss();
     canvas.remove();
     api.current = null;
   };

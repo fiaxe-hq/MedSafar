@@ -15,19 +15,20 @@ import { localize, type Dict } from "./walk";
 
 const cache = new Map<string, Promise<Text>>();
 
-async function readDict(code: string): Promise<Dict> {
-  const onWorker = typeof navigator !== "undefined" && navigator.userAgent === "Cloudflare-Workers";
-  if (onWorker) {
-    const { env } = getCloudflareContext();
-    const res = await env.ASSETS?.fetch(new Request(`https://assets.local/i18n/${code}.json`));
-    return res?.ok ? res.json() : {};
-  }
-  const { readFile } = await import("node:fs/promises");
-  const { join } = await import("node:path");
+/** The language's sentences, or null when the file could not be read. */
+async function readDict(code: string): Promise<Dict | null> {
   try {
+    const onWorker = typeof navigator !== "undefined" && navigator.userAgent === "Cloudflare-Workers";
+    if (onWorker) {
+      const { env } = getCloudflareContext();
+      const res = await env.ASSETS?.fetch(new Request(`https://assets.local/i18n/${code}.json`));
+      return res?.ok ? await res.json() : null;
+    }
+    const { readFile } = await import("node:fs/promises");
+    const { join } = await import("node:path");
     return JSON.parse(await readFile(join(process.cwd(), "public", "i18n", `${code}.json`), "utf8"));
   } catch {
-    return {};
+    return null;
   }
 }
 
@@ -35,7 +36,13 @@ export function textFor(code: string): Promise<Text> {
   if (code === defaultLanguage || !getLanguage(code)) return Promise.resolve(source);
   let text = cache.get(code);
   if (!text) {
-    text = readDict(code).then((dict) => localize(source, dict));
+    // A failed read shows English for this page only and is tried again on
+    // the next one, rather than leaving the language in English until the
+    // Worker restarts.
+    text = readDict(code).then((dict) => {
+      if (!dict) cache.delete(code);
+      return dict ? localize(source, dict) : source;
+    });
     cache.set(code, text);
   }
   return text;
