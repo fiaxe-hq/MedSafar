@@ -33,6 +33,12 @@
     {
       "binding": "REPORTS",
       "bucket_name": "medsafar-reports-local"
+    },
+    // A second copy of each report, kept for 30 days (a lifecycle rule on
+    // the real bucket deletes older copies).
+    {
+      "binding": "REPORTS_BACKUP",
+      "bucket_name": "medsafar-reports-backup-local"
     }
   ],
   "observability": {
