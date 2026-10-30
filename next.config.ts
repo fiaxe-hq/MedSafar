@@ -19,6 +19,11 @@ function photosVersion() {
 }
 const photos = photosVersion();
 
+// `next dev` answers /_next/image with a 404 whenever a custom loader is set,
+// so the versioned loader is used only in builds (the Worker serves
+// /_next/image itself). Dev shows photos under their plain address.
+const dev = process.env.NODE_ENV === "development";
+
 const nextConfig: NextConfig = {
   // About 8,000 pages are built ahead (every language times every treatment,
   // doctor and hospital); on a busy machine some take longer than the
@@ -26,8 +31,7 @@ const nextConfig: NextConfig = {
   staticPageGenerationTimeout: 300,
   env: { PHOTOS_VERSION: photos },
   images: {
-    loader: "custom",
-    loaderFile: "./lib/imageLoader.ts",
+    ...(dev ? {} : { loader: "custom" as const, loaderFile: "./lib/imageLoader.ts" }),
     // Photos only under their current version; everything else without a query.
     localPatterns: [
       { pathname: "/photos/**", search: `?v=${photos}` },
