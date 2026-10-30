@@ -176,6 +176,8 @@ export type FormContent = {
     reports: { label: string; hint: string };
     /** `privacy` is the link text that follows the label and opens /privacy. */
     consent: { label: string; privacy: string };
+    /** Optional tickbox for promotional messages, kept apart from `consent`. */
+    marketing: string;
     submit: string;
   };
   /** The step where the code sent to the mobile number is typed in. `{phone}` and `{n}` (seconds) are filled in. */

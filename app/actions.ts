@@ -161,6 +161,7 @@ export async function saveDetails(
       preference: String(formData.get("preference") ?? "").trim(),
       notes: String(formData.get("notes") ?? ""),
       consent: true,
+      marketing: formData.get("marketing") === "yes",
       reportFile,
       completedAt: new Date().toISOString(),
     });
@@ -244,6 +245,7 @@ export async function saveQuestionnaire(
       treatment: questionnaire.treatment,
       notes: lines.join("\n"),
       consent: true,
+      marketing: formData.get("marketing") === "yes",
       completedAt: new Date().toISOString(),
     });
     if (!updated) return { ok: false, error: "generic" };

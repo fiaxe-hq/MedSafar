@@ -206,6 +206,11 @@ export function QuestionnaireForm({
               </a>
             </span>
           </label>
+
+          <label className="flex cursor-pointer items-start gap-3 text-base">
+            <input type="checkbox" name="marketing" value="yes" className="mt-1 size-[1.125rem] shrink-0 accent-accent" />
+            <span className="text-ink-2">{form.step2.marketing}</span>
+          </label>
         </div>
       </fieldset>
 

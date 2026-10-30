@@ -28,7 +28,11 @@ export type Lead = {
   preference?: string;
   notes?: string;
   reportFile?: string;
+  /** True once the team chose to keep a report past its month (see listOldReports). */
+  reportKept?: boolean;
   consent?: boolean;
+  /** Optional, separate from `consent`: may we send promotional messages. */
+  marketing?: boolean;
   completedAt?: string;
 };
 
@@ -48,7 +52,9 @@ type LeadRow = {
   preference: string | null;
   notes: string | null;
   report_file: string | null;
+  report_kept: number | null;
   consent: number | null;
+  marketing: number | null;
   completed_at: string | null;
 };
 
@@ -67,6 +73,7 @@ const patchColumns = {
   notes: "notes",
   reportFile: "report_file",
   consent: "consent",
+  marketing: "marketing",
   completedAt: "completed_at",
 } as const;
 
@@ -87,7 +94,9 @@ function toLead(row: LeadRow): Lead {
     preference: row.preference ?? undefined,
     notes: row.notes ?? undefined,
     reportFile: row.report_file ?? undefined,
+    reportKept: row.report_kept === 1,
     consent: row.consent === null ? undefined : row.consent === 1,
+    marketing: row.marketing === null ? undefined : row.marketing === 1,
     completedAt: row.completed_at ?? undefined,
   };
 }
@@ -160,14 +169,23 @@ export async function updateLead(
   return row ? toLead(row) : null;
 }
 
-/** Stores an uploaded medical report and returns the stored file name. */
+/**
+ * Stores an uploaded medical report and returns the stored file name. A copy
+ * goes to REPORTS_BACKUP, which keeps it for 30 days. The `?.` lets a Worker
+ * without that bucket still take reports.
+ */
 export async function saveReport(leadId: string, file: File): Promise<string> {
   const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
   const stored = `${leadId}-${safeName}`;
-  await env().REPORTS.put(stored, await file.arrayBuffer(), {
-    httpMetadata: { contentType: file.type },
-  });
+  const body = await file.arrayBuffer();
+  const options = { httpMetadata: { contentType: file.type } };
+  await Promise.all([env().REPORTS.put(stored, body, options), env().REPORTS_BACKUP?.put(stored, body, options)]);
   return stored;
+}
+
+/** Erases a report and its backup copy. */
+async function eraseReport(file: string): Promise<void> {
+  await Promise.all([env().REPORTS.delete(file), env().REPORTS_BACKUP?.delete(file)]);
 }
 
 // Admin
@@ -182,6 +200,56 @@ export async function listLeads(limit = 200): Promise<Lead[]> {
 }
 
 /**
+ * Erases an enquiry for good: its row, its uploaded report and its backup,
+ * and the code checks kept for its number. The copy in the CRM is not
+ * touched; it is deleted there. Returns false if no such enquiry exists.
+ */
+export async function deleteLead(id: string): Promise<boolean> {
+  const db = env().LEADS_DB;
+  const row = await db
+    .prepare("SELECT phone, report_file FROM leads WHERE id = ?")
+    .bind(id)
+    .first<{ phone: string; report_file: string | null }>();
+  if (!row) return false;
+  if (row.report_file) await eraseReport(row.report_file);
+  await db.batch([
+    db.prepare("DELETE FROM leads WHERE id = ?").bind(id),
+    db.prepare("DELETE FROM otp_sends WHERE phone = ?").bind(row.phone),
+    db.prepare("DELETE FROM otp_attempts WHERE phone = ?").bind(row.phone),
+  ]);
+  return true;
+}
+
+/** How long a report is kept before the team is asked whether to keep it. */
+export const REPORT_REVIEW_DAYS = 30;
+
+/** Reports uploaded more than a month ago that nobody has chosen to keep yet. Oldest first. */
+export async function listOldReports(): Promise<Lead[]> {
+  const before = new Date(Date.now() - REPORT_REVIEW_DAYS * 24 * 60 * 60 * 1000).toISOString();
+  const { results } = await env()
+    .LEADS_DB.prepare(
+      "SELECT * FROM leads WHERE report_file IS NOT NULL AND report_kept IS NOT 1 AND completed_at < ? ORDER BY completed_at",
+    )
+    .bind(before)
+    .all<LeadRow>();
+  return results.map(toLead);
+}
+
+/** Keeps a report past its month; it is not listed again. */
+export async function keepReport(id: string): Promise<void> {
+  await env().LEADS_DB.prepare("UPDATE leads SET report_kept = 1 WHERE id = ?").bind(id).run();
+}
+
+/** Erases a report but keeps the rest of the enquiry. */
+export async function deleteReport(id: string): Promise<void> {
+  const db = env().LEADS_DB;
+  const row = await db.prepare("SELECT report_file FROM leads WHERE id = ?").bind(id).first<{ report_file: string | null }>();
+  if (!row?.report_file) return;
+  await eraseReport(row.report_file);
+  await db.prepare("UPDATE leads SET report_file = NULL, report_kept = NULL WHERE id = ?").bind(id).run();
+}
+
+/**
  * An uploaded report, but only one that belongs to a lead: a stored file name
  * that no lead points at is never served.
  */
@@ -191,5 +259,6 @@ export async function getReport(file: string): Promise<R2ObjectBody | null> {
     .bind(file)
     .first<{ id: string }>();
   if (!owner) return null;
-  return env().REPORTS.get(file);
+  // The backup answers if the main copy is lost.
+  return (await env().REPORTS.get(file)) ?? (await env().REPORTS_BACKUP?.get(file)) ?? null;
 }

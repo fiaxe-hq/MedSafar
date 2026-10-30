@@ -1,7 +1,9 @@
 import { FileArrowDownIcon } from "@phosphor-icons/react/dist/ssr/FileArrowDown";
+import { TrashIcon } from "@phosphor-icons/react/dist/ssr/Trash";
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr/WhatsappLogo";
-import { listLeads } from "@/lib/leads";
-import { AdminBadge, AdminHeading, AdminTile, adminCard } from "@/components/admin/ui";
+import { REPORT_REVIEW_DAYS, listLeads, listOldReports } from "@/lib/leads";
+import { AdminBadge, AdminHeading, AdminNotice, AdminTile, adminButton, adminCard } from "@/components/admin/ui";
+import { deleteLeadAction, deleteReportAction, keepReportAction } from "./actions";
 
 const LIMIT = 200;
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
@@ -19,9 +21,10 @@ function when(iso: string) {
   });
 }
 
-/** Read-only. Each row is one enquiry; step-2 fields are blank if the visitor stopped at step 1. */
-export default async function EnquiriesPage() {
-  const leads = await listLeads(LIMIT);
+/** Each row is one enquiry; step-2 fields are blank if the visitor stopped at step 1. */
+export default async function EnquiriesPage({ searchParams }: PageProps<"/admin/enquiries">) {
+  const params = await searchParams;
+  const [leads, oldReports] = await Promise.all([listLeads(LIMIT), listOldReports()]);
   const complete = leads.filter((lead) => lead.name).length;
   const since = weekAgo();
   const thisWeek = leads.filter((lead) => lead.createdAt > since).length;
@@ -33,6 +36,51 @@ export default async function EnquiriesPage() {
         title="Enquiries"
         intro={`Newest first, times in IST. Showing the latest ${LIMIT}. A number with no name means the visitor left after step 1: call or WhatsApp them.`}
       />
+
+      {params.done === "deleted" ? (
+        <AdminNotice>Enquiry deleted, with its report. Delete it in the CRM too.</AdminNotice>
+      ) : null}
+      {params.done === "kept" ? <AdminNotice>Report kept. It will not be asked about again.</AdminNotice> : null}
+      {params.done === "report-deleted" ? (
+        <AdminNotice>Report deleted. The rest of the enquiry is still here.</AdminNotice>
+      ) : null}
+      {params.error === "missing" ? <AdminNotice tone="error">That enquiry no longer exists.</AdminNotice> : null}
+
+      {oldReports.length > 0 ? (
+        <section className={`${adminCard} mt-6 p-5`} aria-labelledby="old-reports">
+          <h2 id="old-reports" className="font-display text-lg font-semibold">
+            Reports over {REPORT_REVIEW_DAYS} days old ({oldReports.length})
+          </h2>
+          <p className="mt-1 text-sm text-ink-2">Keep each one, or delete the report. The enquiry itself stays either way.</p>
+          <ul className="mt-4 divide-y divide-hairline">
+            {oldReports.map((lead) => (
+              <li key={lead.id} className="flex flex-wrap items-center gap-x-4 gap-y-2 py-3">
+                <span className="min-w-48 flex-1 text-sm">
+                  <span className="font-medium">{lead.name ?? lead.phone}</span>
+                  <span className="text-ink-3"> · sent {when(lead.completedAt ?? lead.createdAt)}</span>
+                </span>
+                <a
+                  href={`/admin/reports/${encodeURIComponent(lead.reportFile!)}`}
+                  className="inline-flex items-center gap-1.5 text-sm text-accent hover:underline"
+                >
+                  <FileArrowDownIcon size={17} aria-hidden />
+                  Download
+                </a>
+                <form className="flex gap-2">
+                  <input type="hidden" name="id" value={lead.id} />
+                  <button type="submit" formAction={keepReportAction} className={adminButton.quiet}>
+                    Keep
+                  </button>
+                  <button type="submit" formAction={deleteReportAction} className={adminButton.danger}>
+                    <TrashIcon size={17} aria-hidden />
+                    Delete report
+                  </button>
+                </form>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <dl className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <AdminTile label="Shown" value={leads.length} />
@@ -53,7 +101,7 @@ export default async function EnquiriesPage() {
           <table className="w-full min-w-[80rem] text-start text-sm">
             <thead className="border-b border-hairline bg-surface-2 text-[0.8125rem] tracking-[0.06em] text-ink-3 uppercase">
               <tr>
-                {["Received", "Name", "Phone", "Email", "From", "Treatment", "When", "Priority", "Prefers", "Page", "Report", "Notes"].map(
+                {["Received", "Name", "Phone", "Email", "From", "Treatment", "When", "Priority", "Prefers", "Page", "Report", "Notes", ""].map(
                   (heading) => (
                     <th key={heading} scope="col" className="px-4 py-3 text-start font-medium">
                       {heading}
@@ -125,6 +173,19 @@ export default async function EnquiriesPage() {
                         <p className="mt-2 whitespace-pre-wrap">{lead.notes}</p>
                       </details>
                     ) : null}
+                  </td>
+                  <td className="px-4 py-3.5">
+                    {/* Two clicks, so a stray one cannot erase an enquiry. */}
+                    <details>
+                      <summary className="cursor-pointer list-none text-ink-3 hover:text-red-700">Delete</summary>
+                      <form action={deleteLeadAction} className="mt-2">
+                        <input type="hidden" name="id" value={lead.id} />
+                        <button type="submit" className={`${adminButton.danger} whitespace-nowrap`}>
+                          <TrashIcon size={17} aria-hidden />
+                          Delete for good
+                        </button>
+                      </form>
+                    </details>
                   </td>
                 </tr>
               ))}

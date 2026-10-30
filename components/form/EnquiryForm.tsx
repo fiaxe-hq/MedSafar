@@ -461,6 +461,11 @@ export function EnquiryForm({
           </span>
         </label>
 
+        <label className="flex cursor-pointer items-start gap-3 text-base">
+          <input type="checkbox" name="marketing" value="yes" className="mt-1 size-[1.125rem] shrink-0 accent-accent" />
+          <span className="text-ink-2">{text.step2.marketing}</span>
+        </label>
+
         <button type="submit" className={`${btnPrimary} w-full`} disabled={savingDetails}>
           {savingDetails ? `${text.sending}...` : text.step2.submit}
         </button>
