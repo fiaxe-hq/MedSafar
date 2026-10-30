@@ -33,6 +33,11 @@
     {
       "binding": "REPORTS",
       "bucket_name": "building-medsafar-reports"
+    },
+    // 30-day copies of each report; the bucket's lifecycle rule expires them.
+    {
+      "binding": "REPORTS_BACKUP",
+      "bucket_name": "building-medsafar-reports-backup"
     }
   ],
   "observability": {
