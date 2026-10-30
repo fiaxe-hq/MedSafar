@@ -27,6 +27,20 @@
       "database_name": "building-medsafar-leads",
       "database_id": "c1068ffb-150c-4713-aaf8-a2cd1cd91163",
       "migrations_dir": "migrations"
+    },
+    // The same database, under the name OpenNext looks for: it records when
+    // /admin last changed something, so cached pages are drawn again.
+    {
+      "binding": "NEXT_TAG_CACHE_D1",
+      "database_name": "building-medsafar-leads",
+      "database_id": "c1068ffb-150c-4713-aaf8-a2cd1cd91163"
+    }
+  ],
+  // Drawn pages (open-next.config.ts).
+  "kv_namespaces": [
+    {
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "9b78003f21ce4051bcbe36d301656e8b"
     }
   ],
   "r2_buckets": [
@@ -38,6 +52,11 @@
     {
       "binding": "REPORTS_BACKUP",
       "bucket_name": "building-medsafar-reports-backup"
+    },
+    // Photos uploaded in /admin (lib/media.ts), served at /media/<name>.
+    {
+      "binding": "MEDIA",
+      "bucket_name": "building-medsafar-media"
     }
   ],
   "observability": {
