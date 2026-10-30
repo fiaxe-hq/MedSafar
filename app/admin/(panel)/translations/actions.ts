@@ -6,7 +6,7 @@ import { getTarget, sentencesFor, targetLanguages } from "@/lib/admin/translate"
 import { applyImport, previewImport, type ImportSummary } from "@/lib/admin/translationCsv";
 import { saveTranslations, type TranslationKind } from "@/lib/translations";
 
-const KINDS: TranslationKind[] = ["hospital", "doctor", "treatment", "post", "settings", "figure"];
+const KINDS: TranslationKind[] = ["hospital", "doctor", "treatment", "post", "settings", "figure", "page"];
 const MAX_TEXT = 5000;
 
 export type SaveTranslationsResult = { ok: boolean; message: string };

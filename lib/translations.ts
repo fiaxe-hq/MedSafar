@@ -14,11 +14,13 @@ import { textAt, withTextAt } from "@/lib/i18n/walk";
  * shows the new English until the translation is redone, so an outdated
  * translation (an old price, a changed treatment) never shows.
  *
- * Kinds: hospital, doctor, treatment, post, settings (slug "contact") and
- * figure (slug = a trust figure's key, sentence "label").
+ * Kinds: hospital, doctor, treatment, post, settings (slug "contact"),
+ * figure (slug = a trust figure's key, sentence "label") and page (slug = a
+ * part of the site's fixed text, such as "home" or "privacy"; a sentence's
+ * place is its full path, "privacy.sections.2.body.0").
  */
 
-export type TranslationKind = Kind | "figure";
+export type TranslationKind = Kind | "figure" | "page";
 export type Translation = { text: string; source: string };
 export type TranslationSet = Record<string, Translation>;
 
@@ -114,6 +116,14 @@ function translateList<T extends { slug: string }>(
  */
 export function applyTranslations(english: Text, local: Text, sets: Map<string, TranslationSet>): Text {
   if (sets.size === 0) return local;
+  // Fixed pages first: their places are full paths into the site's text.
+  for (const [k, set] of sets) {
+    if (!k.startsWith("page/")) continue;
+    for (const path of Object.keys(set)) {
+      const text = liveTranslation(set, path, textAt(english, path));
+      if (text !== undefined) local = withTextAt(local, path, text);
+    }
+  }
   return {
     ...local,
     site: {
@@ -129,6 +139,7 @@ export function applyTranslations(english: Text, local: Text, sets: Map<string, 
 
 /** The place of a list kind's records in the translation files: "hospitals.<slug>.". */
 export function filePrefix(kind: TranslationKind, slug: string): string | null {
+  if (kind === "page") return "";
   if (kind === "settings") return slug === CONTACT ? "site.contact." : null;
   if (kind === "figure") return null;
   return `${textKey[kind]}.${slug}.`;

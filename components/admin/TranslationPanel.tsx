@@ -20,10 +20,14 @@ type Props = {
   disabledReason?: string;
   /** True while the English in the form has unsaved changes. */
   englishDirty?: boolean;
+  /** The button's text; "Translate" by default. */
+  buttonLabel?: string;
+  /** A name for each sentence, by its place, when the panel holds more than one field. */
+  partLabels?: Record<string, string>;
 };
 
 /** A plain name for one sentence of a field: "Question 2", "Photo 3", "Paragraph 1". */
-function partName(path: string): string {
+export function partName(path: string): string {
   const parts = path.split(".");
   const last = parts[parts.length - 1];
   const number = (n: string | undefined) => (n !== undefined && /^\d+$/.test(n) ? Number(n) + 1 : null);
@@ -48,7 +52,17 @@ function doneIn(sentences: Sentence[], code: string) {
  * pick a language, see each English sentence of the field with the text
  * visitors to that language see, change it, save.
  */
-export function TranslationPanel({ kind, slug, label, sentences, languages, disabledReason, englishDirty }: Props) {
+export function TranslationPanel({
+  kind,
+  slug,
+  label,
+  sentences,
+  languages,
+  disabledReason,
+  englishDirty,
+  buttonLabel = "Translate",
+  partLabels,
+}: Props) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState(languages[0]?.code ?? "");
@@ -113,7 +127,7 @@ export function TranslationPanel({ kind, slug, label, sentences, languages, disa
         }`}
       >
         <TranslateIcon size={15} aria-hidden />
-        Translate
+        {buttonLabel}
         <span className="text-xs opacity-80">
           {done}/{languages.length}
         </span>
@@ -170,7 +184,7 @@ export function TranslationPanel({ kind, slug, label, sentences, languages, disa
                 return (
                   <li key={s.path}>
                     <p className="text-xs font-medium tracking-[0.06em] text-ink-3 uppercase">
-                      {sentences.length > 1 ? `${partName(s.path)} · English` : "English"}
+                      {partLabels?.[s.path] ? `${partLabels[s.path]} · English` : sentences.length > 1 ? `${partName(s.path)} · English` : "English"}
                     </p>
                     <p className="mt-1 rounded-md bg-surface-2 px-3 py-2 text-sm whitespace-pre-wrap text-ink-2">{s.english}</p>
                     <div className="mt-2 flex flex-wrap items-center justify-between gap-2">

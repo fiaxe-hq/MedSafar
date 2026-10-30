@@ -33,6 +33,34 @@ export function sentencesOf(field: string, value: unknown): { path: string; engl
   return Object.entries(flatten(value, field, {}, field)).map(([path, english]) => ({ path, english }));
 }
 
+/**
+ * The site's fixed text that has no editor of its own, by its key in the
+ * site's text, with what the team calls it. Its English is changed in the
+ * code; only its translations are edited in /admin.
+ */
+export const pageNames: Record<string, string> = {
+  home: "Home page",
+  global: "Home page: top and questions",
+  about: "About",
+  contact: "Contact page",
+  site: "Menus, footer and forms",
+  ui: "Buttons and small text",
+  catalog: "Treatment, hospital and doctor pages: shared text",
+  specialities: "Specialities",
+  places: "Countries and cities",
+  questionnaires: "Questionnaires",
+  questionnaireText: "Questionnaires: shared text",
+  postCategories: "Blog categories",
+  bodyAreas: "Body map: areas",
+  wholeBody: "Body map: whole body",
+  plainSpeciality: "Body map: speciality names",
+  privacy: "Privacy policy",
+  terms: "Terms and conditions",
+  disclaimer: "Medical disclaimer",
+  cancellations: "Cancellations and refunds",
+  editorialPolicy: "Editorial policy",
+};
+
 /** Contact details: only the WhatsApp greeting is prose. */
 const CONTACT_FIELDS = ["whatsapp"];
 
@@ -40,6 +68,7 @@ const CONTACT_FIELDS = ["whatsapp"];
 function fieldsOf(kind: TranslationKind, record: Record<string, unknown>): { field: string; value: unknown }[] {
   if (kind === "settings") return CONTACT_FIELDS.map((field) => ({ field, value: record[field] }));
   if (kind === "figure") return [{ field: "label", value: record.label }];
+  if (kind === "page") return Object.entries(record).map(([field, value]) => ({ field, value }));
   return kinds[kind].sections.flatMap((s) => s.fields).filter((f) => f.type !== "checkbox").map((f) => ({ field: f.key, value: record[f.key] }));
 }
 
@@ -56,10 +85,13 @@ export async function sentencesFor(
 ): Promise<Sentence[]> {
   const prefix = filePrefix(kind, slug);
   const dicts = Object.fromEntries(
-    await Promise.all(targetLanguages.map(async (l) => [l.code, prefix && original ? await getDict(l.code) : {}] as const)),
+    await Promise.all(targetLanguages.map(async (l) => [l.code, prefix !== null && original ? await getDict(l.code) : {}] as const)),
   );
   return fieldsOf(kind, record).flatMap(({ field, value }) =>
-    sentencesOf(field, value).map(({ path, english }) => {
+    sentencesOf(field, value)
+      // The contact details have their own editor and translations.
+      .filter(({ path }) => !(kind === "page" && path.startsWith("site.contact.")))
+      .map(({ path, english }) => {
       const fromFile = original !== undefined && textAt(original, path) === english;
       const langs = Object.fromEntries(
         targetLanguages.map((l) => {
@@ -67,7 +99,7 @@ export async function sentencesFor(
           if (typed && typed.text.trim()) {
             return [l.code, { text: typed.text, origin: "admin", stale: typed.source !== english }];
           }
-          const file = fromFile && prefix ? dicts[l.code][`${prefix}${path}`] : undefined;
+          const file = fromFile && prefix !== null ? dicts[l.code][`${prefix}${path}`] : undefined;
           return [l.code, file ? { text: file, origin: "file", stale: false } : { text: "", origin: "none", stale: false }];
         }),
       ) as Record<string, LangState>;
@@ -100,6 +132,17 @@ export async function getTarget(kind: TranslationKind, slug: string): Promise<Ta
       name: "Contact details",
       record: await currentContact(),
       original: source.site.contact as unknown as Record<string, unknown>,
+    };
+  }
+  if (kind === "page") {
+    if (!Object.hasOwn(pageNames, slug)) return null;
+    const english = applyEntries(source, source, await getEntries()) as unknown as Record<string, unknown>;
+    return {
+      kind,
+      slug,
+      name: pageNames[slug],
+      record: { [slug]: english[slug] },
+      original: { [slug]: (source as unknown as Record<string, unknown>)[slug] },
     };
   }
   if (kind === "figure") {
@@ -136,6 +179,10 @@ export async function allTargets(): Promise<Target[]> {
   if (contact) out.push(contact);
   for (const stat of await listStats()) {
     out.push({ kind: "figure", slug: stat.key, name: stat.label, record: { label: stat.label }, original: undefined });
+  }
+  for (const slug of Object.keys(pageNames)) {
+    const page = await getTarget("page", slug);
+    if (page) out.push(page);
   }
   return out;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useMemo, useState } from "react";
 import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr/ArrowLeft";
 import { ArrowSquareOutIcon } from "@phosphor-icons/react/dist/ssr/ArrowSquareOut";
 import { FloppyDiskIcon } from "@phosphor-icons/react/dist/ssr/FloppyDisk";
@@ -16,7 +16,7 @@ import { kindByPath, type Field, type OptionList } from "@/lib/admin/schema";
 import { AdminBadge, AdminNotice, adminButton, adminCard, adminWhen } from "../ui";
 import { Checklist, FaqList, FieldShell, Gallery, Packages, Select, SourceList, SplitText, TextArea, TextInput } from "./fields";
 import { PictureField, type PictureValue } from "./PictureField";
-import { TranslationPanel } from "../TranslationPanel";
+import { TranslationPanel, partName } from "../TranslationPanel";
 import type { Sentence } from "@/lib/admin/translate";
 import type { Language } from "@/lib/i18n/languages";
 
@@ -69,6 +69,22 @@ export function Editor(props: EditorProps) {
   const errors = state?.errors ?? {};
   const name = asString(record[info.nameKey]);
   const siteHref = props.slug ? `${info.sitePath}/${props.slug}` : null;
+
+  // Every field's sentences in form order, for the whole-page panel, each
+  // named after its field ("Overview", "Questions · Answer 2").
+  const wholePage = useMemo(() => {
+    const sentences: Sentence[] = [];
+    const labels: Record<string, string> = {};
+    for (const field of info.sections.flatMap((s) => s.fields)) {
+      const list = props.translations?.[field.key] ?? [];
+      for (const s of list) {
+        sentences.push(s);
+        const part = partName(s.path);
+        labels[s.path] = list.length > 1 && part !== "Text" ? `${field.label} · ${part}` : field.label;
+      }
+    }
+    return { sentences, labels };
+  }, [info, props.translations]);
 
   // Warn before leaving with unsaved changes.
   useEffect(() => {
@@ -147,6 +163,18 @@ export function Editor(props: EditorProps) {
             {props.updatedAt ? <span>Last changed by {props.updatedBy}, {adminWhen(props.updatedAt)}</span> : null}
           </div>
         </div>
+        {props.translations ? (
+          <TranslationPanel
+            kind={info.kind}
+            slug={props.slug}
+            label={`The whole ${info.singular}`}
+            buttonLabel="Translate whole page"
+            sentences={wholePage.sentences}
+            partLabels={wholePage.labels}
+            languages={props.languages}
+            englishDirty={changedFields.size > 0}
+          />
+        ) : null}
         {siteHref && !props.hidden ? (
           <a href={siteHref} target="_blank" rel="noopener" className={adminButton.quiet}>
             View on the site
@@ -159,7 +187,7 @@ export function Editor(props: EditorProps) {
       <p className="mt-4 max-w-3xl text-sm text-ink-3">
         Type everything in English.{" "}
         {props.translations
-          ? "For the other languages, use Translate beside a field, or import many at once on the Translations page."
+          ? "For the other languages, use Translate beside a field, Translate whole page at the top, or import many at once on the Translations page."
           : `Once the ${info.singular} is added, each field gets a Translate button for the other languages.`}
       </p>
       {state?.message ? (

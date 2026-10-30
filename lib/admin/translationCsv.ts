@@ -22,6 +22,7 @@ const sections: { name: string; kind: TranslationKind }[] = [
   { name: "blog", kind: "post" },
   { name: "contact", kind: "settings" },
   { name: "figures", kind: "figure" },
+  { name: "pages", kind: "page" },
 ];
 export const sectionNames = sections.map((s) => s.name);
 const sectionOf = (kind: TranslationKind) => sections.find((s) => s.kind === kind)!.name;
