@@ -58,6 +58,7 @@ export async function syncLeadToCrm(lead: Lead): Promise<void> {
         .map(([k, title]) => [title, String(lead[k] ?? "").trim()] as const)
         .filter(([, value]) => value)
         .map(([title, value]) => `${title}: ${value}`),
+      ...(partial ? [] : [`Marketing messages: ${lead.marketing ? "yes" : "no"}`]),
     ].join("\n");
 
     // Only fields that have a value are sent, so a later, thinner form never

@@ -253,9 +253,9 @@ export const privacy: LegalContent = {
     {
       heading: "1. Introduction",
       body: [
-        "Medsafar India (\"Medsafar\", \"we\", \"our\" or \"us\") is committed to protecting the privacy, confidentiality and security of the personal information of individuals who visit our website, submit enquiries, register with us, or use our medical tourism facilitation and patient coordination services.",
+        "Med Safar India (“Med Safar”, “we”, “our” or “us”) is committed to protecting the privacy, confidentiality and security of the personal information of individuals who visit our website, submit enquiries, register with us, or use our medical tourism facilitation and patient coordination services.",
         "This Privacy Policy explains how we collect, use, store, process, disclose and protect personal information, including sensitive medical information, in connection with our website and services.",
-        "Medsafar India facilitates access to healthcare services by coordinating with hospitals, doctors, diagnostic centres and other relevant service providers. We understand the confidential nature of medical information and are committed to handling it responsibly and transparently.",
+        "Med Safar India facilitates access to healthcare services by coordinating with hospitals, doctors, diagnostic centres and other relevant service providers. We understand the confidential nature of medical information and are committed to handling it responsibly and transparently.",
         "This Privacy Policy applies to website visitors, prospective patients, registered patients, their attendants or authorised representatives, and other individuals who interact with our services.",
         "Our handling of personal information is subject to applicable Indian laws, including the Digital Personal Data Protection Act, 2023, to the extent applicable and in force, the Information Technology Act, 2000, and applicable rules and regulations.",
       ],
@@ -263,45 +263,89 @@ export const privacy: LegalContent = {
     {
       heading: "2. Information We Collect",
       body: [
-        "Personal and Contact Information: Full name and title; email address; mobile and WhatsApp number; country of residence and nationality, where required; age or date of birth; gender, where relevant to the services requested; residential or correspondence address; and preferred language and communication preferences.",
-        "Medical and Health Information: Medical history and details of existing health conditions; symptoms and treatment requirements; medical reports, laboratory results and diagnostic scans; prescriptions and doctors’ notes; details of previous consultations, surgeries or treatments; photographs or other medical records, where relevant and voluntarily provided; and information required by a hospital or treating doctor to evaluate a treatment request.",
+        "Depending on the services requested and your interaction with us, we may collect the following categories of information.",
+        "A. Personal and Contact Information",
+        "• Full name and title",
+        "• Email address",
+        "• Mobile and WhatsApp number",
+        "• Country of residence and nationality, where required",
+        "• Age or date of birth",
+        "• Gender, where relevant to the services requested",
+        "• Residential or correspondence address",
+        "• Preferred language and communication preferences",
+        "B. Medical and Health Information",
+        "To facilitate appropriate medical consultations and treatment coordination, we may collect information such as:",
+        "• Medical history and details of existing health conditions",
+        "• Symptoms and treatment requirements",
+        "• Medical reports, laboratory results and diagnostic scans",
+        "• Prescriptions and doctors’ notes",
+        "• Details of previous consultations, surgeries or treatments",
+        "• Photographs or other medical records, where relevant and voluntarily provided",
+        "• Information required by a hospital or treating doctor to evaluate a treatment request",
         "We request medical information only when reasonably necessary for the services being sought and handle it with appropriate confidentiality safeguards.",
-        "Travel and Accommodation Information: Passport details and other travel documents, where necessary; travel dates and itinerary preferences; flight and accommodation preferences; details of accompanying family members or attendants; visa-related information; and special assistance or accessibility requirements relevant to the journey.",
-        "Website and Technical Information: Internet Protocol (IP) address; browser type and operating system; device and technical identifiers; pages visited and time spent on the website; referring website or source; website usage patterns and diagnostic information; and cookie identifiers and similar tracking information, where enabled.",
-        "Communication and Enquiry Information: Records of enquiries and communications made through our website, email, telephone, WhatsApp or other communication channels, including messages, appointment requests, service preferences and related correspondence. Calls may be recorded for quality assurance, training, security or documentation purposes, where applicable and with appropriate notice or consent.",
-        "Information About Attendants or Representatives: Where a patient provides details of an attendant, family member or authorised representative, we may process that person’s contact information to coordinate appointments, travel or other requested services. The person providing such information should have the appropriate authority to share it.",
+        "C. Travel and Accommodation Information",
+        "Where travel assistance is requested, we may collect:",
+        "• Passport details and other travel documents, where necessary",
+        "• Travel dates and itinerary preferences",
+        "• Flight and accommodation preferences",
+        "• Details of accompanying family members or attendants",
+        "• Visa-related information, where required for travel coordination",
+        "• Special assistance or accessibility requirements relevant to the journey",
+        "D. Website and Technical Information",
+        "When you visit our website, certain technical information may be collected automatically, including:",
+        "• Internet Protocol (IP) address",
+        "• Browser type and operating system",
+        "• Device and technical identifiers",
+        "• Pages visited and time spent on the website",
+        "• Referring website or source",
+        "• Website usage patterns and diagnostic information",
+        "• Cookie identifiers and similar tracking information, where enabled",
+        "E. Communication and Enquiry Information",
+        "We may maintain records of enquiries and communications made through our website, email, telephone, WhatsApp or other communication channels. These may include messages, appointment requests, service preferences and related correspondence.",
+        "Calls may be recorded for quality assurance, training, security or documentation purposes, where applicable and with appropriate notice or consent.",
+        "F. Information About Attendants or Representatives",
+        "Where a patient provides details of an attendant, family member or authorised representative, we may process that person’s contact information to coordinate appointments, travel or other requested services. The person providing such information should have the appropriate authority to share it.",
       ],
     },
     {
       heading: "3. How We Collect Information",
       body: [
-        "We may collect information directly from you through website forms, registration forms, telephone calls, emails or messaging platforms.",
-        "We may collect information when you voluntarily share medical records or travel documents with us, from your authorised representative or attendant, or from hospitals, doctors or other service providers involved in coordinating your requested services, where lawfully permitted.",
-        "We may also collect information automatically through cookies, analytics tools and website technologies, or from other lawful sources where necessary to provide the requested services or meet legal obligations.",
+        "We may collect information:",
+        "• Directly from you through website forms, registration forms, telephone calls, emails or messaging platforms.",
+        "• When you voluntarily share medical records or travel documents with us.",
+        "• From your authorised representative or attendant.",
+        "• From hospitals, doctors or other service providers involved in coordinating your requested services, where lawfully permitted.",
+        "• Automatically through cookies, analytics tools and website technologies.",
+        "• From other lawful sources where necessary to provide the requested services or meet legal obligations.",
         "Where consent is required, we will seek it in the applicable manner before processing the relevant information.",
       ],
     },
     {
       heading: "4. Purposes for Which We Use Your Information",
       body: [
-        "To respond to enquiries and understand your healthcare requirements.",
-        "To coordinate consultations, treatment evaluations, appointments and related services.",
-        "To share relevant medical information with hospitals, doctors, diagnostic centres and other healthcare providers selected for your treatment coordination.",
-        "To facilitate travel, accommodation, airport transfers and attendant arrangements, where requested.",
-        "To communicate appointment confirmations, treatment updates, service information and travel arrangements.",
-        "To provide customer support and respond to complaints or requests.",
-        "To maintain internal records, improve service quality and administer our website.",
-        "To prevent fraud, protect security and investigate misuse of our services.",
-        "To comply with applicable legal, regulatory, accounting or reporting requirements.",
-        "To send promotional communications, newsletters or educational content where the required consent has been obtained.",
-        "To conduct aggregated or de-identified analysis to understand service usage and improve our offerings.",
+        "Med Safar India may use your information for the following purposes:",
+        "1. To respond to enquiries and understand your healthcare requirements.",
+        "2. To coordinate consultations, treatment evaluations, appointments and related services.",
+        "3. To share relevant medical information with hospitals, doctors, diagnostic centres and other healthcare providers selected for your treatment coordination.",
+        "4. To facilitate travel, accommodation, airport transfers and attendant arrangements, where requested.",
+        "5. To communicate appointment confirmations, treatment updates, service information and travel arrangements.",
+        "6. To provide customer support and respond to complaints or requests.",
+        "7. To maintain internal records, improve service quality and administer our website.",
+        "8. To prevent fraud, protect security and investigate misuse of our services.",
+        "9. To comply with applicable legal, regulatory, accounting or reporting requirements.",
+        "10. To send promotional communications, newsletters or educational content where the required consent has been obtained.",
+        "11. To conduct aggregated or de-identified analysis to understand service usage and improve our offerings.",
         "We will not use your medical information for unrelated marketing purposes without the appropriate lawful basis and consent, where required.",
       ],
     },
     {
       heading: "5. Consent and Lawful Processing",
       body: [
-        "We process personal information on applicable lawful grounds, which may include your consent, where required by law; processing necessary to provide services that you have requested or agreed to receive, where legally permitted; compliance with applicable legal obligations; and other lawful grounds available under applicable legislation.",
+        "We process personal information on applicable lawful grounds, which may include:",
+        "• Your consent, where required by law.",
+        "• Processing necessary to provide services that you have requested or agreed to receive, where legally permitted.",
+        "• Compliance with applicable legal obligations.",
+        "• Other lawful grounds available under applicable legislation.",
         "Where we rely on consent, you may withdraw it subject to applicable law. Withdrawal of consent will not affect the lawfulness of processing undertaken before withdrawal.",
         "If you choose not to provide information necessary for a requested service, we may be unable to coordinate certain consultations, treatment evaluations or travel arrangements.",
       ],
@@ -310,10 +354,16 @@ export const privacy: LegalContent = {
       heading: "6. Sharing and Disclosure of Information",
       body: [
         "We do not sell your personal or medical information.",
+        "We may share relevant information, on a need-to-know basis and subject to applicable law, with:",
+        "A. Hospitals and Healthcare Professionals",
         "Hospitals, treating doctors, specialists, diagnostic laboratories and other healthcare providers involved in evaluating or coordinating your requested treatment.",
+        "B. Travel and Hospitality Partners",
         "Airlines, travel agencies, visa assistance providers, hotels, transport operators and other relevant service providers, where required to arrange travel or accommodation.",
+        "C. Technology and Service Providers",
         "Website hosting providers, information technology vendors, CRM platforms, cloud storage providers, communication services and other vendors who support our operations.",
+        "D. Legal and Regulatory Authorities",
         "Government authorities, courts, regulators or law enforcement agencies where disclosure is required or permitted under applicable law.",
+        "E. Other Authorised Parties",
         "Your authorised attendant, family member, representative or another person where you have authorised disclosure or where disclosure is otherwise lawful.",
         "We seek to limit disclosures to information reasonably necessary for the relevant purpose. Third-party service providers may process information under their own privacy policies and contractual obligations, as applicable.",
       ],
@@ -321,7 +371,7 @@ export const privacy: LegalContent = {
     {
       heading: "7. International Transfers of Information",
       body: [
-        "Medsafar India may coordinate treatment for patients residing in India or other countries. Accordingly, relevant personal or medical information may need to be shared with healthcare providers or service partners located in India or abroad.",
+        "Med Safar India may coordinate treatment for patients residing in India or other countries. Accordingly, relevant personal or medical information may need to be shared with healthcare providers or service partners located in India or abroad.",
         "Any cross-border transfer or processing of personal information will be undertaken subject to applicable Indian law, including any restrictions or conditions imposed by the relevant authorities, and other applicable legal requirements.",
         "We take reasonable steps to ensure that information is shared only with appropriate recipients for legitimate service-related purposes.",
       ],
@@ -329,7 +379,12 @@ export const privacy: LegalContent = {
     {
       heading: "8. Cookies and Similar Technologies",
       body: [
-        "Our website may use cookies and similar technologies to ensure proper website functionality; remember preferences and improve user experience; understand website traffic and usage patterns; identify technical issues and improve performance; and support analytics and, where applicable, consent-based marketing activities.",
+        "Our website may use cookies and similar technologies to:",
+        "• Ensure proper website functionality.",
+        "• Remember preferences and improve user experience.",
+        "• Understand website traffic and usage patterns.",
+        "• Identify technical issues and improve performance.",
+        "• Support analytics and, where applicable, consent-based marketing activities.",
         "You may manage or disable cookies through your browser settings. Some website features may not function properly if certain cookies are disabled.",
         "Where required, we will obtain consent before using non-essential cookies or similar technologies.",
       ],
@@ -338,7 +393,13 @@ export const privacy: LegalContent = {
       heading: "9. Data Security",
       body: [
         "We implement reasonable technical, organisational and administrative safeguards designed to protect personal information against unauthorised access, disclosure, alteration, loss or misuse.",
-        "Depending on the nature of the information and the systems used, safeguards may include access restrictions and role-based permissions; secure data transmission and encryption where appropriate; password protection and account security controls; confidentiality requirements for employees and relevant service providers; security monitoring, backups and incident response procedures; and periodic review of data-handling practices.",
+        "Depending on the nature of the information and the systems used, safeguards may include:",
+        "• Access restrictions and role-based permissions.",
+        "• Secure data transmission and encryption where appropriate.",
+        "• Password protection and account security controls.",
+        "• Confidentiality requirements for employees and relevant service providers.",
+        "• Security monitoring, backups and incident response procedures.",
+        "• Periodic review of data-handling practices.",
         "However, no website, electronic transmission or storage system can be guaranteed to be completely secure. We cannot guarantee absolute security, but we will take appropriate steps to address security incidents in accordance with applicable law.",
       ],
     },
@@ -354,7 +415,14 @@ export const privacy: LegalContent = {
     {
       heading: "11. Your Privacy Rights",
       body: [
-        "Subject to applicable law, you may have the right to request information about the personal data we process about you; request correction or updating of inaccurate or incomplete information; request erasure of personal information where legally permissible; withdraw consent for processing where processing is based on consent; raise a grievance regarding the handling of your personal information; nominate another individual to exercise applicable rights in the event of death or incapacity, where provided by law; and exercise any other rights available under applicable data protection legislation.",
+        "Subject to applicable law, you may have the right to:",
+        "• Request information about the personal data we process about you.",
+        "• Request correction or updating of inaccurate or incomplete information.",
+        "• Request erasure of personal information where legally permissible.",
+        "• Withdraw consent for processing where processing is based on consent.",
+        "• Raise a grievance regarding the handling of your personal information.",
+        "• Nominate another individual to exercise applicable rights in the event of death or incapacity, where provided by law.",
+        "• Exercise any other rights available under applicable data protection legislation.",
         "To exercise your rights, please contact us using the details provided in the Contact Us section below. We may need to verify your identity before acting on your request.",
       ],
     },
@@ -368,14 +436,17 @@ export const privacy: LegalContent = {
     },
     {
       heading: "13. Third-Party Websites and Services",
-      body: "Our website may contain links to external websites, hospital websites, booking platforms or other third-party services. These websites and services may operate under their own privacy policies and terms. Medsafar India does not control the privacy practices of independent third parties and encourages you to review their policies before sharing personal information.",
+      body: [
+        "Our website may contain links to external websites, hospital websites, booking platforms or other third-party services.",
+        "These websites and services may operate under their own privacy policies and terms. Med Safar India does not control the privacy practices of independent third parties and encourages you to review their policies before sharing personal information.",
+      ],
     },
     {
-      heading: "14. Medical Disclaimer and Role of Medsafar India",
+      heading: "14. Medical Disclaimer and Role of Med Safar India",
       body: [
-        "Medsafar India acts as a medical tourism facilitator and patient coordination service. Unless expressly stated otherwise in a separate written agreement, we do not independently diagnose medical conditions, prescribe medication or provide medical treatment.",
+        "Med Safar India acts as a medical tourism facilitator and patient coordination service. Unless expressly stated otherwise in a separate written agreement, we do not independently diagnose medical conditions, prescribe medication or provide medical treatment.",
         "Medical assessments, diagnoses, treatment recommendations and clinical decisions are the responsibility of the relevant qualified healthcare professionals and healthcare institutions.",
-        "Sharing medical information with us does not by itself establish a doctor-patient relationship with Medsafar India.",
+        "Sharing medical information with us does not by itself establish a doctor-patient relationship with Med Safar India.",
       ],
     },
     {
@@ -398,7 +469,9 @@ export const privacy: LegalContent = {
       heading: "17. Contact Us and Grievance Redressal",
       body: [
         "If you have any questions, concerns or requests regarding this Privacy Policy or the handling of your personal information, please contact us:",
-        "Medsafar India",
+        "Med Safar India",
+        // A separate privacy email and a named grievance contact are still to
+        // come from Medsafar.
         `Email: ${email}`,
         `Website: ${website}`,
         `Registered Office: ${office}`,
@@ -408,7 +481,7 @@ export const privacy: LegalContent = {
     },
     {
       heading: "Our Commitment to Patients",
-      body: "At Medsafar India, we recognise that medical information is deeply personal. We are committed to treating patient information with care, confidentiality and respect, and to using it responsibly for healthcare facilitation and related services.",
+      body: "At Med Safar India, we recognise that medical information is deeply personal. We are committed to treating patient information with care, confidentiality and respect, and to using it responsibly for healthcare facilitation and related services.",
     },
   ],
 };
@@ -746,43 +819,22 @@ export const terms: LegalContent = {
   ],
 };
 
+// Clauses 3 to 5 of the client's Terms, word for word. Medsafar has not sent
+// a separate medical disclaimer yet; the text we wrote earlier is gone.
 export const disclaimer: LegalContent = {
   meta: {
     title: "Medical disclaimer. Medsafar India.",
     description: "What the information on this website is, and what it is not.",
   },
   heading: "Medical disclaimer",
-  intro:
-    "The information on this website helps you understand your options. It is not medical advice and does not replace a doctor.",
-  updated,
-  sections: [
-    {
-      heading: "Not medical advice",
-      body: "Everything on this website is general information. It cannot take account of your health, your reports or your history. Only a doctor who has examined you can tell you what treatment is right for you.",
-    },
-    {
-      heading: "Medsafar is not a hospital",
-      body: "Medsafar is a medical travel facilitator. We do not diagnose, treat or prescribe. Hospitals and doctors are independent of us, and they alone decide on and give your treatment.",
-    },
-    {
-      heading: "Results differ from person to person",
-      body: "Recovery times, hospital stays and results described on this website are typical, not promised. Every patient is different, and every treatment carries risks. Your doctor explains them before you agree to anything.",
-    },
-    {
-      heading: "Doctor profiles",
-      body: "Doctor profiles are taken from the profiles their hospitals supply. They describe a doctor's training and experience; they do not promise that a particular doctor will treat you. Your doctor is chosen for your case once a specialist has read your reports.",
-    },
-    {
-      heading: "In an emergency",
-      body: "If you need urgent care, go to your nearest hospital or call your local emergency number. Do not wait for a reply from us.",
-    },
-    {
-      heading: "Questions",
-      body: `If anything on this website is unclear or looks wrong, tell us at ${email}.`,
-    },
-  ],
+  intro: "Clauses 3 to 5 of our Terms and conditions.",
+  draft: terms.draft,
+  updated: terms.updated,
+  sections: terms.sections.slice(2, 5),
 };
 
+// Written by the web team, not by Medsafar or a lawyer. Replace with
+// Medsafar's own text when it arrives.
 export const editorialPolicy: LegalContent = {
   meta: {
     title: "Editorial policy. Medsafar India.",
@@ -791,6 +843,7 @@ export const editorialPolicy: LegalContent = {
   heading: "Editorial policy",
   intro:
     "Patients make big decisions based on what they read. This is how we make sure what we publish is clear, fair and correct.",
+  draft: terms.draft,
   updated,
   sections: [
     {
@@ -824,39 +877,16 @@ export const editorialPolicy: LegalContent = {
   ],
 };
 
+// Clauses 13 and 14 of the client's Terms, word for word. The text we wrote
+// earlier is gone.
 export const cancellations: LegalContent = {
   meta: {
     title: "Cancellations and refunds. Medsafar India.",
     description: "What happens if you change or cancel your plans.",
   },
   heading: "Cancellations and refunds",
-  intro:
-    "Plans change, sometimes for medical reasons. This page explains who to talk to and what happens to money already paid.",
-  updated,
-  sections: [
-    {
-      heading: "Treatment plans cost nothing",
-      body: "The doctor's opinion, the treatment plan and the cost estimate are free. You can stop at any point before you travel without paying Medsafar anything.",
-    },
-    {
-      heading: "Hospital deposits",
-      body: "Some hospitals ask for a deposit to book your admission. You pay it to the hospital, and the hospital's own rules decide whether and how it is refunded. We give you those rules in writing before you pay.",
-    },
-    {
-      heading: "Flights, hotels and visas",
-      body: "Airlines and hotels each have their own cancellation rules, and these apply to what is booked with them. We tell you the rules before we book. Visa fees paid to the Government of India are not refundable.",
-    },
-    {
-      heading: "Medsafar's own charges",
-      body: "If Medsafar charges you for its own services, we agree the amount and the refund terms with you in writing before you pay. Any refund follows what we agreed.",
-    },
-    {
-      heading: "If the doctor changes the plan",
-      body: "After examining you in India, the doctor may advise a different treatment or decide that treatment is not right for you. If that happens, we help you understand your options and settle any refund with the hospital.",
-    },
-    {
-      heading: "How to cancel",
-      body: `Tell your case manager, or write to ${email} or WhatsApp ${phone}. We confirm in writing and contact the hospital, airline and hotel for you.`,
-    },
-  ],
+  intro: "Clauses 13 and 14 of our Terms and conditions.",
+  draft: terms.draft,
+  updated: terms.updated,
+  sections: terms.sections.slice(12, 14),
 };

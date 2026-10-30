@@ -176,6 +176,8 @@ export const site: SiteContent = {
           "I agree that Medsafar may share my details and reports with partner hospitals and doctors in India to prepare my treatment plan.",
         privacy: "Read the privacy policy",
       },
+      // Our wording, not a lawyer's: replace when Medsafar sends its consent text.
+      marketing: "Optional: send me news, offers and health information from Medsafar. I can unsubscribe at any time.",
       submit: "Send my details",
     },
     otp: {
