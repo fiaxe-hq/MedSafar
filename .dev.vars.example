@@ -5,9 +5,9 @@
 # the sign-in cookies. At least 8 characters.
 ADMIN_PASSWORD=change-me-to-a-long-random-string
 
-# Signs the mobile number check's cookies (lib/otp.ts). Any long random
-# string, e.g. `openssl rand -hex 32`. Never reuse another key here.
-OTP_SECRET=
-
 # CRM (lib/crm.ts): every enquiry is sent to crm.fiaxe.com as a lead, matched by mobile number.
 CRM_API_KEY=
+
+# Bot check on the forms (lib/turnstile.ts). Not needed locally: Cloudflare's
+# test keys are used there. On the Worker, set it as a secret.
+TURNSTILE_SECRET_KEY=

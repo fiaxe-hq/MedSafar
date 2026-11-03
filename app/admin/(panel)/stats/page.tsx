@@ -89,7 +89,7 @@ export default async function StatsPage({ searchParams }: PageProps<"/admin/stat
         )}
       </section>
 
-      <h2 className="mt-12 font-display text-xl font-semibold">All figures</h2>
+      <h2 className="mt-12 font-display text-lg font-semibold">All figures</h2>
       <p className="mt-1 text-sm text-ink-3">The site shows published ones in this order, four to a row.</p>
 
       {stats.length > 0 ? (
@@ -211,7 +211,7 @@ export default async function StatsPage({ searchParams }: PageProps<"/admin/stat
         className={`${adminCard} mt-10 grid max-w-3xl gap-4 border-dashed border-line p-4 sm:grid-cols-[1fr_12rem_auto] sm:items-end sm:p-6`}
       >
         <div className="sm:col-span-3">
-          <h2 className="font-display text-xl font-semibold">Add a figure</h2>
+          <h2 className="font-display text-lg font-semibold">Add a figure</h2>
           <p className="mt-1 text-sm text-ink-3">It stays hidden until you publish it.</p>
         </div>
         <div>

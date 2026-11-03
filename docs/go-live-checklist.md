@@ -1,58 +1,41 @@
 # Medsafar go-live checklist
 
-Updated 29 October 2026 (second pass, after the owner's decisions).
+Updated 3 November 2026.
 
 ## Done
 
 - [x] Home page around the nine-step patient journey
 - [x] Treatments, specialities, body map, hospital, doctor and blog pages
-- [x] Partner hospitals: Nanavati Max, Kenia Eye, Kenia Dental (confirmed). Placeholder hospitals removed.
+- [x] Partner hospitals: Nanavati Max, Kenia Eye, Kenia Dental, five Wockhardt hospitals; their doctors
 - [x] Package prices shown (decided)
-- [x] Terms and Privacy Policy, signed off by the client
+- [x] Terms, Privacy Policy, Disclaimer, Editorial Policy, Cancellations
 - [x] About page with the client's text and photos
-- [x] 12 languages: English, Hindi and the languages of the countries served. The others were removed; their old addresses lead to English.
-- [x] Country from location; phone code follows it
-- [x] Enquiry form: number saved at step 1, report upload, spam limit
-- [x] Mobile number code check (built; off until an SMS provider is wired)
-- [x] Every enquiry goes to the CRM as a lead. Stages "Partial entry" and "New" exist in the CRM.
-- [x] Team email alerts go through the CRM (Gmail). The site's own SMTP sender is removed.
-- [x] Admin with team logins (owner and editor), enquiries list, trust figures
-- [x] Admin editing of hospitals, doctors, treatments, blog posts and contact details, with photo upload and a log of who changed what
-- [x] Trust figures row on the home page: hidden until a figure is published in `/admin/stats`
-- [x] Sitemap, robots, share image, icons
-- [x] README rewritten
-- [x] Client preview live; coming-soon page live on medsafar.com
+- [x] 12 languages: English, Hindi and the languages of the countries served, every page translated
+- [x] Country from location; phone code follows it; a hero photo per country
+- [x] Enquiry form: number saved at step 1 (no code check), report upload, spam limit, Turnstile bot check
+- [x] Every enquiry goes to the CRM as a lead; the CRM emails the team
+- [x] Admin with team logins, editing, translations, enquiries list, trust figures
+- [x] Real Instagram and Facebook links (no YouTube)
+- [x] Live Worker `medsafar` on the xaif@fiaxe.com account: https://medsafar.xaif-0e9.workers.dev
+  with its own D1 (`medsafar-leads`, all migrations), KV page cache, R2 buckets for
+  reports, report backups (30-day rule) and admin photos. Owner login copied from the preview.
+  Deploy: `pnpm run deploy`. Migrate: `pnpm run db:migrate`. Config: `wrangler.live.jsonc`.
 
 ## Waiting on you
 
-- [ ] **SMS provider** for the number check: choose one, then it gets wired into `lib/sms.ts`.
-- [ ] **Secrets to Cloudflare in one go** once SMS is done: `ADMIN_PASSWORD` (the admin setup key), `OTP_SECRET`, `CRM_API_KEY`, SMS keys.
-- [ ] **Translations of admin edits:** the team adds them in `/admin` (Translate buttons or CSV on the Translations page). Until then, edited text shows in English on the other language pages.
-- [ ] **Real social links.** Current Instagram, Facebook and YouTube links are guesses. Flagged until the accounts are set up with the client.
-- [ ] **Treatment photos:** about 27 treatments still share a photo (`docs/treatments-still-need-images.md`). You will look at these.
-- [ ] **More partner hospitals** as the client sends them.
-- [ ] **Doctor check** of treatment descriptions, then remove the flag. Later.
-- [ ] **Analytics:** decide what to use; paste the token into `lib/analytics.ts`. Later.
-- [ ] **Publish trust figures** (hospital and treatment counts) in `/admin/stats` when wanted. No patient counts until real.
-- [ ] **Georgia hero photo** and country-specific photos.
+- [ ] **Worker secrets** on `medsafar`: `ADMIN_PASSWORD`, `CRM_API_KEY`, `TURNSTILE_SECRET_KEY`.
+- [ ] **Turnstile widget:** add `medsafar.xaif-0e9.workers.dev` (and later `medsafar.com`) to its hostnames.
+- [ ] **Editorial Policy clause 20:** the client's document has only "[Insert ...]" blanks there. Send the details to fill in.
+- [ ] **Submit the sitemap** to Google Search Console and Bing once on the domain.
+- [ ] **Analytics:** later; paste the token into `lib/analytics.ts`.
+- [ ] **Trust figures:** publish in `/admin/stats` once there are real ones.
+- [ ] **Test the admin** on the live Worker (edit a hospital, check the page).
 
-## Test
+## Domain day
 
-- [ ] Full test pass: enquiry on a phone (both steps, upload), languages including right-to-left, slow connection, links, Lighthouse.
-- [ ] Check the new figures row once a figure is published.
-- [ ] On the deployed preview: edit a hospital in `/admin`, check the page shows it on the next visit.
-
-## Launch day (not reviewed yet)
-
-- [ ] Change `siteUrl` in `lib/seo.ts` to `https://medsafar.com`.
-- [ ] Turn on R2 and create the reports bucket (the preview has none, so uploads fail there).
-- [ ] Create the live D1 database and apply all seven migrations.
-- [ ] Create the KV namespace for the page cache (`NEXT_INC_CACHE_KV`) and the R2 bucket for admin photos (`MEDIA`); add both, and `NEXT_TAG_CACHE_D1` (the same database as `LEADS_DB`), to the Worker's config.
-- [ ] Open `/admin/setup`, create the owner account with the setup key, then add the team.
-- [ ] Deploy to the xaif@fiaxe.com account (never WebVerge).
-- [ ] Attach `medsafar.com` and `www.medsafar.com` to the app Worker.
+- [ ] Change `siteUrl` in `lib/seo.ts` to `https://medsafar.com`, deploy.
+- [ ] Attach `medsafar.com` and `www.medsafar.com` to the `medsafar` Worker.
 - [ ] Remove the coming-soon routes and old Hostinger web records. **Keep the email records** (MX, TXT, autoconfig, autodiscover).
-- [ ] Cloudflare Access in front of `/admin`; turn off workers.dev and preview URLs.
-- [ ] Submit the sitemap to Google Search Console and Bing.
+- [ ] Optional: turn off the workers.dev address once the domain works.
 - [ ] Send a real test enquiry: check D1, the CRM lead, the CRM email and the report in R2.
 - [ ] Check `care@medsafar.com` receives mail and the WhatsApp number answers.

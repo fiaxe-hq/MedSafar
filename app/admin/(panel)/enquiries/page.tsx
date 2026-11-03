@@ -92,7 +92,7 @@ export default async function EnquiriesPage({ searchParams }: PageProps<"/admin/
 
       {leads.length === 0 ? (
         <div className={`${adminCard} mt-6 px-6 py-14 text-center`}>
-          <p className="font-display text-xl font-semibold">No enquiries yet</p>
+          <p className="font-display text-lg font-semibold">No enquiries yet</p>
           <p className="mt-2 text-base text-ink-2">
             They appear here the moment a visitor sends a number.
           </p>
@@ -164,13 +164,13 @@ export default async function EnquiriesPage({ searchParams }: PageProps<"/admin/
             );
           })}
         </ul>
-        <div className={`${adminCard} mt-6 hidden overflow-x-auto shadow-card md:block`}>
+        <div className={`${adminCard} mt-6 hidden overflow-x-auto md:block`}>
           <table className="w-full min-w-[80rem] text-start text-sm">
-            <thead className="border-b border-hairline bg-surface-2 text-[0.8125rem] tracking-[0.06em] text-ink-3 uppercase">
+            <thead className="border-b border-hairline bg-surface-2 text-[0.75rem] font-semibold tracking-[0.06em] text-ink-3 uppercase">
               <tr>
                 {["Received", "Name", "Phone", "Email", "From", "Treatment", "When", "Priority", "Prefers", "Page", "Report", "Notes", ""].map(
                   (heading) => (
-                    <th key={heading} scope="col" className="px-4 py-3 text-start font-medium">
+                    <th key={heading} scope="col" className="px-4 py-3 text-start font-semibold">
                       {heading}
                     </th>
                   ),

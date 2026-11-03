@@ -13,7 +13,7 @@ import {
 } from "@/app/admin/(panel)/[section]/actions";
 import type { Option, Status } from "@/lib/admin/records";
 import { kindByPath, type Field, type OptionList } from "@/lib/admin/schema";
-import { AdminBadge, AdminNotice, adminButton, adminCard, adminWhen } from "../ui";
+import { AdminBadge, AdminNotice, adminButton, adminCard, adminTitle, adminWhen } from "../ui";
 import { Checklist, FaqList, FieldShell, Gallery, Packages, Select, SourceList, SplitText, TextArea, TextInput } from "./fields";
 import { PictureField, type PictureValue } from "./PictureField";
 import { TranslationPanel, partName } from "../TranslationPanel";
@@ -149,13 +149,13 @@ export function Editor(props: EditorProps) {
 
   return (
     <>
-      <Link href={`/admin/${info.path}`} className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-accent hover:underline">
+      <Link href={`/admin/${info.path}`} className="-ms-1 inline-flex min-h-9 items-center gap-1.5 rounded-md px-1 text-sm font-medium text-ink-3 transition-colors hover:text-ink">
         <ArrowLeftIcon size={16} aria-hidden />
         All {info.plural.toLowerCase()}
       </Link>
-      <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
+      <div className="mt-1 flex flex-wrap items-end justify-between gap-4 border-b border-hairline pb-6">
         <div>
-          <h1 className="display-2">{props.slug ? name || "Untitled" : `New ${info.singular}`}</h1>
+          <h1 className={adminTitle}>{props.slug ? name || "Untitled" : `New ${info.singular}`}</h1>
           <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-ink-3">
             {props.status ? (
               <AdminBadge tone={props.status === "hidden" ? "off" : "good"}>{statusLabel[props.status]}</AdminBadge>
@@ -205,7 +205,7 @@ export function Editor(props: EditorProps) {
           {info.sections.map((section) => (
             <fieldset key={section.title} className={`${adminCard} min-w-0 p-5 sm:p-6`}>
               <legend className="sr-only">{section.title}</legend>
-              <h2 aria-hidden className="font-display text-xl font-semibold">
+              <h2 aria-hidden className="font-display text-lg font-semibold">
                 {section.title}
               </h2>
               {section.intro ? <p className="mt-1 text-sm text-ink-3">{section.intro}</p> : null}
@@ -255,7 +255,7 @@ export function Editor(props: EditorProps) {
 
           {props.offeredBy ? (
             <section className={`${adminCard} p-5 sm:p-6`}>
-              <h2 className="font-display text-xl font-semibold">Who offers it</h2>
+              <h2 className="font-display text-lg font-semibold">Who offers it</h2>
               <p className="mt-1 text-sm text-ink-3">To change this, tick the treatment on a hospital or a doctor.</p>
               <dl className="mt-4 grid gap-4 sm:grid-cols-2">
                 {(["hospitals", "doctors"] as const).map((group) => (
@@ -284,7 +284,7 @@ export function Editor(props: EditorProps) {
         </div>
 
         {/* Save panel: beside the form on wide screens, fixed to the bottom on phones. */}
-        <aside className="lg:sticky lg:top-36">
+        <aside className="lg:sticky lg:top-8">
           {/* One row on phones, so it covers little of the form. */}
           <div
             className={`${adminCard} fixed inset-x-0 bottom-0 z-30 flex items-center gap-3 rounded-none border-x-0 border-b-0 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lift lg:static lg:block lg:rounded-lg lg:border lg:p-5 lg:shadow-none`}
@@ -321,7 +321,7 @@ export function Editor(props: EditorProps) {
 
       {props.slug ? (
         <section className={`${adminCard} mt-10 mb-24 p-5 sm:p-6 lg:mb-0`}>
-          <h2 className="font-display text-xl font-semibold">Other actions</h2>
+          <h2 className="font-display text-lg font-semibold">Other actions</h2>
           <div className="mt-4 flex flex-wrap gap-3">
             <form action={setVisibleAction}>
               <input type="hidden" name="section" value={props.section} />

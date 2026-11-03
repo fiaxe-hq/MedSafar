@@ -32,7 +32,7 @@ export default async function AccountPage({ searchParams }: PageProps<"/admin/ac
 
       <div className="mt-8 grid max-w-4xl gap-6 lg:grid-cols-2">
         <form action={changeNameAction} className={`${adminCard} space-y-4 p-5 sm:p-6`}>
-          <h2 className="font-display text-xl font-semibold">Your name</h2>
+          <h2 className="font-display text-lg font-semibold">Your name</h2>
           <div>
             <label htmlFor="name" className={adminLabel}>Name</label>
             <input id="name" name="name" defaultValue={me.name} required className={`${adminInput} mt-1.5`} />
@@ -42,7 +42,7 @@ export default async function AccountPage({ searchParams }: PageProps<"/admin/ac
         </form>
 
         <form action={changePasswordAction} className={`${adminCard} space-y-4 p-5 sm:p-6`}>
-          <h2 className="font-display text-xl font-semibold">Change password</h2>
+          <h2 className="font-display text-lg font-semibold">Change password</h2>
           <div>
             <label htmlFor="current" className={adminLabel}>Current password</label>
             <input id="current" name="current" type="password" autoComplete="current-password" required className={`${adminInput} mt-1.5`} />

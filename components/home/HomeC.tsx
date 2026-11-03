@@ -130,7 +130,7 @@ function More({ href, children }: { href: string; children: React.ReactNode }) {
 export async function HomeC({ place }: { place: string }) {
   const text = await getText();
   const { home, site, global: content } = text;
-  const { hero, trust, hospitals, countryInfo, faq, enquiry } = content;
+  const { hero, hospitals, countryInfo, faq, enquiry } = content;
   const { journey, treatment, compare, opinion, visa, travel, aftercare } =
     home;
   const picture = (text.places.find((p) => p.slug === place) ?? text.places[0])
@@ -144,128 +144,97 @@ export async function HomeC({ place }: { place: string }) {
   return (
     <>
       {/* Hero */}
-      {/* The top padding runs the green up behind the header. */}
-      <section className="band-deep relative isolate overflow-hidden pt-16 text-white lg:pt-[4.25rem]">
+      {/* The photo fills the first screen, behind the header. The intro opens
+          on it alone; the form, the line along its foot and the header then
+          come in (see components/site/Intro.tsx). */}
+      <section className="relative isolate flex min-h-svh flex-col justify-end overflow-hidden bg-deep text-white">
+        <h1 className="sr-only">{hero.headline}</h1>
+        {picture.src ? (
+          <Image
+            src={picture.src}
+            alt={picture.alt}
+            fill
+            priority
+            sizes="100vw"
+            className="-z-10 object-cover"
+            style={picture.focus ? { objectPosition: picture.focus } : undefined}
+          />
+        ) : null}
         <div
           aria-hidden
-          className="home-grid-pan absolute inset-0 -z-10 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:4rem_4rem] [mask-image:radial-gradient(ellipse_at_30%_20%,black,transparent_75%)]"
+          className="absolute inset-0 -z-10 bg-linear-to-t from-deep via-deep/45 to-deep/10 md:bg-linear-to-r md:from-deep/75 md:via-deep/15 md:to-deep/45"
         />
-        <Container className="home-hero-copy grid gap-8 py-9 sm:py-10 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-12">
-          <div className="min-w-0 lg:col-span-7">
-            <h1 className="hero-rise display max-w-[22ch] text-[clamp(2rem,1.4rem+2.4vw,3.125rem)] [animation-delay:80ms]">
-              {hero.headline}
-            </h1>
-            <p className="hero-rise mt-4 max-w-[46ch] text-lg text-white/75 [animation-delay:160ms]">
-              {hero.support}
+
+        {/* Room above for the header; on phones, below for the fixed bar. */}
+        <Container className="grid gap-8 pt-28 pb-28 md:grid-cols-[1fr_22rem] md:items-end md:pb-12 lg:grid-cols-[1fr_25rem] lg:pt-36 lg:pb-14">
+          <div data-intro-fade className="order-2 min-w-0 md:order-1">
+            <p className="max-w-[34ch] text-xl font-medium tracking-[-0.01em] text-white md:text-2xl">
+              {journey.strip}
             </p>
-            <ul className="hero-rise mt-6 space-y-2 [animation-delay:240ms]">
-              {trust.promises.map((promise) => (
-                <li
-                  key={promise}
-                  className="flex items-start gap-3 text-base text-white/85"
-                >
-                  <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-sm bg-glow/20 text-glow">
-                    <CheckIcon size={13} weight="bold" aria-hidden />
-                  </span>
-                  {promise}
+            <ol className="mt-4 flex flex-wrap items-center gap-3">
+              {journey.phases.map((phase, i) => (
+                <li key={phase.name} className="flex items-center gap-3">
+                  <a
+                    href="#journey"
+                    className="flex min-h-11 items-center rounded-full bg-white/10 px-5 text-sm text-white/90 ring-1 ring-white/15 backdrop-blur-sm transition-colors hover:bg-white/20 md:text-base"
+                  >
+                    {phase.name}
+                  </a>
+                  {i < journey.phases.length - 1 ? (
+                    <ArrowRightIcon size={16} className="shrink-0 text-glow/70 rtl:rotate-180" aria-hidden />
+                  ) : null}
                 </li>
               ))}
-            </ul>
+            </ol>
           </div>
-          <div className="hero-rise min-w-0 [animation-delay:320ms] lg:col-span-5">
-            <div className="rounded-xl bg-surface p-5 text-ink shadow-[0_30px_60px_-20px_rgb(2_20_16/0.6)] sm:p-7">
-              <HomeForm site={site} compact />
-            </div>
+          <div
+            data-intro-pop
+            className="order-1 w-full min-w-0 rounded-xl bg-surface p-5 text-ink shadow-[0_30px_60px_-20px_rgb(2_20_16/0.6)] sm:p-6 md:order-2 md:self-center lg:p-7"
+          >
+            <HomeForm site={site} compact />
           </div>
         </Container>
-
-        {/* Photo that opens out from the text column to the full width of the
-            screen as you scroll. Along its foot, the journey's three phases. */}
-        <div className="hero-rise [animation-delay:400ms]">
-          <div className="home-expand relative overflow-hidden">
-            <div className="relative aspect-[4/3] sm:aspect-[2/1] lg:aspect-[5/2]">
-              {picture.src ? (
-                <Image
-                  src={picture.src}
-                  alt={picture.alt}
-                  fill
-                  priority
-                  sizes="100vw"
-                  className="object-cover"
-                  style={
-                    picture.focus
-                      ? { objectPosition: picture.focus }
-                      : undefined
-                  }
-                />
-              ) : null}
-              <div
-                aria-hidden
-                className="absolute inset-0 bg-linear-to-t from-deep via-deep/40 to-transparent md:via-deep/20"
-              />
-            </div>
-            <div className="bg-deep md:absolute md:inset-x-0 md:bottom-0 md:bg-transparent">
-              <Container className="pt-6 pb-10 md:pt-0 md:pb-8">
-                <p className="max-w-[34ch] text-xl font-medium tracking-[-0.01em] text-white md:text-2xl">
-                  {journey.strip}
-                </p>
-                <ol className="mt-4 flex flex-wrap items-center gap-3">
-                  {journey.phases.map((phase, i) => (
-                    <li key={phase.name} className="flex items-center gap-3">
-                      <a
-                        href="#journey"
-                        className="flex min-h-11 items-center rounded-full bg-white/10 px-5 text-sm text-white/90 ring-1 ring-white/15 backdrop-blur-sm transition-colors hover:bg-white/20 md:text-base"
-                      >
-                        {phase.name}
-                      </a>
-                      {i < journey.phases.length - 1 ? (
-                        <ArrowRightIcon
-                          size={16}
-                          className="shrink-0 text-glow/70 rtl:rotate-180"
-                          aria-hidden
-                        />
-                      ) : null}
-                    </li>
-                  ))}
-                </ol>
-              </Container>
-            </div>
-          </div>
-        </div>
       </section>
 
-      {/* Proof figures from /admin/stats; nothing shows until some are published. */}
-      <TrustFigures />
-
-      {/* The four things most visitors came for, as big buttons. */}
-      <section
-        aria-labelledby="quick-heading"
-        className="bg-surface-2 py-12 sm:py-14"
-      >
+      {/* The four things most visitors came for, straight under the photo.
+          The last one, the free opinion, is the one we most want picked. */}
+      <section aria-labelledby="quick-heading" className="bg-surface-2 py-10 sm:py-12">
         <Container>
-          <h2
-            id="quick-heading"
-            className="text-2xl font-semibold tracking-[-0.02em]"
-          >
+          <h2 id="quick-heading" className="sr-only">
             {home.quick.heading}
           </h2>
-          <ul className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             {home.quick.items.map((item) => {
               const Glyph = quickIcons[item.icon];
+              const lead = item.icon === "opinion";
               return (
-                <li key={item.title} className="min-w-0">
+                <li
+                  key={item.title}
+                  className="reveal min-w-0"
+                >
                   <Link
                     href={item.href}
-                    className="group flex h-full flex-col items-start gap-4 rounded-xl border border-hairline bg-surface p-5 transition-[border-color,box-shadow,translate] duration-300 hover:-translate-y-0.5 hover:border-line hover:shadow-lift sm:flex-row sm:items-center sm:p-6"
+                    className={`group flex h-full flex-col items-start gap-3 rounded-xl p-4 transition-[background-color,box-shadow,translate] duration-300 hover:-translate-y-0.5 sm:flex-row sm:items-center sm:gap-4 sm:p-5 ${
+                      lead
+                        ? "relative bg-surface text-ink ring-[3px] ring-accent hover:shadow-lift"
+                        : "border border-hairline bg-surface text-ink hover:border-line hover:shadow-lift"
+                    }`}
                   >
-                    <span className="grid size-14 shrink-0 place-items-center rounded-full bg-accent-soft text-accent transition-colors group-hover:bg-accent group-hover:text-white">
-                      <Glyph size={28} aria-hidden />
+                    <span
+                      className="grid size-12 shrink-0 place-items-center rounded-full bg-accent-soft text-accent transition-colors group-hover:bg-accent group-hover:text-white sm:size-14"
+                    >
+                      <Glyph size={26} aria-hidden />
                     </span>
+                    {lead ? (
+                      <span className="absolute -top-3 end-4 rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold tracking-wide text-white uppercase">
+                        {home.quick.free}
+                      </span>
+                    ) : null}
                     <span className="min-w-0 flex-1">
-                      <span className="block text-lg leading-snug font-semibold text-ink">
+                      <span className="block text-base leading-snug font-semibold sm:text-lg">
                         {item.title}
                       </span>
-                      <span className="mt-0.5 block text-sm text-ink-3">
+                      <span className={`mt-0.5 block text-sm text-ink-3`}>
                         {item.body}
                       </span>
                     </span>
@@ -276,6 +245,9 @@ export async function HomeC({ place }: { place: string }) {
           </ul>
         </Container>
       </section>
+
+      {/* Proof figures from /admin/stats; nothing shows until some are published. */}
+      <TrustFigures />
 
       {/* The nine steps at a glance. Each one leads to its own section below. */}
       <Block
@@ -653,7 +625,7 @@ export async function HomeC({ place }: { place: string }) {
               {enquiry.support}
             </p>
           </div>
-          <div className="reveal min-w-0 rounded-xl bg-surface p-5 text-ink sm:p-7 lg:col-span-6">
+          <div id="reports" className="reveal min-w-0 scroll-mt-28 rounded-xl bg-surface p-5 text-ink sm:p-7 lg:col-span-6">
             <HomeForm site={site} />
           </div>
         </Container>

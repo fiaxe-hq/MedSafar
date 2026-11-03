@@ -7,9 +7,14 @@ import type { Lead } from "./leads";
  * otherwise a new one is created. So a number that enquires twice, or moves
  * from the first step to the full form, stays one lead.
  *
- * A number that has only been verified is a "Partial entry": it is still a
+ * A number on its own is a "Partial entry": it is still a
  * lead the team can call. Once the rest of the form comes in, the same lead
- * moves to "New". A lead the team has already moved on is left where it is.
+ * moves to "Email pending"; a CRM workflow sends the thank-you email and then
+ * moves it to "New". A lead already moved on is left where it is.
+ *
+ * The workflow fires only on updates, so a lead always starts as a "Partial
+ * entry" and is moved to "Email pending" by an update, even when the whole
+ * form arrives in one go (the questionnaires).
  *
  * Setting, a Worker secret: CRM_API_KEY. Until it is set, nothing is sent.
  *
@@ -18,9 +23,12 @@ import type { Lead } from "./leads";
 
 const BASE = "https://crm.fiaxe.com/api/records";
 
-/** Pipeline stages this file sets; both must exist in the CRM, spelled exactly like this. */
+/**
+ * Pipeline stages this file sets, spelled exactly as the CRM workflow expects.
+ * The workflow, not this file, moves a lead from EMAIL_PENDING to "New".
+ */
 const PARTIAL = "Partial entry";
-const NEW = "New";
+const EMAIL_PENDING = "Email pending";
 
 type CrmRecord = { id: string; status?: string | null; phone?: string | null; notes?: string | null };
 
@@ -73,16 +81,26 @@ export async function syncLeadToCrm(lead: Lead): Promise<void> {
           headers,
           body: JSON.stringify({
             ...fields,
-            ...(!partial && (!existing.status || existing.status === PARTIAL) ? { status: NEW } : {}),
+            ...(!partial && (!existing.status || existing.status === PARTIAL) ? { status: EMAIL_PENDING } : {}),
             notes: existing.notes && !existing.notes.includes(entry) ? `${existing.notes}\n\n---\n${entry}` : entry,
           }),
         })
       : await fetch(BASE, {
           method: "POST",
           headers,
-          body: JSON.stringify({ name: lead.name || lead.phone, ...fields, status: partial ? PARTIAL : NEW, notes: entry }),
+          body: JSON.stringify({ name: lead.name || lead.phone, ...fields, status: PARTIAL, notes: entry }),
         });
     if (!res.ok) throw new Error(`${existing ? "update" : "create"} ${res.status}`);
+
+    if (!existing && !partial) {
+      const { record } = (await res.json()) as { record: { id: string } };
+      const moved = await fetch(`${BASE}/${record.id}`, {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify({ status: EMAIL_PENDING }),
+      });
+      if (!moved.ok) throw new Error(`status ${moved.status}`);
+    }
   } catch (error) {
     console.error("[crm] sync failed", error instanceof Error ? error.message : String(error));
   }

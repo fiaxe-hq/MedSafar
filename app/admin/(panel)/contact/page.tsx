@@ -69,7 +69,7 @@ export default async function ContactPage({ searchParams }: PageProps<"/admin/co
       <form action={saveContactAction} className="mt-8 max-w-3xl space-y-6">
         <fieldset className={`${adminCard} min-w-0 space-y-6 p-5 sm:p-6`}>
           <legend className="sr-only">How visitors reach Medsafar</legend>
-          <h2 aria-hidden className="font-display text-xl font-semibold">How visitors reach Medsafar</h2>
+          <h2 aria-hidden className="font-display text-lg font-semibold">How visitors reach Medsafar</h2>
           <Row
             id="whatsapp"
             label="WhatsApp number"
@@ -105,7 +105,7 @@ export default async function ContactPage({ searchParams }: PageProps<"/admin/co
 
         <fieldset className={`${adminCard} min-w-0 space-y-6 p-5 sm:p-6`}>
           <legend className="sr-only">Social media</legend>
-          <h2 aria-hidden className="font-display text-xl font-semibold">Social media</h2>
+          <h2 aria-hidden className="font-display text-lg font-semibold">Social media</h2>
           <p className="-mt-3 text-sm text-ink-3">Paste the full address of each profile. Leave one empty to hide its icon.</p>
           <Row id="instagram" label="Instagram" help="For example https://www.instagram.com/medsafar" defaultValue={social("instagram")} type="url" />
           <Row id="facebook" label="Facebook" help="For example https://www.facebook.com/medsafar" defaultValue={social("facebook")} type="url" />

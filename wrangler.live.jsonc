@@ -1,0 +1,65 @@
+// The live site, on the xaif@fiaxe.com account (never WebVerge). Its own
+// Worker, database, page cache and buckets, apart from the client preview.
+// Deploy: pnpm run deploy. Migrate: pnpm run db:migrate. Both use this file.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "medsafar",
+  "account_id": "0e9ed5067274fb68d2256f2fc86c7eaf",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "medsafar"
+    }
+  ],
+  "images": {
+    "binding": "IMAGES"
+  },
+  "d1_databases": [
+    {
+      "binding": "LEADS_DB",
+      "database_name": "medsafar-leads",
+      "database_id": "ee3ca8a3-b5f4-4e19-a9ee-ee92017cd7fa",
+      "migrations_dir": "migrations"
+    },
+    // The same database, under the name OpenNext looks for: it records when
+    // /admin last changed something, so cached pages are drawn again.
+    {
+      "binding": "NEXT_TAG_CACHE_D1",
+      "database_name": "medsafar-leads",
+      "database_id": "ee3ca8a3-b5f4-4e19-a9ee-ee92017cd7fa"
+    }
+  ],
+  // Drawn pages (open-next.config.ts).
+  "kv_namespaces": [
+    {
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "04e9cc39a8c04db2929517f240ddbb4e"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "REPORTS",
+      "bucket_name": "medsafar-reports"
+    },
+    // 30-day copies of each report; the bucket's lifecycle rule expires them.
+    {
+      "binding": "REPORTS_BACKUP",
+      "bucket_name": "medsafar-reports-backup"
+    },
+    // Photos uploaded in /admin (lib/media.ts), served at /media/<name>.
+    {
+      "binding": "MEDIA",
+      "bucket_name": "medsafar-media"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

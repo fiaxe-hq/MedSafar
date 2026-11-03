@@ -235,7 +235,6 @@ export const contact: ContactContent = {
   },
 };
 
-const updated = { label: "Last updated", value: "1 October 2026" };
 const privacyUpdated = { label: "Last updated", value: "26 October 2026" };
 const privacyEffective = { label: "Effective date", value: "1 October 2026" };
 const website = "https://medsafar.com";
@@ -820,60 +819,397 @@ export const terms: LegalContent = {
   ],
 };
 
-// Clauses 3 to 5 of the client's Terms, word for word. Medsafar has not sent
-// a separate medical disclaimer yet; the text we wrote earlier is gone.
+// The client's Disclaimer (Med_Safar_India_Disclaimer.docx), word for word,
+// until a lawyer has reviewed it. Left out: the drafting notes, a note to the
+// drafter in clause 19, the footer version and the publishing checklist. The
+// blanks in clause 20 are filled in from the Terms.
 export const disclaimer: LegalContent = {
   meta: {
-    title: "Medical disclaimer. Medsafar India.",
+    title: "Disclaimer. Medsafar India.",
     description: "What the information on this website is, and what it is not.",
   },
-  heading: "Medical disclaimer",
-  intro: "Clauses 3 to 5 of our Terms and conditions.",
+  heading: "Website disclaimer",
+  intro: "Medical information, healthcare facilitation and medical travel.",
   draft: terms.draft,
-  updated: terms.updated,
-  sections: terms.sections.slice(2, 5),
+  updated: { label: "Last updated", value: "2 November 2026" },
+  sections: [
+    {
+      heading: "1. General disclaimer",
+      body: [
+        "The information provided on this website, including text, articles, images, videos, downloadable material, social media content and other communications issued by Med Safar India (“Med Safar”, “we”, “us” or “our”), is intended for general informational and educational purposes only.",
+        "Although we take reasonable care to keep information accurate and current, healthcare information, hospital services, doctor affiliations, prices, availability, travel requirements and regulatory conditions may change. We do not warrant that all information is complete, current, error-free or suitable for every individual circumstance.",
+        "Your use of this website does not create a doctor-patient relationship, a hospital-patient relationship, a fiduciary relationship or any professional medical relationship between you and Med Safar India.",
+      ],
+    },
+    {
+      heading: "2. Not medical advice, diagnosis or treatment",
+      body: [
+        "Med Safar India is a healthcare facilitation and medical-travel coordination service. We are not a hospital, clinic, diagnostic laboratory, pharmacy, emergency medical service or medical practitioner. Unless expressly stated otherwise, we do not provide medical diagnosis, prescribe medicines, interpret medical investigations as a treating clinician, or deliver clinical treatment.",
+        "Website content must not be relied upon as a substitute for consultation, diagnosis or treatment from a qualified healthcare professional who has assessed your individual medical condition.",
+        "Do not disregard, delay or discontinue professional medical advice or prescribed treatment because of information on this website.",
+        "Do not start, stop or change any medicine, therapy, diet or treatment based solely on website content or communications from a facilitator.",
+        "Treatment suitability, alternatives, benefits, risks, complications, recovery expectations and prognosis must be discussed directly with the treating doctor and hospital.",
+        "Medical circumstances differ from person to person. Information about a condition or procedure may not apply to you.",
+      ],
+    },
+    {
+      heading: "3. Medical emergencies",
+      body: [
+        "This website and Med Safar India's communication channels are not designed for emergencies and are not monitored as emergency response services. If you believe you or another person may be experiencing a medical emergency, contact your local emergency number or go to the nearest emergency department immediately. Do not wait for a response from Med Safar India.",
+      ],
+    },
+    {
+      heading: "4. Independent clinical decisions and patient responsibility",
+      body: [
+        "Patients are responsible for making healthcare decisions in consultation with their treating medical professionals. Med Safar India may help coordinate communication, appointments, medical-record sharing, travel and other non-clinical arrangements, but it does not determine whether a treatment is clinically appropriate for a particular patient.",
+        "Before proceeding with any treatment, patients should independently discuss and understand the proposed treatment plan, alternatives, expected benefits, material risks, possible complications, recovery requirements, follow-up care and likely costs. Patients should provide complete and accurate medical history and disclose relevant allergies, medicines, prior procedures and other information to their treating clinicians.",
+      ],
+    },
+    {
+      heading: "5. No guarantee of treatment outcomes",
+      body: [
+        "Med Safar India does not guarantee a cure, successful procedure, complication-free treatment, recovery time, clinical outcome, survival rate, improvement in health, or any particular result. Any outcome figures, testimonials, case examples or statements attributed to a healthcare provider must be read in their stated context and are not a promise that another patient will experience the same result.",
+        "Medical outcomes depend on multiple factors, including the patient's condition, clinical judgement, treatment choice, individual response, complications and post-treatment care.",
+      ],
+    },
+    {
+      heading: "6. Hospitals, doctors and third-party healthcare providers",
+      body: [
+        "Hospitals, doctors, surgeons, diagnostic centres, laboratories, pharmacies and other healthcare providers are independent third parties unless a specific written agreement states otherwise. They are responsible for their own professional services, clinical decisions, facilities, staff, treatment, patient records, consent processes, billing and patient care.",
+        "Any hospital or doctor information displayed on our website is provided to help users explore possible options. A listing, profile, introduction, appointment arrangement or referral must not be interpreted as a clinical endorsement, guarantee, certification, ranking or assurance by Med Safar India.",
+        "Credentials, affiliations, accreditations, facilities, treatment availability and service details may change and should be confirmed directly with the relevant provider before making a decision.",
+        "Accreditations or certifications, where mentioned, apply only within their stated scope and validity period.",
+        "Med Safar India does not control the independent professional judgement or conduct of healthcare providers.",
+        "Patients should raise clinical questions, obtain second opinions where appropriate and confirm all treatment details directly with their chosen provider.",
+      ],
+    },
+    {
+      heading: "7. Facilitation role and commercial relationships",
+      body: [
+        "Med Safar India may receive facilitation fees, referral fees, commissions or other commercial consideration from certain healthcare providers or service partners, where permitted by applicable law and contract. Where such a relationship is relevant to a particular listing, placement or communication, it should be disclosed clearly.",
+        "A commercial relationship does not constitute a clinical endorsement and must not replace independent assessment of medical suitability. Patients are encouraged to ask questions about any facilitation charges, inclusions, exclusions and payment arrangements before proceeding.",
+        "Unless expressly confirmed in writing, Med Safar India does not represent that it can secure a particular doctor, appointment, hospital bed, procedure date, price, discount, insurance approval or treatment outcome.",
+      ],
+    },
+    {
+      heading: "8. Estimates, fees, packages and payments",
+      body: [
+        "Any treatment cost, package price, travel estimate, accommodation quote, hospital charge, discount, facilitation fee or other amount displayed or communicated by Med Safar India is indicative unless expressly stated as a confirmed written quotation.",
+        "Final costs may depend on the treating doctor's assessment, investigations, procedure selected, length of stay, complications, medicines, consumables, room category, taxes, currency movements and other circumstances.",
+        "A hospital or service provider may revise its rates, availability, inclusions or terms. Confirm the final quotation directly with the relevant provider before payment.",
+        "Unless expressly stated in writing, estimates may exclude additional tests, medicines, implants, extended stays, complications, follow-up care, travel changes, visa costs, insurance, taxes or personal expenses.",
+        "Payment recipients, payment deadlines, refund conditions, cancellation terms and applicable taxes should be confirmed in writing before a transaction.",
+        "Med Safar India is not responsible for a third-party provider's billing error, refund decision, payment dispute or failure to honour its own quotation, except to the extent responsibility is imposed on Med Safar India by applicable law or contract.",
+      ],
+    },
+    {
+      heading: "9. Travel, visa, accommodation and immigration",
+      body: [
+        "Travel and medical-travel information is general and may change without notice. Visa issuance, entry permission, immigration clearance, airline schedules, travel restrictions, accommodation availability and local transport are controlled by the relevant government authorities and independent service providers.",
+        "Med Safar India does not guarantee visa approval, entry into any country, flight operation, baggage handling, accommodation availability or the performance of third-party travel suppliers. Travellers must verify current requirements with official authorities and relevant providers, obtain appropriate travel documents and insurance, and allow sufficient time for travel arrangements.",
+        "Patients should obtain medical clearance for travel where appropriate and discuss fitness to fly, post-procedure travel timing, mobility requirements and the need for an accompanying person with their treating doctor.",
+      ],
+    },
+    {
+      heading: "10. International treatment and continuity of care",
+      body: [
+        "Patients travelling across borders should discuss continuity of care with their treating doctor before travel. This may include discharge summaries, prescriptions, medical records, wound care, rehabilitation, follow-up consultations, medication availability and a plan for complications after returning home.",
+        "Med Safar India cannot guarantee that a doctor or hospital in the patient's home country will accept, continue or provide follow-up care for treatment undertaken elsewhere. Patients should identify suitable local follow-up arrangements before travelling.",
+      ],
+    },
+    {
+      heading: "11. Testimonials, patient stories and case studies",
+      body: [
+        "Patient testimonials and case studies reflect individual experiences and are not typical-result claims or guarantees. Experiences and outcomes vary. Where patient stories, photographs, videos or quotations are published, they should be used only with appropriate permission and in accordance with applicable privacy and advertising requirements.",
+        "A testimonial should not be treated as medical evidence or as a substitute for independent clinical advice. Any material connection or incentive associated with a testimonial should be disclosed where required.",
+      ],
+    },
+    {
+      heading: "12. External websites and third-party content",
+      body: [
+        "Our website may contain links to third-party websites, social media pages, maps, payment gateways, hospital portals, research sources or other online services. These links are provided for convenience. Med Safar India does not control and is not responsible for the content, availability, security, privacy practices, accuracy or terms of third-party websites.",
+        "Accessing a third-party website or using a third-party service is at your discretion and subject to that provider's terms and privacy policy. A link does not necessarily imply endorsement or partnership.",
+      ],
+    },
+    {
+      heading: "13. Website availability, security and technical information",
+      body: [
+        "We aim to keep the website accessible and secure, but we do not guarantee uninterrupted, error-free or virus-free operation. Access may be suspended, restricted or interrupted for maintenance, updates, security reasons, technical issues or circumstances beyond our control.",
+        "Users should take appropriate precautions to protect their devices, accounts and information. Do not send sensitive medical records or identity documents through an unapproved or insecure channel. Please use the contact or submission method specifically designated by Med Safar India for such information.",
+      ],
+    },
+    {
+      heading: "14. Limitation of responsibility",
+      body: [
+        "To the maximum extent permitted by applicable law, Med Safar India will not be responsible for losses arising from a user's reliance on general website information, decisions made without appropriate professional advice, acts or omissions of independent healthcare or travel providers, changes in third-party services, or events outside Med Safar India's reasonable control.",
+        "Nothing in this disclaimer excludes or limits any liability that cannot lawfully be excluded or limited under applicable law, including any non-waivable consumer rights, statutory protections, or liability for fraud, wilful misconduct or other liability that the law does not permit us to exclude.",
+        "Any limitation of liability must be read subject to applicable Indian law and the specific services and contractual arrangements involved. This clause is not intended to remove rights that a patient or consumer has under law.",
+      ],
+    },
+    {
+      heading: "15. Privacy and personal information",
+      body: [
+        "Personal information and health-related information submitted to Med Safar India will be handled in accordance with our Privacy Policy and applicable data-protection laws. Please read the Privacy Policy to understand what information may be collected, why it is used, when it may be shared and how to contact us about privacy matters.",
+        "Do not submit another person's personal or medical information unless you are authorised to do so and any required consent has been obtained.",
+      ],
+    },
+    {
+      heading: "16. Intellectual property",
+      body: [
+        "Unless stated otherwise, website text, design, graphics, logos, videos, photographs and other content owned by Med Safar India are protected by applicable intellectual-property laws. You may view the website for personal, non-commercial use. You must not copy, reproduce, republish, distribute, modify or commercially exploit protected content without prior written permission, except where permitted by law.",
+        "Third-party names, logos, trademarks and materials remain the property of their respective owners. Their appearance on the website does not imply ownership by or an endorsement from Med Safar India.",
+      ],
+    },
+    {
+      heading: "17. Children and use by representatives",
+      body: [
+        "The website is not intended to invite children to independently submit personal or medical information or make healthcare arrangements. Where services involve a minor, a parent or lawful guardian must act on the minor's behalf and provide any legally required authorisation and consent. Applicable child-protection and data-protection requirements must be followed.",
+      ],
+    },
+    {
+      heading: "18. Changes to this disclaimer",
+      body: [
+        "We may update this disclaimer from time to time to reflect changes in our services, website, partner arrangements, technology or applicable law. The revised version will be published on this page with an updated effective or revision date. Your continued use of the website after publication of changes will be subject to the revised disclaimer, to the extent permitted by law.",
+      ],
+    },
+    {
+      heading: "19. Governing law and jurisdiction",
+      body: [
+        "This disclaimer is intended to be interpreted in accordance with the laws of India, subject to any mandatory legal protections and jurisdictional rights available to users under applicable law. Any governing-law or jurisdiction clause in the website's Terms and Conditions or a separately signed agreement should be reviewed by Indian counsel for consistency and enforceability.",
+      ],
+    },
+    {
+      heading: "20. Contact details",
+      body: [
+        "For questions about this disclaimer or the information on this website, please contact:",
+        "Legal entity: TravGrub Private Limited, which operates the Med Safar India brand.",
+        "Brand: Med Safar India.",
+        "Office: Office No. 222, 2nd Floor, Neo Corporate Plaza, Malad West, Mumbai, Maharashtra – 400064, India.",
+        `Email: ${email}`,
+        "Website: www.medsafar.com",
+      ],
+    },
+  ],
 };
 
-// Written by the web team, not by Medsafar or a lawyer. Replace with
-// Medsafar's own text when it arrives.
+// The client's Editorial Policy (Med_Safar_India_Editorial_Policy.docx),
+// clauses 1 to 18 word for word, until a lawyer has reviewed it. Left out:
+// clause 19 (a disclaimer, which has its own page), clause 20 (details still
+// to fill in) and the internal checklist.
 export const editorialPolicy: LegalContent = {
   meta: {
     title: "Editorial policy. Medsafar India.",
     description: "How Medsafar writes, checks and updates the information on this website.",
   },
   heading: "Editorial policy",
-  intro:
-    "Patients make big decisions based on what they read. This is how we make sure what we publish is clear, fair and correct.",
+  intro: "Medical content standards, ethical publishing and public communication.",
   draft: terms.draft,
-  updated,
+  updated: { label: "Last updated", value: "2 November 2026" },
   sections: [
     {
-      heading: "Plain words",
-      body: "We write for patients and families, many of whom read English as a second language. We use short sentences and common words, and we explain any medical term we cannot avoid.",
+      heading: "1. Our editorial philosophy",
+      body: [
+        "Healthcare information is a responsibility. Every patient deserves access to information that is accurate, transparent, understandable and trustworthy.",
+        "Med Safar India is committed to helping patients and families understand healthcare options and navigate medical travel with dignity and care. Our editorial content is intended to inform, educate and support informed conversations with qualified healthcare professionals. It must never pressure a person into a treatment, hospital, doctor or travel decision.",
+        "We put patient welfare, factual accuracy, transparency, privacy and ethical communication ahead of promotional interests.",
+      ],
     },
     {
-      heading: "Checked by a doctor",
-      body: "Anything medical, such as what a treatment is, who needs it and how long recovery takes, is checked by a doctor before it is published. Until then it is marked \"Pending doctor check\" on the page.",
+      heading: "2. Purpose and scope",
+      body: [
+        "This policy establishes the standards for creating, reviewing, approving, publishing, promoting, updating and correcting content issued by or on behalf of Med Safar India.",
+        "It applies to all content and communications under our control, including:",
+        "Website pages, service descriptions, blogs, articles, FAQs and downloadable material.",
+        "Social media posts, reels, videos, podcasts, webinars, newsletters and email campaigns.",
+        "Patient information packs, destination guides, treatment explainers and pre-arrival material.",
+        "Hospital, doctor, specialty and treatment listings, profiles, comparisons and interviews.",
+        "Press releases, advertisements, brochures, presentations and partner-facing content.",
+        "Content prepared by employees, consultants, agencies, freelancers, influencers or other representatives for Med Safar India.",
+        "Where content is created or controlled by a hospital, doctor or other partner, the relevant partner remains responsible for its own professional and clinical statements. Med Safar India will not knowingly publish partner content that conflicts with this policy or applicable law.",
+      ],
     },
     {
-      heading: "Sources",
-      body: "Articles name the sources their facts come from: medical bodies, hospitals and published research. Doctor and hospital details come from the hospitals themselves.",
+      heading: "3. Our role and editorial boundaries",
+      body: [
+        "Med Safar India operates as a healthcare facilitation and medical-travel coordination service. Unless expressly stated otherwise, it is not a hospital, clinic, diagnostic centre, medical practitioner, emergency service or provider of clinical care.",
+        "Our content may explain healthcare processes and facilitate access to information, appointments, records transfer, travel coordination and related non-clinical support. We do not independently diagnose conditions, prescribe medicines, recommend a clinical treatment as a substitute for a doctor, interpret test results as a treating professional, or guarantee medical outcomes.",
+        "Clinical decisions must be made by the patient in consultation with appropriately qualified and registered healthcare professionals. A facilitator's role must not be presented as a doctor's independent medical judgement.",
+      ],
     },
     {
-      heading: "No promises",
-      body: "We do not promise results, quote prices that are not in writing from a hospital, or say one doctor or hospital is the best. Cost estimates always come from the treating hospital, for your case.",
+      heading: "4. Accuracy, evidence and responsible claims",
+      body: [
+        "All material factual and clinical claims must be accurate, current, capable of verification and presented in context. Content must distinguish established evidence from emerging research, expert opinion, anecdote and promotional statements.",
+        "Use reliable primary or authoritative sources wherever reasonably available, such as peer-reviewed research, recognised medical associations, government health authorities and official hospital documentation.",
+        "Check publication dates, study limitations, sample sizes, population relevance and whether findings are preliminary or widely accepted.",
+        "Do not convert a single study, testimonial or isolated outcome into a general promise or guarantee.",
+        "Avoid sensational headlines, fear-based language, misleading before-and-after presentations and claims that exploit a patient's vulnerability.",
+        "Do not publish fabricated statistics, invented case studies, unsupported success rates or unverifiable rankings.",
+        "Where a statistic is used, state its source, date, relevant population and limitations. Do not imply that a hospital's or doctor's results are independently audited unless that is demonstrably true.",
+        "Prohibited or high-risk wording includes claims such as “100% cure”, “guaranteed success”, “risk-free surgery”, “permanent solution”, “best doctor in India”, “No. 1 hospital” or “assured results” unless a precise, lawful and independently supportable basis exists and legal review approves the exact claim. In medical contexts, such absolute claims should ordinarily not be used.",
+      ],
     },
     {
-      heading: "Independence",
-      body: "Partner hospitals may pay Medsafar a fee. That does not change what we write about a treatment, and it does not change the price the hospital quotes you.",
+      heading: "5. Medical review and clinical content",
+      body: [
+        "Content that discusses symptoms, diseases, diagnosis, treatment options, procedures, medicines, recovery, complications, clinical outcomes or medical research must receive review by a suitably qualified medical professional before publication.",
+        "The reviewer should have relevant expertise for the subject matter. Their name, qualification, specialty and review date may be displayed where appropriate and with their permission. A reviewer must not be described as an independent medical reviewer if they have a material commercial relationship that has not been disclosed.",
+        "If Med Safar India does not have an appropriately qualified reviewer available, the content must be limited to non-clinical process information, sourced carefully, or held back until suitable review is obtained.",
+        "Medical review does not replace the need for legal, privacy, advertising or editorial review.",
+      ],
     },
     {
-      heading: "Keeping it up to date",
-      body: "We review our pages regularly and when medical advice changes. Each policy page shows the date it was last updated.",
+      heading: "6. Doctors, hospitals and healthcare partner information",
+      body: [
+        "Profiles and listings must be factual, fair, current and supported by reliable records or confirmation from the relevant institution or professional.",
+        "Verify a doctor's name, qualifications, specialty, registration details and current professional affiliation using appropriate official or institutional sources, where available.",
+        "Verify hospital names, locations, facilities, accreditations, certifications and specialty services with the institution or the relevant accrediting body. State the scope and validity period of any accreditation where material.",
+        "Do not imply that Med Safar India has clinically assessed, ranked, certified or endorsed a doctor or hospital unless a documented and defensible process supports that statement.",
+        "Do not imply that a listing is exhaustive or that an unlisted provider is inferior.",
+        "Obtain permission before using a hospital's or doctor's logo, photographs, brand assets, quotations or other proprietary materials.",
+        "Provide a route for partners to request correction of factual errors, without giving them an automatic right to suppress fair and accurate editorial content.",
+        "If information cannot be verified, qualify it clearly or do not publish it.",
+      ],
     },
     {
-      heading: "Corrections",
-      body: `If you find a mistake, write to ${email}. We check it and correct the page as soon as we can.`,
+      heading: "7. Commercial transparency, referral relationships and conflicts",
+      body: [
+        "Med Safar India may have commercial arrangements, facilitation agreements, referral arrangements, sponsorships or other business relationships with hospitals, doctors, accommodation providers, transport providers or other service partners. These relationships must not be concealed where they could reasonably affect how a reader understands a recommendation, listing, comparison or endorsement.",
+        "Disclose paid placements, sponsorships, commissions, referral arrangements or other material commercial relationships in clear, prominent language close to the relevant content.",
+        "Do not describe a paid or commercially influenced placement as an independent ranking, award, review or clinical recommendation.",
+        "Do not sell or imply a clinical endorsement. Commercial arrangements must not determine clinical suitability for an individual patient.",
+        "Where comparisons are published, explain the criteria, information sources, date checked and any material limitations.",
+        "Staff, writers, reviewers and contributors must disclose personal, financial or professional interests that could influence their content.",
+        "Do not promise that a doctor or hospital will provide a particular discount, treatment result or level of care unless confirmed in writing and presented with appropriate qualifications.",
+        "A disclosure should be plain and understandable—for example: “Med Safar India may receive a facilitation fee from certain healthcare partners. This relationship does not constitute a clinical endorsement. Patients should discuss treatment suitability directly with their treating doctor.” The wording must be adapted to the actual arrangement and reviewed by counsel.",
+      ],
+    },
+    {
+      heading: "8. Patient stories, testimonials, photographs and case studies",
+      body: [
+        "Patient experiences are sensitive and must be handled with particular care. A testimonial is an individual's account, not proof that another patient will have the same experience or outcome.",
+        "Obtain prior, specific, informed and documented consent before using a patient's name, image, voice, video, medical history, diagnosis, treatment details or identifiable story.",
+        "Explain the intended channels, audience, purpose, duration and whether the material may be used in paid promotion or shared with partners.",
+        "Make clear that refusing consent will not affect access to facilitation services or healthcare coordination.",
+        "Do not edit a testimonial in a way that changes its meaning or creates a misleading impression.",
+        "Do not fabricate, purchase, selectively misrepresent or incentivise testimonials in a way that is undisclosed or deceptive.",
+        "Where an incentive, gift, discount or other benefit is provided, disclose it clearly and ensure the arrangement is lawful.",
+        "Use anonymised or de-identified case studies wherever possible. Remove indirect identifiers as well as names and faces.",
+        "Do not publish graphic, humiliating or distressing material merely to attract attention.",
+        "Consent for treatment, hospital record sharing and marketing publication are separate matters. Consent to one must not be treated as consent to the others.",
+      ],
+    },
+    {
+      heading: "9. Privacy, confidentiality and sensitive health information",
+      body: [
+        "We will treat patient and prospective-patient information with strict confidentiality. Medical information, identity documents, contact details, travel documents, photographs and patient communications must be accessed and used only for authorised purposes.",
+        "Do not include identifiable patient details in editorial drafts, screenshots, presentations or public posts unless the required consent and approvals are in place.",
+        "Collect and use only the personal information reasonably required for the stated purpose, and follow the applicable privacy notice and consent process.",
+        "Share patient information with hospitals, doctors, travel partners or service providers only where authorised, necessary and covered by the relevant privacy arrangements and lawful basis.",
+        "Use secure, approved systems for storage and transfer. Do not circulate medical records through personal accounts or informal groups unless expressly authorised and appropriately protected.",
+        "Restrict access to patient information on a need-to-know basis and follow retention, deletion, incident reporting and access-control procedures.",
+        "Do not use patient data for marketing, profiling, testimonials, AI tools or unrelated editorial purposes without a valid and separately documented basis.",
+        "The organisation's Privacy Policy, consent forms, vendor contracts and actual data-handling practices must be consistent with this section and applicable data-protection law.",
+      ],
+    },
+    {
+      heading: "10. Advertising, promotions and public communications",
+      body: [
+        "All promotional content must be truthful, substantiated, transparent and distinguishable from independent editorial or educational material. The overall impression of a communication matters, including its headline, images, disclaimers, layout and omissions.",
+        "Clearly label advertisements, sponsored content, paid partnerships and promotional placements.",
+        "Do not make misleading claims about treatment outcomes, affordability, speed, safety, hospital facilities, doctor credentials or patient eligibility.",
+        "Do not create artificial urgency, exploit fear or imply that a patient must act immediately to avoid harm unless a qualified clinician has confirmed a genuine clinical urgency.",
+        "Present prices, inclusions, exclusions, taxes, estimates, cancellation terms and possible additional costs accurately and with appropriate qualifications.",
+        "Do not compare hospitals or doctors using selective, outdated or unverifiable information.",
+        "Do not use a doctor's name, image, quote or apparent endorsement in a way that could breach professional rules or mislead the public.",
+        "Before publication, legal review should consider the Consumer Protection Act, 2019, applicable CCPA advertising and endorsement guidelines, the ASCI Code where applicable, and medical-professional advertising restrictions.",
+      ],
+    },
+    {
+      heading: "11. Indian legal and regulatory framework",
+      body: [
+        "This policy is intended to support responsible publishing in India. It is not an exhaustive statement of law and does not replace legal advice. The laws and rules that apply depend on the content, service, audience, contractual role and actual processing activity.",
+        "Consumer Protection Act, 2019 and CCPA guidelines — Avoid misleading advertisements, unfair trade practices, false claims, deceptive endorsements and material omissions. Review the CCPA Guidelines for Prevention of Misleading Advertisements and Endorsements for Misleading Advertisements, 2022, as amended or supplemented.",
+        "Digital Personal Data Protection Act, 2023 and DPDP Rules, 2025 — Handle digital personal data transparently and lawfully, with appropriate notices, consent or other permitted grounds, safeguards, rights-handling and breach processes as and when the relevant provisions commence and apply. The commencement is phased; verify the provisions in force at the time of each activity.",
+        "Information Technology Act, 2000 and applicable rules — Assess applicable obligations for online services, cybersecurity, electronic records, intermediary functions and digital communications. Do not assume that every intermediary or digital-media rule applies to Med Safar India; obtain role-specific advice.",
+        "Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954 — Do not publish prohibited advertisements or claims relating to specified diseases, conditions, drugs or remedies. Obtain legal review before publishing medicine-related or disease-cure promotional content.",
+        "Medical-professional laws and NMC requirements — Respect the National Medical Commission Act, 2019 and applicable professional-conduct requirements governing registered medical practitioners. The NMC issued Guidelines on Ethical Advertising and Public Communication by Hospitals/Medical Institutions and Registered Medical Practitioners dated 6 October 2026. Their direct application to a facilitator, and any obligations where Med Safar acts for or on behalf of a hospital or doctor, must be assessed by Indian counsel.",
+        "Copyright Act, 1957 and Trade Marks Act, 1999 — Use text, photographs, videos, illustrations, music, research figures, logos and trademarks only with permission, a valid licence, a legal exception or another lawful basis. Credit alone does not replace permission.",
+        "Other applicable laws and sector rules — Depending on the service and content, assess the Clinical Establishments Act and relevant State legislation, telemedicine rules, advertising standards, professional rules, e-commerce requirements, tax and consumer contract requirements, and other applicable laws.",
+        "Med Safar India must not state or imply that this policy guarantees legal compliance. Management must maintain a current legal register and obtain advice on the laws applicable to its precise business model, partner arrangements and target markets.",
+      ],
+    },
+    {
+      heading: "12. International patients and cross-border content",
+      body: [
+        "Because Med Safar India may communicate with patients and families outside India, content and data practices must be assessed for the laws of the countries or regions being targeted and the places where individuals are located.",
+        "Depending on the circumstances, this may include privacy, consumer-protection, advertising, medical-professional, electronic-commerce and health-information requirements in countries such as the United Kingdom, European Union member states, Kenya, Nigeria, Bangladesh, Gulf countries and CIS markets. Applicability is fact-specific; this policy does not assert that every foreign law applies to every interaction.",
+        "Before launching a country-specific campaign, local legal advice should be obtained where required. Avoid claims that a treatment is approved, available, reimbursable or legally permissible in another country unless verified for that market.",
+      ],
+    },
+    {
+      heading: "13. Copyright, sources, images and permissions",
+      body: [
+        "Use original material, properly licensed material, public-domain material or material used under a clearly applicable legal exception.",
+        "Maintain a record of source URLs, publication details, licences, permissions and attribution requirements.",
+        "Do not copy articles, hospital brochures, medical diagrams, photographs, videos or social media content without permission merely because they are publicly accessible.",
+        "Use authentic images that accurately represent the subject. Do not use stock imagery in a way that falsely suggests it depicts a named patient, doctor, hospital or procedure.",
+        "Do not alter medical images or clinical photographs in a way that distorts clinical meaning.",
+        "Obtain written permission for partner logos and branded assets, and follow any usage conditions.",
+      ],
+    },
+    {
+      heading: "14. Artificial intelligence and automated tools",
+      body: [
+        "AI tools may be used to assist with drafting, language improvement, translation, formatting, summarisation or ideation. They must not be treated as authoritative medical, legal or regulatory sources.",
+        "A human editor must verify factual claims, references, names, credentials, statistics, translations and links before publication.",
+        "Clinical claims must undergo qualified medical review regardless of whether they were written by a person or generated with AI.",
+        "Do not enter identifiable patient information, medical records, identity documents or confidential partner information into an AI tool unless the tool and use have been specifically approved and appropriate privacy and security safeguards are in place.",
+        "Do not create fake patient testimonials, fabricated doctors, synthetic clinical evidence or misleading images of medical outcomes.",
+        "Disclose AI-generated or materially AI-altered content where disclosure is required by law, platform rules or the context, or where omission could mislead readers.",
+      ],
+    },
+    {
+      heading: "15. Editorial workflow and approval",
+      body: [
+        "The following workflow should be followed before publication. The organisation must assign named individuals to each role and must not claim a review process exists until it is operational.",
+        "Brief and classification — identify the audience, purpose, content type, clinical risk, commercial interest, privacy impact and target countries.",
+        "Drafting — prepare content using reliable sources and approved brand language.",
+        "Fact-check — verify names, dates, figures, claims, credentials, links, prices and partner information.",
+        "Medical review — obtain qualified review for clinical content and record the reviewer and date.",
+        "Legal, privacy and advertising review — escalate higher-risk content, testimonials, claims, paid promotions, patient data and cross-border campaigns.",
+        "Editorial approval — an authorised editor checks clarity, balance, tone, disclosures and compliance with this policy.",
+        "Publication and recordkeeping — publish the approved version and retain the source, approvals, consent records and publication date.",
+        "Monitoring and review — monitor for changed facts, complaints, new evidence, expired credentials, regulatory changes and partner updates.",
+        "Suggested risk levels: routine non-clinical content may receive editorial and factual review; clinical, comparative, testimonial, paid, patient-identifiable or cross-border content requires additional specialist review.",
+      ],
+    },
+    {
+      heading: "16. Corrections, updates and complaints",
+      body: [
+        "We will take reasonable steps to correct material errors promptly and transparently.",
+        "Readers, patients, healthcare professionals and partners may report suspected errors, outdated information, privacy concerns or misleading content through the contact channel published on our website.",
+        "Acknowledge complaints within a reasonable period and assess their urgency, especially where patient safety or privacy may be affected.",
+        "Correct or remove content where a material error, legal concern, consent issue or safety risk is established.",
+        "Where an error materially affects a reader's understanding, add a correction note or update date rather than silently changing the content, where appropriate.",
+        "Keep an internal record of the complaint, investigation, decision, correction and date.",
+        "For urgent safety or privacy concerns, content should be temporarily unpublished or restricted while the issue is assessed.",
+      ],
+    },
+    {
+      heading: "17. Accessibility, language and respectful communication",
+      body: [
+        "Content should be written in plain, respectful language and designed to be understandable to patients and families from different backgrounds. Explain medical terms where they are necessary. Avoid stigma, discrimination, stereotypes, shame-based messaging and assumptions about a person's age, disability, nationality, income, religion or health status.",
+        "Translations must preserve the meaning, qualifications and safety information of the original. Important patient-facing translations should be checked by a competent human reviewer.",
+      ],
+    },
+    {
+      heading: "18. Accountability and policy review",
+      body: [
+        "The management of Med Safar India is responsible for implementing this policy, assigning editorial and review responsibilities, maintaining approval records and ensuring that contractors and agencies working on its behalf are informed of the standards.",
+        "All employees, contributors and agencies must promptly escalate content that may be inaccurate, misleading, unlawful, privacy-invasive or inconsistent with patient-first principles.",
+        "This policy will be reviewed at least annually and whenever there is a material change in applicable law, NMC or other regulatory guidance, Med Safar India's services, commercial arrangements, technology or target markets.",
+      ],
     },
   ],
 };

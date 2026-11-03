@@ -28,10 +28,14 @@ export function HospitalCard({
   reveal?: boolean;
 }) {
   return (
-    <article className={`group h-full overflow-hidden rounded-lg border border-hairline bg-surface lift ${reveal ? "reveal" : ""}`}>
+    // A hover of its own rather than `lift`: a slower rise, and the shadow
+    // fades in on a layer of its own instead of being repainted each frame.
+    <article
+      className={`group relative h-full rounded-lg border border-hairline bg-surface transition-[translate,border-color] duration-500 ease-(--ease-soft) after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:shadow-(--elevation-lift) after:transition-opacity after:duration-500 after:ease-(--ease-soft) hover:-translate-y-1 hover:border-line hover:after:opacity-100 ${reveal ? "reveal" : ""}`}
+    >
       <Link
         href={`/hospitals/${hospital.slug}`}
-        className={`flex h-full flex-col focus-visible:-outline-offset-2 ${
+        className={`isolate flex h-full flex-col overflow-hidden rounded-[inherit] focus-visible:-outline-offset-2 ${
           wide ? "lg:grid lg:grid-cols-12" : ""
         }`}
       >
@@ -40,7 +44,7 @@ export function HospitalCard({
             picture={hospital.picture}
             ratio={feature || wide ? "aspect-[16/11]" : "aspect-[16/9]"}
             rounded="rounded-none"
-            className="border-0 transition-[scale] duration-700 ease-(--ease-soft) group-hover:scale-[1.04]"
+            className="border-0 transition-[scale] duration-700 ease-(--ease-soft) will-change-[scale] group-hover:scale-[1.03]"
             sizes={sizes}
           />
           <span className="absolute start-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-deep/70 px-3 py-1.5 text-sm font-medium text-white ring-1 ring-white/15 backdrop-blur-md">

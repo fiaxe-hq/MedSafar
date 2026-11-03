@@ -33,6 +33,7 @@ export const site: SiteContent = {
       { label: "Blog", href: "/blog" },
     ],
     menuLabel: "Menu",
+    bySpeciality: "By speciality",
     contact: { label: "Contact us", href: "/contact" },
     top: {
       call: "Call us",
@@ -53,6 +54,7 @@ export const site: SiteContent = {
     primary: "Get a free treatment plan",
     secondary: "Free consultation",
     whatsapp: "WhatsApp",
+    reports: "Upload your reports",
   },
 
   contact: {
@@ -66,11 +68,9 @@ export const site: SiteContent = {
       display: "+91 98203 22088",
     },
     email: "care@medsafar.com",
-    // Replace with the real profile links.
     social: [
-      { network: "instagram", label: "Instagram", href: "https://www.instagram.com/medsafar" },
-      { network: "facebook", label: "Facebook", href: "https://www.facebook.com/medsafar" },
-      { network: "youtube", label: "YouTube", href: "https://www.youtube.com/@medsafar" },
+      { network: "instagram", label: "Instagram", href: "https://www.instagram.com/medsafarindia" },
+      { network: "facebook", label: "Facebook", href: "https://www.facebook.com/profile.php?id=61596375772898" },
     ],
   },
 
@@ -111,6 +111,7 @@ export const site: SiteContent = {
       countryNone: "No match",
       submit: "Get a free consultation",
       reassurance: "One number is enough to start. Details can follow.",
+      reportsFirst: "Add your number first. Then you can upload your reports.",
     },
     step2: {
       heading: "A few more details",
@@ -180,16 +181,6 @@ export const site: SiteContent = {
       marketing: "Optional: send me news, offers and health information from Medsafar. I can unsubscribe at any time.",
       submit: "Send my details",
     },
-    otp: {
-      sent: "We sent a 6-digit code to {phone}.",
-      label: "Code",
-      submit: "Confirm",
-      resend: "Send a new code",
-      resendIn: "New code in {n} s",
-      change: "Change number",
-      verified: "Verified number",
-      useOther: "Use a different number",
-    },
     privacyNote: "Your medical details stay private. We use them only to plan your care.",
     saved: {
       heading: "Number saved",
@@ -202,6 +193,7 @@ export const site: SiteContent = {
     },
     errors: {
       phone: "Please enter a valid mobile number for the country you selected.",
+      country: "Please choose your country code, or type your number starting with + and the country code.",
       name: "Please enter your name.",
       email: "Please enter a valid email address.",
       consent: "Please tick the box so we can share your case with a doctor.",
@@ -209,12 +201,7 @@ export const site: SiteContent = {
       limit:
         "We already have your enquiries from today. A case manager will contact you. For anything urgent, message us on WhatsApp.",
       generic: "Something went wrong. Please try again, or reach us on WhatsApp.",
-      code: "That code is not right. Please check it and try again.",
-      expired: "This code has expired. Please ask for a new one.",
-      attempts: "Too many wrong codes. Please try again in an hour, or reach us on WhatsApp.",
-      sendLimit: "Too many codes sent to this number. Please try again later, or reach us on WhatsApp.",
-      wait: "A code was sent a moment ago. Please wait a few seconds before asking again.",
-      sms: "We could not send a code to this number. Please check it, or reach us on WhatsApp.",
+      bot: "We could not confirm you are not a robot. Please wait a moment and try again, or reach us on WhatsApp.",
     },
     sending: "Sending",
   },

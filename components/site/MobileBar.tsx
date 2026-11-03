@@ -13,7 +13,7 @@ export async function MobileBar() {
 
   return (
     <>
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-bg/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden">
+      <div data-intro-fade className="fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-bg/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden">
         <div className="flex gap-2 p-3">
           <a
             href={whatsappHref}
@@ -38,6 +38,7 @@ export async function MobileBar() {
         target="_blank"
         rel="noopener"
         aria-label={site.whatsappFloat}
+        data-intro-fade
         className="group fixed end-6 bottom-6 z-40 hidden items-center gap-3 lg:flex"
       >
         <span className="pointer-events-none translate-x-2 rounded-full bg-surface px-4 py-2 text-sm font-medium text-ink opacity-0 shadow-lift ring-1 ring-hairline transition-[opacity,translate] duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 rtl:-translate-x-2">

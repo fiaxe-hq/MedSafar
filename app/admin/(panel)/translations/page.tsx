@@ -48,7 +48,7 @@ export default async function TranslationsPage() {
       />
 
       <section className={`${adminCard} mt-8 p-5 sm:p-6`} aria-labelledby="progress">
-        <h2 id="progress" className="font-display text-xl font-semibold">How far each language is</h2>
+        <h2 id="progress" className="font-display text-lg font-semibold">How far each language is</h2>
         <p className="mt-1 text-sm text-ink-3">
           Of the {total.toLocaleString("en-GB")} pieces of text on the whole website.
         </p>
@@ -74,7 +74,7 @@ export default async function TranslationsPage() {
       </section>
 
       <section className={`${adminCard} mt-6 p-5 sm:p-6`} aria-labelledby="pages">
-        <h2 id="pages" className="font-display text-xl font-semibold">Website pages</h2>
+        <h2 id="pages" className="font-display text-lg font-semibold">Website pages</h2>
         <p className="mt-1 text-sm text-ink-3">
           Pages without an editor of their own: the home page, menus and buttons, the legal pages and the rest. Open one to translate it piece by piece.
         </p>
@@ -101,7 +101,7 @@ export default async function TranslationsPage() {
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <section className={`${adminCard} p-5 sm:p-6`} aria-labelledby="download">
-          <h2 id="download" className="font-display text-xl font-semibold">1. Download a file</h2>
+          <h2 id="download" className="font-display text-lg font-semibold">1. Download a file</h2>
           <p className="mt-1 text-sm text-ink-3">Open it in Excel or Google Sheets. Each row is one piece of text, with its English and a column per language.</p>
           <ul className="mt-5 space-y-3">
             <li>
@@ -134,7 +134,7 @@ export default async function TranslationsPage() {
         </section>
 
         <section className={`${adminCard} p-5 sm:p-6`} aria-labelledby="import">
-          <h2 id="import" className="font-display text-xl font-semibold">2. Fill it in, then import it</h2>
+          <h2 id="import" className="font-display text-lg font-semibold">2. Fill it in, then import it</h2>
           <ul className="mt-2 list-disc space-y-1 ps-5 text-sm text-ink-2">
             <li>Only fill in the language columns. Do not change Section, ID, Field or English.</li>
             <li>An empty cell leaves that language as it is.</li>
