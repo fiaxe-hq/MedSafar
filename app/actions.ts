@@ -1,12 +1,10 @@
 "use server";
 
-import { parsePhoneNumberFromString } from "libphonenumber-js";
 import type { PhoneNumber } from "libphonenumber-js/max";
 import { headers } from "next/headers";
 import { after } from "next/server";
 import { syncLeadToCrm } from "@/lib/crm";
 import { createLead, hashIp, overLeadLimit, saveReport, updateLead, type Lead } from "@/lib/leads";
-import { checkPhone, rememberVerified, verifiedPhone, type PhoneCheck } from "@/lib/otp";
 import { parsePhone } from "@/lib/phone";
 import { passedTurnstile } from "@/lib/turnstile";
 import { getQuestionnaire } from "@/content/questionnaires";
@@ -31,10 +29,7 @@ export type ActionResult =
         | "limit"
         | "required"
         | "generic"
-        | "bot"
-        | Exclude<PhoneCheck, "verified">;
-      /** Set while the visitor is at the code step: the number, written out. */
-      sentTo?: string;
+        | "bot";
     };
 
 /**
@@ -54,24 +49,6 @@ const ALLOWED_REPORT_TYPES = [
 ];
 
 /**
- * The code step, shared by both forms. A `code` field in the form means the
- * visitor typed one; without it (or with the resend button) a new code is
- * sent. A number already checked in this browser passes straight through.
- */
-async function verifyPhone(formData: FormData, phone: string, ipHash: string | null): Promise<PhoneCheck> {
-  const code = formData.get("code");
-  if (typedCode(formData) && typeof code === "string") {
-    // TEMP: an empty code passes outside production, for testing.
-    if (!code.trim() && process.env.NODE_ENV !== "production") {
-      await rememberVerified(phone);
-      return "verified";
-    }
-    return code.trim() ? checkPhone(phone, ipHash, code) : "code";
-  }
-  return checkPhone(phone, ipHash, null);
-}
-
-/**
  * The number from the form. When no country code was picked (the visitor's
  * country could not be found), the country Cloudflare sees is tried. Failing
  * that, the visitor is asked for the country code, not told the number is
@@ -88,40 +65,12 @@ async function readPhone(formData: FormData): Promise<PhoneNumber | "phone" | "c
   return guessed ?? "country";
 }
 
-/** True when the visitor sent back a code, rather than asking for one. */
-function typedCode(formData: FormData): boolean {
-  return formData.get("resend") !== "yes" && typeof formData.get("code") === "string";
-}
-
-/**
- * The bot check, on every send except a typed-back code: that one rides on
- * the code sent after an earlier send passed it.
- */
-async function botCheck(formData: FormData, ip: string | null): Promise<boolean> {
-  return typedCode(formData) || passedTurnstile(formData, ip);
-}
-
 /** Sends the enquiry to the CRM once the response has gone, so the visitor never waits on it. The CRM emails the team. */
 async function alertTeam(lead: Lead) {
   after(() => syncLeadToCrm(lead));
 }
 
-/** The number already checked in this browser, so the forms need not ask again. */
-export async function getVerified(): Promise<{ phone: string; iso: string; shown: string } | null> {
-  try {
-    const phone = await verifiedPhone();
-    const parsed = phone ? parsePhoneNumberFromString(phone) : null;
-    if (!parsed?.country) return null;
-    return { phone: parsed.number, iso: parsed.country, shown: parsed.formatInternational() };
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Step 1: mobile number only. Saved as soon as the number is confirmed with
- * its code, before anything else is asked.
- */
+/** Step 1: mobile number only. Saved at once, before anything else is asked. */
 export async function saveNumber(
   _prev: ActionResult | null,
   formData: FormData,
@@ -136,10 +85,7 @@ export async function saveNumber(
     const ip = (await headers()).get("cf-connecting-ip");
     const ipHash = ip ? await hashIp(ip) : null;
     if (await overLeadLimit(parsed.number, ipHash)) return { ok: false, error: "limit" };
-    if (!(await botCheck(formData, ip))) return { ok: false, error: "bot" };
-
-    const check = await verifyPhone(formData, parsed.number, ipHash);
-    if (check !== "verified") return { ok: false, error: check, sentTo: parsed.formatInternational() };
+    if (!(await passedTurnstile(formData, ip))) return { ok: false, error: "bot" };
 
     const lead = await createLead({
       phone: parsed.number,
@@ -261,10 +207,7 @@ export async function saveQuestionnaire(
     const ip = (await headers()).get("cf-connecting-ip");
     const ipHash = ip ? await hashIp(ip) : null;
     if (await overLeadLimit(parsed.number, ipHash)) return { ok: false, error: "limit" };
-    if (!(await botCheck(formData, ip))) return { ok: false, error: "bot" };
-
-    const check = await verifyPhone(formData, parsed.number, ipHash);
-    if (check !== "verified") return { ok: false, error: check, sentTo: parsed.formatInternational() };
+    if (!(await passedTurnstile(formData, ip))) return { ok: false, error: "bot" };
 
     const phoneIso = parsed.country ?? iso;
     const lead = await createLead({

@@ -5,10 +5,6 @@
 # the sign-in cookies. At least 8 characters.
 ADMIN_PASSWORD=change-me-to-a-long-random-string
 
-# Signs the mobile number check's cookies (lib/otp.ts). Any long random
-# string, e.g. `openssl rand -hex 32`. Never reuse another key here.
-OTP_SECRET=
-
 # CRM (lib/crm.ts): every enquiry is sent to crm.fiaxe.com as a lead, matched by mobile number.
 CRM_API_KEY=
 

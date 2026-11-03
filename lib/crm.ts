@@ -7,7 +7,7 @@ import type { Lead } from "./leads";
  * otherwise a new one is created. So a number that enquires twice, or moves
  * from the first step to the full form, stays one lead.
  *
- * A number that has only been verified is a "Partial entry": it is still a
+ * A number on its own is a "Partial entry": it is still a
  * lead the team can call. Once the rest of the form comes in, the same lead
  * moves to "New". A lead the team has already moved on is left where it is.
  *

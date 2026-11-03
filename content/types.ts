@@ -188,18 +188,6 @@ export type FormContent = {
     marketing: string;
     submit: string;
   };
-  /** The step where the code sent to the mobile number is typed in. `{phone}` and `{n}` (seconds) are filled in. */
-  otp: {
-    sent: string;
-    label: string;
-    submit: string;
-    resend: string;
-    resendIn: string;
-    change: string;
-    /** Shown with a number already checked in this browser. */
-    verified: string;
-    useOther: string;
-  };
   /** Under the form: how medical details are handled. */
   privacyNote: string;
   saved: {
@@ -220,12 +208,6 @@ export type FormContent = {
     file: string;
     limit: string;
     generic: string;
-    code: string;
-    expired: string;
-    attempts: string;
-    sendLimit: string;
-    wait: string;
-    sms: string;
     bot: string;
   };
   sending: string;

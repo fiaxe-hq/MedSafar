@@ -4,8 +4,7 @@ import { useActionState, useEffect, useId, useState } from "react";
 import { LockSimpleIcon } from "@phosphor-icons/react/dist/ssr/LockSimple";
 import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
 import { saveDetails, saveNumber } from "@/app/actions";
-import { CodeStep, VerifiedNumber, formError, useCodeStep } from "@/components/form/CodeStep";
-import { useVerified } from "@/components/form/useVerified";
+import { formError } from "@/components/form/formError";
 import { DialPicker } from "@/components/form/DialPicker";
 import { Turnstile } from "@/components/form/Turnstile";
 import type { DialCode, FormContent } from "@/content/types";
@@ -24,10 +23,9 @@ import {
 /**
  * The enquiry form, used in the hero and again near the foot of the page.
  *
- * Step 1 asks for the mobile number and nothing else, sends a code to it, and
- * saves it as soon as the code is typed back, so an abandoned enquiry is
- * still an enquiry we can answer, and every number saved is a real one.
- * Step 2 collects the rest. Both steps post to a Server Action, so the form
+ * Step 1 asks for the mobile number and nothing else, and saves it at once,
+ * so an abandoned enquiry is still an enquiry we can answer. Step 2 collects
+ * the rest. Both steps post to a Server Action, so the form
  * also works before the JavaScript has arrived.
  *
  * It remembers, in this browser, the contact details given before and the
@@ -55,18 +53,14 @@ export function EnquiryForm({
   const uid = useId();
   const [numberState, submitNumber, savingNumber] = useActionState(saveNumber, null);
   const [detailsState, submitDetails, savingDetails] = useActionState(saveDetails, null);
-  const [codeSent, closeCode] = useCodeStep(numberState);
   const [iso, setIso] = useState(defaultIso);
-  /** The number as last sent, for the code step and for going back to change it. */
+  /** The number as last sent, kept in the field if it is refused. */
   const [typed, setTyped] = useState<{ iso: string; phone: string } | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [issue, setIssue] = useState<Issue | null>(null);
   const [known, setKnown] = useState<Contact | null>(null);
   /** Came from an "Upload your reports" button (#reports): lead to the file field. */
   const [wantsReports, setWantsReports] = useState(false);
-  const [verified, dropVerified, refreshVerified] = useVerified();
-  /** A saved number the visitor chose to replace, so the form goes back to step 1. */
-  const [replaced, setReplaced] = useState<string | null>(null);
 
   // Read what this browser remembers once it is on screen. Storage is not
   // there during the server render, so this has to wait for the effect.
@@ -105,17 +99,10 @@ export function EnquiryForm({
     return () => window.removeEventListener("hashchange", check);
   }, []);
 
-  const savedId = numberState?.ok ? numberState.leadId : null;
-  const leadId = savedId && savedId !== replaced ? savedId : null;
+  const leadId = numberState?.ok ? numberState.leadId : null;
   const done = detailsState?.ok === true;
   const treatment = issue?.treatment || defaultTreatment;
   const issueNote = issue ? `About: ${describeIssue(issue)}` : "";
-
-  // A number was just saved: show the one now checked in this browser.
-  useEffect(() => {
-    if (leadId) refreshVerified();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [leadId]);
 
   // Number saved and the visitor came to send reports: take them to the file field.
   useEffect(() => {
@@ -154,12 +141,9 @@ export function EnquiryForm({
     );
   }
 
-  // Step 1 - mobile number only, then the code sent to it.
+  // Step 1 - mobile number only.
   if (!leadId) {
-    const error = numberState && !numberState.ok ? numberState.error : null;
-    // A wrong or expired code belongs to the code step, not to the number.
-    const codeError = error === "code" || error === "expired" || error === "attempts";
-    const message = formError(text, codeError && !codeSent ? null : error);
+    const message = formError(text, numberState && !numberState.ok ? numberState.error : null);
     return (
       <form
         action={submitNumber}
@@ -180,62 +164,43 @@ export function EnquiryForm({
             <input type="hidden" name="notes" value={issueNote} />
           </>
         ) : null}
-        {verified && !codeSent ? (
-          <>
-            <input type="hidden" name="iso" value={verified.iso} />
-            <input type="hidden" name="phone" value={verified.phone} />
-            <VerifiedNumber text={text} verified={verified} onOther={dropVerified} />
-            <button type="submit" className={`${btnPrimary} w-full`} disabled={savingNumber}>
-              {savingNumber ? `${text.sending}...` : text.step1.submit}
-            </button>
-          </>
-        ) : codeSent && typed ? (
-          <>
-            <input type="hidden" name="iso" value={typed.iso} />
-            <input type="hidden" name="phone" value={typed.phone} />
-            <CodeStep text={text} sent={codeSent} sending={savingNumber} onChange={closeCode} />
-          </>
-        ) : (
-          <>
-            <label htmlFor={`${uid}-phone`} className={label}>
-              {text.step1.label}
-            </label>
-            {wantsReports ? <p className="-mt-2 text-sm text-ink-2">{text.step1.reportsFirst}</p> : null}
+        <label htmlFor={`${uid}-phone`} className={label}>
+          {text.step1.label}
+        </label>
+        {wantsReports ? <p className="-mt-2 text-sm text-ink-2">{text.step1.reportsFirst}</p> : null}
 
-            {/* Country code and number share one control, so it reads as a single
-                field rather than two boxes jammed together. */}
-            <div className="flex min-h-13 items-stretch rounded-md border border-line bg-surface transition-[border-color,box-shadow] focus-within:border-accent focus-within:ring-4 focus-within:ring-accent/10">
-              <DialPicker
-                id={`${uid}-iso`}
-                label={text.step1.countryLabel}
-                search={text.step1.countrySearch}
-                none={text.step1.countryNone}
-                dialCodes={dialCodes}
-                value={iso}
-                onChange={setIso}
-              />
+        {/* Country code and number share one control, so it reads as a single
+            field rather than two boxes jammed together. */}
+        <div className="flex min-h-13 items-stretch rounded-md border border-line bg-surface transition-[border-color,box-shadow] focus-within:border-accent focus-within:ring-4 focus-within:ring-accent/10">
+          <DialPicker
+            id={`${uid}-iso`}
+            label={text.step1.countryLabel}
+            search={text.step1.countrySearch}
+            none={text.step1.countryNone}
+            dialCodes={dialCodes}
+            value={iso}
+            onChange={setIso}
+          />
 
-              <span aria-hidden className="my-2.5 w-px bg-hairline" />
+          <span aria-hidden className="my-2.5 w-px bg-hairline" />
 
-              <input
-                key={typed?.phone ?? known?.phone ?? ""}
-                id={`${uid}-phone`}
-                name="phone"
-                defaultValue={typed?.phone ?? known?.phone}
-                type="tel"
-                inputMode="tel"
-                autoComplete="tel-national"
-                required
-                placeholder="000 000 0000"
-                className="min-w-0 flex-1 rounded-e-md bg-transparent px-4 text-base text-ink placeholder:text-ink-3 focus:outline-none"
-              />
-            </div>
+          <input
+            key={typed?.phone ?? known?.phone ?? ""}
+            id={`${uid}-phone`}
+            name="phone"
+            defaultValue={typed?.phone ?? known?.phone}
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel-national"
+            required
+            placeholder="000 000 0000"
+            className="min-w-0 flex-1 rounded-e-md bg-transparent px-4 text-base text-ink placeholder:text-ink-3 focus:outline-none"
+          />
+        </div>
 
-            <button type="submit" className={`${btnPrimary} w-full`} disabled={savingNumber}>
-              {savingNumber ? `${text.sending}...` : text.step1.submit}
-            </button>
-          </>
-        )}
+        <button type="submit" className={`${btnPrimary} w-full`} disabled={savingNumber}>
+          {savingNumber ? `${text.sending}...` : text.step1.submit}
+        </button>
 
         <Turnstile resetKey={numberState} />
 
@@ -410,18 +375,6 @@ export function EnquiryForm({
       >
         {banner}
         <input type="hidden" name="leadId" value={leadId} />
-
-        {verified ? (
-          <VerifiedNumber
-            text={text}
-            verified={verified}
-            onOther={() => {
-              setReplaced(leadId);
-              setTyped({ iso: verified.iso, phone: "" });
-              dropVerified();
-            }}
-          />
-        ) : null}
 
         <div>
           <label htmlFor={`${uid}-name`} className={label}>

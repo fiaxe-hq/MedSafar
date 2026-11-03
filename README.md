@@ -25,9 +25,6 @@ The client sees it at <https://building-medsafar.xaif-0e9.workers.dev/>.
    pnpm run dev
    ```
 
-Locally, the mobile number code is written to the dev server's log and an empty
-code passes, so the form can be tried without an SMS provider.
-
 For the admin, open `/admin`: the first time, it asks for the setup key (the
 `ADMIN_PASSWORD` in `.dev.vars`) and creates your account. To try the page
 cache as the Worker runs it, use `pnpm run preview`.
@@ -155,10 +152,8 @@ the server.
   `/admin/enquiries`.
 - **Spam limit:** one connection or one phone number can start at most 3
   enquiries in 24 hours. The IP address is never stored, only a one-way hash.
-- **Number check** (`lib/otp.ts`, `lib/sms.ts`): signed cookies, limits counted
-  in D1. It switches on by itself once an SMS provider is wired into
-  `lib/sms.ts` (`smsReady()` returns true). Until then it is off on the Worker.
-  Secret: `OTP_SECRET`.
+- **Bot check** (`lib/turnstile.ts`): Cloudflare Turnstile on both forms.
+  Secret: `TURNSTILE_SECRET_KEY`; until set, it is skipped.
 - **CRM** (`lib/crm.ts`): every enquiry is sent to crm.fiaxe.com as a lead,
   matched by mobile number. A number alone is "Partial entry"; a full form moves
   it to "New". Secret: `CRM_API_KEY`; until set, nothing is sent. The CRM sends
@@ -287,9 +282,8 @@ domain, so only the team's addresses reach the sign-in page.
 | Name | Used for |
 | --- | --- |
 | `ADMIN_PASSWORD` | Setup key for the first `/admin` account; also signs the sign-in cookies. |
-| `OTP_SECRET` | Signs the mobile number check's cookies. |
 | `CRM_API_KEY` | Sends enquiries to the CRM. |
-| SMS provider keys | To be added when a provider is chosen. |
+| `TURNSTILE_SECRET_KEY` | The bot check on the forms. |
 
 ## Still open
 

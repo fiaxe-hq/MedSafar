@@ -212,11 +212,7 @@ export async function deleteLead(id: string): Promise<boolean> {
     .first<{ phone: string; report_file: string | null }>();
   if (!row) return false;
   if (row.report_file) await eraseReport(row.report_file);
-  await db.batch([
-    db.prepare("DELETE FROM leads WHERE id = ?").bind(id),
-    db.prepare("DELETE FROM otp_sends WHERE phone = ?").bind(row.phone),
-    db.prepare("DELETE FROM otp_attempts WHERE phone = ?").bind(row.phone),
-  ]);
+  await db.prepare("DELETE FROM leads WHERE id = ?").bind(id).run();
   return true;
 }
 
