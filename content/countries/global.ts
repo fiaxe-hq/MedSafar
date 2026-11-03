@@ -82,7 +82,7 @@ export const global: CountryContent = {
     heading: "Partner hospitals",
     intro:
       "We match the hospital to the case, not the other way round. You see the choice, the doctor and the estimate before you decide.",
-    featured: ["nanavati-max", "kenia-eye", "kenia-dental"],
+    featured: ["nanavati-max", "wockhardt-mumbai-central", "kenia-eye", "kenia-dental"],
     note: "More partner hospitals are being added. Your doctor is chosen for your case once a specialist has read the reports.",
   },
 

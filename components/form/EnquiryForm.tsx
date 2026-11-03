@@ -7,6 +7,7 @@ import { saveDetails, saveNumber } from "@/app/actions";
 import { CodeStep, VerifiedNumber, formError, useCodeStep } from "@/components/form/CodeStep";
 import { useVerified } from "@/components/form/useVerified";
 import { DialPicker } from "@/components/form/DialPicker";
+import { Turnstile } from "@/components/form/Turnstile";
 import type { DialCode, FormContent } from "@/content/types";
 import { btnPlain, btnPrimary, field, label } from "@/components/ui/styles";
 import { showUpcoming } from "@/lib/preview";
@@ -61,6 +62,8 @@ export function EnquiryForm({
   const [fileName, setFileName] = useState<string | null>(null);
   const [issue, setIssue] = useState<Issue | null>(null);
   const [known, setKnown] = useState<Contact | null>(null);
+  /** Came from an "Upload your reports" button (#reports): lead to the file field. */
+  const [wantsReports, setWantsReports] = useState(false);
   const [verified, dropVerified, refreshVerified] = useVerified();
   /** A saved number the visitor chose to replace, so the form goes back to step 1. */
   const [replaced, setReplaced] = useState<string | null>(null);
@@ -93,6 +96,15 @@ export function EnquiryForm({
   }, []);
   /* eslint-enable react-hooks/set-state-in-effect */
 
+  useEffect(() => {
+    const check = () => {
+      if (window.location.hash === "#reports") setWantsReports(true);
+    };
+    check();
+    window.addEventListener("hashchange", check);
+    return () => window.removeEventListener("hashchange", check);
+  }, []);
+
   const savedId = numberState?.ok ? numberState.leadId : null;
   const leadId = savedId && savedId !== replaced ? savedId : null;
   const done = detailsState?.ok === true;
@@ -104,6 +116,18 @@ export function EnquiryForm({
     if (leadId) refreshVerified();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [leadId]);
+
+  // Number saved and the visitor came to send reports: take them to the file field.
+  useEffect(() => {
+    if (!leadId || !wantsReports) return;
+    // After the step has settled. scrollIntoView does not move the page here
+    // (the body clips overflow), so the window is scrolled by hand.
+    const timer = setTimeout(() => {
+      const box = document.getElementById(`${uid}-report`)?.getBoundingClientRect();
+      if (box) window.scrollTo({ top: window.scrollY + box.top - window.innerHeight / 2, behavior: "smooth" });
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [leadId, wantsReports, uid]);
 
   // Sent: the question is answered, so forget it.
   useEffect(() => {
@@ -176,6 +200,7 @@ export function EnquiryForm({
             <label htmlFor={`${uid}-phone`} className={label}>
               {text.step1.label}
             </label>
+            {wantsReports ? <p className="-mt-2 text-sm text-ink-2">{text.step1.reportsFirst}</p> : null}
 
             {/* Country code and number share one control, so it reads as a single
                 field rather than two boxes jammed together. */}
@@ -211,6 +236,8 @@ export function EnquiryForm({
             </button>
           </>
         )}
+
+        <Turnstile resetKey={numberState} />
 
         {message ? (
           <p role="alert" className="text-sm font-medium text-red-700">
@@ -431,7 +458,7 @@ export function EnquiryForm({
         {compact ? null : treatBlock}
 
         {compact ? (
-          <details className="group rounded-md border border-line">
+          <details className="group rounded-md border border-line" open={wantsReports || undefined}>
             <summary className="cursor-pointer list-none px-4 py-3.5 text-base font-medium text-accent">{text.step2.more}</summary>
             <div className="space-y-6 px-4 pb-5">{extras}</div>
           </details>

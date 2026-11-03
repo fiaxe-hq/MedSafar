@@ -15,6 +15,7 @@ import { TreatmentCard } from "@/components/catalog/TreatmentCard";
 import { DoctorTile } from "@/components/catalog/DoctorTile";
 import { HospitalCard } from "@/components/catalog/HospitalCard";
 import { EnquiryBlock } from "@/components/sections/EnquiryBlock";
+import { Faq } from "@/components/sections/Faq";
 import { QuestionnaireCallout } from "@/components/questionnaire/QuestionnaireCallout";
 import { Section, SectionHead } from "@/components/ui/Section";
 import { getLang, getText } from "@/lib/i18n/text";
@@ -123,6 +124,23 @@ export default async function Page({ params }: Props) {
             ))}
           </div>
         </Section>
+      ) : null}
+
+      {/* How long each treatment keeps a patient in hospital and in India,
+          from the treatment records. */}
+      {treatments.length ? (
+        <Faq
+          content={{
+            faq: {
+              heading: text.detail.faq,
+              items: treatments.map((t) => ({
+                question: text.detail.stayQuestion.replace("{treatment}", t.name),
+                answer: `${t.stay} ${t.recovery}`,
+              })),
+            },
+          }}
+          pending={treatments.some((t) => !t.checked)}
+        />
       ) : null}
 
       <EnquiryBlock

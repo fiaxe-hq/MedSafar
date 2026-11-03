@@ -11,3 +11,7 @@ OTP_SECRET=
 
 # CRM (lib/crm.ts): every enquiry is sent to crm.fiaxe.com as a lead, matched by mobile number.
 CRM_API_KEY=
+
+# Bot check on the forms (lib/turnstile.ts). Not needed locally: Cloudflare's
+# test keys are used there. On the Worker, set it as a secret.
+TURNSTILE_SECRET_KEY=

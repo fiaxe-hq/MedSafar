@@ -37,7 +37,8 @@ export async function EnquiryBlock({
             <p className="mt-6 max-w-[46ch] text-lg text-ink-2">{enquiry.support}</p>
           </div>
 
-          <div className="min-w-0 rounded-lg bg-surface p-5 sm:p-7 lg:col-span-6">
+          {/* Target of the "Upload your reports" buttons; the form reads the address. */}
+          <div id="reports" className="min-w-0 scroll-mt-28 rounded-lg bg-surface p-5 sm:p-7 lg:col-span-6">
             <EnquiryForm
               text={submit ? { ...site.form, step1: { ...site.form.step1, submit } } : site.form}
               dialCodes={await getDialCodes(content.iso ?? null)}

@@ -4,7 +4,8 @@ import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr/ArrowLeft";
 import type { Picture } from "@/content/types";
 import { Container } from "@/components/ui/Container";
 import { Mark } from "@/components/ui/Pending";
-import { btnPrimary } from "@/components/ui/styles";
+import { UploadSimpleIcon } from "@phosphor-icons/react/dist/ssr/UploadSimple";
+import { btnPrimary, btnQuiet } from "@/components/ui/styles";
 import { getText } from "@/lib/i18n/text";
 import { isUploaded } from "@/lib/uploaded";
 
@@ -91,9 +92,13 @@ export async function PageHead({
           {pending ? <Mark check={pending === "check"} className="hero-rise mt-6 [animation-delay:160ms]" /> : null}
 
           {cta ? (
-            <div className="hero-rise mt-8 [animation-delay:200ms]">
+            <div className="hero-rise mt-8 flex flex-wrap gap-3 [animation-delay:200ms]">
               <a href="#plan" className={btnPrimary}>
                 {typeof cta === "string" ? cta : site.cta.primary}
+              </a>
+              <a href="#reports" className={btnQuiet}>
+                <UploadSimpleIcon size={18} aria-hidden />
+                {site.cta.reports}
               </a>
             </div>
           ) : null}

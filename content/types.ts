@@ -26,6 +26,8 @@ export type NavItem = {
   image?: string;
   /** A short second line, such as a hospital's city. */
   note?: string;
+  /** CSS object-position for the photo, as on the hospital's own picture. */
+  focus?: string;
 };
 
 /** A top nav entry. `menu` fills its dropdown from the catalog; `items` is a
@@ -54,6 +56,8 @@ export type SiteContent = {
   nav: {
     items: NavEntry[];
     menuLabel: string;
+    /** Heading over the speciality list in the doctors menu. */
+    bySpeciality: string;
     contact: NavItem;
     /** The slim bar above the header on computers. */
     top: { call: string; whatsapp: string; email: string; free: string };
@@ -72,6 +76,8 @@ export type SiteContent = {
     primary: string;
     secondary: string;
     whatsapp: string;
+    /** Second button by the main one: down to the form, ready for files. */
+    reports: string;
   };
   contact: {
     whatsapp: {
@@ -157,6 +163,8 @@ export type FormContent = {
     countryNone: string;
     submit: string;
     reassurance: string;
+    /** Above the number when the visitor came to upload reports. */
+    reportsFirst: string;
   };
   step2: {
     heading: string;
@@ -205,6 +213,7 @@ export type FormContent = {
   };
   errors: {
     phone: string;
+    country: string;
     name: string;
     email: string;
     consent: string;
@@ -217,6 +226,7 @@ export type FormContent = {
     sendLimit: string;
     wait: string;
     sms: string;
+    bot: string;
   };
   sending: string;
 };
@@ -461,9 +471,14 @@ export type CatalogContent = {
     /** Follows the number of results: "1 result", "3 results". */
     result: string;
     results: string;
+    /** The search box above a list, and the speciality list beside it. */
+    search: string;
+    allSpecialities: string;
+    specialities: string;
   };
   hospitals: ListPageText & {
     filters: { city: string; speciality: string };
+    searchPlaceholder: string;
     /** Labels under the counts in the page opener. */
     stats: { specialities: string; doctors: string; treatments: string };
     /** The row of speciality tiles above the list. */
@@ -503,6 +518,7 @@ export type CatalogContent = {
   };
   doctors: ListPageText & {
     filters: { speciality: string; hospital: string };
+    searchPlaceholder: string;
     /** Labels under the counts in the page opener. */
     stats: { doctors: string; specialities: string; hospitals: string };
     /** Label on each card's link. */
@@ -563,6 +579,9 @@ export type CatalogContent = {
       hospitals: string;
       /** Labels under the counts in the page opener. */
       stats: { treatments: string; doctors: string; hospitals: string };
+      faq: string;
+      /** One question per treatment; {treatment} is its name. */
+      stayQuestion: string;
     };
   };
   blog: ListPageText & {
@@ -682,6 +701,7 @@ export type HomeContent = {
   /** Big buttons under the hero for the four things most visitors came to do. */
   quick: {
     heading: string;
+    free: string;
     items: { icon: "treatment" | "doctor" | "hospital" | "opinion"; title: string; body: string; href: string }[];
   };
   journey: {

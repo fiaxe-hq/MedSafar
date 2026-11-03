@@ -7,11 +7,13 @@ import type { HomeContent } from "./types";
 export const home: HomeContent = {
   quick: {
     heading: "What would you like to do?",
+    /** Tag on the free-opinion option. */
+    free: "Free",
     items: [
       { icon: "treatment", title: "Find a treatment", body: "Search, or tap the body", href: "/treatments" },
       { icon: "doctor", title: "Find a doctor", body: "Senior specialists", href: "/doctors" },
       { icon: "hospital", title: "Compare hospitals", body: "Side by side", href: "/hospitals" },
-      { icon: "opinion", title: "Get a free opinion", body: "Send your reports", href: "#plan" },
+      { icon: "opinion", title: "Get a free opinion", body: "Send your reports", href: "#reports" },
     ],
   },
   journey: {

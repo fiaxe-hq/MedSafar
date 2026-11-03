@@ -1,13 +1,15 @@
 import type { CountryContent } from "@/content/types";
 import { Section } from "@/components/ui/Section";
+import { Mark } from "@/components/ui/Pending";
 
 /** Built on <details>, so it opens and closes without any JavaScript. */
-export function Faq({ content }: { content: Pick<CountryContent, "faq"> }) {
+export function Faq({ content, pending = false }: { content: Pick<CountryContent, "faq">; pending?: boolean }) {
   const { faq } = content;
 
   return (
     <Section id="faq" tone="quiet">
       <h2 className="reveal display-2 max-w-[18ch]">{faq.heading}</h2>
+      {pending ? <Mark check className="mt-4" /> : null}
 
       <div className="mt-10 rounded-lg border border-hairline bg-surface px-5 sm:px-8 lg:mt-12">
         {faq.items.map((item, i) => (

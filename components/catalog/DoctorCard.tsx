@@ -40,7 +40,7 @@ export function DoctorCard({
           <p className="mt-2 text-base text-ink-2">{doctor.role}</p>
           <p className="mt-1 text-base text-ink-2">{hospital}</p>
           <p className="mt-1 text-sm text-ink-3">{speciality}</p>
-          <p className="mt-3 text-sm text-ink-3">{doctor.experience}</p>
+          {doctor.experience ? <p className="mt-3 text-sm text-ink-3">{doctor.experience}</p> : null}
           <CardFoot pending={doctor.pending} />
         </div>
       </Link>

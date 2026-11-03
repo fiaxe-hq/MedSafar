@@ -20,6 +20,14 @@ const photo = photos("nanavati-max");
 const keniaPhoto = photos("kenia-eye");
 // From keniadentalclinic.com.
 const keniaDentalPhoto = photos("kenia-dental");
+// Mumbai Central's theatre, cath lab and tower are from the Wockhardt
+// Hospitals brochure (May 2025). The other photos are from each branch's
+// Google Maps listing, and Nagpur's front views from wockhardthospitals.com.
+const wockhardtPhoto = photos("wockhardt-mumbai-central");
+const wockhardtMiraPhoto = photos("wockhardt-mira-road");
+const wockhardtNagpurPhoto = photos("wockhardt-nagpur");
+const wockhardtHeartPhoto = photos("wockhardt-nagpur-heart");
+const wockhardtRajkotPhoto = photos("wockhardt-rajkot");
 
 export const hospitals: Hospital[] = [
   {
@@ -397,7 +405,11 @@ export const hospitals: Hospital[] = [
       "Most eye operations are day procedures, with no overnight stay",
       "A specialist on call 24 hours a day for eye emergencies",
     ],
-    picture: keniaPhoto("surgery", "A surgeon operating at the microscope at Kenia Eye Hospital"),
+    // Kept high so the surgeon's head stays in a wide frame.
+    picture: {
+      ...keniaPhoto("surgery", "A surgeon operating at the microscope at Kenia Eye Hospital"),
+      focus: "50% 6%",
+    },
     gallery: [
       keniaPhoto("refractive-screening", "A doctor scanning a patient's eyes in the refractive screening room"),
       keniaPhoto("eye-exam", "Doctors examining a patient at the slit lamp"),
@@ -441,20 +453,235 @@ export const hospitals: Hospital[] = [
       "Digital X-rays taken in the clinic",
       "In the same building as Kenia Eye Hospital, so eye and dental care can be planned for one trip",
     ],
-    // A wide photo for the card: the tall ones lose most of themselves in a wide frame.
-    picture: {
-      ...keniaDentalPhoto("treatment-suite", "A treatment room with its dental chair and tooth-shaped display shelf"),
-      focus: "58% 50%",
-    },
+    // A 16:9 cut of the treatment room for the card, so a wide frame shows
+    // the whole room rather than a sliver of it.
+    picture: keniaDentalPhoto("treatment-suite-wide", "A treatment room with its dental chair and tooth-shaped display shelf"),
     gallery: [
-      {
-        ...keniaDentalPhoto("treatment-suite", "A treatment room with its dental chair and tooth-shaped display shelf"),
-        focus: "58% 50%",
-      },
       { ...keniaDentalPhoto("front-desk", "The reception desk under the Kenia Dental Clinic sign"), focus: "50% 8%" },
       { ...keniaDentalPhoto("glass-entrance", "The glass entrance to the clinic"), focus: "50% 40%" },
       keniaDentalPhoto("patient-wall", "A lit wall of patient guides on implants and treatments"),
       { ...keniaDentalPhoto("tooth-shelf", "A tooth-shaped shelf of oral care products"), focus: "50% 35%" },
     ],
+  },
+
+  // Wockhardt Hospitals: all five hospitals in the group are under Medsafar's
+  // agreement. Facts from the group brochure (May 2025), except addresses,
+  // beds, theatres and branch facilities, which come from each branch's page
+  // on wockhardthospitals.com (Nov 2026).
+  {
+    slug: "wockhardt-mumbai-central",
+    name: "Wockhardt Hospitals, Mumbai Central",
+    city: "Mumbai",
+    address: "1877, Dr. Anand Rao Nair Road, near Agripada Police Station, Mumbai Central (East), Mumbai 400 011, India",
+    accreditation: "JCI (USA) and NABH (India) accredited",
+    overview:
+      "The South Mumbai flagship of Wockhardt Hospitals, the largest multi-speciality tertiary care group in western India, with 5 hospitals and 1,050 beds. This hospital is a 20-storey building with 350 beds, 100 critical care beds, 8 modular operating theatres, two cath labs, the largest children's heart unit in South Mumbai and a large accident and emergency department. The group has treated over 63,000 international patients from more than 100 countries in the past 11 years, and many of its doctors trained or worked in the US, UK and Europe. Across the group it carries out kidney, liver and bone marrow transplants, with 27 of its 300 critical care beds set aside for transplant patients, and offers robotic knee and hip replacement, deep brain stimulation and TAVI.",
+    centresLabel: "Specialities",
+    // The "Specialities & Super-specialities" page of the brochure.
+    centres: [
+      "Cardiology and cardiac surgery",
+      "Paediatric cardiology and paediatric cardiothoracic surgery",
+      "Neurology, neurosurgery and spine surgery",
+      "Orthopaedics, rheumatology and joint replacement surgery",
+      "Organ transplant",
+      "Minimal access surgery",
+      "Gastroenterology and gastrointestinal surgery",
+      "Medical and surgical oncology",
+      "General surgery and internal medicine",
+      "Arthroscopic procedures and sports medicine",
+      "Thoracic surgery",
+      "Vascular surgery",
+      "Gynaecology and gynaecological surgery",
+      "Bariatric surgery",
+      "Nephrology and urology",
+      "Aesthetic, plastic and reconstructive surgery",
+      "Endocrinology",
+      "Dermatology",
+      "Pulmonology",
+      "ENT procedures and surgery",
+    ],
+    specialities: [
+      "organ-transplant",
+      "haematology-bmt",
+      "cardiology",
+      "neurology-neurosurgery",
+      "orthopaedics",
+      "oncology",
+      "gastroenterology",
+      "general-surgery",
+      "bariatric-surgery",
+      "urology",
+      "gynaecology",
+      "cosmetic-plastic-surgery",
+      "ent",
+    ],
+    // Named in the brochure: its transplant and high-end surgery pages, the
+    // procedures in its patient stories (international patients, which the
+    // brochure pictures at this hospital), and press cuttings that name it.
+    treatments: [
+      "kidney-transplant",
+      "liver-transplant",
+      "bone-marrow-transplant",
+      "robotic-joint-replacement",
+      "knee-replacement",
+      "hip-replacement",
+      "deep-brain-stimulation",
+      "tavi",
+      "angioplasty",
+      "icd-implantation",
+      "peripheral-artery-disease",
+      "paediatric-heart-surgery",
+      "acdf",
+      "endoscopic-spine-surgery",
+      "brain-tumour-surgery",
+      "cranioplasty",
+      "shoulder-arthroscopy",
+      "breast-cancer-surgery",
+      "endoscopy",
+    ],
+    services: [
+      "A free medical opinion from a specialist by email, WhatsApp or call",
+      "Airport pickup and drop",
+      "Help with visas, FRRO registration, visa extensions and currency exchange",
+      "A relationship manager on call 24 hours a day",
+      "Interpreters for Arabic, French and other languages",
+      "An international patient lounge with Wi-Fi, and prayer rooms",
+      "Help finding a place to stay, and sightseeing for patients and families",
+    ],
+    picture: wockhardtPhoto("operating-theatre", "A modular operating theatre at Wockhardt Hospitals, Mumbai Central"),
+    gallery: [
+      wockhardtPhoto("cath-lab", "The cardiac catheterisation lab"),
+      wockhardtPhoto("nursing-station-corridor", "A ward corridor and nursing station"),
+      wockhardtPhoto("maternity-reception", "The reception of the Miracle maternity unit"),
+      { ...wockhardtPhoto("building", "The 20-storey hospital tower in Mumbai Central"), focus: "50% 30%" },
+    ],
+  },
+  {
+    slug: "wockhardt-mira-road",
+    name: "Wockhardt Hospitals, Mira Road",
+    city: "Mumbai",
+    address: "The Umrao, IMSR, near Railway Station, Mira Road (East), District Thane, Mumbai 401 107, India",
+    accreditation: "JCI (USA) and NABH (India) accredited",
+    overview:
+      "The North Mumbai hospital of Wockhardt Hospitals, the largest multi-speciality tertiary care group in western India. It has 350 beds, 100 critical care beds and 9 operating theatres with laminar air flow, along with a flat panel cath lab, a 64-slice CT scanner, a 1.5 Tesla MRI and a dialysis unit. It covers heart, brain and spine, joint replacement, kidney and liver transplants, cancer surgery, women's health, and emergency and trauma care.",
+    specialities: [
+      "cardiology",
+      "neurology-neurosurgery",
+      "orthopaedics",
+      "organ-transplant",
+      "oncology",
+      "general-surgery",
+      "urology",
+      "gynaecology",
+    ],
+    treatments: [
+      "angioplasty",
+      "heart-bypass-surgery",
+      "brain-tumour-surgery",
+      "knee-replacement",
+      "hip-replacement",
+      "robotic-joint-replacement",
+      "kidney-transplant",
+      "liver-transplant",
+      "dialysis",
+      // Two press cuttings in the brochure: pancreas surgery after an
+      // accident, and removal of a pancreatic tumour.
+      "pancreatectomy",
+    ],
+    services: [
+      "A free medical opinion from a specialist by email, WhatsApp or call",
+      "Airport pickup and drop",
+      "Help with visas, FRRO registration and visa extensions",
+      "Interpreters for Arabic, French and other languages",
+      "An ICU ambulance on call 24 hours a day",
+    ],
+    picture: wockhardtMiraPhoto("front", "The Wockhardt Hospitals tower at Mira Road"),
+    gallery: [wockhardtMiraPhoto("building-night", "The hospital entrance and sign at night")],
+  },
+  {
+    slug: "wockhardt-nagpur",
+    name: "Wockhardt Super Speciality Hospital, Nagpur",
+    city: "Nagpur",
+    address: "1643, North Ambazari Road, Shankar Nagar, Nagpur 440 033, India",
+    accreditation: "NABH accredited",
+    overview:
+      "A Wockhardt Hospitals multi-speciality hospital in central Nagpur, open since 2007. It has 118 beds, including 33 critical care beds, 4 operating theatres and more than 35 specialities, with round-the-clock emergency care. Its main strengths are heart care, brain and spine, joint replacement, kidney care, and women's and children's health. It has an HD neuro microscope for minimally invasive spine surgery, Stryker orthopaedic systems and navigation for planning joint replacements.",
+    specialities: ["cardiology", "neurology-neurosurgery", "orthopaedics", "urology", "gastroenterology", "general-surgery", "gynaecology"],
+    treatments: [
+      "angioplasty",
+      "knee-replacement",
+      "hip-replacement",
+      "endoscopic-spine-surgery",
+      "neuro-endoscopy",
+      "gallbladder-surgery",
+      "hernia-surgery",
+      "dialysis",
+    ],
+    services: [
+      "A free medical opinion from a specialist by email, WhatsApp or call",
+      "Airport pickup and drop",
+      "Help with visas and FRRO registration",
+      "Emergency care 24 hours a day",
+    ],
+    picture: wockhardtNagpurPhoto("front", "The front of Wockhardt Super Speciality Hospital, Nagpur, with its emergency entrance"),
+    gallery: [
+      wockhardtNagpurPhoto("building-street", "The hospital seen from North Ambazari Road"),
+      wockhardtNagpurPhoto("building-angle", "The hospital building from the corner"),
+      { ...wockhardtNagpurPhoto("reception", "The reception desk"), focus: "50% 30%" },
+    ],
+  },
+  {
+    slug: "wockhardt-nagpur-heart",
+    name: "Wockhardt Heart Hospital, Nagpur",
+    city: "Nagpur",
+    address: "27, Corporation Colony, North Ambazari Road, Gandhi Nagar, Nagpur 440 033, India",
+    overview:
+      "A Wockhardt Hospitals heart hospital in Nagpur, open since 2004 and the first in the city to perform angiography through the wrist (the radial method). Full-time cardiologists and heart surgeons run its cardiac services, with a round-the-clock intensive care unit for heart emergencies.",
+    specialities: ["cardiology"],
+    treatments: ["angioplasty", "heart-bypass-surgery", "heart-valve-replacement"],
+    services: [
+      "A free medical opinion from a specialist by email, WhatsApp or call",
+      "Airport pickup and drop",
+      "Intensive care for heart emergencies 24 hours a day",
+    ],
+    picture: wockhardtHeartPhoto("front", "Wockhardt Heart Hospital, Nagpur, behind its sign"),
+    gallery: [wockhardtHeartPhoto("nursing-station", "A nursing station on a ward")],
+  },
+  {
+    slug: "wockhardt-rajkot",
+    name: "Wockhardt Hospitals, Rajkot",
+    city: "Rajkot",
+    address: "Kalawad Road, near St. Mary's High School, Rajkot, Gujarat 360 007, India",
+    accreditation: "NABH and NABL accredited",
+    overview:
+      "The Gujarat hospital of Wockhardt Hospitals, the largest multi-speciality tertiary care group in western India. It has 170 beds, including 48 critical care beds, and 7 operating theatres with laminar air flow, along with two flat panel cath labs, a 128-slice CT scanner, a 1.5 Tesla MRI, a dialysis unit and a round-the-clock trauma centre. It covers more than 30 specialities, among them heart surgery, brain and spine, robotic hip replacement, cancer care, and kidney and liver transplants.",
+    specialities: [
+      "cardiology",
+      "neurology-neurosurgery",
+      "orthopaedics",
+      "oncology",
+      "gastroenterology",
+      "organ-transplant",
+      "urology",
+      "gynaecology",
+    ],
+    treatments: [
+      "angioplasty",
+      "heart-bypass-surgery",
+      "knee-replacement",
+      "hip-replacement",
+      "robotic-joint-replacement",
+      "kidney-transplant",
+      "liver-transplant",
+      "dialysis",
+    ],
+    services: [
+      "A free medical opinion from a specialist by email, WhatsApp or call",
+      "Airport pickup and drop",
+      "Help with visas and FRRO registration",
+      "An ICU ambulance on call 24 hours a day",
+    ],
+    picture: wockhardtRajkotPhoto("front", "The front of Wockhardt Hospitals, Rajkot"),
+    gallery: [wockhardtRajkotPhoto("reception-lobby", "The reception and lobby")],
   },
 ];

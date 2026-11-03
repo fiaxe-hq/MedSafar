@@ -16,6 +16,9 @@ export const catalog: CatalogContent = {
     empty: "Nothing matches these filters yet. Clear them to see everything.",
     result: "result",
     results: "results",
+    search: "Search",
+    allSpecialities: "All specialities",
+    specialities: "Specialities",
   },
 
   hospitals: {
@@ -31,6 +34,7 @@ export const catalog: CatalogContent = {
     note: "More partner hospitals are being added. Every hospital here is one Medsafar works with directly.",
     back: "All hospitals",
     filters: { city: "City", speciality: "Speciality" },
+    searchPlaceholder: "Search by hospital, city or treatment",
     stats: { specialities: "Specialities", doctors: "Doctors", treatments: "Treatments" },
     browse: {
       heading: "Browse by speciality",
@@ -77,6 +81,7 @@ export const catalog: CatalogContent = {
     note: "Profiles are taken from the hospital's own doctor profiles. Ask us about any doctor who is not listed.",
     back: "All doctors",
     filters: { speciality: "Speciality", hospital: "Hospital" },
+    searchPlaceholder: "Search by doctor, speciality or hospital",
     stats: { doctors: "Doctors", specialities: "Specialities", hospitals: "Partner hospitals" },
     view: "View profile",
     book: {
@@ -182,6 +187,8 @@ export const catalog: CatalogContent = {
       doctors: "Doctors",
       hospitals: "Hospitals",
       stats: { treatments: "Treatments", doctors: "Doctors", hospitals: "Hospitals" },
+      faq: "How long will I be in India?",
+      stayQuestion: "{treatment}: how long will I stay?",
     },
   },
 

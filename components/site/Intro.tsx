@@ -5,7 +5,9 @@ import "./intro.css";
 /**
  * The home page intro: a heartbeat trace sweeps in, runs into the logo's own
  * heartbeat and writes the logo, which then flies to the header and opens
- * the page with a circle wipe.
+ * the page with a circle wipe on the hero photo. A white bar grows behind
+ * the landed logo; on a second beat it stretches into the header, and the
+ * form and the rest come in.
  *
  * Plays on the first visit, on a hard refresh, or with ?intro in the URL.
  * Skipped for reduced motion and on slow connections.
@@ -34,9 +36,10 @@ function intro(src: string) {
     if (!matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
     // On a slow connection the intro would hold a white screen until the
     // page has arrived, 10 to 20 seconds on 3G. Show the page instead.
-    const net = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
-    if (net && (net.saveData || /^(slow-2g|2g|3g)$/.test(net.effectiveType ?? ""))) return;
+    // ?intro plays it anyway.
     const forced = /[?&]intro\b/.test(location.search);
+    const net = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    if (!forced && net && (net.saveData || /^(slow-2g|2g|3g)$/.test(net.effectiveType ?? ""))) return;
     const seen = localStorage.getItem("ms-intro") === "1";
     const nav = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
     let hard = false;
@@ -58,6 +61,24 @@ function intro(src: string) {
   }
   if (!play) return;
 
+  // Until the wipe, the page shows only the hero photo: the header, the form
+  // and the rest wait (intro.css), then come in one after another.
+  // Style sheets of their own, added to <body>: React owns <html>'s
+  // attributes and would flag any change when it hydrates.
+  const sheet = (css: string) => {
+    const el = document.createElement("style");
+    el.textContent = css;
+    document.body.appendChild(el);
+    return el;
+  };
+  const hold = sheet(
+    ":is([data-intro-slide]:not(header),[data-intro-pop],[data-intro-fade],.home-progress){opacity:0;pointer-events:none}",
+  );
+  // The header waits on its own: the white bar behind the flown logo grows
+  // into it, and it shows only once that bar has its full size.
+  const headHold = sheet("header[data-intro-slide]{opacity:0;pointer-events:none}");
+  const logoHold = sheet("header [data-logo] img{visibility:hidden}");
+
   history.scrollRestoration = "manual";
   scrollTo(0, 0);
 
@@ -78,6 +99,9 @@ function intro(src: string) {
   addEventListener("keydown", keys);
 
   const done = () => {
+    hold.remove();
+    headHold.remove();
+    logoHold.remove();
     root.remove();
     removeEventListener("wheel", block);
     removeEventListener("touchmove", block);
@@ -271,6 +295,31 @@ function intro(src: string) {
         ],
         { duration: 520, easing: "cubic-bezier(0.33, 1, 0.68, 1)", fill: "forwards" },
       );
+
+      // As it lands, the header's white bar grows in behind it, just wide
+      // enough for the logo, so the logo stays clear on the photo.
+      const notchEl = document.querySelector("header .nav-notch") as HTMLElement | null;
+      const notch = notchEl?.getBoundingClientRect();
+      let chip: HTMLElement | null = null;
+      if (notchEl && notch && notch.width) {
+        const look = getComputedStyle(notchEl);
+        const top = notch.top < 2 ? "0px" : look.borderBottomLeftRadius;
+        chip = document.createElement("div");
+        chip.style.cssText =
+          `position:absolute;left:${target.left - 16}px;top:${notch.top}px;` +
+          `width:${target.width + 32}px;height:${notch.height}px;` +
+          `background:${look.backgroundColor};backdrop-filter:blur(24px);` +
+          `border-radius:${top} ${top} ${look.borderBottomRightRadius} ${look.borderBottomLeftRadius};` +
+          `box-shadow:0 12px 30px -18px rgb(2 20 16 / 0.4)`;
+        root.insertBefore(chip, img);
+        chip.animate(
+          [
+            { transform: "scale(0.6)", opacity: 0 },
+            { transform: "none", opacity: 1 },
+          ],
+          { duration: 380, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "backwards" },
+        );
+      }
       await wait(180);
 
       // The wave: a circle opens from the logo and the page comes in around
@@ -282,7 +331,7 @@ function intro(src: string) {
       const cy = target.top + target.height / 2;
       const max = Math.hypot(Math.max(cx, vw - cx), Math.max(cy, vh - cy)) + 8;
       const from = target.width / 2;
-      const wave = { duration: 1200, easing: "cubic-bezier(0.55, 0, 0.2, 1)", fill: "both" as const };
+      const wave = { duration: 1000, easing: "cubic-bezier(0.55, 0, 0.2, 1)", fill: "both" as const };
       const opening = page.animate(
         [{ clipPath: `circle(${from}px at ${cx}px ${cy}px)` }, { clipPath: `circle(${max}px at ${cx}px ${cy}px)` }],
         wave,
@@ -299,10 +348,94 @@ function intro(src: string) {
         ],
         wave,
       );
+      // The second beat: the logo pulses again and a second ring leaves it,
+      // and this one paints the header and brings in the form.
+      await wait(620);
+      img.animate(
+        [
+          { transform: at(1) },
+          { transform: at(1.12), offset: 0.35 },
+          { transform: at(0.98), offset: 0.7 },
+          { transform: at(1) },
+        ],
+        { duration: 480, easing: "cubic-bezier(0.33, 1, 0.68, 1)", fill: "forwards" },
+      );
+      const ring2 = ring.cloneNode() as HTMLElement;
+      root.insertBefore(ring2, ring.nextSibling);
+      ring2.animate(
+        [
+          { transform: `scale(${from / max})`, opacity: 0.9 },
+          { transform: "scale(1)", opacity: 0 },
+        ],
+        { duration: 900, easing: "cubic-bezier(0.3, 0, 0.2, 1)", fill: "both" },
+      );
+      // The bar stretches out from the logo to the header's full width, and
+      // the header takes its place.
+      const stretched =
+        chip && notch
+          ? chip
+              .animate([{ left: `${notch.left}px`, width: `${notch.width}px` }], {
+                duration: 600,
+                easing: "cubic-bezier(0.65, 0, 0.35, 1)",
+                fill: "forwards",
+              })
+              .finished.then(() => {
+                headHold.remove();
+                logoHold.remove();
+                img.style.visibility = "hidden";
+                chip.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, fill: "forwards" });
+              })
+          : Promise.resolve().then(() => {
+              headHold.remove();
+              logoHold.remove();
+              img.style.visibility = "hidden";
+            });
+      await wait(60);
+      await Promise.all([enter(cx, cy), stretched]);
       await opening.finished;
       opening.cancel();
       await swept;
     };
+
+    // From the second beat, the bar above the header is painted outward from
+    // the logo, the form pops up inside the photo and the line along its
+    // foot fades in. Each starts hidden by the hold sheet, so the animations
+    // take over in the same frame it comes off.
+    async function enter(cx: number, cy: number) {
+      const out = { easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "backwards" as const };
+      const slides = [...document.querySelectorAll("[data-intro-slide]:not(header)")].map((el) => {
+        const r = el.getBoundingClientRect();
+        const x = cx - r.left;
+        const y = cy - r.top;
+        const far = Math.hypot(Math.max(x, r.width - x), Math.max(y, r.height - y)) + 4;
+        return el.animate(
+          [
+            { clipPath: `circle(0px at ${x}px ${y}px)`, transform: "translateY(-6px)", opacity: 1 },
+            { clipPath: `circle(${far}px at ${x}px ${y}px)`, transform: "none", opacity: 1 },
+          ],
+          { easing: "cubic-bezier(0.45, 0, 0.2, 1)", fill: "backwards", duration: 750 },
+        );
+      });
+      document.querySelectorAll("[data-intro-pop]").forEach((el) =>
+        el.animate(
+          [
+            { transform: "scale(0.9)", opacity: 0 },
+            { transform: "scale(1.02)", opacity: 1, offset: 0.6 },
+            { transform: "none", opacity: 1 },
+          ],
+          { ...out, duration: 550 },
+        ),
+      );
+      document.querySelectorAll("[data-intro-fade], .home-progress").forEach((el) =>
+        el.animate([{ transform: "translateY(12px)", opacity: 0 }, { transform: "none", opacity: 1 }], {
+          ...out,
+          duration: 600,
+          delay: 250,
+        }),
+      );
+      hold.remove();
+      await Promise.all(slides.map((a) => a.finished));
+    }
 
     run().then(done, done);
   }

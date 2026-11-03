@@ -33,6 +33,7 @@ export const site: SiteContent = {
       { label: "Blog", href: "/blog" },
     ],
     menuLabel: "Menu",
+    bySpeciality: "By speciality",
     contact: { label: "Contact us", href: "/contact" },
     top: {
       call: "Call us",
@@ -53,6 +54,7 @@ export const site: SiteContent = {
     primary: "Get a free treatment plan",
     secondary: "Free consultation",
     whatsapp: "WhatsApp",
+    reports: "Upload your reports",
   },
 
   contact: {
@@ -111,6 +113,7 @@ export const site: SiteContent = {
       countryNone: "No match",
       submit: "Get a free consultation",
       reassurance: "One number is enough to start. Details can follow.",
+      reportsFirst: "Add your number first. Then you can upload your reports.",
     },
     step2: {
       heading: "A few more details",
@@ -202,6 +205,7 @@ export const site: SiteContent = {
     },
     errors: {
       phone: "Please enter a valid mobile number for the country you selected.",
+      country: "Please choose your country code, or type your number starting with + and the country code.",
       name: "Please enter your name.",
       email: "Please enter a valid email address.",
       consent: "Please tick the box so we can share your case with a doctor.",
@@ -215,6 +219,7 @@ export const site: SiteContent = {
       sendLimit: "Too many codes sent to this number. Please try again later, or reach us on WhatsApp.",
       wait: "A code was sent a moment ago. Please wait a few seconds before asking again.",
       sms: "We could not send a code to this number. Please check it, or reach us on WhatsApp.",
+      bot: "We could not confirm you are not a robot. Please wait a moment and try again, or reach us on WhatsApp.",
     },
     sending: "Sending",
   },

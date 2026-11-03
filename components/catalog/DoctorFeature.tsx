@@ -45,7 +45,7 @@ export function DoctorFeature({
         </h3>
         <p className="mt-2 text-base text-ink-2">{doctor.role}</p>
         <p className="mt-1 text-sm text-ink-3">{hospital}</p>
-        <p className="mt-3 text-sm text-ink-3">{doctor.experience}</p>
+        {doctor.experience ? <p className="mt-3 text-sm text-ink-3">{doctor.experience}</p> : null}
         <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-6">
           <Link href={`${href}#plan`} className={`${btnPrimary} min-h-11 px-5 text-sm sm:px-5`}>
             {book}

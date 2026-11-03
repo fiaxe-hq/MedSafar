@@ -6,11 +6,13 @@ import { EnvelopeSimpleIcon } from "@phosphor-icons/react/dist/ssr/EnvelopeSimpl
 import { HandPointingIcon } from "@phosphor-icons/react/dist/ssr/HandPointing";
 import { HospitalIcon } from "@phosphor-icons/react/dist/ssr/Hospital";
 import { ListIcon } from "@phosphor-icons/react/dist/ssr/List";
+import { MapPinIcon } from "@phosphor-icons/react/dist/ssr/MapPin";
+import { StethoscopeIcon } from "@phosphor-icons/react/dist/ssr/Stethoscope";
 import { PhoneIcon } from "@phosphor-icons/react/dist/ssr/Phone";
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr/WhatsappLogo";
 import type { NavEntry, NavItem } from "@/content/types";
 import { defaultIso } from "@/content/dial-codes";
-import { getDoctors, getHospitals, getSpecialities } from "@/lib/catalog";
+import { getDoctors, getHospitals, getSpecialities, nameOf } from "@/lib/catalog";
 import { specialityPhoto } from "@/data/treatmentPhotos";
 import { Container } from "@/components/ui/Container";
 import { btnPrimary } from "@/components/ui/styles";
@@ -22,13 +24,14 @@ import { resolveHref } from "./resolveHref";
 import { getLang, getText } from "@/lib/i18n/text";
 import { dialCodesFor } from "@/lib/i18n/dialCodes";
 import { isUploaded } from "@/lib/uploaded";
+import { SpecialityIcon } from "@/components/ui/SpecialityIcon";
 
 /** The links inside each dropdown. Catalog menus are read fresh, so a new
  *  speciality, hospital or doctor shows up without touching this file.
- *  Treatments and hospitals carry a photo, so the menu can be read at a glance. */
+ *  Every catalog menu carries photos, so it can be read at a glance. */
 async function menuLinks(
   plain: Record<string, string>,
-): Promise<Record<string, NavItem[]>> {
+): Promise<Record<string, (NavItem & { slug?: string })[]>> {
   const [specialities, hospitals, doctors] = await Promise.all([
     getSpecialities(),
     getHospitals(),
@@ -47,10 +50,31 @@ async function menuLinks(
       href: `/hospitals/${h.slug}`,
       note: h.city,
       image: !h.picture.pending && h.picture.src ? h.picture.src : undefined,
+      focus: h.picture.focus,
     })),
-    doctors: specialities
+    // Faces first: one doctor from each speciality, then the rest, up to
+    // two rows of four.
+    doctors: [
+      ...specialities.flatMap((s) => doctors.find((d) => d.speciality === s.slug) ?? []),
+      ...doctors,
+    ]
+      .filter((d, i, all) => all.indexOf(d) === i)
+      .slice(0, 8)
+      .map((d) => ({
+        label: d.name,
+        href: `/doctors/${d.slug}`,
+        note: plain[d.speciality] ?? nameOf(specialities, d.speciality),
+        image: !d.picture.pending && d.picture.src ? d.picture.src : undefined,
+      })),
+    doctorSpecialities: specialities
       .filter((s) => withDoctors.has(s.slug))
-      .map((s) => ({ label: s.name, href: `/doctors?speciality=${s.slug}` })),
+      .map((s) => ({
+        label: plain[s.slug] ?? s.name,
+        href: `/doctors?speciality=${s.slug}`,
+        note: String(doctors.filter((d) => d.speciality === s.slug).length),
+        image: specialityPhoto(s.slug)?.src ?? undefined,
+        slug: s.slug,
+      })),
   };
 }
 
@@ -92,8 +116,12 @@ export async function Header({
   return (
     <>
       {/* A slim bar above the header on computers: how to reach a person, and
-          the language. It scrolls away; the header below stays. */}
-      <div className="band-deep relative z-40 hidden text-[0.8125rem] tracking-[0.01em] lg:block">
+          the language. It scrolls away; the header below stays. Over the
+          home photo it floats, so the photo runs to the top of the screen. */}
+      <div
+        data-intro-slide
+        className={`band-deep z-40 hidden text-[0.8125rem] tracking-[0.01em] lg:block ${overlay ? "absolute inset-x-0 top-0" : "relative"}`}
+      >
         <Container className="flex h-9 items-center gap-6">
           <a href={`tel:${contact.phone.number}`} className={barLink}>
             <PhoneIcon size={14} className="text-glow" aria-hidden />
@@ -125,7 +153,8 @@ export async function Header({
       </div>
 
       <header
-        className={`pointer-events-none sticky top-0 z-40 px-3 sm:px-6 ${overlay ? "-mb-16 lg:-mb-[4.25rem]" : ""}`}
+        data-intro-slide
+        className={`pointer-events-none sticky top-0 z-40 px-3 sm:px-6 ${overlay ? "-mb-16 lg:mt-9 lg:-mb-[6.5rem]" : ""}`}
       >
         {/* A bar hanging from the top of the screen, rounded below. Beside it
             the page shows through. */}
@@ -158,13 +187,14 @@ export async function Header({
                   );
                 }
 
-                const treatments = entry.menu === "treatments";
+                // Catalog menus open as one wide panel of photo tiles, centred
+                // on the whole nav rather than on their own link.
+                const wide = Boolean(entry.menu);
                 const pictured = links.some((l) => l.image);
                 return (
-                  // The wide treatments panel centres on the whole nav, not on its own link.
                   <div
                     key={entry.label}
-                    className={`group ${treatments ? "" : "relative"}`}
+                    className={`group ${wide ? "" : "relative"}`}
                   >
                     <Link
                       data-nav-top
@@ -185,14 +215,14 @@ export async function Header({
                         while the pointer moves down to it. */}
                     <div
                       className={`invisible absolute top-full z-50 pt-3 opacity-0 transition-[opacity,visibility] duration-200 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100 ${
-                        treatments
+                        wide
                           ? "start-1/2 -translate-x-1/2 rtl:translate-x-1/2"
                           : "start-0"
                       }`}
                     >
                       <div
                         className={`rounded-2xl bg-surface p-3 shadow-lift ring-1 ring-hairline ${
-                          treatments
+                          wide
                             ? "w-[54rem]"
                             : pictured
                               ? "w-[26rem]"
@@ -228,7 +258,96 @@ export async function Header({
                           </Link>
                         ) : null}
 
-                        {treatments ? (
+                        {entry.menu === "hospitals" ? (
+                          <ul className="grid grid-cols-4 gap-2">
+                            {links.map((link) => (
+                              <li key={link.href}>
+                                <Link
+                                  href={resolveHref(link.href, home)}
+                                  className="group/tile block rounded-xl p-1.5 transition-colors hover:bg-surface-2"
+                                >
+                                  <span className="relative grid aspect-[16/10] place-items-center overflow-hidden rounded-lg bg-surface-2 text-ink-3">
+                                    {link.image ? (
+                                      <Image
+                                        src={link.image} unoptimized={isUploaded(link.image)}
+                                        alt=""
+                                        fill
+                                        sizes="200px"
+                                        style={link.focus ? { objectPosition: link.focus } : undefined}
+                                        className="object-cover transition-transform duration-500 ease-(--ease-soft) group-hover/tile:scale-[1.05]"
+                                      />
+                                    ) : (
+                                      <HospitalIcon size={24} aria-hidden />
+                                    )}
+                                  </span>
+                                  <span className="mt-2 block px-0.5 text-[0.9375rem] leading-snug font-medium text-ink group-hover/tile:text-accent">
+                                    {link.label}
+                                  </span>
+                                  {link.note ? (
+                                    <span className="mt-0.5 flex items-center gap-1 px-0.5 text-sm text-ink-3">
+                                      <MapPinIcon size={13} weight="fill" className="text-accent" aria-hidden />
+                                      {link.note}
+                                    </span>
+                                  ) : null}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : entry.menu === "doctors" ? (
+                          <div className="grid grid-cols-12 gap-4">
+                            <ul className="col-span-8 grid grid-cols-4 gap-2">
+                              {links.map((link) => (
+                                <li key={link.href}>
+                                  <Link
+                                    href={resolveHref(link.href, home)}
+                                    className="group/tile block rounded-xl p-1.5 transition-colors hover:bg-surface-2"
+                                  >
+                                    <span className="relative grid aspect-square place-items-center overflow-hidden rounded-lg bg-accent-soft text-accent">
+                                      {link.image ? (
+                                        <Image
+                                          src={link.image} unoptimized={isUploaded(link.image)}
+                                          alt=""
+                                          fill
+                                          sizes="140px"
+                                          className="object-cover object-top transition-transform duration-500 ease-(--ease-soft) group-hover/tile:scale-[1.05]"
+                                        />
+                                      ) : (
+                                        <StethoscopeIcon size={26} aria-hidden />
+                                      )}
+                                    </span>
+                                    <span className="mt-2 block px-0.5 text-sm leading-snug font-medium text-ink group-hover/tile:text-accent">
+                                      {link.label}
+                                    </span>
+                                    {link.note ? (
+                                      <span className="mt-0.5 block px-0.5 text-[0.8125rem] leading-snug text-ink-3">
+                                        {link.note}
+                                      </span>
+                                    ) : null}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                            <div className="col-span-4 border-s border-hairline ps-4">
+                              <p className="px-3 pt-1.5 pb-2 text-sm font-medium text-ink-3">{nav.bySpeciality}</p>
+                              <ul>
+                                {menus.doctorSpecialities.map((link) => (
+                                  <li key={link.href}>
+                                    <Link
+                                      href={resolveHref(link.href, home)}
+                                      className="group/row flex min-h-10 items-center gap-2.5 rounded-lg px-3 text-[0.9375rem] text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
+                                    >
+                                      <SpecialityIcon slug={link.slug ?? ""} size={17} className="shrink-0 text-accent" aria-hidden />
+                                      <span className="flex-1 leading-snug">{link.label}</span>
+                                      <span className="rounded-full bg-surface-2 px-2 py-0.5 text-xs text-ink-3 tabular-nums group-hover/row:bg-surface">
+                                        {link.note}
+                                      </span>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        ) : wide ? (
                           <ul className="grid grid-cols-4 gap-1">
                             {links.map((link) => (
                               <li key={link.href}>
@@ -381,15 +500,15 @@ export async function Header({
                           {entry.finder.title}
                         </a>
                       ) : null}
-                      {entry.menu === "treatments" ? (
+                      {entry.menu ? (
                         <ul className="grid grid-cols-2 gap-1.5 p-1">
-                          {menus.treatments.map((link) => (
+                          {menus[entry.menu === "doctors" ? "doctorSpecialities" : entry.menu].map((link) => (
                             <li key={link.href}>
                               <a
                                 href={resolveHref(link.href, home, lang.code)}
                                 className="flex items-center gap-2 rounded-lg p-1.5 text-sm leading-tight text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
                               >
-                                <span className="relative size-9 shrink-0 overflow-hidden rounded-md bg-surface-2">
+                                <span className="relative grid size-9 shrink-0 place-items-center overflow-hidden rounded-md bg-surface-2 text-ink-3">
                                   {link.image ? (
                                     <Image
                                       src={link.image} unoptimized={isUploaded(link.image)}
