@@ -156,7 +156,8 @@ the server.
   Secret: `TURNSTILE_SECRET_KEY`; until set, it is skipped.
 - **CRM** (`lib/crm.ts`): every enquiry is sent to crm.fiaxe.com as a lead,
   matched by mobile number. A number alone is "Partial entry"; a full form moves
-  it to "New". Secret: `CRM_API_KEY`; until set, nothing is sent. The CRM sends
+  it to "Email pending", and a CRM workflow sends the visitor a thank-you email
+  and moves it to "New". Secret: `CRM_API_KEY`; until set, nothing is sent. The CRM sends
   the team's email alerts; the site sends none itself.
 
 ## Admin
