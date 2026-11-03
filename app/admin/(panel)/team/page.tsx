@@ -146,7 +146,7 @@ export default async function TeamPage({ searchParams }: PageProps<"/admin/team"
       </ul>
 
       <form action={addMemberAction} className={`${adminCard} mt-10 border-dashed p-5 sm:p-6`}>
-        <h2 className="flex items-center gap-2 font-display text-xl font-semibold">
+        <h2 className="flex items-center gap-2 font-display text-lg font-semibold">
           <UserPlusIcon size={22} className="text-brand" aria-hidden />
           Add a person
         </h2>
