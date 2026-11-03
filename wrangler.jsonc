@@ -1,5 +1,5 @@
-// Local development only. main is never deployed: the client preview is
-// deployed from the design-variants branch (wrangler.building.jsonc there).
+// Local development only. The live site deploys with wrangler.live.jsonc; the
+// client preview from the design-variants branch (wrangler.building.jsonc there).
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "medsafar-local",
