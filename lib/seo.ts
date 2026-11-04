@@ -1,4 +1,5 @@
 import type { Text } from "@/lib/i18n/source";
+import { languages } from "@/lib/i18n/languages";
 
 /**
  * The public address of the site. Used for canonical links, the sitemap and
@@ -35,7 +36,7 @@ export const organizationJsonLd = (site: Text["site"]) => ({
     contactType: "customer service",
     telephone: site.contact.phone.number,
     email: site.contact.email,
-    availableLanguage: ["English"],
+    availableLanguage: languages.map((l) => l.english),
   },
 });
 

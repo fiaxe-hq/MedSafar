@@ -74,7 +74,9 @@ export default async function Page({ searchParams }: Props) {
         <ResultCount count={posts.length} />
 
         {posts.length ? (
-          <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          // With two or fewer articles, two wide columns fill the row instead
+          // of leaving an empty third.
+          <div className={`mt-4 grid gap-5 sm:grid-cols-2 ${posts.length > 2 ? "lg:grid-cols-3" : ""}`}>
             {posts.map((post) => (
               <PostCard
                 key={post.slug}

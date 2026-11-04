@@ -6,17 +6,14 @@ import type { Picture } from "@/content/types";
 import { useLabels } from "@/components/site/Labels";
 import { isUploaded } from "@/lib/uploaded";
 
-/**
- * Marks anything on the page that is a stand-in, not real content, or with
- * `check`, real text that a doctor has still to check.
- */
-export function Mark({ className = "", check = false }: { className?: string; check?: boolean }) {
+/** Marks anything on the page that is a stand-in, not real content. */
+export function Mark({ className = "" }: { className?: string }) {
   const labels = useLabels();
   return (
     <span
       className={`inline-flex items-center rounded-sm bg-surface-2 px-2.5 py-1 text-[0.6875rem] font-medium tracking-[0.08em] text-ink-3 uppercase ${className}`}
     >
-      {check ? labels.check : labels.pending}
+      {labels.pending}
     </span>
   );
 }

@@ -470,12 +470,10 @@ export const privacy: LegalContent = {
       body: [
         "If you have any questions, concerns or requests regarding this Privacy Policy or the handling of your personal information, please contact us:",
         "Med Safar India",
-        // A separate privacy email and a named grievance contact are still to
-        // come from Medsafar.
         `Email: ${email}`,
         `Website: ${website}`,
         `Registered Office: ${office}`,
-        "Privacy and Grievance Contact: Medsafar India Privacy Team",
+        `Privacy and Grievance Contact: please write to ${email} only, for every privacy request or grievance.`,
         "We will review and respond to privacy-related requests or grievances within the timelines prescribed by applicable law.",
       ],
     },
@@ -495,7 +493,6 @@ export const terms: LegalContent = {
   intro:
     "These Terms and Conditions (“Terms”) govern access to and use of the Med Safar India website, digital platforms, communication channels and medical facilitation services.",
   // The client's document, word for word, until a lawyer has reviewed it.
-  draft: "Draft. This text is under legal review and may change.",
   updated: { label: "Last updated", value: "12 November 2026" },
   preamble: [
     "Med Safar India is the medical facilitation brand operated by TravGrub Private Limited, a company registered in India (“Company”, “Med Safar India”, “we”, “us” or “our”).",
@@ -830,7 +827,6 @@ export const disclaimer: LegalContent = {
   },
   heading: "Website disclaimer",
   intro: "Medical information, healthcare facilitation and medical travel.",
-  draft: terms.draft,
   updated: { label: "Last updated", value: "2 November 2026" },
   sections: [
     {
@@ -1003,7 +999,6 @@ export const editorialPolicy: LegalContent = {
   },
   heading: "Editorial policy",
   intro: "Medical content standards, ethical publishing and public communication.",
-  draft: terms.draft,
   updated: { label: "Last updated", value: "2 November 2026" },
   sections: [
     {
@@ -1223,7 +1218,6 @@ export const cancellations: LegalContent = {
   },
   heading: "Cancellations and refunds",
   intro: "Clauses 13 and 14 of our Terms and conditions.",
-  draft: terms.draft,
   updated: terms.updated,
   sections: terms.sections.slice(12, 14),
 };

@@ -115,6 +115,8 @@ export type SiteContent = {
     lines: string[];
     /** How treatment is paid for, under the lines above. */
     payment: string;
+    disclaimer: string;
+    disclaimerLink: string;
     /** A link that starts with "#" points at a section of the home page. */
     columns: { heading: string; items: NavItem[] }[];
     contact: {
@@ -165,6 +167,7 @@ export type FormContent = {
     reassurance: string;
     /** Above the number when the visitor came to upload reports. */
     reportsFirst: string;
+    emergency: string;
   };
   step2: {
     heading: string;
@@ -328,6 +331,9 @@ export type Hospital = Pending & {
   slug: string;
   name: string;
   city: string;
+  /** Where the hospital sits in every list: 1 first, 9 last. Left out, it is
+   *  5 (lib/catalog.ts). Best-known hospitals take the low numbers. */
+  priority?: number;
   /** Street address, shown on the hospital's own page. */
   address?: string;
   /** Left out when the hospital names none, so no check mark is shown. */
@@ -391,7 +397,7 @@ export type Doctor = Pending & {
 
 export type Treatment = {
   slug: string;
-  /** False until a doctor has checked the text; the page then says so. */
+  /** Kept from earlier records; not shown. Treatment pages carry catalog.medicalNote instead. */
   checked: boolean;
   name: string;
   /** Speciality slug. */
@@ -440,8 +446,8 @@ export type Post = Pending & {
 
 /** Text for the hospital, doctor, treatment and blog pages. */
 export type CatalogContent = {
-  /** Added after the summary of a treatment a doctor has not checked yet. */
-  draft: string;
+  /** Under the medical text of treatment and speciality pages: general information only, ask your doctor. */
+  medicalNote: string;
   /** On a translated legal page: only the English text counts, with a link to it. */
   legalNote: string;
   legalEnglish: string;
@@ -489,6 +495,8 @@ export type CatalogContent = {
       videos: string;
       doctors: string;
       treatments: string;
+      /** Search box over the hospital's treatments. {n}, {total} and {q} are filled in. */
+      treatmentSearch: { label: string; placeholder: string; count: string; none: string };
       packages: string;
       /** Beside the lowest package price, e.g. "Packages from $400". */
       priceFrom: string;
@@ -518,6 +526,7 @@ export type CatalogContent = {
       otherPractice: string;
       procedures: string;
       worksAt: string;
+      source: string;
     };
   };
   treatments: ListPageText & {
@@ -537,6 +546,11 @@ export type CatalogContent = {
       recovery: string;
       hospitals: string;
       doctors: string;
+      /** Heading and line for doctors in the treatment's field, shown when no doctor lists the treatment itself. */
+      fieldDoctors: string;
+      fieldDoctorsIntro: string;
+      /** Shown in place of the doctors when no doctor in the field is listed. */
+      noDoctors: string;
       faq: string;
       /** What moves the price. The same for every treatment until real
        *  prices are supplied. */
@@ -573,6 +587,8 @@ export type CatalogContent = {
     detail: {
       related: string;
       sources: string;
+      disclaimer: string;
+      disclaimerLink: string;
       treatments: string;
       hospitals: string;
     };

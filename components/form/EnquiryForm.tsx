@@ -213,6 +213,7 @@ export function EnquiryForm({
         <p className="text-sm text-ink-3">
           {compact ? text.step1.hint : text.step1.reassurance}
         </p>
+        <p className="text-sm text-ink-3">{text.step1.emergency}</p>
         {showUpcoming ? <PrivacyNote text={text.privacyNote} /> : null}
       </form>
     );

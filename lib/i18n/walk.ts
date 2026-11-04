@@ -27,6 +27,17 @@ const codeKeys = new Set([
   "focus",
   "kind",
   "type",
+  "date",
+  "currency",
+  "gstin",
+]);
+
+/**
+ * Keys that hold slugs on a record ("hospital": "nanavati-max") but a
+ * heading elsewhere ("doctors": "Doctors at this hospital"). A list under
+ * them is always slugs; a single value only when it looks like one.
+ */
+const slugKeys = new Set([
   "speciality",
   "specialities",
   "hospital",
@@ -35,12 +46,9 @@ const codeKeys = new Set([
   "treatments",
   "related",
   "category",
-  "date",
   "menu",
   "area",
   "areas",
-  "currency",
-  "gstin",
 ]);
 
 /** Values that are links, slugs, numbers or addresses rather than prose. */
@@ -56,7 +64,8 @@ function isCode(value: string): boolean {
 }
 
 /** A list of slugs or codes, such as a hospital's specialities. */
-const isCodeList = (key: string, list: unknown[]) => codeKeys.has(key) && list.every((item) => typeof item === "string");
+const isCodeList = (key: string, list: unknown[]) =>
+  (codeKeys.has(key) || slugKeys.has(key)) && list.every((item) => typeof item === "string");
 
 function segment(item: unknown, index: number): string {
   if (item && typeof item === "object") {

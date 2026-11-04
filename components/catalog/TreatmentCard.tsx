@@ -51,7 +51,7 @@ export function TreatmentCard({
             {treatment.name}
           </Heading>
           <p className="mt-2 line-clamp-2 text-sm text-ink-3">{treatment.summary}</p>
-          <CardFoot pending={treatment.checked ? false : "check"} />
+          <CardFoot />
         </div>
       </Link>
     </article>

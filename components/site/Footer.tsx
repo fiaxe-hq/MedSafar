@@ -117,36 +117,53 @@ export async function Footer({ home = "/" }: { home?: string }) {
 
         {/* The company behind Medsafar, and the fine print. */}
         <div className="mt-14 border-t border-hairline pt-8">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-            {/* Travgrub's own red and grey live in this logo only. */}
-            <Image
-              src={travgrubLogo}
-              alt={footer.parentLogoAlt}
-              width={80}
-              height={28}
-              className="h-7 w-auto"
-            />
-            <p className="text-[0.9375rem] text-ink-2">{footer.legalName}</p>
-          </div>
-          <div className="mt-4 max-w-[80ch] space-y-2 text-[0.8125rem] leading-relaxed text-ink-3">
-            {(showUpcoming
-              ? [...footer.lines, footer.payment]
-              : footer.lines
-            ).map((line) => (
-              <p key={line}>{line}</p>
-            ))}
+          <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-7">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+                {/* Travgrub's own red and grey live in this logo only. */}
+                <Image
+                  src={travgrubLogo}
+                  alt={footer.parentLogoAlt}
+                  width={80}
+                  height={28}
+                  className="h-7 w-auto"
+                />
+                <p className="text-[0.9375rem] text-ink-2">
+                  {footer.legalName}
+                </p>
+              </div>
+              <div className="mt-4 space-y-2 text-[0.8125rem] leading-relaxed text-ink-3">
+                {(showUpcoming
+                  ? [...footer.lines, footer.payment]
+                  : footer.lines
+                ).map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+                <p>
+                  {footer.disclaimer}{" "}
+                  <Link
+                    href={resolveHref("/disclaimer", home)}
+                    className="text-accent underline underline-offset-4 transition-colors hover:text-accent-hover"
+                  >
+                    {footer.disclaimerLink}
+                  </Link>
+                </p>
+              </div>
+            </div>
             {details.length > 0 ? (
-              <dl className="flex flex-wrap gap-x-6 gap-y-1">
+              <dl className="space-y-4 text-[0.8125rem] leading-relaxed text-ink-3 lg:col-span-5">
                 {details.map((detail) => (
-                  <div key={detail.label} className="flex flex-wrap gap-x-2">
-                    <dt>{detail.label}:</dt>
-                    <dd className="text-ink-2">{detail.value}</dd>
+                  <div key={detail.label}>
+                    <dt className="font-medium tracking-[0.08em] uppercase">
+                      {detail.label}
+                    </dt>
+                    <dd className="mt-1 text-ink-2">{detail.value}</dd>
                   </div>
                 ))}
               </dl>
             ) : null}
           </div>
-          <p className="mt-6 text-[0.8125rem] text-ink-3">
+          <p className="mt-8 border-t border-hairline pt-6 text-[0.8125rem] text-ink-3">
             © {year} {brand.name} {brand.country}. {footer.copyright}
           </p>
         </div>

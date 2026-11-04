@@ -132,6 +132,21 @@ export function Editor(props: EditorProps) {
             className="min-h-11 rounded-md border border-line bg-surface px-3.5 text-base text-ink focus:border-accent focus:ring-4 focus:ring-accent/10 focus:outline-none"
           />
         );
+      case "number":
+        return (
+          <input
+            id={id}
+            type="number"
+            inputMode="numeric"
+            min={field.min}
+            max={field.max}
+            step={1}
+            value={typeof value === "number" || typeof value === "string" ? value : ""}
+            onChange={(e) => set(field.key, e.target.value === "" ? "" : Number(e.target.value))}
+            aria-invalid={error ? true : undefined}
+            className="min-h-11 w-28 rounded-md border border-line bg-surface px-3.5 text-base text-ink focus:border-accent focus:ring-4 focus:ring-accent/10 focus:outline-none"
+          />
+        );
       case "picture":
         return <PictureField id={id} section={props.section} value={value as PictureValue | undefined} onChange={(v) => set(field.key, v)} />;
       case "gallery":

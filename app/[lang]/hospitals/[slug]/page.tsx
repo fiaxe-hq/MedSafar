@@ -18,6 +18,8 @@ import { HospitalGallery } from "@/components/catalog/HospitalGallery";
 import { SpecialityIcon } from "@/components/ui/SpecialityIcon";
 import { DoctorCard } from "@/components/catalog/DoctorCard";
 import { TreatmentCard } from "@/components/catalog/TreatmentCard";
+import { TreatmentSearchList } from "@/components/catalog/TreatmentSearchList";
+import { searchWords } from "@/data/bodyMap";
 import { PackagePrices, QuotePrompt } from "@/components/catalog/PackagePrices";
 import { EnquiryBlock } from "@/components/sections/EnquiryBlock";
 import { Container } from "@/components/ui/Container";
@@ -50,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-  const { catalog, site, ui } = await getText();
+  const { catalog, site, ui, plainSpeciality } = await getText();
   const { slug } = await params;
   const hospital = await getHospital(slug);
   if (!hospital) notFound();
@@ -270,15 +272,40 @@ export default async function Page({ params }: Props) {
       {treatments.length ? (
         <Section tone={tone()}>
           <SectionHead heading={text.detail.treatments} />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {treatments.map((treatment) => (
-              <TreatmentCard
-                key={treatment.slug}
-                treatment={treatment}
-                speciality={nameOf(specialities, treatment.speciality)}
-              />
-            ))}
-          </div>
+          {treatments.length > 6 ? (
+            <TreatmentSearchList
+              items={treatments.map((t) => ({
+                slug: t.slug,
+                search: [
+                  t.name,
+                  t.summary,
+                  nameOf(specialities, t.speciality),
+                  plainSpeciality[t.speciality],
+                  searchWords[t.slug],
+                ]
+                  .join(" ")
+                  .toLowerCase(),
+              }))}
+              cards={Object.fromEntries(
+                treatments.map((t) => [
+                  t.slug,
+                  <TreatmentCard key={t.slug} treatment={t} speciality={nameOf(specialities, t.speciality)} />,
+                ]),
+              )}
+              text={text.detail.treatmentSearch}
+              grid="sm:grid-cols-2 lg:grid-cols-3"
+            />
+          ) : (
+            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {treatments.map((treatment) => (
+                <TreatmentCard
+                  key={treatment.slug}
+                  treatment={treatment}
+                  speciality={nameOf(specialities, treatment.speciality)}
+                />
+              ))}
+            </div>
+          )}
         </Section>
       ) : null}
 

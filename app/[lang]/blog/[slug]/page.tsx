@@ -20,6 +20,8 @@ import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
+import { localPath } from "@/lib/i18n/languages";
+import Link from "@/components/ui/Link";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -43,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-  const { catalog } = await getText();
+  const [{ catalog }, lang] = await Promise.all([getText(), getLang()]);
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) notFound();
@@ -65,7 +67,6 @@ export default async function Page({ params }: Props) {
         intro={post.summary}
         pending={post.pending}
         tight={!!post.picture}
-        center
       />
 
       {post.picture ? (
@@ -103,8 +104,19 @@ export default async function Page({ params }: Props) {
                 </p>
               ))}
             </div>
+            <aside className="reveal mt-12 max-w-[68ch] rounded-xl bg-surface p-5 text-[0.9375rem] leading-relaxed text-ink-3 ring-1 ring-hairline">
+              <p>
+                {text.detail.disclaimer}{" "}
+                <Link
+                  href={localPath(lang.code, "/disclaimer")}
+                  className="text-accent underline underline-offset-4 transition-colors hover:text-accent-hover"
+                >
+                  {text.detail.disclaimerLink}
+                </Link>
+              </p>
+            </aside>
             {post.sources?.length ? (
-              <div className="reveal mt-12 border-t border-hairline pt-6">
+              <div className="reveal mt-10 max-w-[68ch] border-t border-hairline pt-6">
                 <h2 className="text-sm font-medium text-ink">{text.detail.sources}</h2>
                 <ul className="mt-3 space-y-2">
                   {post.sources.map((source) => (

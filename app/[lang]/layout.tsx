@@ -63,7 +63,7 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   // Only the languages in lib/i18n/languages.ts exist.
   if (!languageCodes.includes((await params).lang)) notFound();
-  const [{ site, catalog }, lang] = await Promise.all([getText(), getLang()]);
+  const [{ site }, lang] = await Promise.all([getText(), getLang()]);
   return (
     <html
       lang={lang.code}
@@ -72,7 +72,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
       className={`${inter.variable} ${figtree.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col overflow-x-clip">
-        <LabelsProvider value={{ pending: site.pendingLabel, photo: site.photoLabel, check: catalog.draft }}>{children}</LabelsProvider>
+        <LabelsProvider value={{ pending: site.pendingLabel, photo: site.photoLabel }}>{children}</LabelsProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLd(organizationJsonLd(site)) }}

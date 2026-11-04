@@ -11,6 +11,7 @@ import { Note } from "@/components/ui/Section";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
 import { localPath } from "@/lib/i18n/languages";
+import Link from "@/components/ui/Link";
 
 // The filters come from the address, so the page is drawn for each visit
 // rather than cached: with no page built ahead, Next cannot tell on its own.
@@ -106,10 +107,41 @@ export default async function Page({ searchParams }: Props) {
       />
 
       <Container className="pb-4">
-        <Note>{text.note}</Note>
+        <Note>
+          <AskUsNote note={text.note} href={localPath(lang.code, "/contact")} />
+        </Note>
       </Container>
 
       <EnquiryBlock content={{ enquiry: catalog.enquiry }} source="/doctors" />
     </PageShell>
+  );
+}
+
+/** The note's last sentence asks people to get in touch, so it links to the
+ *  contact page. In English only the words "Ask us" carry the link. */
+function AskUsNote({ note, href }: { note: string; href: string }) {
+  const linkClass =
+    "text-accent underline underline-offset-4 transition-colors hover:text-accent-hover";
+  const ask = note.indexOf("Ask us");
+  if (ask !== -1) {
+    return (
+      <>
+        {note.slice(0, ask)}
+        <Link href={href} className={linkClass}>
+          Ask us
+        </Link>
+        {note.slice(ask + "Ask us".length)}
+      </>
+    );
+  }
+  const match = note.match(/^([^]*?[.।。]\s+)([^]+)$/);
+  if (!match) return <>{note}</>;
+  return (
+    <>
+      {match[1]}
+      <Link href={href} className={linkClass}>
+        {match[2]}
+      </Link>
+    </>
   );
 }

@@ -34,6 +34,7 @@ export const hospitals: Hospital[] = [
     slug: "nanavati-max",
     name: "Nanavati Max Super Speciality Hospital",
     city: "Mumbai",
+    priority: 1,
     address: "S. V. Road, Vile Parle (West), Mumbai 400 056, India",
     accreditation: "NABL-accredited laboratories",
     overview:
@@ -366,6 +367,7 @@ export const hospitals: Hospital[] = [
     slug: "kenia-eye",
     name: "Kenia Eye Hospital",
     city: "Mumbai",
+    priority: 9,
     address: "1st Floor, Rizvi Nagar, near Sarang Restaurant, S. V. Road, Santacruz (West), Mumbai 400 054, India",
     accreditation: "NABH, QAI and FEQH accredited",
     // From the hospital's website (keniaeyehospital.com) and its services
@@ -423,6 +425,7 @@ export const hospitals: Hospital[] = [
     slug: "kenia-dental",
     name: "Kenia Dental Clinic",
     city: "Mumbai",
+    priority: 9,
     // The clinic's Google Maps listing, which matches its renovated
     // ground-floor premises (Sep 2025); its website still says 1st Floor.
     address: "Ground Floor, Rizvi Nagar, near Sarang Restaurant, S. V. Road, corner of Milan Subway, Santacruz (West), Mumbai 400 054, India",
@@ -472,6 +475,7 @@ export const hospitals: Hospital[] = [
     slug: "wockhardt-mumbai-central",
     name: "Wockhardt Hospitals, Mumbai Central",
     city: "Mumbai",
+    priority: 2,
     address: "1877, Dr. Anand Rao Nair Road, near Agripada Police Station, Mumbai Central (East), Mumbai 400 011, India",
     accreditation: "JCI (USA) and NABH (India) accredited",
     overview:
@@ -560,6 +564,7 @@ export const hospitals: Hospital[] = [
     slug: "wockhardt-mira-road",
     name: "Wockhardt Hospitals, Mira Road",
     city: "Mumbai",
+    priority: 2,
     address: "The Umrao, IMSR, near Railway Station, Mira Road (East), District Thane, Mumbai 401 107, India",
     accreditation: "JCI (USA) and NABH (India) accredited",
     overview:
@@ -602,6 +607,7 @@ export const hospitals: Hospital[] = [
     slug: "wockhardt-nagpur",
     name: "Wockhardt Super Speciality Hospital, Nagpur",
     city: "Nagpur",
+    priority: 2,
     address: "1643, North Ambazari Road, Shankar Nagar, Nagpur 440 033, India",
     accreditation: "NABH accredited",
     overview:
@@ -634,6 +640,7 @@ export const hospitals: Hospital[] = [
     slug: "wockhardt-nagpur-heart",
     name: "Wockhardt Heart Hospital, Nagpur",
     city: "Nagpur",
+    priority: 2,
     address: "27, Corporation Colony, North Ambazari Road, Gandhi Nagar, Nagpur 440 033, India",
     overview:
       "A Wockhardt Hospitals heart hospital in Nagpur, open since 2004 and the first in the city to perform angiography through the wrist (the radial method). Full-time cardiologists and heart surgeons run its cardiac services, with a round-the-clock intensive care unit for heart emergencies.",
@@ -651,6 +658,7 @@ export const hospitals: Hospital[] = [
     slug: "wockhardt-rajkot",
     name: "Wockhardt Hospitals, Rajkot",
     city: "Rajkot",
+    priority: 2,
     address: "Kalawad Road, near St. Mary's High School, Rajkot, Gujarat 360 007, India",
     accreditation: "NABH and NABL accredited",
     overview:
