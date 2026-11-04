@@ -470,12 +470,10 @@ export const privacy: LegalContent = {
       body: [
         "If you have any questions, concerns or requests regarding this Privacy Policy or the handling of your personal information, please contact us:",
         "Med Safar India",
-        // A separate privacy email and a named grievance contact are still to
-        // come from Medsafar.
         `Email: ${email}`,
         `Website: ${website}`,
         `Registered Office: ${office}`,
-        "Privacy and Grievance Contact: Medsafar India Privacy Team",
+        `Privacy and Grievance Contact: please write to ${email} only, for every privacy request or grievance.`,
         "We will review and respond to privacy-related requests or grievances within the timelines prescribed by applicable law.",
       ],
     },

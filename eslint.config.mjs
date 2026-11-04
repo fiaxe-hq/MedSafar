@@ -15,6 +15,8 @@ const eslintConfig = defineConfig([
     // Cloudflare builds and local state.
     ".open-next/**",
     ".wrangler/**",
+    // Written by `wrangler types`; rewritten on every run.
+    "cloudflare-env.d.ts",
   ]),
 ]);
 

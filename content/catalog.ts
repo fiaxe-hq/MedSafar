@@ -6,7 +6,8 @@ import type { CatalogContent } from "./types";
  * lib/catalog.ts, not from here.
  */
 export const catalog: CatalogContent = {
-  draft: "Pending doctor check",
+  medicalNote:
+    "General information only, to give you a rough idea. It is not medical advice, it may contain mistakes, and it may not fit your case. We are not doctors and are not responsible for decisions made from this page. Please confirm everything with your own doctor.",
   legalNote: "This page is a translation, for your convenience. Only the English version is legally binding. If the two differ, the English version applies.",
   legalEnglish: "Read it in English",
   filters: {

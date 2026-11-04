@@ -70,7 +70,6 @@ export default async function Page({ params }: Props) {
         back={{ href: "/treatments", label: text.back }}
         heading={treatment.name}
         intro={treatment.summary}
-        pending={treatment.checked ? false : "check"}
         cta
       >
         {showUpcoming ? (
@@ -118,6 +117,8 @@ export default async function Page({ params }: Props) {
             </div>
           ))}
         </dl>
+
+        <p className="mt-8 max-w-[75ch] text-sm text-ink-3">{catalog.medicalNote}</p>
 
         {showUpcoming ? (
           <div className="mt-20 border-t border-hairline pt-16 lg:mt-24 lg:pt-20">

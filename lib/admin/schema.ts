@@ -187,12 +187,6 @@ export const kinds: Record<ListKind, KindInfo> = {
           { type: "text", key: "name", label: "Treatment name", required: true, max: 120 },
           { type: "select", key: "speciality", label: "Speciality", options: "specialities", required: true },
           { type: "textarea", key: "summary", label: "Short summary", help: "One or two sentences for lists and search.", required: true, rows: 3, max: 400 },
-          {
-            type: "checkbox",
-            key: "checked",
-            label: "Checked by a doctor",
-            help: "Until this is ticked, the page says the text is waiting for a doctor's check.",
-          },
         ],
       },
       {

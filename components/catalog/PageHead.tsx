@@ -29,8 +29,7 @@ export async function PageHead({
   back?: { href: string; label: string };
   heading: string;
   intro?: string;
-  /** "check" marks text that a doctor has still to check. */
-  pending?: boolean | "check";
+  pending?: boolean;
   /** A button down to the form: true for the usual label, or a label of its own. */
   cta?: boolean | string;
   /** Less space below, for a page that follows with a picture. */
@@ -89,7 +88,7 @@ export async function PageHead({
               {intro}
             </p>
           ) : null}
-          {pending ? <Mark check={pending === "check"} className="hero-rise mt-6 [animation-delay:160ms]" /> : null}
+          {pending ? <Mark className="hero-rise mt-6 [animation-delay:160ms]" /> : null}
 
           {cta ? (
             <div className="hero-rise mt-8 flex flex-wrap gap-3 [animation-delay:200ms]">

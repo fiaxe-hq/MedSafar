@@ -391,7 +391,7 @@ export type Doctor = Pending & {
 
 export type Treatment = {
   slug: string;
-  /** False until a doctor has checked the text; the page then says so. */
+  /** Kept from earlier records; not shown. Treatment pages carry catalog.medicalNote instead. */
   checked: boolean;
   name: string;
   /** Speciality slug. */
@@ -440,8 +440,8 @@ export type Post = Pending & {
 
 /** Text for the hospital, doctor, treatment and blog pages. */
 export type CatalogContent = {
-  /** Added after the summary of a treatment a doctor has not checked yet. */
-  draft: string;
+  /** Under the medical text of treatment and speciality pages: general information only, ask your doctor. */
+  medicalNote: string;
   /** On a translated legal page: only the English text counts, with a link to it. */
   legalNote: string;
   legalEnglish: string;
