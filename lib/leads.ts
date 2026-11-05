@@ -129,6 +129,22 @@ export async function overLeadLimit(phone: string, ipHash: string | null): Promi
   return (row?.n ?? 0) >= LEAD_LIMIT;
 }
 
+/**
+ * True when step 2 may still be sent for this enquiry: it exists, step 2 has
+ * not been sent yet, and it was started within the last day. Step 2 has no
+ * bot check of its own, so this stops it being replayed to send the team
+ * repeat alerts or to fill storage with uploads.
+ */
+export async function openForDetails(id: string): Promise<boolean> {
+  if (!/^[0-9a-f-]{36}$/.test(id)) return false;
+  const since = new Date(Date.now() - LEAD_WINDOW_MS).toISOString();
+  const row = await env()
+    .LEADS_DB.prepare("SELECT 1 AS ok FROM leads WHERE id = ? AND completed_at IS NULL AND created_at > ?")
+    .bind(id, since)
+    .first<{ ok: number }>();
+  return row?.ok === 1;
+}
+
 /** Step 1. Called the moment a mobile number is submitted. */
 export async function createLead(input: {
   phone: string;

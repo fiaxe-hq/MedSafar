@@ -42,5 +42,5 @@ export const organizationJsonLd = (site: Text["site"]) => ({
 
 /** A JSON-LD payload, made safe to place inside a <script> tag. */
 export function jsonLd(data: object): string {
-  return JSON.stringify(data).replace(/</g, "\u003c");
+  return JSON.stringify(data).replace(/</g, "\\u003c");
 }
