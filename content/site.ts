@@ -113,6 +113,8 @@ export const site: SiteContent = {
       reassurance: "One number is enough to start. Details can follow.",
       reportsFirst: "Add your number first. Then you can upload your reports.",
       emergency: "Not for emergencies. In a medical emergency, call your local emergency number.",
+      notice: "By sending your number, you agree that Medsafar may store it and contact you about your enquiry.",
+      privacy: "Read the privacy policy",
     },
     step2: {
       heading: "A few more details",
