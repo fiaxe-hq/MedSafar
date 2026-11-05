@@ -70,7 +70,7 @@ function Block({
     return (
       <section
         id={id}
-        className={`scroll-mt-24 border-t border-hairline py-20 sm:py-24 ${tone}`}
+        className={`scroll-mt-24 border-t border-hairline py-14 sm:py-24 ${tone}`}
       >
         <Container>
           <div className="reveal grid gap-5 lg:grid-cols-12 lg:items-end lg:gap-12">
@@ -92,7 +92,7 @@ function Block({
   return (
     <section
       id={id}
-      className={`scroll-mt-24 border-t border-hairline py-20 sm:py-24 ${tone}`}
+      className={`scroll-mt-24 border-t border-hairline py-14 sm:py-24 ${tone}`}
     >
       <Container className="grid gap-10 lg:grid-cols-12 lg:gap-12">
         <div className="reveal lg:sticky lg:top-28 lg:col-span-4 lg:self-start">
@@ -323,7 +323,7 @@ export async function HomeC({ place }: { place: string }) {
           <h3 className="text-xl font-medium tracking-[-0.01em]">
             {treatment.browse}
           </h3>
-          <ul className="mt-4 grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-4 lg:grid-cols-8">
+          <ul className="rail mt-4 grid grid-cols-2 gap-x-3 gap-y-5 [--rail-item:42%] sm:grid-cols-4 lg:grid-cols-8">
             {finder.types.map((slug) => {
               const photo = specialityPhoto(slug);
               return (
@@ -370,7 +370,7 @@ export async function HomeC({ place }: { place: string }) {
           intro={home.doctors.intro}
           stacked
         >
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="rail grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {doctors.map(({ doctor, speciality, hospital }) => (
               <li key={doctor.slug} className="min-w-0">
                 <DoctorFeature
@@ -425,19 +425,19 @@ export async function HomeC({ place }: { place: string }) {
           heading={home.selection.heading}
           intro={home.selection.intro}
         >
-          <ul className="grid gap-4 sm:grid-cols-2">
+          <ul className="rail grid gap-4 sm:grid-cols-2">
             {home.selection.items.map((item, i) => {
               const Glyph = selectionIcons[i] ?? SealCheckIcon;
               return (
                 <li
                   key={item.title}
-                  className="group reveal relative isolate overflow-hidden rounded-lg border border-hairline bg-surface p-6 sm:p-7"
+                  className="group reveal relative isolate overflow-hidden rounded-lg border border-hairline bg-surface p-5 sm:p-7"
                 >
                   {selectionPhotos[i] ? (
                     // A faded photo along the card's far side, behind the words.
                     <span
                       aria-hidden
-                      className="absolute inset-y-0 end-0 -z-10 w-[62%] opacity-[0.3] grayscale-[25%] transition-opacity duration-500 ease-(--ease-soft) [mask-image:linear-gradient(to_right,transparent,black_75%)] group-hover:opacity-[0.4] rtl:[mask-image:linear-gradient(to_left,transparent,black_75%)]"
+                      className="absolute inset-y-0 end-0 -z-10 hidden w-[62%] sm:block opacity-[0.3] grayscale-[25%] transition-opacity duration-500 ease-(--ease-soft) [mask-image:linear-gradient(to_right,transparent,black_75%)] group-hover:opacity-[0.4] rtl:[mask-image:linear-gradient(to_left,transparent,black_75%)]"
                     >
                       <Image
                         src={selectionPhotos[i]}
@@ -469,7 +469,7 @@ export async function HomeC({ place }: { place: string }) {
         intro={opinion.intro}
         tone="bg-surface-2"
       >
-        <ul className="grid gap-4 md:grid-cols-2">
+        <ul className="rail grid gap-4 [--rail-item:85%] md:grid-cols-2">
           {opinion.items.map((item, i) => {
             const Glyph = i === 0 ? StethoscopeIcon : ReceiptIcon;
             return (
@@ -514,10 +514,10 @@ export async function HomeC({ place }: { place: string }) {
       {/* Step 06 */}
       <Block id="visa" heading={visa.heading} intro={visa.intro} stacked>
         <div className="grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-2">
-          <div className="band-deep reveal relative isolate flex items-center overflow-hidden rounded-lg p-7">
+          <div className="band-deep reveal relative isolate hidden items-center overflow-hidden rounded-lg p-7 sm:flex">
             <VisaPapers words={visa.papers} />
           </div>
-          <div className="reveal rounded-lg border border-hairline bg-surface p-7">
+          <div className="reveal rounded-lg border border-hairline bg-surface p-5 sm:p-7">
             <h3 className="text-lg font-medium">{countryInfo.visa.heading}</h3>
             <ol className="mt-5 space-y-4">
               {countryInfo.visa.steps.map((line, i) => (
@@ -544,7 +544,7 @@ export async function HomeC({ place }: { place: string }) {
         tone="bg-surface-2"
         stacked
       >
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="rail grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {travel.items.map((item) => {
             const Glyph = travelIcons[item.icon];
             return (
@@ -579,7 +579,7 @@ export async function HomeC({ place }: { place: string }) {
       {/* Step 09 */}
       <section
         id="aftercare"
-        className="band-deep relative isolate scroll-mt-24 overflow-hidden py-20 text-white sm:py-24"
+        className="band-deep relative isolate scroll-mt-24 overflow-hidden py-14 text-white sm:py-24"
       >
         <Container className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
           <div className="reveal min-w-0 lg:col-span-5">
@@ -592,7 +592,7 @@ export async function HomeC({ place }: { place: string }) {
             {aftercare.items.map((item) => (
               <li
                 key={item}
-                className="reveal flex items-start gap-3 rounded-lg bg-white/5 p-5 ring-1 ring-white/10"
+                className="reveal flex items-start gap-3 rounded-lg bg-white/5 p-4 ring-1 ring-white/10 sm:p-5"
               >
                 <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-sm bg-glow/20 text-glow">
                   <CheckIcon size={14} weight="bold" aria-hidden />
@@ -608,8 +608,8 @@ export async function HomeC({ place }: { place: string }) {
         <div className="reveal divide-y divide-hairline border-y border-hairline">
           {faq.items.map((item, i) => (
             <details key={i} className="group accordion">
-              <summary className="grid cursor-pointer list-none grid-cols-[2.5rem_1fr_auto] items-center gap-4 py-5 text-lg font-medium hover:text-accent">
-                <span className="font-mono text-sm font-normal text-ink-3">
+              <summary className="grid cursor-pointer list-none grid-cols-[1fr_auto] items-center gap-4 py-4 text-base font-medium hover:text-accent sm:grid-cols-[2.5rem_1fr_auto] sm:py-5 sm:text-lg">
+                <span className="hidden font-mono text-sm font-normal text-ink-3 sm:inline">
                   {num(i + 1)}
                 </span>
                 {item.question}
@@ -620,7 +620,7 @@ export async function HomeC({ place }: { place: string }) {
                   +
                 </span>
               </summary>
-              <p className="max-w-[64ch] ps-14 pb-6 text-base text-ink-2">
+              <p className="max-w-[64ch] pb-5 text-base text-ink-2 sm:ps-14 sm:pb-6">
                 {item.answer}
               </p>
             </details>
@@ -631,7 +631,7 @@ export async function HomeC({ place }: { place: string }) {
       {/* Closing form */}
       <section
         id="plan"
-        className="band-deep relative isolate scroll-mt-24 overflow-hidden py-20 text-white sm:py-28"
+        className="band-deep relative isolate scroll-mt-24 overflow-hidden py-14 text-white sm:py-28"
       >
         <Container className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
           <div className="reveal min-w-0 lg:col-span-6">

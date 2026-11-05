@@ -401,3 +401,38 @@ html:has(dialog[open]) {
   background: color-mix(in oklab, var(--bg) 92%, transparent);
   backdrop-filter: blur(24px);
 }
+
+/*
+ * Phones: a row of cards that scrolls sideways instead of stacking into a
+ * long column. From 640px up the element's own grid classes take over.
+ * Unlayered, so it wins over the grid utilities below 640px.
+ */
+@media (width < 40rem) {
+  .rail {
+    display: flex;
+    gap: 0.875rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    margin-inline: -1.25rem;
+    padding-inline: 1.25rem;
+    scroll-padding-inline: 1.25rem;
+    padding-bottom: 0.25rem;
+    scrollbar-width: none;
+  }
+  .rail::-webkit-scrollbar {
+    display: none;
+  }
+  .rail > * {
+    flex: 0 0 var(--rail-item, 80%);
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+}
+
+/* Phones: reveal without the blur, which is costly to animate on small GPUs. */
+@media (width < 40rem) {
+  .reveal {
+    filter: none;
+  }
+}

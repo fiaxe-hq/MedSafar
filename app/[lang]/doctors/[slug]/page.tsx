@@ -130,7 +130,7 @@ export default async function Page({ params }: Props) {
       {treatments.length ? (
         <Section>
           <SectionHead heading={text.detail.procedures} />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="rail mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3">
             {treatments.map((treatment) => (
               <TreatmentCard
                 key={treatment.slug}

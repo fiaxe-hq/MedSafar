@@ -256,7 +256,7 @@ export default async function Page({ params }: Props) {
       {doctors.length ? (
         <Section tone={tone()}>
           <SectionHead heading={text.detail.doctors} />
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="rail mt-8 grid gap-5 sm:mt-10 md:grid-cols-2">
             {doctors.map((doctor) => (
               <DoctorCard
                 key={doctor.slug}

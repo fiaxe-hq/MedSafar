@@ -223,11 +223,17 @@ export function EnquiryForm({
           </p>
         ) : null}
 
-        <p className="text-sm text-ink-3">
+        {/* On a phone the short form keeps only what must be said, so the
+            first screen stays short. */}
+        <p className={`text-sm text-ink-3 ${compact ? "hidden sm:block" : ""}`}>
           {compact ? text.step1.hint : text.step1.reassurance}
         </p>
         <p className="text-sm text-ink-3">{text.step1.emergency}</p>
-        {showUpcoming ? <PrivacyNote text={text.privacyNote} /> : null}
+        {showUpcoming ? (
+          <div className={compact ? "hidden sm:block" : undefined}>
+            <PrivacyNote text={text.privacyNote} />
+          </div>
+        ) : null}
       </form>
     );
   }

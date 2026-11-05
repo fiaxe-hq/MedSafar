@@ -99,7 +99,7 @@ export default async function TranslationsPage() {
         </ul>
       </section>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+      <div className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-2 lg:[&>*]:min-w-0">
         <section className={`${adminCard} p-5 sm:p-6`} aria-labelledby="download">
           <h2 id="download" className="font-display text-lg font-semibold">1. Download a file</h2>
           <p className="mt-1 text-sm text-ink-3">Open it in Excel or Google Sheets. Each row is one piece of text, with its English and a column per language.</p>
