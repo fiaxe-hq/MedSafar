@@ -4,7 +4,7 @@ import type { PhoneNumber } from "libphonenumber-js/max";
 import { headers } from "next/headers";
 import { after } from "next/server";
 import { syncLeadToCrm } from "@/lib/crm";
-import { createLead, hashIp, overLeadLimit, saveReport, updateLead, type Lead } from "@/lib/leads";
+import { createLead, hashIp, openForDetails, overLeadLimit, saveReport, updateLead, type Lead } from "@/lib/leads";
 import { parsePhone } from "@/lib/phone";
 import { passedTurnstile } from "@/lib/turnstile";
 import { getQuestionnaire } from "@/content/questionnaires";
@@ -65,6 +65,11 @@ async function readPhone(formData: FormData): Promise<PhoneNumber | "phone" | "c
   return guessed ?? "country";
 }
 
+/** A form field as trimmed text, cut to a sane length so nobody can store megabytes in one field. */
+function text(formData: FormData, name: string, max: number): string {
+  return String(formData.get(name) ?? "").trim().slice(0, max);
+}
+
 /** Sends the enquiry to the CRM once the response has gone, so the visitor never waits on it. The CRM emails the team. */
 async function alertTeam(lead: Lead) {
   after(() => syncLeadToCrm(lead));
@@ -77,7 +82,7 @@ export async function saveNumber(
 ): Promise<ActionResult> {
   try {
     const iso = String(formData.get("iso") ?? "").toUpperCase();
-    const source = String(formData.get("source") ?? "/");
+    const source = text(formData, "source", 200) || "/";
 
     const parsed = await readPhone(formData);
     if (typeof parsed === "string") return { ok: false, error: parsed };
@@ -114,13 +119,16 @@ export async function saveDetails(
     const leadId = String(formData.get("leadId") ?? "");
     if (!leadId) return { ok: false, error: "generic" };
 
-    const name = String(formData.get("name") ?? "").trim();
+    const name = text(formData, "name", 120);
     if (name.length < 2) return { ok: false, error: "name" };
 
-    const email = String(formData.get("email") ?? "").trim();
+    const email = text(formData, "email", 254);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return { ok: false, error: "email" };
 
     if (formData.get("consent") !== "yes") return { ok: false, error: "consent" };
+
+    // Only once per enquiry, and only for a real one (before any upload is stored).
+    if (!(await openForDetails(leadId))) return { ok: false, error: "generic" };
 
     const report = formData.get("report");
     let reportFile: string | undefined;
@@ -134,12 +142,12 @@ export async function saveDetails(
     const updated = await updateLead(leadId, {
       name,
       email,
-      country: String(formData.get("country") ?? ""),
-      treatment: String(formData.get("treatment") ?? ""),
-      timeline: String(formData.get("timeline") ?? ""),
-      budget: String(formData.get("budget") ?? ""),
-      preference: String(formData.get("preference") ?? "").trim(),
-      notes: String(formData.get("notes") ?? ""),
+      country: text(formData, "country", 80),
+      treatment: text(formData, "treatment", 200),
+      timeline: text(formData, "timeline", 80),
+      budget: text(formData, "budget", 80),
+      preference: text(formData, "preference", 200),
+      notes: text(formData, "notes", 4000),
       consent: true,
       marketing: formData.get("marketing") === "yes",
       reportFile,
@@ -170,7 +178,7 @@ export async function saveQuestionnaire(
     for (const question of questionnaire.sections.flatMap((s) => s.questions)) {
       const values = formData
         .getAll(question.id)
-        .map((v) => String(v).trim())
+        .map((v) => String(v).trim().slice(0, 1000))
         .filter(Boolean);
       if (question.kind === "number" && values[0]) {
         const n = Number(values[0]);
@@ -192,10 +200,10 @@ export async function saveQuestionnaire(
       if (cm && kg) lines.push(`BMI: ${(kg / (cm / 100) ** 2).toFixed(1)}`);
     }
 
-    const name = String(formData.get("name") ?? "").trim();
+    const name = text(formData, "name", 120);
     if (name.length < 2) return { ok: false, error: "name" };
 
-    const email = String(formData.get("email") ?? "").trim();
+    const email = text(formData, "email", 254);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return { ok: false, error: "email" };
 
     if (formData.get("consent") !== "yes") return { ok: false, error: "consent" };
