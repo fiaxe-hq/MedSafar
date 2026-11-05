@@ -199,6 +199,150 @@ export async function listLeads(limit = 200): Promise<Lead[]> {
   return results.map(toLead);
 }
 
+/** Filters for /admin/enquiries, read from the page's search params. Empty means "any". */
+export type LeadFilters = {
+  /** Words to find in the name, phone, email, treatment or notes. */
+  q?: string;
+  /** "full": step 2 sent; "step1": number only. */
+  status?: "full" | "step1";
+  /** Country given at step 2, or the phone's country when there is none. */
+  from?: string;
+  treatment?: string;
+  timeline?: string;
+  budget?: string;
+  preference?: string;
+  report?: "yes" | "no";
+  marketing?: "yes" | "no";
+  /** Days in IST, as yyyy-mm-dd, both ends included. */
+  since?: string;
+  until?: string;
+  sort?: LeadSort;
+};
+
+export const leadSorts = {
+  newest: { label: "Newest first", sql: "created_at DESC" },
+  oldest: { label: "Oldest first", sql: "created_at ASC" },
+  updated: { label: "Recently updated", sql: "updated_at DESC" },
+  name: { label: "Name A–Z", sql: "name IS NULL OR name = '', name COLLATE NOCASE ASC, created_at DESC" },
+  from: { label: "Country A–Z", sql: "lead_from COLLATE NOCASE ASC, created_at DESC" },
+  treatment: {
+    label: "Treatment A–Z",
+    sql: "treatment IS NULL OR treatment = '', treatment COLLATE NOCASE ASC, created_at DESC",
+  },
+} as const;
+export type LeadSort = keyof typeof leadSorts;
+
+const FROM_SQL = "COALESCE(NULLIF(country, ''), phone_iso)";
+
+const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+/** "IN" → "India". Country names given at step 2 pass through as they are. */
+export function countryName(value: string): string {
+  if (!/^[A-Z]{2}$/.test(value)) return value;
+  try {
+    return regionNames.of(value) ?? value;
+  } catch {
+    return value;
+  }
+}
+
+const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
+
+/** Start of a yyyy-mm-dd day in IST, as a UTC ISO string; null if not a date. */
+function istDayStart(day: string, addDays = 0): string | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return null;
+  const ms = Date.parse(`${day}T00:00:00Z`);
+  if (Number.isNaN(ms)) return null;
+  return new Date(ms - IST_OFFSET_MS + addDays * 86_400_000).toISOString();
+}
+
+/** Enquiries matching the filters (at most `limit`), and how many match in all. */
+export async function findLeads(
+  filters: LeadFilters,
+  limit = 200,
+): Promise<{ leads: Lead[]; total: number }> {
+  const where: string[] = [];
+  const binds: (string | number)[] = [];
+  const add = (sql: string, ...values: (string | number)[]) => {
+    where.push(sql);
+    binds.push(...values);
+  };
+
+  const q = filters.q?.trim();
+  if (q) {
+    const like = `%${q.replace(/[\\%_]/g, (c) => `\\${c}`)}%`;
+    const digits = q.replace(/\D/g, "");
+    const parts = ["name", "email", "treatment", "notes", "country"].map((c) => `${c} LIKE ? ESCAPE '\\'`);
+    const values: string[] = Array(parts.length).fill(like);
+    // Phone numbers match on their digits, so "98336 02738" finds +919833602738.
+    if (digits.length >= 3) {
+      parts.push("phone LIKE ?");
+      values.push(`%${digits}%`);
+    }
+    add(`(${parts.join(" OR ")})`, ...values);
+  }
+  if (filters.status === "full") add("name IS NOT NULL AND name != ''");
+  if (filters.status === "step1") add("(name IS NULL OR name = '')");
+  if (filters.from) {
+    // Matches the country given at step 2, or, for step-1 numbers, the phone's country.
+    const { results: codes } = await env()
+      .LEADS_DB.prepare("SELECT DISTINCT phone_iso AS v FROM leads")
+      .all<{ v: string }>();
+    const isos = codes.map((c) => c.v).filter((v) => v && countryName(v) === filters.from);
+    add(
+      `(country = ? OR ((country IS NULL OR country = '') AND phone_iso IN (${isos.map(() => "?").join(",") || "NULL"})))`,
+      filters.from,
+      ...isos,
+    );
+  }
+  if (filters.treatment) add("treatment = ?", filters.treatment);
+  if (filters.timeline) add("timeline = ?", filters.timeline);
+  if (filters.budget) add("budget = ?", filters.budget);
+  if (filters.preference) add("preference = ?", filters.preference);
+  if (filters.report === "yes") add("report_file IS NOT NULL");
+  if (filters.report === "no") add("report_file IS NULL");
+  if (filters.marketing === "yes") add("marketing = 1");
+  if (filters.marketing === "no") add("(marketing IS NULL OR marketing = 0)");
+  const since = filters.since ? istDayStart(filters.since) : null;
+  const until = filters.until ? istDayStart(filters.until, 1) : null;
+  if (since) add("created_at >= ?", since);
+  if (until) add("created_at < ?", until);
+
+  const whereSql = where.length ? `WHERE ${where.join(" AND ")}` : "";
+  const order = leadSorts[filters.sort ?? "newest"]?.sql ?? leadSorts.newest.sql;
+  const db = env().LEADS_DB;
+  const [rows, count] = await db.batch([
+    db
+      .prepare(`SELECT *, ${FROM_SQL} AS lead_from FROM leads ${whereSql} ORDER BY ${order} LIMIT ?`)
+      .bind(...binds, limit),
+    db.prepare(`SELECT count(*) AS n FROM leads ${whereSql}`).bind(...binds),
+  ]);
+  return {
+    leads: (rows.results as LeadRow[]).map(toLead),
+    total: (count.results[0] as { n: number } | undefined)?.n ?? 0,
+  };
+}
+
+/** The values that occur in each filterable column, for the filter menus. */
+export async function leadFilterOptions(): Promise<
+  Record<"from" | "treatment" | "timeline" | "budget" | "preference", string[]>
+> {
+  const db = env().LEADS_DB;
+  const distinct = (expr: string) =>
+    db.prepare(
+      `SELECT DISTINCT ${expr} AS v FROM leads WHERE ${expr} IS NOT NULL AND ${expr} != '' ORDER BY v COLLATE NOCASE`,
+    );
+  const keys = ["from", "treatment", "timeline", "budget", "preference"] as const;
+  const results = await db.batch(
+    [FROM_SQL, "treatment", "timeline", "budget", "preference"].map((expr) => distinct(expr)),
+  );
+  const options = Object.fromEntries(
+    keys.map((key, i) => [key, (results[i].results as { v: string }[]).map((r) => r.v)]),
+  ) as Record<(typeof keys)[number], string[]>;
+  // Phone codes and typed names for the same country become one choice.
+  options.from = [...new Set(options.from.map(countryName))].sort((a, b) => a.localeCompare(b));
+  return options;
+}
+
 /**
  * Erases an enquiry for good: its row, its uploaded report and its backup,
  * and the code checks kept for its number. The copy in the CRM is not
