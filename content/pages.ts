@@ -989,9 +989,9 @@ export const disclaimer: LegalContent = {
 };
 
 // The client's Editorial Policy (Med_Safar_India_Editorial_Policy.docx),
-// clauses 1 to 18 word for word, until a lawyer has reviewed it. Left out:
-// clause 19 (a disclaimer, which has its own page), clause 20 (details still
-// to fill in) and the internal checklist.
+// clauses 1 to 18 word for word, and clause 20 with the details the client
+// sent on 5 November 2026. Left out: clause 19 (a disclaimer, which has its
+// own page) and the internal checklist.
 export const editorialPolicy: LegalContent = {
   meta: {
     title: "Editorial policy. Medsafar India.",
@@ -1204,6 +1204,19 @@ export const editorialPolicy: LegalContent = {
         "The management of Med Safar India is responsible for implementing this policy, assigning editorial and review responsibilities, maintaining approval records and ensuring that contractors and agencies working on its behalf are informed of the standards.",
         "All employees, contributors and agencies must promptly escalate content that may be inaccurate, misleading, unlawful, privacy-invasive or inconsistent with patient-first principles.",
         "This policy will be reviewed at least annually and whenever there is a material change in applicable law, NMC or other regulatory guidance, Med Safar India's services, commercial arrangements, technology or target markets.",
+      ],
+    },
+    {
+      heading: "20. Policy administration",
+      body: [
+        "Legal entity and registered office: TravGrub Private Limited, which operates the Med Safar India brand. Office No. 222, 2nd Floor, Neo Corporate Plaza, Ramchandra Lane Extension, Kanchpada, Malad West, Mumbai, Maharashtra – 400064, India.",
+        "Editorial contact email: vickyprabhu@medsafar.com",
+        "Privacy and grievance contact: vickyprabhu@medsafar.com",
+        "Person responsible for editorial approval: Vicky Prabhu, Founder.",
+        "Medical reviewer: Dr Jagruti Kamdar.",
+        "Legal reviewer: Adv. Sanjay Israni.",
+        "Last reviewed: 1 November 2026. Effective date: 12 November 2026.",
+        "Website: www.medsafar.com",
       ],
     },
   ],
