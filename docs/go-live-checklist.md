@@ -14,7 +14,8 @@ The site in use is the **medsafar** Worker: https://medsafar.xaif-0e9.workers.de
 - [x] Partner hospitals: Nanavati Max, Kenia Eye, Kenia Dental, five Wockhardt hospitals; their doctors
 - [x] Package prices shown (decided)
 - [x] Terms, Privacy Policy, Disclaimer, Editorial Policy (with clause 20), Cancellations
-- [x] Privacy contact: care@medsafar.com only
+- [x] Privacy and grievance contact: vickyprabhu@medsafar.com (client, 5 Nov); general email care@medsafar.com
+- [x] All legal pages dated 12 November 2026 (launch day)
 - [x] About page with the client's text and photos
 - [x] 12 languages: English, Hindi and the languages of the countries served, every page translated
 - [x] Country from location; phone code follows it; a hero photo per country
