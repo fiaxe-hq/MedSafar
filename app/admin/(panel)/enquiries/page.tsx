@@ -2,9 +2,67 @@ import { FileArrowDownIcon } from "@phosphor-icons/react/dist/ssr/FileArrowDown"
 import { PhoneIcon } from "@phosphor-icons/react/dist/ssr/Phone";
 import { TrashIcon } from "@phosphor-icons/react/dist/ssr/Trash";
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr/WhatsappLogo";
-import { REPORT_REVIEW_DAYS, listLeads, listOldReports } from "@/lib/leads";
+import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
+import Link from "next/link";
+import {
+  REPORT_REVIEW_DAYS,
+  type LeadFilters,
+  type LeadSort,
+  countryName,
+  findLeads,
+  leadFilterOptions,
+  leadSorts,
+  listOldReports,
+} from "@/lib/leads";
 import { AdminBadge, AdminHeading, AdminNotice, AdminTile, adminButton, adminCard } from "@/components/admin/ui";
+import { EnquiryFilters, type FilterField } from "@/components/admin/EnquiryFilters";
 import { deleteLeadAction, deleteReportAction, keepReportAction } from "./actions";
+
+/** Search param names the filters use, in the order their chips show. */
+const FILTER_KEYS = [
+  "q",
+  "status",
+  "from",
+  "treatment",
+  "timeline",
+  "budget",
+  "preference",
+  "report",
+  "marketing",
+  "since",
+  "until",
+] as const;
+type FilterKey = (typeof FILTER_KEYS)[number];
+
+const yesNo = (yes: string, no: string) => [
+  { value: "yes", label: yes },
+  { value: "no", label: no },
+];
+
+/** One value per filter, from the URL. Unknown values are dropped. */
+function readFilters(params: Record<string, string | string[] | undefined>) {
+  const one = (k: string) => {
+    const v = params[k];
+    return (Array.isArray(v) ? v[0] : v)?.trim() ?? "";
+  };
+  const values: Partial<Record<FilterKey | "sort", string>> = {};
+  for (const k of FILTER_KEYS) if (one(k)) values[k] = one(k).slice(0, 200);
+  if (values.status && !["full", "step1"].includes(values.status)) delete values.status;
+  if (values.report && !["yes", "no"].includes(values.report)) delete values.report;
+  if (values.marketing && !["yes", "no"].includes(values.marketing)) delete values.marketing;
+  if (one("sort") in leadSorts && one("sort") !== "newest") values.sort = one("sort");
+  return values;
+}
+
+function hrefWithout(values: Record<string, string>, key?: string) {
+  const qs = new URLSearchParams(Object.entries(values).filter(([k, v]) => k !== key && v));
+  const s = qs.toString();
+  return s ? `/admin/enquiries?${s}` : "/admin/enquiries";
+}
+
+function day(d: string) {
+  return new Date(`${d}T00:00:00Z`).toLocaleDateString("en-GB", { timeZone: "UTC", dateStyle: "medium" });
+}
 
 const LIMIT = 200;
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
@@ -25,17 +83,61 @@ function when(iso: string) {
 /** Each row is one enquiry; step-2 fields are blank if the visitor stopped at step 1. */
 export default async function EnquiriesPage({ searchParams }: PageProps<"/admin/enquiries">) {
   const params = await searchParams;
-  const [leads, oldReports] = await Promise.all([listLeads(LIMIT), listOldReports()]);
+  const values = readFilters(params) as Record<string, string>;
+  const filters: LeadFilters = { ...values, sort: values.sort as LeadSort | undefined } as LeadFilters;
+  const [{ leads, total }, options, oldReports] = await Promise.all([
+    findLeads(filters, LIMIT),
+    leadFilterOptions(),
+    listOldReports(),
+  ]);
   const complete = leads.filter((lead) => lead.name).length;
   const since = weekAgo();
   const thisWeek = leads.filter((lead) => lead.createdAt > since).length;
+  const filtered = FILTER_KEYS.some((k) => values[k]);
+
+  const asOptions = (list: string[]) => list.map((v) => ({ value: v, label: v }));
+  const quick: FilterField[] = [
+    {
+      name: "status",
+      label: "Details",
+      options: [
+        { value: "full", label: "Full details" },
+        { value: "step1", label: "Step 1 only" },
+      ],
+    },
+    { name: "from", label: "From", options: asOptions(options.from) },
+  ];
+  const more: FilterField[] = [
+    { name: "treatment", label: "Treatment", options: asOptions(options.treatment) },
+    { name: "timeline", label: "When", options: asOptions(options.timeline) },
+    { name: "budget", label: "Priority", options: asOptions(options.budget) },
+    { name: "preference", label: "Prefers", options: asOptions(options.preference) },
+    { name: "report", label: "Report", options: yesNo("Has a report", "No report") },
+    { name: "marketing", label: "Offers", options: yesNo("Agreed to offers", "Did not agree") },
+  ];
+  const moreActive = [...more.map((f) => f.name), "since", "until"].filter((k) => values[k]).length;
+
+  // One removable chip per filter that is set.
+  const labelOf = (key: FilterKey, value: string) => {
+    if (key === "q") return `“${value}”`;
+    if (key === "since") return `From ${day(value)}`;
+    if (key === "until") return `Until ${day(value)}`;
+    const f = [...quick, ...more].find((x) => x.name === key);
+    const shown = f?.options.find((o) => o.value === value)?.label ?? value;
+    return key === "status" || key === "report" || key === "marketing" ? shown : `${f?.label}: ${shown}`;
+  };
+  const chips = FILTER_KEYS.filter((k) => values[k]).map((k) => ({
+    key: k,
+    label: labelOf(k, values[k]),
+    href: hrefWithout(values, k),
+  }));
 
   return (
     <>
       <AdminHeading
         eyebrow="Leads"
         title="Enquiries"
-        intro={`Newest first, times in IST. Showing the latest ${LIMIT}. A number with no name means the visitor left after step 1: call or WhatsApp them.`}
+        intro={`Times in IST. Showing up to ${LIMIT} at a time. A number with no name means the visitor left after step 1: call or WhatsApp them.`}
       />
 
       {params.done === "deleted" ? (
@@ -84,18 +186,62 @@ export default async function EnquiriesPage({ searchParams }: PageProps<"/admin/
       ) : null}
 
       <dl className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <AdminTile label="Shown" value={leads.length} />
+        <AdminTile label={filtered ? "Matching" : "Enquiries"} value={total} />
         <AdminTile label="Last 7 days" value={thisWeek} />
         <AdminTile label="Full details" value={complete} />
         <AdminTile label="Step 1 only" value={leads.length - complete} />
       </dl>
 
+      <EnquiryFilters
+        values={values}
+        sorts={Object.entries(leadSorts).map(([value, s]) => ({ value, label: s.label }))}
+        quick={quick}
+        more={more}
+        moreActive={moreActive}
+      />
+
+      {chips.length ? (
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          {chips.map((chip) => (
+            <Link
+              key={chip.key}
+              href={chip.href}
+              aria-label={`Remove filter ${chip.label}`}
+              className="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-hairline bg-surface ps-3 pe-2 text-sm text-ink transition-colors hover:border-line hover:bg-surface-2"
+            >
+              {chip.label}
+              <XIcon size={14} className="text-ink-3" aria-hidden />
+            </Link>
+          ))}
+          <Link href={hrefWithout(values.sort ? { sort: values.sort } : {})} className="ms-1 text-sm text-accent hover:underline">
+            Clear all
+          </Link>
+          <span className="ms-auto text-sm text-ink-3">
+            {total === 1 ? "1 enquiry matches" : `${total} enquiries match`}
+            {total > leads.length ? `, showing ${leads.length}` : ""}
+          </span>
+        </div>
+      ) : null}
+
       {leads.length === 0 ? (
         <div className={`${adminCard} mt-6 px-6 py-14 text-center`}>
-          <p className="font-display text-lg font-semibold">No enquiries yet</p>
-          <p className="mt-2 text-base text-ink-2">
-            They appear here the moment a visitor sends a number.
-          </p>
+          {filtered ? (
+            <>
+              <p className="font-display text-lg font-semibold">No enquiries match</p>
+              <p className="mt-2 text-base text-ink-2">
+                Try fewer filters, or{" "}
+                <Link href="/admin/enquiries" className="text-accent hover:underline">
+                  clear them all
+                </Link>
+                .
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="font-display text-lg font-semibold">No enquiries yet</p>
+              <p className="mt-2 text-base text-ink-2">They appear here the moment a visitor sends a number.</p>
+            </>
+          )}
         </div>
       ) : (
         <>
@@ -104,7 +250,7 @@ export default async function EnquiriesPage({ searchParams }: PageProps<"/admin/
           {leads.map((lead) => {
             const details = [
               ["Email", lead.email],
-              ["From", lead.country ?? lead.phoneIso],
+              ["From", countryName(lead.country || lead.phoneIso)],
               ["Treatment", lead.treatment],
               ["When", lead.timeline],
               ["Priority", lead.budget],
@@ -214,7 +360,7 @@ export default async function EnquiriesPage({ searchParams }: PageProps<"/admin/
                       </a>
                     ) : null}
                   </td>
-                  <td className="px-4 py-3.5">{lead.country ?? lead.phoneIso}</td>
+                  <td className="px-4 py-3.5">{countryName(lead.country || lead.phoneIso)}</td>
                   <td className="px-4 py-3.5">{lead.treatment}</td>
                   <td className="px-4 py-3.5">{lead.timeline}</td>
                   <td className="px-4 py-3.5">{lead.budget}</td>
