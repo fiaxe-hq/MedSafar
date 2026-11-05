@@ -13,7 +13,7 @@ The site in use is the **medsafar** Worker: https://medsafar.xaif-0e9.workers.de
 - [x] Treatments, specialities, body map, hospital, doctor and blog pages
 - [x] Partner hospitals: Nanavati Max, Kenia Eye, Kenia Dental, five Wockhardt hospitals; their doctors
 - [x] Package prices shown (decided)
-- [x] Terms, Privacy Policy, Disclaimer, Editorial Policy, Cancellations
+- [x] Terms, Privacy Policy, Disclaimer, Editorial Policy (with clause 20), Cancellations
 - [x] Privacy contact: care@medsafar.com only
 - [x] About page with the client's text and photos
 - [x] 12 languages: English, Hindi and the languages of the countries served, every page translated
@@ -28,7 +28,6 @@ The site in use is the **medsafar** Worker: https://medsafar.xaif-0e9.workers.de
 
 ## Still open
 
-- [ ] **Editorial Policy clause 20:** the client's document has only "[Insert ...]" blanks there. Needs the client's details.
 - [ ] **Trust figures:** publish in `/admin/stats` once there are real ones.
 - [ ] **Analytics:** later; paste the token into `lib/analytics.ts`.
 
