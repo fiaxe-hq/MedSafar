@@ -38,13 +38,13 @@ export async function DoctorTile({
         className="block h-full rounded-[1.75rem] bg-ink/[0.04] p-1.5 ring-1 ring-ink/[0.06] transition-[translate,box-shadow] duration-500 ease-(--ease-soft) hover:-translate-y-1 hover:shadow-lift focus-visible:outline-offset-4"
       >
         <div className="flex h-full gap-1 rounded-[calc(1.75rem-0.375rem)] bg-surface p-2 sm:flex-col sm:gap-0 shadow-[inset_0_1px_1px_rgb(255_255_255/0.7),0_24px_48px_-32px_rgb(11_61_49/0.35)]">
-          <div className="relative aspect-[4/5] w-28 shrink-0 self-start overflow-hidden rounded-[1.25rem] bg-surface-2 sm:w-full">
+          <div className="relative aspect-[4/5] w-24 shrink-0 self-start overflow-hidden rounded-[1.25rem] bg-surface-2 sm:w-full">
             {photo ? (
               <Image
                 src={picture.src!} unoptimized={isUploaded(picture.src)}
                 alt={picture.alt}
                 fill
-                sizes="(min-width: 1280px) 20rem, (min-width: 640px) 45vw, 7rem"
+                sizes="(min-width: 1280px) 20rem, (min-width: 640px) 45vw, 6rem"
                 className="object-cover transition-[scale] duration-1000 ease-(--ease-soft) group-hover:scale-[1.04]"
               />
             ) : (
@@ -62,16 +62,17 @@ export async function DoctorTile({
 
           <div className="flex min-w-0 grow flex-col px-3 pt-1 pb-1 sm:px-5 sm:pt-6 sm:pb-4">
             <p className="text-sm font-medium text-accent">{speciality}</p>
-            <h2 className="mt-1 font-display text-xl leading-[1.15] sm:mt-2 sm:text-2xl font-semibold tracking-[-0.03em] transition-colors group-hover:text-accent">
+            <h2 className="mt-1 font-display text-lg leading-[1.15] sm:mt-2 sm:text-2xl font-semibold tracking-[-0.03em] transition-colors group-hover:text-accent">
               {doctor.name}
             </h2>
-            <p className="mt-2 text-sm text-ink-2 sm:text-base">{doctor.role}</p>
-            <p className="mt-3 flex items-start gap-1.5 text-sm text-ink-3">
+            <p className="mt-1 line-clamp-2 text-sm text-ink-2 sm:mt-2 sm:line-clamp-none sm:text-base">{doctor.role}</p>
+            <p className="mt-2 flex items-start gap-1.5 text-sm text-ink-3 sm:mt-3">
               <MapPinIcon size={16} weight="light" className="mt-0.5 shrink-0 text-brand" aria-hidden />
               {hospital}
             </p>
 
-            <div className="mt-auto flex items-center justify-between gap-3 pt-4 sm:pt-6">
+            {/* On a phone the whole card is the link; the "view" row is left out to keep the list short. */}
+            <div className={`mt-auto items-center justify-between gap-3 pt-4 sm:flex sm:pt-6 ${doctor.pending ? "flex" : "hidden"}`}>
               {doctor.pending ? <Mark /> : <span className="text-base font-medium text-ink">{view}</span>}
               <span className="flex items-center gap-2">
                 {doctor.pending ? <span className="sr-only">{view}</span> : null}

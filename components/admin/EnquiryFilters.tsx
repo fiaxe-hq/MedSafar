@@ -77,7 +77,7 @@ export function EnquiryFilters({
       method="get"
       onSubmit={onSubmit}
       key={JSON.stringify(values)}
-      className="mt-6"
+      className="mt-5 sm:mt-6"
     >
       <div className="flex flex-wrap items-end gap-3">
         <label className="min-w-0 flex-[1_1_16rem]">
@@ -98,11 +98,11 @@ export function EnquiryFilters({
           </span>
         </label>
         {quick.map((f) => (
-          <div key={f.name} className="w-[calc(50%-0.375rem)] sm:w-44">
+          <div key={f.name} className="w-[calc(33.333%-0.5rem)] sm:w-44">
             {field(f)}
           </div>
         ))}
-        <label className="w-[calc(50%-0.375rem)] sm:w-44">
+        <label className="w-[calc(33.333%-0.5rem)] sm:w-44">
           <span className={`${adminLabel} mb-1 text-[0.8125rem]`}>Sort</span>
           <select name="sort" defaultValue={values.sort ?? "newest"} onChange={submit} className={select}>
             {sorts.map((o) => (
@@ -112,7 +112,8 @@ export function EnquiryFilters({
             ))}
           </select>
         </label>
-        <button type="submit" className={adminButton.quiet}>
+        {/* On a phone the keyboard's search key sends it. */}
+        <button type="submit" className={`${adminButton.quiet} max-sm:hidden`}>
           Search
         </button>
       </div>

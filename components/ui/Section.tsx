@@ -23,7 +23,7 @@ export function Section({
   return (
     <section
       id={id}
-      className={`${tones[tone]} scroll-mt-24 py-16 sm:py-24 lg:py-28 ${className}`}
+      className={`${tones[tone]} scroll-mt-24 py-12 sm:py-24 lg:py-28 ${className}`}
     >
       <Container>{children}</Container>
     </section>
@@ -43,7 +43,7 @@ export function SectionHead({
   return (
     <div className={`reveal max-w-3xl ${className}`}>
       <h2 className="display-2">{heading}</h2>
-      {intro ? <p className="mt-5 max-w-[60ch] text-lg text-ink-2">{intro}</p> : null}
+      {intro ? <p className="mt-4 max-w-[60ch] text-base text-ink-2 sm:mt-5 sm:text-lg">{intro}</p> : null}
     </div>
   );
 }

@@ -112,7 +112,7 @@ export default async function AdminHome({ searchParams }: PageProps<"/admin">) {
         ))}
       </ul>
 
-      <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_20rem] lg:items-start">
+      <div className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
         <section aria-labelledby="recent">
           <h2 id="recent" className="text-sm font-semibold text-ink">Recent changes</h2>
           {activity.length === 0 ? (

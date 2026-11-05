@@ -148,7 +148,7 @@ export default async function Page({ params }: Props) {
           {hospitals.length ? (
             <>
               <SectionHead heading={text.detail.hospitals} />
-              <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="rail mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3">
                 {hospitals.map((hospital) => (
                   <HospitalCard
                     key={hospital.slug}
@@ -166,11 +166,11 @@ export default async function Page({ params }: Props) {
           <SectionHead
             heading={exact ? text.detail.doctors : text.detail.fieldDoctors}
             intro={doctors.length ? (exact ? undefined : text.detail.fieldDoctorsIntro) : text.detail.noDoctors}
-            className={hospitals.length ? "mt-20 lg:mt-24" : ""}
+            className={hospitals.length ? "mt-14 sm:mt-20 lg:mt-24" : ""}
           />
           {doctors.length ? (
             <>
-              <div className="mt-10 grid gap-5 md:grid-cols-2">
+              <div className="rail mt-8 grid gap-5 sm:mt-10 md:grid-cols-2">
                 {doctors.map((doctor) => (
                   <DoctorCard
                     key={doctor.slug}

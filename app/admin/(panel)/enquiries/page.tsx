@@ -185,7 +185,7 @@ export default async function EnquiriesPage({ searchParams }: PageProps<"/admin/
         </section>
       ) : null}
 
-      <dl className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <dl className="mt-5 grid grid-cols-4 gap-2 sm:mt-8 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4">
         <AdminTile label={filtered ? "Matching" : "Enquiries"} value={total} />
         <AdminTile label="Last 7 days" value={thisWeek} />
         <AdminTile label="Full details" value={complete} />

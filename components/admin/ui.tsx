@@ -35,13 +35,13 @@ export function AdminHeading({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4 border-b border-hairline pb-6">
+    <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4 border-b border-hairline pb-4 sm:pb-6">
       <div className="max-w-3xl">
         {eyebrow ? (
           <p className="text-[0.8125rem] font-medium text-ink-3">{eyebrow}</p>
         ) : null}
         <h1 className={`${adminTitle} ${eyebrow ? "mt-1" : ""}`}>{title}</h1>
-        {intro ? <p className="mt-2 text-[0.9375rem] text-ink-2">{intro}</p> : null}
+        {intro ? <p className="mt-2 text-sm text-ink-2 sm:text-[0.9375rem]">{intro}</p> : null}
       </div>
       {children ? <div className="flex flex-wrap items-center gap-2">{children}</div> : null}
     </div>
@@ -59,9 +59,9 @@ export function AdminTile({
   hint?: string;
 }) {
   return (
-    <div className={`${adminCard} p-5`}>
-      <dt className="text-sm font-medium text-ink-3">{label}</dt>
-      <dd className="mt-2 font-display text-[2rem] leading-none font-semibold tracking-[-0.02em] text-ink tabular-nums">{value}</dd>
+    <div className={`${adminCard} min-w-0 p-3 sm:p-5`}>
+      <dt className="text-xs font-medium text-ink-3 sm:text-sm">{label}</dt>
+      <dd className="mt-1.5 font-display text-2xl leading-none sm:mt-2 sm:text-[2rem] font-semibold tracking-[-0.02em] text-ink tabular-nums">{value}</dd>
       {hint ? <dd className="mt-2 text-sm text-ink-3">{hint}</dd> : null}
     </div>
   );
