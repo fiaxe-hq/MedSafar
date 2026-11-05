@@ -235,8 +235,8 @@ export const contact: ContactContent = {
   },
 };
 
-const privacyUpdated = { label: "Last updated", value: "26 October 2026" };
-const privacyEffective = { label: "Effective date", value: "1 October 2026" };
+const privacyUpdated = { label: "Last updated", value: "12 November 2026" };
+const privacyEffective = { label: "Effective date", value: "12 November 2026" };
 const website = "https://medsafar.com";
 
 export const privacy: LegalContent = {
@@ -473,7 +473,7 @@ export const privacy: LegalContent = {
         `Email: ${email}`,
         `Website: ${website}`,
         `Registered Office: ${office}`,
-        `Privacy and Grievance Contact: please write to ${email} only, for every privacy request or grievance.`,
+        "Privacy and Grievance Contact: please write to vickyprabhu@medsafar.com only, for every privacy request or grievance.",
         "We will review and respond to privacy-related requests or grievances within the timelines prescribed by applicable law.",
       ],
     },
@@ -827,7 +827,7 @@ export const disclaimer: LegalContent = {
   },
   heading: "Website disclaimer",
   intro: "Medical information, healthcare facilitation and medical travel.",
-  updated: { label: "Last updated", value: "2 November 2026" },
+  updated: { label: "Last updated", value: "12 November 2026" },
   sections: [
     {
       heading: "1. General disclaimer",
@@ -990,7 +990,7 @@ export const disclaimer: LegalContent = {
 
 // The client's Editorial Policy (Med_Safar_India_Editorial_Policy.docx),
 // clauses 1 to 18 word for word, and clause 20 with the details the client
-// sent on 5 November 2026. Left out: clause 19 (a disclaimer, which has its
+// sent. Left out: clause 19 (a disclaimer, which has its
 // own page) and the internal checklist.
 export const editorialPolicy: LegalContent = {
   meta: {
@@ -999,7 +999,7 @@ export const editorialPolicy: LegalContent = {
   },
   heading: "Editorial policy",
   intro: "Medical content standards, ethical publishing and public communication.",
-  updated: { label: "Last updated", value: "2 November 2026" },
+  updated: { label: "Last updated", value: "12 November 2026" },
   sections: [
     {
       heading: "1. Our editorial philosophy",
