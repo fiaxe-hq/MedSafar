@@ -473,18 +473,46 @@ export async function Header({
                 {/* On a phone the menu spans the screen, so nothing is cut off. */}
                 <nav
                   aria-label={nav.menuLabel}
-                  className="fixed inset-x-4 top-20 z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl sm:absolute sm:inset-x-auto sm:end-0 sm:top-auto sm:mt-2 sm:w-[22rem] bg-surface p-2 shadow-lift ring-1 ring-hairline"
+                  className="fixed inset-x-4 top-20 z-50 max-h-[calc(100dvh-12.5rem)] overflow-y-auto overscroll-contain lg:max-h-[calc(100dvh-6rem)] rounded-2xl sm:absolute sm:inset-x-auto sm:end-0 sm:top-auto sm:mt-2 sm:w-[22rem] bg-surface p-2 shadow-lift ring-1 ring-hairline"
                 >
-                  {nav.items.map((entry) => (
-                    <div key={entry.label}>
-                      <a
-                        href={resolveHref(entry.href, home, lang.code)}
+                  {nav.items.map((entry) => {
+                    const hasSub = Boolean(entry.menu || entry.items?.length);
+                    if (!hasSub) {
+                      return (
+                        <a
+                          key={entry.label}
+                          href={resolveHref(entry.href, home, lang.code)}
+                          aria-current={
+                            entry.href === current ? "page" : undefined
+                          }
+                          className="flex min-h-13 items-center rounded-lg px-3 text-[1.0625rem] font-medium text-ink transition-colors hover:bg-surface-2 aria-[current=page]:bg-surface-2"
+                        >
+                          {entry.label}
+                        </a>
+                      );
+                    }
+                    return (
+                    <details key={entry.label} name="header-submenu" className="group/sub">
+                      <summary
                         aria-current={
                           entry.href === current ? "page" : undefined
                         }
-                        className="flex min-h-13 items-center rounded-lg px-3 text-[1.0625rem] font-medium text-ink transition-colors hover:bg-surface-2 aria-[current=page]:bg-surface-2"
+                        className="flex min-h-13 cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-3 text-[1.0625rem] font-medium text-ink transition-colors hover:bg-surface-2 group-open/sub:bg-surface-2 aria-[current=page]:bg-surface-2 [&::-webkit-details-marker]:hidden"
                       >
                         {entry.label}
+                        <CaretDownIcon
+                          size={16}
+                          weight="bold"
+                          className="shrink-0 text-ink-3 transition-transform duration-200 group-open/sub:rotate-180"
+                          aria-hidden
+                        />
+                      </summary>
+                      <div className="pt-1 pb-2">
+                      <a
+                        href={resolveHref(entry.href, home, lang.code)}
+                        className="flex min-h-11 items-center rounded-lg px-3 text-base font-medium text-accent transition-colors hover:bg-surface-2"
+                      >
+                        {entry.all ?? entry.label} →
                       </a>
                       {entry.finder ? (
                         <a
@@ -534,8 +562,10 @@ export async function Header({
                           {link.label}
                         </a>
                       ))}
-                    </div>
-                  ))}
+                      </div>
+                    </details>
+                    );
+                  })}
                   <a
                     href={resolveHref(nav.contact.href, home, lang.code)}
                     className="mt-1 flex min-h-13 items-center rounded-lg border-t border-hairline px-3 text-[1.0625rem] font-medium text-accent transition-colors hover:bg-surface-2"

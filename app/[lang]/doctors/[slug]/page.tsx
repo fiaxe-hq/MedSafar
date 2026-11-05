@@ -122,6 +122,7 @@ export default async function Page({ params }: Props) {
                 },
               ]}
             />
+            <p className="mt-8 max-w-[60ch] text-sm text-ink-3">{text.detail.source}</p>
           </div>
         </div>
       </Section>

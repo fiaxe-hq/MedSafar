@@ -431,8 +431,23 @@ export async function HomeC({ place }: { place: string }) {
               return (
                 <li
                   key={item.title}
-                  className="reveal rounded-lg border border-hairline bg-surface p-6 sm:p-7"
+                  className="group reveal relative isolate overflow-hidden rounded-lg border border-hairline bg-surface p-6 sm:p-7"
                 >
+                  {selectionPhotos[i] ? (
+                    // A faded photo along the card's far side, behind the words.
+                    <span
+                      aria-hidden
+                      className="absolute inset-y-0 end-0 -z-10 w-[62%] opacity-[0.3] grayscale-[25%] transition-opacity duration-500 ease-(--ease-soft) [mask-image:linear-gradient(to_right,transparent,black_75%)] group-hover:opacity-[0.4] rtl:[mask-image:linear-gradient(to_left,transparent,black_75%)]"
+                    >
+                      <Image
+                        src={selectionPhotos[i]}
+                        alt=""
+                        fill
+                        sizes="(min-width: 1024px) 20vw, (min-width: 640px) 30vw, 60vw"
+                        className="object-cover"
+                      />
+                    </span>
+                  ) : null}
                   <span className="home-pop grid size-11 place-items-center rounded-md bg-accent-soft text-accent">
                     <Glyph size={22} aria-hidden />
                   </span>
@@ -773,6 +788,16 @@ async function HomeForm({
 }
 
 /** One per item in content/home.ts, in the same order. */
+/** Photos behind the "How we choose" cards, in the order of the cards. */
+const selectionPhotos = [
+  "/photos/care/consult.jpg",
+  "/photos/hospitals/nanavati-max/critical-care.jpg",
+  "/photos/care/lab.jpg",
+  "/photos/hospitals/nanavati-max/international-lounge.jpg",
+  "/photos/journey/estimate.jpg",
+  "/photos/hospitals/nanavati-max/private-room.jpg",
+];
+
 const selectionIcons = [
   StethoscopeIcon,
   HospitalIcon,

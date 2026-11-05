@@ -20,6 +20,28 @@ export type HospitalFilter = { city?: string; speciality?: string };
 export type DoctorFilter = { speciality?: string; hospital?: string };
 export type PostFilter = { category?: string };
 
+/** Hospitals without a priority set in /admin sit between the big names and the small clinics. */
+export const defaultHospitalPriority = 5;
+
+/** Best-known hospitals first (lowest priority number); ties keep the file's order. */
+function byPriority(list: Hospital[]): Hospital[] {
+  const rank = (h: Hospital) => h.priority ?? defaultHospitalPriority;
+  return list
+    .map((h, i) => ({ h, i }))
+    .sort((a, b) => rank(a.h) - rank(b.h) || a.i - b.i)
+    .map(({ h }) => h);
+}
+
+/** A doctor's name without the "Dr" in front, for sorting. */
+const sortName = (name: string) => name.replace(/^\s*(dr\.?|doctor)\s+/i, "").trim();
+
+/** Doctors A to Z by name, never by when they were added. */
+function byName(list: Doctor[]): Doctor[] {
+  return [...list].sort((a, b) =>
+    sortName(a.name).localeCompare(sortName(b.name), "en", { sensitivity: "base" }),
+  );
+}
+
 /** Keeps the order of `slugs`, and drops any slug with no record. */
 function pick<T extends { slug: string }>(records: T[], slugs: string[]): T[] {
   return slugs.flatMap((slug) => records.find((r) => r.slug === slug) ?? []);
@@ -41,10 +63,12 @@ export async function getSpeciality(slug: string): Promise<Speciality | null> {
 
 export async function getHospitals(filter: HospitalFilter = {}): Promise<Hospital[]> {
   const { hospitals } = await getText();
-  return hospitals.filter(
-    (h) =>
-      (!filter.city || h.city === filter.city) &&
-      (!filter.speciality || h.specialities.includes(filter.speciality)),
+  return byPriority(
+    hospitals.filter(
+      (h) =>
+        (!filter.city || h.city === filter.city) &&
+        (!filter.speciality || h.specialities.includes(filter.speciality)),
+    ),
   );
 }
 
@@ -55,7 +79,7 @@ export async function getHospital(slug: string): Promise<Hospital | null> {
 
 export async function getHospitalsBySlugs(slugs: string[]): Promise<Hospital[]> {
   const { hospitals } = await getText();
-  return pick(hospitals, slugs);
+  return byPriority(pick(hospitals, slugs));
 }
 
 /** Cities that have at least one hospital, for the list filter. */
@@ -66,17 +90,19 @@ export async function getHospitalCities(): Promise<string[]> {
 
 export async function getHospitalsByTreatment(treatment: string): Promise<Hospital[]> {
   const { hospitals } = await getText();
-  return hospitals.filter((h) => h.treatments.includes(treatment));
+  return byPriority(hospitals.filter((h) => h.treatments.includes(treatment)));
 }
 
 // Doctors
 
 export async function getDoctors(filter: DoctorFilter = {}): Promise<Doctor[]> {
   const { doctors } = await getText();
-  return doctors.filter(
-    (d) =>
-      (!filter.speciality || d.speciality === filter.speciality) &&
-      (!filter.hospital || d.hospital === filter.hospital),
+  return byName(
+    doctors.filter(
+      (d) =>
+        (!filter.speciality || d.speciality === filter.speciality) &&
+        (!filter.hospital || d.hospital === filter.hospital),
+    ),
   );
 }
 
@@ -92,7 +118,26 @@ export async function getDoctorsBySlugs(slugs: string[]): Promise<Doctor[]> {
 
 export async function getDoctorsByTreatment(treatment: string): Promise<Doctor[]> {
   const { doctors } = await getText();
-  return doctors.filter((d) => d.treatments.includes(treatment));
+  return byName(doctors.filter((d) => d.treatments.includes(treatment)));
+}
+
+/**
+ * Doctors to suggest for a treatment: those who perform it, and when there
+ * are none, specialists in its field at a hospital that offers it (or in its
+ * field anywhere, when no partner hospital lists it). A to Z.
+ */
+export async function getRecommendedDoctors(
+  treatment: Treatment,
+): Promise<{ doctors: Doctor[]; exact: boolean }> {
+  const { doctors, hospitals } = await getText();
+  const exact = doctors.filter((d) => d.treatments.includes(treatment.slug));
+  if (exact.length) return { doctors: byName(exact), exact: true };
+  const field = doctors.filter((d) => d.speciality === treatment.speciality);
+  const offering = new Set(
+    hospitals.filter((h) => h.treatments.includes(treatment.slug)).map((h) => h.slug),
+  );
+  const near = field.filter((d) => offering.has(d.hospital));
+  return { doctors: byName(near.length ? near : field), exact: false };
 }
 
 // Treatments

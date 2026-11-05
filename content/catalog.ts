@@ -58,6 +58,12 @@ export const catalog: CatalogContent = {
       videos: "Videos",
       doctors: "Doctors at this hospital",
       treatments: "Treatments offered",
+      treatmentSearch: {
+        label: "Search the treatments at this hospital",
+        placeholder: "Search treatments, for example knee",
+        count: "{n} of {total} treatments",
+        none: "No treatment here matches “{q}”. Ask us: the hospital may still treat it.",
+      },
       packages: "Package prices",
       priceFrom: "Packages from",
       packagesNote:
@@ -104,6 +110,8 @@ export const catalog: CatalogContent = {
       otherPractice: "Also sees patients at",
       procedures: "Procedures",
       worksAt: "Where this doctor works",
+      source:
+        "This profile is taken from the hospital's own doctor profile. Details can change, so the hospital confirms them before you decide.",
     },
   },
 
@@ -117,7 +125,7 @@ export const catalog: CatalogContent = {
     heading: "Treatments we arrange in India",
     intro:
       "Find the treatment you have been advised to have, or tell us what is wrong and a doctor will advise.",
-    note: "Each description is written in plain words and marked until a doctor has checked it.",
+    note: "Each description is a general guide, written in plain words. Your doctor will tell you what applies to your case.",
     back: "All treatments",
     stats: { treatments: "Treatments", specialities: "Specialities", doctors: "Doctors" },
     jump: "Jump to a speciality",
@@ -131,6 +139,11 @@ export const catalog: CatalogContent = {
       recovery: "Recovery time",
       hospitals: "Hospitals offering this treatment",
       doctors: "Doctors for this treatment",
+      fieldDoctors: "Specialists in this field",
+      fieldDoctorsIntro:
+        "These doctors work in this speciality at our partner hospitals. Send your reports and they can advise whether this treatment is right for you.",
+      noDoctors:
+        "No specialist doctors in this field are listed yet. Send your reports and we will find the right specialist for you.",
       faq: "Questions about this treatment",
       cost: {
         heading: "What affects the cost",
@@ -202,13 +215,16 @@ export const catalog: CatalogContent = {
     eyebrow: "Blog",
     heading: "Guides for patients and families",
     intro: "What to expect, how to prepare and what happens after you fly home.",
-    note: "Every article names its sources. Anything medical is checked by a doctor before it is published.",
+    note: "Every article names its sources.",
     back: "All articles",
     filters: { category: "Category" },
     undated: "Date to be supplied",
     detail: {
       related: "More to read",
       sources: "Sources",
+      disclaimer:
+        "This article is general information, not medical advice. Every patient is different, and results vary. Talk to your own doctor before deciding on any treatment.",
+      disclaimerLink: "Read our full disclaimer",
       treatments: "Treatments in this article",
       hospitals: "Hospitals in this article",
     },

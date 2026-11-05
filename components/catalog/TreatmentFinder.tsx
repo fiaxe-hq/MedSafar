@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "@/components/ui/Link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { treatmentPhoto } from "@/data/treatmentPhotos";
 import { useParams } from "next/navigation";
 import { localPath } from "@/lib/i18n/languages";
@@ -80,18 +80,27 @@ function useSearch(
   q: string,
   plainSpeciality: Record<string, string>,
 ) {
+  // The words of each treatment are put together once, not on every key press.
+  const index = useMemo(
+    () =>
+      treatments.map((t) => ({
+        t,
+        name: t.name.toLowerCase(),
+        hay: `${t.name} ${t.summary} ${plainSpeciality[t.speciality] ?? ""} ${searchWords[t.slug] ?? ""}`.toLowerCase(),
+      })),
+    [treatments, plainSpeciality],
+  );
+  // On a slow phone the box keeps up with typing; the list follows a moment later.
+  const deferred = useDeferredValue(q);
   return useMemo(() => {
-    const words = q
+    const words = deferred
       .toLowerCase()
       .split(/\s+/)
       .filter((w) => w.length > 1);
     if (!words.length) return null;
-    const scored = treatments.map((t) => {
-      const hay =
-        `${t.name} ${t.summary} ${plainSpeciality[t.speciality] ?? ""} ${searchWords[t.slug] ?? ""}`.toLowerCase();
+    const scored = index.map(({ t, name, hay }) => {
       const hits = words.filter((w) => hay.includes(w)).length;
-      const score =
-        hits + words.filter((w) => t.name.toLowerCase().includes(w)).length * 2;
+      const score = hits + words.filter((w) => name.includes(w)).length * 2;
       return { t, hits, score };
     });
     // Matches for every word come first; the rest only if there are none.
@@ -102,7 +111,7 @@ function useSearch(
       )
       .sort((x, y) => y.score - x.score)
       .map((r) => r.t);
-  }, [treatments, q, plainSpeciality]);
+  }, [index, deferred]);
 }
 
 /** Search by the medical name or in everyday words. Results open under the box. */

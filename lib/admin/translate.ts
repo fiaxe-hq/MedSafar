@@ -69,7 +69,7 @@ function fieldsOf(kind: TranslationKind, record: Record<string, unknown>): { fie
   if (kind === "settings") return CONTACT_FIELDS.map((field) => ({ field, value: record[field] }));
   if (kind === "figure") return [{ field: "label", value: record.label }];
   if (kind === "page") return Object.entries(record).map(([field, value]) => ({ field, value }));
-  return kinds[kind].sections.flatMap((s) => s.fields).filter((f) => f.type !== "checkbox").map((f) => ({ field: f.key, value: record[f.key] }));
+  return kinds[kind].sections.flatMap((s) => s.fields).filter((f) => f.type !== "checkbox" && f.type !== "number").map((f) => ({ field: f.key, value: record[f.key] }));
 }
 
 /**

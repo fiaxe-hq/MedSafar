@@ -112,6 +112,7 @@ export const site: SiteContent = {
       submit: "Get a free consultation",
       reassurance: "One number is enough to start. Details can follow.",
       reportsFirst: "Add your number first. Then you can upload your reports.",
+      emergency: "Not for emergencies. In a medical emergency, call your local emergency number.",
     },
     step2: {
       heading: "A few more details",
@@ -213,6 +214,9 @@ export const site: SiteContent = {
       "Doctors and hospitals are independent. Every treatment plan and cost estimate comes from the treating hospital.",
     ],
     payment: "You pay the hospital directly for treatment, against its written estimate.",
+    disclaimer:
+      "Everything on this website is general information, not medical advice. Every patient is different, and results vary. Talk to your own doctor before deciding on any treatment.",
+    disclaimerLink: "Read our full disclaimer",
     columns: [
       {
         heading: "Find care",

@@ -1,6 +1,11 @@
 # Medsafar go-live checklist
 
-Updated 3 November 2026.
+Updated 4 November 2026.
+
+The site in use is **building-medsafar**: https://building-medsafar.xaif-0e9.workers.dev
+(Worker `building-medsafar`, account xaif@fiaxe.com). It deploys from the `design-variants`
+worktree with `pnpm run deploy` (`wrangler.building.jsonc`). The separate `medsafar` Worker
+(`wrangler.live.jsonc`) is not used.
 
 ## Done
 
@@ -9,6 +14,7 @@ Updated 3 November 2026.
 - [x] Partner hospitals: Nanavati Max, Kenia Eye, Kenia Dental, five Wockhardt hospitals; their doctors
 - [x] Package prices shown (decided)
 - [x] Terms, Privacy Policy, Disclaimer, Editorial Policy, Cancellations
+- [x] Privacy contact: care@medsafar.com only
 - [x] About page with the client's text and photos
 - [x] 12 languages: English, Hindi and the languages of the countries served, every page translated
 - [x] Country from location; phone code follows it; a hero photo per country
@@ -16,26 +22,28 @@ Updated 3 November 2026.
 - [x] Every enquiry goes to the CRM as a lead; the CRM emails the team
 - [x] Admin with team logins, editing, translations, enquiries list, trust figures
 - [x] Real Instagram and Facebook links (no YouTube)
-- [x] Live Worker `medsafar` on the xaif@fiaxe.com account: https://medsafar.xaif-0e9.workers.dev
-  with its own D1 (`medsafar-leads`, all migrations), KV page cache, R2 buckets for
-  reports, report backups (30-day rule) and admin photos. Owner login copied from the preview.
-  Deploy: `pnpm run deploy`. Migrate: `pnpm run db:migrate`. Config: `wrangler.live.jsonc`.
+- [x] Treatment pages: "Pending doctor check" removed; a general-information note asks readers to confirm with their own doctor
+- [x] Worker secrets on building-medsafar: `ADMIN_PASSWORD`, `CRM_API_KEY`, `TURNSTILE_SECRET_KEY`
+- [x] Tested on building-medsafar: Turnstile, enquiry to D1/CRM/R2, CRM emails, admin
 
-## Waiting on you
+## Still open
 
-- [ ] **Worker secrets** on `medsafar`: `ADMIN_PASSWORD`, `CRM_API_KEY`, `TURNSTILE_SECRET_KEY`.
-- [ ] **Turnstile widget:** add `medsafar.xaif-0e9.workers.dev` (and later `medsafar.com`) to its hostnames.
-- [ ] **Editorial Policy clause 20:** the client's document has only "[Insert ...]" blanks there. Send the details to fill in.
-- [ ] **Submit the sitemap** to Google Search Console and Bing once on the domain.
-- [ ] **Analytics:** later; paste the token into `lib/analytics.ts`.
+- [ ] **Editorial Policy clause 20:** the client's document has only "[Insert ...]" blanks there. Needs the client's details.
+- [ ] **Bring today's main changes to design-variants** and deploy building-medsafar.
 - [ ] **Trust figures:** publish in `/admin/stats` once there are real ones.
-- [ ] **Test the admin** on the live Worker (edit a hospital, check the page).
+- [ ] **Analytics:** later; paste the token into `lib/analytics.ts`.
 
-## Domain day
+## Launch day
 
-- [ ] Change `siteUrl` in `lib/seo.ts` to `https://medsafar.com`, deploy.
-- [ ] Attach `medsafar.com` and `www.medsafar.com` to the `medsafar` Worker.
-- [ ] Remove the coming-soon routes and old Hostinger web records. **Keep the email records** (MX, TXT, autoconfig, autodiscover).
-- [ ] Optional: turn off the workers.dev address once the domain works.
-- [ ] Send a real test enquiry: check D1, the CRM lead, the CRM email and the report in R2.
-- [ ] Check `care@medsafar.com` receives mail and the WhatsApp number answers.
+1. Change `siteUrl` in `lib/seo.ts` to `https://medsafar.com` (on design-variants), deploy building-medsafar.
+2. Remove the coming-soon Worker's routes for `medsafar.com` and `www.medsafar.com`
+   (Cloudflare → the coming-soon account → Workers → its Routes), or delete that Worker.
+3. In DNS, delete the old Hostinger web records (A / CNAME for `@` and `www`).
+   **Keep the email records** (MX, TXT/SPF/DKIM/DMARC, autoconfig, autodiscover).
+4. Attach `medsafar.com` and `www.medsafar.com` to `building-medsafar` as Custom Domains
+   (Workers → building-medsafar → Settings → Domains & Routes).
+5. Add `medsafar.com` to the Turnstile widget's hostnames.
+6. Send a real test enquiry on medsafar.com: check D1, the CRM lead, the CRM email and the report in R2.
+7. Check `care@medsafar.com` receives mail and the WhatsApp number answers.
+8. Submit the sitemap to Google Search Console and Bing Webmaster Tools.
+9. Optional: turn off the workers.dev address once the domain works.

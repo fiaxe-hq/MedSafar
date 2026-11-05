@@ -74,6 +74,14 @@ function cleanField(
     }
     case "checkbox":
       return { value: value === true };
+    case "number": {
+      const v = text(typeof value === "number" ? String(value) : value);
+      if (!v) return { remove: true };
+      const n = Number(v);
+      if (!Number.isInteger(n) || n < field.min || n > field.max)
+        return { error: `Use a whole number from ${field.min} to ${field.max}.` };
+      return { value: n };
+    }
     case "date": {
       const v = text(value);
       if (!v) return { value: null };

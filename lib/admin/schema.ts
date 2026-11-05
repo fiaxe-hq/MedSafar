@@ -23,6 +23,8 @@ export type Field =
   | { type: "checklist"; key: string; label: string; help?: string; options: OptionList }
   | { type: "checkbox"; key: string; label: string; help?: string; invert?: boolean }
   | { type: "date"; key: string; label: string; help?: string }
+  /** A whole number from min to max. Left empty, the field is left out. */
+  | { type: "number"; key: string; label: string; help?: string; min: number; max: number }
   /** omitEmpty: the record may have no photo at all (a blog post). */
   | { type: "picture"; key: string; label: string; help?: string; omitEmpty?: boolean }
   | { type: "gallery"; key: string; label: string; help?: string }
@@ -62,6 +64,14 @@ export const kinds: Record<ListKind, KindInfo> = {
         fields: [
           { type: "text", key: "name", label: "Hospital name", required: true, max: 120 },
           { type: "text", key: "city", label: "City", required: true, max: 60 },
+          {
+            type: "number",
+            key: "priority",
+            label: "Listing priority",
+            help: "1 to 9. Lower numbers show first in every hospital list: well-known hospitals 1 or 2, smaller clinics 8 or 9. Left empty, it counts as 5.",
+            min: 1,
+            max: 9,
+          },
           { type: "text", key: "address", label: "Street address", help: "Shown on the hospital's page.", max: 200 },
           {
             type: "text",

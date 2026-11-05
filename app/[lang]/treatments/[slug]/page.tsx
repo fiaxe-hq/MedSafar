@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
-  getDoctorsByTreatment,
+  getRecommendedDoctors,
   getHospitals,
   getHospitalsByTreatment,
   getSpecialities,
@@ -55,9 +55,9 @@ export default async function Page({ params }: Props) {
   if (!treatment) notFound();
 
   const text = catalog.treatments;
-  const [hospitals, doctors, allHospitals, specialities] = await Promise.all([
+  const [hospitals, { doctors, exact }, allHospitals, specialities] = await Promise.all([
     getHospitalsByTreatment(treatment.slug),
-    getDoctorsByTreatment(treatment.slug),
+    getRecommendedDoctors(treatment),
     getHospitals(),
     getSpecialities(),
   ]);
@@ -144,8 +144,7 @@ export default async function Page({ params }: Props) {
         {showUpcoming && questionnaire ? <QuestionnaireCallout questionnaire={questionnaire} className="mt-16" /> : null}
       </Section>
 
-      {hospitals.length || doctors.length ? (
-        <Section>
+      <Section>
           {hospitals.length ? (
             <>
               <SectionHead heading={text.detail.hospitals} />
@@ -164,12 +163,13 @@ export default async function Page({ params }: Props) {
             </>
           ) : null}
 
+          <SectionHead
+            heading={exact ? text.detail.doctors : text.detail.fieldDoctors}
+            intro={doctors.length ? (exact ? undefined : text.detail.fieldDoctorsIntro) : text.detail.noDoctors}
+            className={hospitals.length ? "mt-20 lg:mt-24" : ""}
+          />
           {doctors.length ? (
             <>
-              <SectionHead
-                heading={text.detail.doctors}
-                className={hospitals.length ? "mt-20 lg:mt-24" : ""}
-              />
               <div className="mt-10 grid gap-5 md:grid-cols-2">
                 {doctors.map((doctor) => (
                   <DoctorCard
@@ -182,8 +182,7 @@ export default async function Page({ params }: Props) {
               </div>
             </>
           ) : null}
-        </Section>
-      ) : null}
+      </Section>
 
       {treatment.faq.length ? (
         <Faq content={{ faq: { heading: text.detail.faq, items: treatment.faq } }} />
