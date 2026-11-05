@@ -7,7 +7,7 @@ Next.js (App Router), TypeScript and Tailwind, running on Cloudflare Workers
 through OpenNext. Available in 12 languages: English, Hindi and the native
 languages of the countries served (`lib/i18n/languages.ts`).
 
-The client sees it at <https://building-medsafar.xaif-0e9.workers.dev/>.
+The client sees it at <https://medsafar.xaif-0e9.workers.dev/>.
 
 ## Running it locally
 
@@ -35,7 +35,7 @@ cache as the Worker runs it, use `pnpm run preview`.
   deployed. Its `wrangler.jsonc` is for local development only.
 - `design-variants` holds what the client has been shown. It is the only branch
   deployed to Cloudflare, by hand with `pnpm run deploy` from its own folder
-  (`../Medsafar-design`), to the `building-medsafar` Worker on the
+  (`../Medsafar-design`), to the `medsafar` Worker (`wrangler.live.jsonc`) on the
   xaif@fiaxe.com account. Cloudflare does not build from GitHub.
 - Work moves from `main` to `design-variants` only when it is ready for the
   client.
