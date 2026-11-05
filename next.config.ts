@@ -38,6 +38,24 @@ const nextConfig: NextConfig = {
       { pathname: "/**", search: "" },
     ],
   },
+  // Browser security headers on every page. No full CSP: Turnstile, YouTube and
+  // Next's inline scripts would need a long allowlist; frame-ancestors alone
+  // stops other sites framing the pages (clickjacking).
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "Strict-Transport-Security", value: "max-age=31536000" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Content-Security-Policy", value: "frame-ancestors 'self'" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(self), payment=()" },
+        ],
+      },
+    ];
+  },
   experimental: {
     // Medical reports are uploaded through the enquiry form's Server Action.
     // The form caps files at 8 MB; this leaves room for multipart overhead.

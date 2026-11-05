@@ -202,6 +202,19 @@ export function EnquiryForm({
           {savingNumber ? `${text.sending}...` : text.step1.submit}
         </button>
 
+        <p className="text-sm text-ink-2">
+          {text.step1.notice}{" "}
+          {/* A new tab, so the number already typed is not lost. */}
+          <a
+            href="/privacy"
+            target="_blank"
+            rel="noopener"
+            className="font-medium text-accent underline underline-offset-4 transition-colors hover:text-accent-hover"
+          >
+            {text.step1.privacy}
+          </a>
+        </p>
+
         <Turnstile resetKey={numberState} />
 
         {message ? (

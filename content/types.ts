@@ -168,6 +168,9 @@ export type FormContent = {
     /** Above the number when the visitor came to upload reports. */
     reportsFirst: string;
     emergency: string;
+    /** Under the button: the number is saved on send, so the privacy notice comes first. */
+    notice: string;
+    privacy: string;
   };
   step2: {
     heading: string;

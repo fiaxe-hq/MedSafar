@@ -54,6 +54,8 @@
  "site.form.step1.reassurance": "One number is enough to start. Details can follow.",
  "site.form.step1.reportsFirst": "Add your number first. Then you can upload your reports.",
  "site.form.step1.emergency": "Not for emergencies. In a medical emergency, call your local emergency number.",
+ "site.form.step1.notice": "By sending your number, you agree that Medsafar may store it and contact you about your enquiry.",
+ "site.form.step1.privacy": "Read the privacy policy",
  "site.form.step2.heading": "A few more details",
  "site.form.step2.intro": "This helps us put the right doctor and cost estimate in front of you.",
  "site.form.step2.more": "Add more details (optional)",
