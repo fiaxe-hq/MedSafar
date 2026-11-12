@@ -43,6 +43,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title: global.meta.title,
     description: global.meta.description,
     applicationName: site.brand.name,
+    // Bing Webmaster Tools ownership (also public/BingSiteAuth.xml). Keep it.
+    verification: { other: { "msvalidate.01": "7FB4D14BD45CA940CA30CD12C112B67C" } },
     openGraph: {
       type: "website",
       siteName: "Med Safar India",
