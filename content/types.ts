@@ -58,6 +58,7 @@ export type SiteContent = {
     menuLabel: string;
     /** Heading over the speciality list in the doctors menu. */
     bySpeciality: string;
+    doctorsOrder: string;
     contact: NavItem;
     /** The slim bar above the header on computers. */
     top: { call: string; whatsapp: string; email: string; free: string };
