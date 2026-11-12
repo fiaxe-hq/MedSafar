@@ -396,10 +396,10 @@ html:has(dialog[open]) {
 }
 
 /* The header bar. Only the bar itself is filled; beside it the page shows
-   through. */
+   through. Solid, no blur: a blurred sticky bar is redrawn on every scroll
+   frame, which stutters on slow computers. */
 .nav-notch {
-  background: color-mix(in oklab, var(--bg) 92%, transparent);
-  backdrop-filter: blur(24px);
+  background: color-mix(in oklab, var(--bg) 97%, transparent);
 }
 
 /*
