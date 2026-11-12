@@ -7,7 +7,9 @@ import { HomeC } from "@/components/home/HomeC";
 import { Motion } from "@/components/site/Motion";
 import { Intro } from "@/components/site/Intro";
 import { placeSlugs } from "@/content/places";
-import { getLang } from "@/lib/i18n/text";
+import { getLang, getText } from "@/lib/i18n/text";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { faqJsonLd, websiteJsonLd } from "@/lib/seo";
 import { languageAlternates } from "@/lib/i18n/alternates";
 import "@/components/site/motion.css";
 
@@ -32,8 +34,10 @@ export default async function Home({ params }: PageProps<"/[lang]/home/[country]
   // Pages in other languages render on first visit, so the country is
   // checked here rather than by refusing unbuilt addresses.
   if (!placeSlugs.includes(country)) notFound();
+  const [{ global: content }, lang] = await Promise.all([getText(), getLang()]);
   return (
     <div data-home>
+      <JsonLd data={[websiteJsonLd(lang.code, content.meta.description), faqJsonLd(content.faq.items)]} />
       <Intro />
       <div aria-hidden className="home-progress" />
       <Header home="/" overlay />

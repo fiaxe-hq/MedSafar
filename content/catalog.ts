@@ -6,6 +6,13 @@ import type { CatalogContent } from "./types";
  * lib/catalog.ts, not from here.
  */
 export const catalog: CatalogContent = {
+  seo: {
+    treatmentTitle: "{name} in India: cost, hospitals and doctors",
+    treatmentDescription: "Free treatment plan and a written cost estimate from a partner hospital in India, with visa, travel and stay arranged.",
+    specialityTitle: "{name} treatment in India: hospitals, doctors and costs",
+    hospitalTitle: "{name}, {city}: treatments, doctors and package prices",
+    doctorTitle: "{name}, {role}",
+  },
   medicalNote:
     "General information only, to give you a rough idea. It is not medical advice, it may contain mistakes, and it may not fit your case. We are not doctors and are not responsible for decisions made from this page. Please confirm everything with your own doctor.",
   legalNote: "This page is a translation, for your convenience. Only the English version is legally binding. If the two differ, the English version applies.",
@@ -24,7 +31,7 @@ export const catalog: CatalogContent = {
 
   hospitals: {
     meta: {
-      title: "Partner hospitals in India. Med Safar India.",
+      title: "Accredited hospitals in India for international patients: treatments and package prices | Med Safar India",
       description:
         "Hospitals in India that Med Safar works with. Filter by city and speciality, then ask for a free treatment plan.",
     },
@@ -77,7 +84,7 @@ export const catalog: CatalogContent = {
 
   doctors: {
     meta: {
-      title: "Doctors at partner hospitals in India. Med Safar India.",
+      title: "Experienced doctors and surgeons in India for international patients | Med Safar India",
       description:
         "Doctors at the hospitals Med Safar works with in India. Filter by speciality and hospital, then ask for a free treatment plan.",
     },
@@ -117,7 +124,7 @@ export const catalog: CatalogContent = {
 
   treatments: {
     meta: {
-      title: "Treatments in India. Med Safar India.",
+      title: "Affordable medical treatment in India: costs, hospitals and doctors | Med Safar India",
       description:
         "Treatments Med Safar arranges at partner hospitals in India, grouped by speciality. Ask for a free treatment plan for your case.",
     },
@@ -184,7 +191,7 @@ export const catalog: CatalogContent = {
 
   specialities: {
     meta: {
-      title: "Specialities. Med Safar India.",
+      title: "Medical specialities in India: cancer, heart, transplant, orthopaedics and more | Med Safar India",
       description:
         "The kinds of care Med Safar arranges in India, with the treatments, doctors and hospitals for each.",
     },
@@ -208,7 +215,7 @@ export const catalog: CatalogContent = {
 
   blog: {
     meta: {
-      title: "Blogs. Med Safar India.",
+      title: "Medical travel to India: guides for patients | Med Safar India",
       description:
         "Guides for patients travelling to India for treatment: what to expect, how to prepare and what happens afterwards.",
     },

@@ -20,6 +20,8 @@ import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { breadcrumbJsonLd, postJsonLd } from "@/lib/seo";
 import { localPath } from "@/lib/i18n/languages";
 import Link from "@/components/ui/Link";
 
@@ -38,14 +40,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPost(slug);
   if (!post) return {};
   return {
-    title: `${post.title}. ${site.brand.name} ${site.brand.country}.`,
+    title: `${post.title} | ${site.brand.name} ${site.brand.country}`,
     alternates: languageAlternates(`/blog/${post.slug}`, lang.code),
     description: post.summary,
   };
 }
 
 export default async function Page({ params }: Props) {
-  const [{ catalog }, lang] = await Promise.all([getText(), getLang()]);
+  const [{ catalog, site }, lang] = await Promise.all([getText(), getLang()]);
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) notFound();
@@ -61,6 +63,16 @@ export default async function Page({ params }: Props) {
 
   return (
     <PageShell current="/blog">
+      <JsonLd
+        data={[
+          postJsonLd(lang.code, post),
+          breadcrumbJsonLd(lang.code, [
+            { name: site.brand.name, path: "/" },
+            { name: text.eyebrow, path: "/blog" },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ]),
+        ]}
+      />
       <PageHead
         back={{ href: "/blog", label: text.back }}
         heading={post.title}

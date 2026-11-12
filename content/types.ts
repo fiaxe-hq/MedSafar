@@ -450,6 +450,19 @@ export type Post = Pending & {
 
 /** Text for the hospital, doctor, treatment and blog pages. */
 export type CatalogContent = {
+  /** Page titles and descriptions for search results, written the way people search. */
+  seo: {
+    /** {name} is the treatment. */
+    treatmentTitle: string;
+    /** Follows the treatment's own summary. */
+    treatmentDescription: string;
+    /** {name} is the speciality. */
+    specialityTitle: string;
+    /** {name} and {city} of the hospital. */
+    hospitalTitle: string;
+    /** {name} and {role} of the doctor. */
+    doctorTitle: string;
+  };
   /** Under the medical text of treatment and speciality pages: general information only, ask your doctor. */
   medicalNote: string;
   /** On a translated legal page: only the English text counts, with a link to it. */
