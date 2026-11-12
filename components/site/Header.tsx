@@ -426,12 +426,17 @@ export async function Header({
                         )}
 
                         {entry.all ? (
-                          <Link
-                            href={href}
-                            className="mt-2 flex min-h-11 items-center border-t border-hairline px-3 pt-2 text-base font-medium text-accent transition-colors hover:text-accent-hover"
-                          >
-                            {entry.all} →
-                          </Link>
+                          <div className="mt-2 flex flex-wrap items-center justify-between gap-x-4 border-t border-hairline pt-2">
+                            <Link
+                              href={href}
+                              className="flex min-h-11 items-center px-3 text-base font-medium text-accent transition-colors hover:text-accent-hover"
+                            >
+                              {entry.all} →
+                            </Link>
+                            {entry.menu === "doctors" ? (
+                              <p className="px-3 text-sm text-ink-3">{nav.doctorsOrder}</p>
+                            ) : null}
+                          </div>
                         ) : null}
                       </div>
                     </div>

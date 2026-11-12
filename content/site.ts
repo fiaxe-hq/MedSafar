@@ -34,6 +34,8 @@ export const site: SiteContent = {
     ],
     menuLabel: "Menu",
     bySpeciality: "By speciality",
+    /** Under the doctors menu, so the order is not read as a ranking. */
+    doctorsOrder: "Doctors are listed in alphabetical order.",
     contact: { label: "Contact us", href: "/contact" },
     top: {
       call: "Call us",
