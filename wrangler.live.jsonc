@@ -14,6 +14,9 @@
   ],
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  // Workers Paid: up to 30 s of CPU per request (the free plan cuts pages off
+  // at 10 ms, which shows as error 1102). A free account refuses this deploy.
+  "limits": { "cpu_ms": 30000 },
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"

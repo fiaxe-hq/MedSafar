@@ -58,6 +58,9 @@ export function getLanguage(code: string): Language | undefined {
 export function localPath(lang: string, href: string): string {
   if (!href.startsWith("/") || lang === defaultLanguage) return href;
   if (href === "/") return `/${lang}`;
+  // Already in this language (a path built with localPath and then passed to
+  // Link): leave it, or it becomes "/bn/bn/contact".
+  if (href === `/${lang}` || /^[/?#]/.test(href.slice(lang.length + 1)) && href.startsWith(`/${lang}`)) return href;
   // "/#plan" and "/?x" belong to the home page: "/bn#plan", not "/bn/#plan".
   if (href.startsWith("/#") || href.startsWith("/?")) return `/${lang}${href.slice(1)}`;
   return `/${lang}${href}`;

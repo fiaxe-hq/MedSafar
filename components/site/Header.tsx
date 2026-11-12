@@ -473,7 +473,7 @@ export async function Header({
               <details name="header-menu" className="relative open:z-[60] xl:hidden">
                 <summary className="flex h-9 cursor-pointer list-none items-center gap-2 rounded-full px-2.5 text-ink-2 ring-1 ring-hairline transition-colors hover:bg-surface-2 hover:text-ink sm:px-3">
                   <ListIcon size={19} aria-hidden />
-                  <span className="hidden text-[0.875rem] sm:inline">
+                  <span className="sr-only text-[0.875rem] sm:not-sr-only">
                     {nav.menuLabel}
                   </span>
                 </summary>
