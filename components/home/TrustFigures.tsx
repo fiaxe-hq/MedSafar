@@ -28,7 +28,7 @@ export function TrustFigures() {
   if (figures.length === 0) return null;
 
   return (
-    <section aria-label="Medsafar in numbers" className="border-b border-hairline bg-surface py-8">
+    <section aria-label="Med Safar in numbers" className="border-b border-hairline bg-surface py-8">
       <Container>
         <ul className="grid grid-cols-2 gap-6 text-center sm:grid-cols-3 lg:grid-cols-4">
           {figures.map((f) => (

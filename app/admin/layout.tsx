@@ -5,7 +5,7 @@ import "../globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Medsafar admin",
+  title: "Med Safar admin",
   // No share image: the site's one in app/ would point at localhost here.
   openGraph: { images: [] },
   twitter: { images: [] },

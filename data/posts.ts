@@ -21,7 +21,7 @@ export const posts: Post[] = [
     title: "A double hand transplant gives an 18-year-old his hands back",
     date: "2026-10-05",
     category: "cases",
-    author: "Medsafar",
+    author: "Med Safar",
     summary:
       "A young farmer who lost both hands in an accident received two donor hands in a 13-hour operation at Nanavati Max Super Speciality Hospital, Mumbai.",
     body: [
@@ -52,7 +52,7 @@ export const posts: Post[] = [
     title: "Born without a thumb: how surgeons rebuilt a toddler's grip",
     date: "2026-10-05",
     category: "cases",
-    author: "Medsafar",
+    author: "Med Safar",
     summary:
       "A baby girl born with severe thumb deformities on both hands can now grip and hold, after two operations at Nanavati Max Super Speciality Hospital, Mumbai.",
     body: [

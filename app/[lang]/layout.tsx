@@ -45,7 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
     applicationName: site.brand.name,
     openGraph: {
       type: "website",
-      siteName: "Medsafar India",
+      siteName: "Med Safar India",
       locale: lang.code,
       images: [share],
     },

@@ -52,3 +52,6 @@ next-env.d.ts
 # Client originals (large, private)
 /docs/client-content/
 i18n-work/
+
+# made by scripts/thumbs.mjs before each build
+/public/thumbs/

@@ -16,7 +16,7 @@ export type Picture = {
   focus?: string;
 };
 
-/** Marks copy that is a stand-in until Medsafar supplies the real thing. */
+/** Marks copy that is a stand-in until Med Safar supplies the real thing. */
 export type Pending = { pending?: boolean };
 
 export type NavItem = {
@@ -620,7 +620,7 @@ export type AboutContent = Pending & {
     heading: string;
     items: (Pending & { label: string; value: string })[];
   };
-  /** Medsafar is run by its founder, who is also the patient's main contact. */
+  /** Med Safar is run by its founder, who is also the patient's main contact. */
   founder: Pending & {
     eyebrow: string;
     name: string;

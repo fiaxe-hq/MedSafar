@@ -68,8 +68,8 @@ export default async function ContactPage({ searchParams }: PageProps<"/admin/co
 
       <form action={saveContactAction} className="mt-8 max-w-3xl space-y-6">
         <fieldset className={`${adminCard} min-w-0 space-y-6 p-5 sm:p-6`}>
-          <legend className="sr-only">How visitors reach Medsafar</legend>
-          <h2 aria-hidden className="font-display text-lg font-semibold">How visitors reach Medsafar</h2>
+          <legend className="sr-only">How visitors reach Med Safar</legend>
+          <h2 aria-hidden className="font-display text-lg font-semibold">How visitors reach Med Safar</h2>
           <Row
             id="whatsapp"
             label="WhatsApp number"

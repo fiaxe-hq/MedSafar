@@ -77,7 +77,7 @@ function SidebarBody({
         {collapsed ? null : (
           <>
             <Link href="/admin" onClick={onNavigate} className="flex shrink-0 items-center">
-              <Image src={logo} alt="Medsafar India" priority width={95} height={40} className="h-9 w-auto" />
+              <Image src={logo} alt="Med Safar India" priority width={95} height={40} className="h-9 w-auto" />
             </Link>
             <span className="rounded-sm bg-surface-2 px-1.5 py-0.5 text-[0.6875rem] font-semibold tracking-[0.12em] text-ink-3 uppercase ring-1 ring-hairline">
               Admin
@@ -233,7 +233,7 @@ export function AdminShell({
           <ListIcon size={22} aria-hidden />
         </button>
         <Link href="/admin" className="flex items-center">
-          <Image src={logo} alt="Medsafar India" width={76} height={32} className="h-8 w-auto" />
+          <Image src={logo} alt="Med Safar India" width={76} height={32} className="h-8 w-auto" />
         </Link>
         <span className="ms-auto truncate text-sm font-medium text-ink-2">
           {pathname.startsWith("/admin/account") ? "My account" : current?.label}

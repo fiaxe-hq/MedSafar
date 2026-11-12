@@ -1,4 +1,4 @@
-# Medsafar go-live checklist
+# Med Safar go-live checklist
 
 Updated 5 November 2026.
 

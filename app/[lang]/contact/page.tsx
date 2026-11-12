@@ -17,7 +17,7 @@ import { contactLinks } from "@/lib/contact";
 import { languageAlternates } from "@/lib/i18n/alternates";
 
 /** Shared page: one copy for every country. The form and the direct ways to
- *  reach Medsafar sit side by side, then what happens next, then questions. */
+ *  reach Med Safar sit side by side, then what happens next, then questions. */
 
 export async function generateMetadata(): Promise<Metadata> {
   const { contact } = await getText();

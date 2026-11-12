@@ -115,7 +115,7 @@ export async function Footer({ home = "/" }: { home?: string }) {
           </div>
         </div>
 
-        {/* The company behind Medsafar, and the fine print. */}
+        {/* The company behind Med Safar, and the fine print. */}
         <div className="mt-14 border-t border-hairline pt-8">
           <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-7">

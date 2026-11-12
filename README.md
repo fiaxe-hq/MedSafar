@@ -1,6 +1,6 @@
-# Medsafar India
+# Med Safar India
 
-Website for Medsafar India, a division of Travgrub Private Limited: a medical
+Website for Med Safar India, a division of Travgrub Private Limited: a medical
 travel facilitator that arranges treatment in India for patients abroad.
 
 Next.js (App Router), TypeScript and Tailwind, running on Cloudflare Workers
