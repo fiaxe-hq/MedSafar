@@ -10,9 +10,9 @@ export const global: CountryContent = {
   countryName: null,
 
   meta: {
-    title: "Medsafar India. Treatment in India, arranged end to end.",
+    title: "Med Safar India. Treatment in India, arranged end to end.",
     description:
-      "Medsafar helps patients abroad get treatment in India. We arrange the hospital, the doctor, a written cost estimate, the visa, travel, stay and follow-up care.",
+      "Med Safar helps patients abroad get treatment in India. We arrange the hospital, the doctor, a written cost estimate, the visa, travel, stay and follow-up care.",
   },
 
   hero: {
@@ -38,21 +38,21 @@ export const global: CountryContent = {
     accreditations: [
       {
         name: "Partner hospital accreditation",
-        body: "Accreditation name and certificate, to be supplied by Medsafar.",
+        body: "Accreditation name and certificate, to be supplied by Med Safar.",
         pending: true,
       },
       {
         name: "Partner hospital accreditation",
-        body: "Accreditation name and certificate, to be supplied by Medsafar.",
+        body: "Accreditation name and certificate, to be supplied by Med Safar.",
         pending: true,
       },
       {
         name: "Partner hospital accreditation",
-        body: "Accreditation name and certificate, to be supplied by Medsafar.",
+        body: "Accreditation name and certificate, to be supplied by Med Safar.",
         pending: true,
       },
     ],
-    note: "Accreditations appear here once Medsafar has supplied certificates it can prove.",
+    note: "Accreditations appear here once Med Safar has supplied certificates it can prove.",
   },
 
   howItWorks: {
@@ -98,7 +98,7 @@ export const global: CountryContent = {
       {
         icon: "pickup",
         title: "Airport pickup",
-        body: "Someone from Medsafar meets you at the airport and takes you to the hospital or to your room.",
+        body: "Someone from Med Safar meets you at the airport and takes you to the hospital or to your room.",
       },
       {
         icon: "stay",
@@ -120,7 +120,7 @@ export const global: CountryContent = {
 
   stories: {
     heading: "Patients we have helped",
-    intro: "Real stories go here, with the patient's permission, once Medsafar has cleared them.",
+    intro: "Real stories go here, with the patient's permission, once Med Safar has cleared them.",
     items: [
       {
         quote:
@@ -181,9 +181,9 @@ export const global: CountryContent = {
     heading: "Questions patients ask",
     items: [
       {
-        question: "What does Medsafar charge me?",
+        question: "What does Med Safar charge me?",
         answer:
-          "Nothing for the treatment plan and the cost estimate. You pay the hospital for treatment and the usual costs of travel and stay. Anything Medsafar charges is written down before you agree to it.",
+          "Nothing for the treatment plan and the cost estimate. You pay the hospital for treatment and the usual costs of travel and stay. Anything Med Safar charges is written down before you agree to it.",
       },
       {
         question: "Why is there no price on this page?",
@@ -191,9 +191,9 @@ export const global: CountryContent = {
           "Because a real figure depends on your reports, the hospital and the length of stay. Where a hospital has given us its package prices, they are on that hospital's page as a guide. Either way, we send you a written estimate prepared for your case.",
       },
       {
-        question: "Is Medsafar a hospital?",
+        question: "Is Med Safar a hospital?",
         answer:
-          "No. Medsafar is a medical travel facilitator. Treatment is given by independent hospitals and doctors in India. We arrange everything around it.",
+          "No. Med Safar is a medical travel facilitator. Treatment is given by independent hospitals and doctors in India. We arrange everything around it.",
       },
       {
         question: "Which reports should I send?",
@@ -221,7 +221,7 @@ export const global: CountryContent = {
           "You pay the hospital, based on the written estimate it gives you. Some hospitals take a small deposit to confirm your admission, and the balance is paid after you arrive. We go through every amount with you beforehand.",
       },
       {
-        question: "Does Medsafar help after I return home?",
+        question: "Does Med Safar help after I return home?",
         answer:
           "Yes. We arrange follow-up calls with your doctor, share your reports with your local doctor if you want, and stay in touch while you recover.",
       },

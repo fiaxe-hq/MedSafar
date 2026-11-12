@@ -61,7 +61,7 @@ export default async function StatsPage({ searchParams }: PageProps<"/admin/stat
       <AdminHeading
         eyebrow="Home and country pages"
         title="Trust figures"
-        intro="The figures in the trust strip on the home page and every country page. Publish only figures Medsafar can prove. While none is published, the site shows no figures at all."
+        intro="The figures in the trust strip on the home page and every country page. Publish only figures Med Safar can prove. While none is published, the site shows no figures at all."
       />
 
       {error ? <AdminNotice tone="error">{error}</AdminNotice> : null}

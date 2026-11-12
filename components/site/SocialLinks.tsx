@@ -9,7 +9,7 @@ const icons = {
   youtube: YoutubeLogoIcon,
 } as const;
 
-/** Round icon links to Medsafar's social profiles. */
+/** Round icon links to Med Safar's social profiles. */
 export async function SocialLinks({ className = "", small = false }: { className?: string; small?: boolean }) {
   const { site } = await getText();
   return (

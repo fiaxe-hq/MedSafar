@@ -23,7 +23,7 @@ import { NavUnderline } from "./NavUnderline";
 import { resolveHref } from "./resolveHref";
 import { getLang, getText } from "@/lib/i18n/text";
 import { dialCodesFor } from "@/lib/i18n/dialCodes";
-import { isUploaded } from "@/lib/uploaded";
+import { isPlainFile, menuThumb } from "@/lib/thumb";
 import { SpecialityIcon } from "@/components/ui/SpecialityIcon";
 
 /** The links inside each dropdown. Catalog menus are read fresh, so a new
@@ -43,28 +43,23 @@ async function menuLinks(
     treatments: specialities.map((s) => ({
       label: plain[s.slug] ?? s.name,
       href: `/treatments#${s.slug}`,
-      image: specialityPhoto(s.slug)?.src ?? undefined,
+      image: menuThumb(specialityPhoto(s.slug)?.src),
     })),
     hospitals: hospitals.map((h) => ({
       label: h.name,
       href: `/hospitals/${h.slug}`,
       note: h.city,
-      image: !h.picture.pending && h.picture.src ? h.picture.src : undefined,
+      image: !h.picture.pending && h.picture.src ? menuThumb(h.picture.src) : undefined,
       focus: h.picture.focus,
     })),
-    // Faces first: one doctor from each speciality, then the rest, up to
-    // two rows of four.
-    doctors: [
-      ...specialities.flatMap((s) => doctors.find((d) => d.speciality === s.slug) ?? []),
-      ...doctors,
-    ]
-      .filter((d, i, all) => all.indexOf(d) === i)
+    // A to Z, as on the doctors page, up to two rows of four.
+    doctors: doctors
       .slice(0, 8)
       .map((d) => ({
         label: d.name,
         href: `/doctors/${d.slug}`,
         note: plain[d.speciality] ?? nameOf(specialities, d.speciality),
-        image: !d.picture.pending && d.picture.src ? d.picture.src : undefined,
+        image: !d.picture.pending && d.picture.src ? menuThumb(d.picture.src) : undefined,
       })),
     doctorSpecialities: specialities
       .filter((s) => withDoctors.has(s.slug))
@@ -72,7 +67,7 @@ async function menuLinks(
         label: plain[s.slug] ?? s.name,
         href: `/doctors?speciality=${s.slug}`,
         note: String(doctors.filter((d) => d.speciality === s.slug).length),
-        image: specialityPhoto(s.slug)?.src ?? undefined,
+        image: menuThumb(specialityPhoto(s.slug)?.src),
         slug: s.slug,
       })),
   };
@@ -232,6 +227,7 @@ export async function Header({
                         {entry.finder ? (
                           <Link
                             href={resolveHref(entry.finder.href, home)}
+                                  prefetch={false}
                             className="group/finder mb-3 flex items-center gap-4 rounded-xl bg-deep p-4 text-white transition-[background-color] duration-300 ease-(--ease-soft) hover:bg-deep/90"
                           >
                             <span className="grid size-12 shrink-0 place-items-center rounded-full bg-white/10 text-glow">
@@ -264,12 +260,13 @@ export async function Header({
                               <li key={link.href}>
                                 <Link
                                   href={resolveHref(link.href, home)}
+                                  prefetch={false}
                                   className="group/tile block rounded-xl p-1.5 transition-colors hover:bg-surface-2"
                                 >
                                   <span className="relative grid aspect-[16/10] place-items-center overflow-hidden rounded-lg bg-surface-2 text-ink-3">
                                     {link.image ? (
                                       <Image
-                                        src={link.image} unoptimized={isUploaded(link.image)}
+                                        src={link.image} unoptimized={isPlainFile(link.image)}
                                         alt=""
                                         fill
                                         sizes="200px"
@@ -300,12 +297,13 @@ export async function Header({
                                 <li key={link.href}>
                                   <Link
                                     href={resolveHref(link.href, home)}
+                                  prefetch={false}
                                     className="group/tile block rounded-xl p-1.5 transition-colors hover:bg-surface-2"
                                   >
                                     <span className="relative grid aspect-square place-items-center overflow-hidden rounded-lg bg-accent-soft text-accent">
                                       {link.image ? (
                                         <Image
-                                          src={link.image} unoptimized={isUploaded(link.image)}
+                                          src={link.image} unoptimized={isPlainFile(link.image)}
                                           alt=""
                                           fill
                                           sizes="140px"
@@ -334,6 +332,7 @@ export async function Header({
                                   <li key={link.href}>
                                     <Link
                                       href={resolveHref(link.href, home)}
+                                  prefetch={false}
                                       className="group/row flex min-h-10 items-center gap-2.5 rounded-lg px-3 text-[0.9375rem] text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
                                     >
                                       <SpecialityIcon slug={link.slug ?? ""} size={17} className="shrink-0 text-accent" aria-hidden />
@@ -353,12 +352,13 @@ export async function Header({
                               <li key={link.href}>
                                 <Link
                                   href={resolveHref(link.href, home)}
+                                  prefetch={false}
                                   className="group/tile flex items-center gap-3 rounded-xl p-1.5 transition-colors hover:bg-surface-2"
                                 >
                                   <span className="relative size-14 shrink-0 overflow-hidden rounded-lg bg-surface-2">
                                     {link.image ? (
                                       <Image
-                                        src={link.image} unoptimized={isUploaded(link.image)}
+                                        src={link.image} unoptimized={isPlainFile(link.image)}
                                         alt=""
                                         fill
                                         sizes="56px"
@@ -379,12 +379,13 @@ export async function Header({
                               <li key={link.href}>
                                 <Link
                                   href={resolveHref(link.href, home)}
+                                  prefetch={false}
                                   className="flex items-center gap-3 rounded-xl p-2 transition-colors hover:bg-surface-2"
                                 >
                                   <span className="relative grid size-14 shrink-0 place-items-center overflow-hidden rounded-lg bg-surface-2 text-ink-3">
                                     {link.image ? (
                                       <Image
-                                        src={link.image} unoptimized={isUploaded(link.image)}
+                                        src={link.image} unoptimized={isPlainFile(link.image)}
                                         alt=""
                                         fill
                                         sizes="56px"
@@ -414,6 +415,7 @@ export async function Header({
                               <li key={link.href}>
                                 <Link
                                   href={resolveHref(link.href, home)}
+                                  prefetch={false}
                                   className={panelLink}
                                 >
                                   {link.label}
@@ -539,7 +541,7 @@ export async function Header({
                                 <span className="relative grid size-9 shrink-0 place-items-center overflow-hidden rounded-md bg-surface-2 text-ink-3">
                                   {link.image ? (
                                     <Image
-                                      src={link.image} unoptimized={isUploaded(link.image)}
+                                      src={link.image} unoptimized={isPlainFile(link.image)}
                                       alt=""
                                       fill
                                       sizes="36px"

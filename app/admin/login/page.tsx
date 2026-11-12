@@ -38,7 +38,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/admin/logi
           <LockKeyIcon size={22} className="text-brand" aria-hidden />
           Admin sign-in
         </h1>
-        <p className="mt-1 text-sm text-ink-3">For the Medsafar team.</p>
+        <p className="mt-1 text-sm text-ink-3">For the Med Safar team.</p>
         <label htmlFor="email" className={`${adminLabel} mt-6`}>
           Email
         </label>

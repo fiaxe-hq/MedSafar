@@ -12,7 +12,7 @@ export const questionnaireText: QuestionnaireText = {
   eyebrow: "Questionnaire",
   list: {
     meta: {
-      title: "Surgery questionnaires. Medsafar India.",
+      title: "Surgery questionnaires. Med Safar India.",
       description:
         "Answer a few questions before a surgeon looks at your case. Free, and it takes about three minutes.",
     },
@@ -30,7 +30,7 @@ export const questionnaireText: QuestionnaireText = {
   submit: "Send my answers",
   done: {
     heading: "Thank you. We have your answers.",
-    body: "A Medsafar case manager will contact you once a surgeon has read them.",
+    body: "A Med Safar case manager will contact you once a surgeon has read them.",
     again: "Back to the home page",
   },
   errors: {
@@ -45,7 +45,7 @@ export const questionnaires: Questionnaire[] = [
     speciality: "bariatric-surgery",
     treatment: "Weight loss surgery",
     meta: {
-      title: "Weight loss surgery questionnaire. Medsafar India.",
+      title: "Weight loss surgery questionnaire. Med Safar India.",
       description:
         "Find out whether weight loss surgery may suit you. Answer a few questions and a surgeon in India reads them for free.",
     },
@@ -136,7 +136,7 @@ export const questionnaires: Questionnaire[] = [
     speciality: "cosmetic-plastic-surgery",
     treatment: "Plastic, reconstructive and cosmetic surgery",
     meta: {
-      title: "Cosmetic surgery questionnaire. Medsafar India.",
+      title: "Cosmetic surgery questionnaire. Med Safar India.",
       description:
         "Tell a plastic surgeon in India what you would like to change. Answer a few questions and get free advice for your case.",
     },

@@ -6,9 +6,9 @@ import type { SiteContent } from "./types";
  */
 export const site: SiteContent = {
   brand: {
-    name: "Medsafar",
+    name: "Med Safar",
     country: "India",
-    legal: "Medsafar India, a division of Travgrub Private Limited",
+    legal: "Med Safar India, a division of Travgrub Private Limited",
     tagline: "Treatment in India, arranged end to end.",
   },
 
@@ -30,7 +30,7 @@ export const site: SiteContent = {
       },
       { label: "Hospitals", href: "/hospitals", menu: "hospitals", all: "All hospitals" },
       { label: "Doctors", href: "/doctors", menu: "doctors", all: "All doctors" },
-      { label: "Blog", href: "/blog" },
+      { label: "Blogs", href: "/blog" },
     ],
     menuLabel: "Menu",
     bySpeciality: "By speciality",
@@ -61,7 +61,7 @@ export const site: SiteContent = {
     whatsapp: {
       number: "919820322088",
       display: "+91 98203 22088",
-      message: "Hello Medsafar, I would like help with treatment in India.",
+      message: "Hello Med Safar, I would like help with treatment in India.",
     },
     phone: {
       number: "+919820322088",
@@ -77,7 +77,7 @@ export const site: SiteContent = {
   company: {
     // The footer shows each one while it is filled in; set it to null to hide it.
     registeredAddress:
-      "Office No. 222, 2nd Floor, NEO Corporate Plaza, Ramchandra Lane, Mumbai, Maharashtra 400064, India",
+      "Neo Corporate Plaza, Office no.222, 2nd Floor, Ramchandra lane Extn., Kanchpada, Malad-West, Mumbai-400064, Maharashtra, India",
     gstin: "27AAHCT0016D1ZU",
   },
 
@@ -97,7 +97,7 @@ export const site: SiteContent = {
       "A doctor at a partner hospital reads your reports",
       "A written estimate, prepared by the hospital for your case",
     ],
-    note: "Medsafar is a medical travel facilitator, not a hospital. Treatment is given by independent hospitals and doctors in India.",
+    note: "Med Safar is a medical travel facilitator, not a hospital. Treatment is given by independent hospitals and doctors in India.",
     close: "Close",
   },
 
@@ -113,7 +113,7 @@ export const site: SiteContent = {
       reassurance: "One number is enough to start. Details can follow.",
       reportsFirst: "Add your number first. Then you can upload your reports.",
       emergency: "Not for emergencies. In a medical emergency, call your local emergency number.",
-      notice: "By sending your number, you agree that Medsafar may store it and contact you about your enquiry.",
+      notice: "By sending your number, you agree that Med Safar may store it and contact you about your enquiry.",
       privacy: "Read the privacy policy",
     },
     step2: {
@@ -177,11 +177,11 @@ export const site: SiteContent = {
       },
       consent: {
         label:
-          "I agree that Medsafar may share my details and reports with partner hospitals and doctors in India to prepare my treatment plan.",
+          "I agree that Med Safar may share my details and reports with partner hospitals and doctors in India to prepare my treatment plan.",
         privacy: "Read the privacy policy",
       },
-      // Our wording, not a lawyer's: replace when Medsafar sends its consent text.
-      marketing: "Optional: send me news, offers and health information from Medsafar. I can unsubscribe at any time.",
+      // Our wording, not a lawyer's: replace when Med Safar sends its consent text.
+      marketing: "Optional: send me news, offers and health information from Med Safar. I can unsubscribe at any time.",
       submit: "Send my details",
     },
     privacyNote: "Your medical details stay private. We use them only to plan your care.",
@@ -191,7 +191,7 @@ export const site: SiteContent = {
     },
     done: {
       heading: "Thank you. We have your details.",
-      body: "A Medsafar case manager will contact you with a doctor's opinion and a written cost estimate.",
+      body: "A Med Safar case manager will contact you with a doctor's opinion and a written cost estimate.",
       again: "Send another enquiry",
     },
     errors: {
@@ -210,9 +210,9 @@ export const site: SiteContent = {
   },
 
   footer: {
-    legalName: "Medsafar India, a division of Travgrub Private Limited",
+    legalName: "Med Safar India, a division of Travgrub Private Limited",
     lines: [
-      "Medsafar is a medical travel facilitator. It is not a hospital and does not provide medical treatment.",
+      "Med Safar is a medical travel facilitator. It is not a hospital and does not provide medical treatment.",
       "Doctors and hospitals are independent. Every treatment plan and cost estimate comes from the treating hospital.",
     ],
     payment: "You pay the hospital directly for treatment, against its written estimate.",
@@ -238,10 +238,10 @@ export const site: SiteContent = {
         ],
       },
       {
-        heading: "Medsafar",
+        heading: "Med Safar",
         items: [
           { label: "About", href: "/about" },
-          { label: "Blog", href: "/blog" },
+          { label: "Blogs", href: "/blog" },
           { label: "Contact", href: "/contact" },
         ],
       },

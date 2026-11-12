@@ -5,7 +5,7 @@ import type { Hospital, Picture } from "@/content/types";
  * these (lib/content.ts), so an edit there wins over this file.
  * Read them through lib/catalog.ts, never directly.
  *
- * Every fact here comes from material the hospital supplied to Medsafar
+ * Every fact here comes from material the hospital supplied to Med Safar
  * (the originals are in docs/client-content/), unless a comment says otherwise.
  */
 
@@ -467,7 +467,7 @@ export const hospitals: Hospital[] = [
     ],
   },
 
-  // Wockhardt Hospitals: all five hospitals in the group are under Medsafar's
+  // Wockhardt Hospitals: all five hospitals in the group are under Med Safar's
   // agreement. Facts from the group brochure (May 2025), except addresses,
   // beds, theatres and branch facilities, which come from each branch's page
   // on wockhardthospitals.com (Nov 2026).

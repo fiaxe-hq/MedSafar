@@ -7,11 +7,11 @@ import { languages } from "@/lib/i18n/languages";
  */
 export const siteUrl = "https://medsafar.xaif-0e9.workers.dev";
 
-/** Describes Medsafar to search engines (schema.org, rendered as JSON-LD). */
+/** Describes Med Safar to search engines (schema.org, rendered as JSON-LD). */
 export const organizationJsonLd = (site: Text["site"]) => ({
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Medsafar India",
+  name: "Med Safar India",
   legalName: site.footer.legalName,
   url: siteUrl,
   logo: `${siteUrl}/brand/medsafar-logo.png`,
@@ -22,7 +22,7 @@ export const organizationJsonLd = (site: Text["site"]) => ({
     ? {
         address: {
           "@type": "PostalAddress",
-          streetAddress: "Office No. 222, 2nd Floor, NEO Corporate Plaza, Ramchandra Lane",
+          streetAddress: "Neo Corporate Plaza, Office no.222, 2nd Floor, Ramchandra lane Extn., Kanchpada, Malad-West",
           addressLocality: "Mumbai",
           addressRegion: "Maharashtra",
           postalCode: "400064",

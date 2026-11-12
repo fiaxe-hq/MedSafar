@@ -54,7 +54,7 @@ Found by searching for `pending: true` pictures and every `<Figure>`.
 
 ## 1. Home hero
 
-**Brief**: patients and families from the countries Medsafar serves, arriving
+**Brief**: patients and families from the countries Med Safar serves, arriving
 in India or being welcomed at a hospital. Warm, daylight, calm. A family group
 reads better than a lone patient. Room on one side is not needed; the photo
 sits beside the form.
@@ -220,7 +220,7 @@ would mislead patients.
 | --- | --- |
 | 7, 8, 16. Patient story portraits | The real patient's photo, with written consent. Until then keep the placeholder, or show initials. |
 | 9. Doctor portraits | The doctor's own photo, supplied by the hospital. |
-| 10. Team portraits | The Medsafar team's own photos. A phone portrait against a plain wall is enough. |
+| 10. Team portraits | The Med Safar team's own photos. A phone portrait against a plain wall is enough. |
 
 No stock suggestions are given for these, so they cost nothing on either route.
 

@@ -24,15 +24,15 @@ export const catalog: CatalogContent = {
 
   hospitals: {
     meta: {
-      title: "Partner hospitals in India. Medsafar India.",
+      title: "Partner hospitals in India. Med Safar India.",
       description:
-        "Hospitals in India that Medsafar works with. Filter by city and speciality, then ask for a free treatment plan.",
+        "Hospitals in India that Med Safar works with. Filter by city and speciality, then ask for a free treatment plan.",
     },
     eyebrow: "Hospitals",
     heading: "Partner hospitals in India",
     intro:
       "We match the hospital to the case, not the other way round. You see the choice, the doctor and the estimate before you decide.",
-    note: "More partner hospitals are being added. Every hospital here is one Medsafar works with directly.",
+    note: "More partner hospitals are being added. Every hospital here is one Med Safar works with directly.",
     back: "All hospitals",
     filters: { city: "City", speciality: "Speciality" },
     searchPlaceholder: "Search by hospital, city or treatment",
@@ -77,9 +77,9 @@ export const catalog: CatalogContent = {
 
   doctors: {
     meta: {
-      title: "Doctors at partner hospitals in India. Medsafar India.",
+      title: "Doctors at partner hospitals in India. Med Safar India.",
       description:
-        "Doctors at the hospitals Medsafar works with in India. Filter by speciality and hospital, then ask for a free treatment plan.",
+        "Doctors at the hospitals Med Safar works with in India. Filter by speciality and hospital, then ask for a free treatment plan.",
     },
     eyebrow: "Doctors",
     heading: "Doctors at our partner hospitals",
@@ -117,9 +117,9 @@ export const catalog: CatalogContent = {
 
   treatments: {
     meta: {
-      title: "Treatments in India. Medsafar India.",
+      title: "Treatments in India. Med Safar India.",
       description:
-        "Treatments Medsafar arranges at partner hospitals in India, grouped by speciality. Ask for a free treatment plan for your case.",
+        "Treatments Med Safar arranges at partner hospitals in India, grouped by speciality. Ask for a free treatment plan for your case.",
     },
     eyebrow: "Treatments",
     heading: "Treatments we arrange in India",
@@ -184,15 +184,15 @@ export const catalog: CatalogContent = {
 
   specialities: {
     meta: {
-      title: "Specialities. Medsafar India.",
+      title: "Specialities. Med Safar India.",
       description:
-        "The kinds of care Medsafar arranges in India, with the treatments, doctors and hospitals for each.",
+        "The kinds of care Med Safar arranges in India, with the treatments, doctors and hospitals for each.",
     },
     eyebrow: "Specialities",
     heading: "What we can help you with",
     intro:
       "Pick a speciality to see its treatments, the doctors who carry them out and the hospitals that offer them.",
-    note: "More specialities are being added as Medsafar takes on new partner hospitals.",
+    note: "More specialities are being added as Med Safar takes on new partner hospitals.",
     back: "All specialities",
     stats: { specialities: "Specialities", treatments: "Treatments", doctors: "Doctors" },
     view: "See treatments",
@@ -208,11 +208,11 @@ export const catalog: CatalogContent = {
 
   blog: {
     meta: {
-      title: "Blog. Medsafar India.",
+      title: "Blogs. Med Safar India.",
       description:
         "Guides for patients travelling to India for treatment: what to expect, how to prepare and what happens afterwards.",
     },
-    eyebrow: "Blog",
+    eyebrow: "Blogs",
     heading: "Guides for patients and families",
     intro: "What to expect, how to prepare and what happens after you fly home.",
     note: "Every article names its sources.",

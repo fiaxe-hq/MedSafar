@@ -6,8 +6,8 @@ import { contactLinks } from "@/lib/contact";
  * Text for About, Contact, Privacy and Terms. Shared pages: one copy for
  * every country.
  *
- * About is written from Medsafar's own brochure. Privacy and Terms are drafts
- * for Medsafar to review; a lawyer has not signed them off yet.
+ * About is written from Med Safar's own brochure. Privacy and Terms are drafts
+ * for Med Safar to review; a lawyer has not signed them off yet.
  */
 
 const { registeredAddress, gstin } = site.company;
@@ -18,19 +18,19 @@ const links = contactLinks(site.contact);
 
 export const about: AboutContent = {
   meta: {
-    title: "About Medsafar India.",
+    title: "About Med Safar India.",
     description:
-      "Medsafar connects patients outside India with experienced doctors and multi-speciality hospitals in India, and arranges the travel around their treatment.",
+      "Med Safar connects patients outside India with experienced doctors and multi-speciality hospitals in India, and arranges the travel around their treatment.",
   },
   eyebrow: "About",
   heading: "Good treatment in India, without the hassle.",
   intro:
-    "Medsafar is a medical travel facilitator. It is not a hospital and does not provide medical treatment.",
+    "Med Safar is a medical travel facilitator. It is not a hospital and does not provide medical treatment.",
   who: {
     heading: "Who we are",
     body: [
-      "Medsafar helps people who live outside India get high-quality medical care in India at a fair price. We connect each patient with experienced doctors, surgeons and multi-speciality hospitals, and we take care of everything around the treatment so the patient and their family can focus on getting better.",
-      "Medsafar India is a division of Travgrub Private Limited, a travel company based in Mumbai. That is why we handle the travel side ourselves: the visa invitation, flights, airport pickup and a place to stay.",
+      "Med Safar helps people who live outside India get high-quality medical care in India at a fair price. We connect each patient with experienced doctors, surgeons and multi-speciality hospitals, and we take care of everything around the treatment so the patient and their family can focus on getting better.",
+      "Med Safar India is a division of Travgrub Private Limited, a travel company based in Mumbai. That is why we handle the travel side ourselves: the visa invitation, flights, airport pickup and a place to stay.",
     ],
   },
   stats: {
@@ -41,35 +41,34 @@ export const about: AboutContent = {
   glance: {
     heading: "At a glance",
     items: [
-      { label: "Founded", value: "2026" },
       { label: "Based in", value: "Mumbai, India" },
       { label: "Part of", value: "Travgrub Private Limited" },
-      { label: "Your main contact", value: "Vicky Prabhu, founder and CEO" },
+      { label: "Your main contact", value: "Vicky Prabhu, founder" },
     ],
   },
   founder: {
     eyebrow: "Meet the founder",
     name: "Vicky Prabhu",
-    role: "Founder and CEO, Medsafar India",
+    role: "Founder, Med Safar India",
     picture: {
       src: "/photos/about/vicky-prabhu-headroom.jpg",
-      alt: "Vicky Prabhu, founder and CEO of Medsafar",
+      alt: "Vicky Prabhu, founder of Med Safar",
       pending: false,
       focus: "50% 0%",
     },
     quote: {
-      text: "Medsafar exists to turn my lifelong desire to serve humanity into action: helping patients find the care they need, and bringing hope to families in their most difficult moments.",
+      text: "Med Safar exists to turn my lifelong desire to serve humanity into action: helping patients find the care they need, and bringing hope to families in their most difficult moments.",
     },
     story: {
-      heading: "Why I started Medsafar",
+      heading: "Why I started Med Safar",
       body: [
         "I have always wanted to do something meaningful for people. My years with Rotary showed me that even a small act of kindness can make a real difference in someone's life.",
         "Running Travgrub taught me that travel is about people, not tickets. Visa help, an airport pickup, a place to stay, someone to call when you need help: small details that bring real peace of mind in a country you do not know.",
-        "When someone falls seriously ill, the whole family carries the fear. Medsafar puts my travel experience to its most meaningful use: standing beside patients and their families, so they never feel alone.",
+        "When someone falls seriously ill, the whole family carries the fear. Med Safar puts my travel experience to its most meaningful use: standing beside patients and their families, so they never feel alone.",
       ],
     },
     contact: {
-      body: "Medsafar is small on purpose. Vicky looks after every patient himself, from the first message to the follow-up at home.",
+      body: "Med Safar is small on purpose. Vicky looks after every patient himself, from the first message to the follow-up at home.",
       label: "Message Vicky on WhatsApp",
     },
   },
@@ -77,16 +76,16 @@ export const about: AboutContent = {
     heading: "What we are here for",
     items: [
       {
-        title: "Our mission",
+        title: "Our Mission",
         body: "Help patients find the right care in India, and bring hope to their families, one patient at a time.",
       },
       {
-        title: "Our vision",
+        title: "Our Vision",
         body: "To be a trusted name for patients from Africa, the Middle East, the CIS region and South Asia, without losing the personal touch.",
       },
       {
         title: "Giving back",
-        body: "As Medsafar grows, a set part of its income will help patients who cannot afford the treatment they need, with clear rules on who qualifies.",
+        body: "As Med Safar grows, a set part of its income will help patients who cannot afford the treatment they need, with clear rules on who qualifies.",
       },
     ],
   },
@@ -109,7 +108,7 @@ export const about: AboutContent = {
     ],
   },
   does: {
-    heading: "What Medsafar does",
+    heading: "What Med Safar does",
     items: [
       "Sends your reports to an experienced doctor at a partner hospital",
       "Brings back a treatment plan made for your case, with a written estimate from the hospital",
@@ -121,7 +120,7 @@ export const about: AboutContent = {
     ],
   },
   doesNot: {
-    heading: "What Medsafar does not do",
+    heading: "What Med Safar does not do",
     items: [
       "Give medical treatment or medical advice",
       "Decide your treatment. That is between you and the doctor",
@@ -141,9 +140,9 @@ export const about: AboutContent = {
 
 export const contact: ContactContent = {
   meta: {
-    title: "Contact Medsafar India.",
+    title: "Contact Med Safar India.",
     description:
-      "Start a free treatment plan, or reach Medsafar on WhatsApp, by phone or by email.",
+      "Start a free treatment plan, or reach Med Safar on WhatsApp, by phone or by email.",
   },
   eyebrow: "Contact",
   heading: "Tell us what you need.",
@@ -159,12 +158,12 @@ export const contact: ContactContent = {
       {
         label: "Office",
         value: office,
-        href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("NEO Corporate Plaza, Ramchandra Lane, Mumbai 400064")}`,
+        href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Neo Corporate Plaza, Kanchpada, Malad West, Mumbai 400064")}`,
         hint: "Visits by appointment",
       },
     ],
   },
-  follow: "Follow Medsafar",
+  follow: "Follow Med Safar",
   form: {
     heading: "Get your free treatment plan",
     intro: "It takes a minute. No cost and no obligation.",
@@ -187,7 +186,7 @@ export const contact: ContactContent = {
     ],
   },
   why: {
-    heading: "Why patients choose Medsafar",
+    heading: "Why patients choose Med Safar",
     items: [
       {
         title: "Senior doctors only",
@@ -241,12 +240,12 @@ const website = "https://medsafar.com";
 
 export const privacy: LegalContent = {
   meta: {
-    title: "Privacy policy. Medsafar India.",
-    description: "How Medsafar India collects, uses and protects personal and medical information.",
+    title: "Privacy policy. Med Safar India.",
+    description: "How Med Safar India collects, uses and protects personal and medical information.",
   },
   heading: "Privacy policy",
   intro:
-    "This policy explains how Medsafar India collects, uses, stores, shares and protects personal information, including medical information, when you use our website or services.",
+    "This policy explains how Med Safar India collects, uses, stores, shares and protects personal information, including medical information, when you use our website or services.",
   effective: privacyEffective,
   updated: privacyUpdated,
   sections: [
@@ -486,7 +485,7 @@ export const privacy: LegalContent = {
 
 export const terms: LegalContent = {
   meta: {
-    title: "Terms and conditions. Medsafar India.",
+    title: "Terms and conditions. Med Safar India.",
     description: "The terms and conditions of website use and medical facilitation services of Med Safar India.",
   },
   heading: "Terms and conditions of website use and medical facilitation services",
@@ -806,7 +805,7 @@ export const terms: LegalContent = {
         "For enquiries, clarification of these Terms or assistance concerning Med Safar India's services, please contact:",
         "TravGrub Private Limited",
         "Operating under the brand Med Safar India",
-        "Office No. 222, 2nd Floor, Neo Corporate Plaza, Malad West, Mumbai, Maharashtra – 400064, India.",
+        "Neo Corporate Plaza, Office no.222, 2nd Floor, Ramchandra lane Extn., Kanchpada, Malad-West, Mumbai-400064, Maharashtra, India.",
         "Email: care@medsafar.com",
         "Telephone/WhatsApp: +919820322088",
         "Website: www.medsafar.com",
@@ -822,7 +821,7 @@ export const terms: LegalContent = {
 // blanks in clause 20 are filled in from the Terms.
 export const disclaimer: LegalContent = {
   meta: {
-    title: "Disclaimer. Medsafar India.",
+    title: "Disclaimer. Med Safar India.",
     description: "What the information on this website is, and what it is not.",
   },
   heading: "Website disclaimer",
@@ -980,7 +979,7 @@ export const disclaimer: LegalContent = {
         "For questions about this disclaimer or the information on this website, please contact:",
         "Legal entity: TravGrub Private Limited, which operates the Med Safar India brand.",
         "Brand: Med Safar India.",
-        "Office: Office No. 222, 2nd Floor, Neo Corporate Plaza, Malad West, Mumbai, Maharashtra – 400064, India.",
+        "Office: Neo Corporate Plaza, Office no.222, 2nd Floor, Ramchandra lane Extn., Kanchpada, Malad-West, Mumbai-400064, Maharashtra, India.",
         `Email: ${email}`,
         "Website: www.medsafar.com",
       ],
@@ -994,8 +993,8 @@ export const disclaimer: LegalContent = {
 // own page) and the internal checklist.
 export const editorialPolicy: LegalContent = {
   meta: {
-    title: "Editorial policy. Medsafar India.",
-    description: "How Medsafar writes, checks and updates the information on this website.",
+    title: "Editorial policy. Med Safar India.",
+    description: "How Med Safar writes, checks and updates the information on this website.",
   },
   heading: "Editorial policy",
   intro: "Medical content standards, ethical publishing and public communication.",
@@ -1209,7 +1208,7 @@ export const editorialPolicy: LegalContent = {
     {
       heading: "20. Policy administration",
       body: [
-        "Legal entity and registered office: TravGrub Private Limited, which operates the Med Safar India brand. Office No. 222, 2nd Floor, Neo Corporate Plaza, Ramchandra Lane Extension, Kanchpada, Malad West, Mumbai, Maharashtra – 400064, India.",
+        "Legal entity and registered office: TravGrub Private Limited, which operates the Med Safar India brand. Neo Corporate Plaza, Office no.222, 2nd Floor, Ramchandra lane Extn., Kanchpada, Malad-West, Mumbai-400064, Maharashtra, India.",
         "Editorial contact email: vickyprabhu@medsafar.com",
         "Privacy and grievance contact: vickyprabhu@medsafar.com",
         "Person responsible for editorial approval: Vicky Prabhu, Founder.",
@@ -1226,7 +1225,7 @@ export const editorialPolicy: LegalContent = {
 // earlier is gone.
 export const cancellations: LegalContent = {
   meta: {
-    title: "Cancellations and refunds. Medsafar India.",
+    title: "Cancellations and refunds. Med Safar India.",
     description: "What happens if you change or cancel your plans.",
   },
   heading: "Cancellations and refunds",

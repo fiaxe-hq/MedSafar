@@ -282,7 +282,7 @@ export function blankRecord(kind: ListKind): Record<string, unknown> {
     case "treatment":
       return { slug: "", checked: false, name: "", speciality: "", summary: "", what: "", who: "", stay: "", recovery: "", faq: [] };
     case "post":
-      return { slug: "", title: "", date: null, category: "", author: "Medsafar", summary: "", body: [], treatments: [], hospitals: [] };
+      return { slug: "", title: "", date: null, category: "", author: "Med Safar", summary: "", body: [], treatments: [], hospitals: [] };
   }
 }
 

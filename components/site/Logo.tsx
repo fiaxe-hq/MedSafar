@@ -3,7 +3,7 @@ import Link from "@/components/ui/Link";
 import logo from "@/public/brand/medsafar-logo.png";
 import { getText } from "@/lib/i18n/text";
 
-/** The Medsafar India logo, with the registered trademark mark. The source
+/** The Med Safar India logo, with the registered trademark mark. The source
  *  is 546px wide, so it stays sharp on high-density screens at header size. */
 export async function Logo({ href = "/" }: { href?: string }) {
   const { site } = await getText();
