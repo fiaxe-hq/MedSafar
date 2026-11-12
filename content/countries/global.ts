@@ -10,9 +10,9 @@ export const global: CountryContent = {
   countryName: null,
 
   meta: {
-    title: "Med Safar India. Treatment in India, arranged end to end.",
+    title: "Med Safar India: affordable medical treatment in India for international patients",
     description:
-      "Med Safar helps patients abroad get treatment in India. We arrange the hospital, the doctor, a written cost estimate, the visa, travel, stay and follow-up care.",
+      "Med Safar helps patients abroad get high-quality, affordable treatment in India at accredited hospitals. Free treatment plan and written cost estimate; we arrange the doctor, visa, travel, stay and follow-up care.",
   },
 
   hero: {

@@ -29,6 +29,9 @@ import { Section, SectionHead } from "@/components/ui/Section";
 import { VideoEmbed } from "@/components/ui/VideoEmbed";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
+import { fill } from "@/content/ui";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { breadcrumbJsonLd, hospitalJsonLd } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -39,20 +42,20 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { site } = await getText();
+  const { site, catalog } = await getText();
   const lang = await getLang();
   const { slug } = await params;
   const hospital = await getHospital(slug);
   if (!hospital) return {};
   return {
-    title: `${hospital.name}. ${site.brand.name} ${site.brand.country}.`,
+    title: `${fill(catalog.seo.hospitalTitle, { name: hospital.name, city: hospital.city })} | ${site.brand.name} ${site.brand.country}`,
     alternates: languageAlternates(`/hospitals/${hospital.slug}`, lang.code),
     description: hospital.overview,
   };
 }
 
 export default async function Page({ params }: Props) {
-  const { catalog, site, ui, plainSpeciality } = await getText();
+  const [{ catalog, site, ui, plainSpeciality }, lang] = await Promise.all([getText(), getLang()]);
   const { slug } = await params;
   const hospital = await getHospital(slug);
   if (!hospital) notFound();
@@ -80,6 +83,21 @@ export default async function Page({ params }: Props) {
 
   return (
     <PageShell current="/hospitals">
+      <JsonLd
+        data={[
+          hospitalJsonLd(
+            lang.code,
+            hospital,
+            hospital.specialities.map((s) => nameOf(specialities, s)),
+            treatments.map((t) => t.name),
+          ),
+          breadcrumbJsonLd(lang.code, [
+            { name: site.brand.name, path: "/" },
+            { name: text.eyebrow, path: "/hospitals" },
+            { name: hospital.name, path: `/hospitals/${hospital.slug}` },
+          ]),
+        ]}
+      />
       <section className="relative isolate overflow-hidden">
         <div
           aria-hidden

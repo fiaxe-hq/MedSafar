@@ -18,6 +18,8 @@ import { Figure } from "@/components/ui/Pending";
 import { Section, SectionHead } from "@/components/ui/Section";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { breadcrumbJsonLd, doctorJsonLd } from "@/lib/seo";
 import { fill } from "@/content/ui";
 import { btnPrimary } from "@/components/ui/styles";
 
@@ -30,20 +32,20 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { site } = await getText();
+  const { site, catalog } = await getText();
   const lang = await getLang();
   const { slug } = await params;
   const doctor = await getDoctor(slug);
   if (!doctor) return {};
   return {
-    title: `${doctor.name}. ${site.brand.name} ${site.brand.country}.`,
+    title: `${fill(catalog.seo.doctorTitle, { name: doctor.name, role: doctor.role })} | ${site.brand.name} ${site.brand.country}`,
     alternates: languageAlternates(`/doctors/${doctor.slug}`, lang.code),
     description: doctor.profile,
   };
 }
 
 export default async function Page({ params }: Props) {
-  const { catalog } = await getText();
+  const [{ catalog, site }, lang] = await Promise.all([getText(), getLang()]);
   const { slug } = await params;
   const doctor = await getDoctor(slug);
   if (!doctor) notFound();
@@ -60,6 +62,16 @@ export default async function Page({ params }: Props) {
 
   return (
     <PageShell current="/doctors">
+      <JsonLd
+        data={[
+          doctorJsonLd(lang.code, doctor, speciality, hospital),
+          breadcrumbJsonLd(lang.code, [
+            { name: site.brand.name, path: "/" },
+            { name: text.eyebrow, path: "/doctors" },
+            { name: doctor.name, path: `/doctors/${doctor.slug}` },
+          ]),
+        ]}
+      />
       <PageHead
         back={{ href: "/doctors", label: text.back }}
         heading={doctor.name}
