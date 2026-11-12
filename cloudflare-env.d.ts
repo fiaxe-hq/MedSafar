@@ -12,6 +12,7 @@ interface __BaseEnv_CloudflareEnv {
 	ASSETS: Fetcher;
 	NEXTJS_ENV: string;
 	ADMIN_PASSWORD: string;
+	ADMIN_SESSION_SECRET?: string;
 	SMTP_HOST: string;
 	SMTP_PORT: string;
 	SMTP_USER: string;

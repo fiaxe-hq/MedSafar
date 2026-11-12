@@ -138,12 +138,25 @@ const DUMMY_HASH = "pbkdf2$100000$AAAAAAAAAAAAAAAAAAAAAA$AAAAAAAAAAAAAAAAAAAAAAA
 
 // Sessions
 
-async function sessionKey(): Promise<CryptoKey | null> {
+/**
+ * Sessions are signed with ADMIN_SESSION_SECRET, a long random Worker secret,
+ * so a forged cookie would need that secret rather than a password a person
+ * chose. Without it, a key derived from the setup key is used, as before.
+ * Changing either secret signs everyone out.
+ */
+function sessionSecret(): string | null {
+  const own = env().ADMIN_SESSION_SECRET;
+  if (typeof own === "string" && own.trim().length >= 32) return `medsafar-admin-session-v2:${own.trim()}`;
   const key = setupKey();
-  if (!key) return null;
+  return key ? `medsafar-admin-session:${key}` : null;
+}
+
+async function sessionKey(): Promise<CryptoKey | null> {
+  const secret = sessionSecret();
+  if (!secret) return null;
   return crypto.subtle.importKey(
     "raw",
-    encoder.encode(`medsafar-admin-session:${key}`),
+    encoder.encode(secret),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign", "verify"],
@@ -207,7 +220,15 @@ export async function requireOwner(): Promise<AdminUser> {
   return user;
 }
 
+/** Signs out on every device: the session version moves on, so a copied cookie stops working too. */
 export async function signOut(): Promise<void> {
+  const user = await currentAdmin();
+  if (user) {
+    await db()
+      .prepare("UPDATE admin_users SET session_version = session_version + 1 WHERE id = ?")
+      .bind(user.id)
+      .run();
+  }
   (await cookies()).delete({ name: COOKIE, path: "/admin" });
 }
 
