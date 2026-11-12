@@ -5,7 +5,7 @@ import { languages } from "@/lib/i18n/languages";
  * The public address of the site. Used for canonical links, the sitemap and
  * social previews. Change it here when the site moves to its own domain.
  */
-export const siteUrl = "https://medsafar.xaif-0e9.workers.dev";
+export const siteUrl = "https://medsafar.com";
 
 /** Describes Med Safar to search engines (schema.org, rendered as JSON-LD). */
 export const organizationJsonLd = (site: Text["site"]) => ({

@@ -15,6 +15,11 @@ const month = 60 * 60 * 24 * 30;
 
 export function proxy(request: NextRequest) {
   const url = request.nextUrl;
+
+  // One address for search engines: www.medsafar.com goes to medsafar.com.
+  if (request.headers.get("host") === "www.medsafar.com") {
+    return NextResponse.redirect(`https://medsafar.com${url.pathname}${url.search}`, 308);
+  }
   const parts = url.pathname.split("/");
   const first = parts[1] ?? "";
 

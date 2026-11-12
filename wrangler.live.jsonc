@@ -6,6 +6,12 @@
   "name": "medsafar",
   "account_id": "0e9ed5067274fb68d2256f2fc86c7eaf",
   "main": ".open-next/worker.js",
+  // medsafar.com and www (www is sent to medsafar.com in proxy.ts). Zone routes,
+  // over the zone's proxied DNS records; launched 12 November 2026.
+  "routes": [
+    { "pattern": "medsafar.com/*", "zone_name": "medsafar.com" },
+    { "pattern": "www.medsafar.com/*", "zone_name": "medsafar.com" }
+  ],
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
