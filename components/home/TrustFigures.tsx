@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Container } from "@/components/ui/Container";
+import { figureSize, formatFigure } from "@/lib/figures";
 
 type Figure = { key: string; label: string; value: string };
 
@@ -30,11 +31,20 @@ export function TrustFigures() {
   return (
     <section aria-label="Med Safar in numbers" className="border-b border-hairline bg-surface py-8">
       <Container>
-        <ul className="grid grid-cols-2 gap-6 text-center sm:grid-cols-3 lg:grid-cols-4">
+        {/* Centred, whatever the count: one figure sits in the middle, two or
+            three spread evenly, more wrap onto a second centred line. Each has
+            the same width, and the text size follows the longest value. */}
+        <ul className="flex flex-wrap justify-center gap-x-6 gap-y-8 text-center sm:gap-x-12">
           {figures.map((f) => (
-            <li key={f.key}>
-              <p className="numeral text-3xl text-accent sm:text-4xl">{f.value}</p>
-              <p className="mt-1 text-sm text-ink-2">{f.label}</p>
+            <li key={f.key} className="w-[9.5rem] min-w-0 sm:w-56">
+              <p
+                className={`font-display leading-none font-medium tracking-[-0.03em] text-accent tabular-nums [overflow-wrap:anywhere] ${figureSize(
+                  figures.map((x) => x.value),
+                )}`}
+              >
+                {formatFigure(f.value)}
+              </p>
+              <p className="mt-2 text-sm text-balance text-ink-2 [overflow-wrap:anywhere]">{f.label}</p>
             </li>
           ))}
         </ul>

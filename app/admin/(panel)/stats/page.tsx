@@ -2,6 +2,7 @@ import { ArrowDownIcon } from "@phosphor-icons/react/dist/ssr/ArrowDown";
 import { ArrowUpIcon } from "@phosphor-icons/react/dist/ssr/ArrowUp";
 import { TrashIcon } from "@phosphor-icons/react/dist/ssr/Trash";
 import { listStats } from "@/lib/stats";
+import { figureSize, formatFigure } from "@/lib/figures";
 import { requireAdmin } from "@/lib/admin/auth";
 import { sentencesFor, targetLanguages } from "@/lib/admin/translate";
 import { getRecordTranslations } from "@/lib/translations";
@@ -79,10 +80,17 @@ export default async function StatsPage({ searchParams }: PageProps<"/admin/stat
             {live.map((stat) => (
               <div
                 key={stat.id}
-                className="flex flex-col-reverse rounded-md border border-hairline bg-surface p-4"
+                className="flex min-w-0 flex-col-reverse rounded-md border border-hairline bg-surface p-4"
               >
-                <dt className="mt-2 text-sm font-medium text-ink">{stat.label}</dt>
-                <dd className="numeral text-accent">{stat.value}</dd>
+                <dt className="mt-2 text-sm font-medium text-ink [overflow-wrap:anywhere]">{stat.label}</dt>
+                {/* Same formatting and size as the home page, and never wider than its card. */}
+                <dd
+                  className={`font-display leading-none font-medium tracking-[-0.03em] text-accent tabular-nums [overflow-wrap:anywhere] ${figureSize(
+                    live.map((s) => s.value),
+                  )}`}
+                >
+                  {formatFigure(stat.value)}
+                </dd>
               </div>
             ))}
           </dl>
