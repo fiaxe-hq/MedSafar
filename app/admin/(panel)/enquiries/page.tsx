@@ -16,6 +16,7 @@ import {
 } from "@/lib/leads";
 import { AdminBadge, AdminHeading, AdminNotice, AdminTile, adminButton, adminCard } from "@/components/admin/ui";
 import { EnquiryFilters, type FilterField } from "@/components/admin/EnquiryFilters";
+import { requireAdmin } from "@/lib/admin/auth";
 import { deleteLeadAction, deleteReportAction, keepReportAction } from "./actions";
 
 /** Search param names the filters use, in the order their chips show. */
@@ -82,6 +83,8 @@ function when(iso: string) {
 
 /** Each row is one enquiry; step-2 fields are blank if the visitor stopped at step 1. */
 export default async function EnquiriesPage({ searchParams }: PageProps<"/admin/enquiries">) {
+  // Patients personal details: checked here as well as in the layout.
+  await requireAdmin();
   const params = await searchParams;
   const values = readFilters(params) as Record<string, string>;
   const filters: LeadFilters = { ...values, sort: values.sort as LeadSort | undefined } as LeadFilters;

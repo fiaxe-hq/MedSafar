@@ -25,6 +25,8 @@ const photos = photosVersion();
 const dev = process.env.NODE_ENV === "development";
 
 const nextConfig: NextConfig = {
+  // No "X-Powered-By: Next.js" header telling attackers what to look for.
+  poweredByHeader: false,
   // About 8,000 pages are built ahead (every language times every treatment,
   // doctor and hospital); on a busy machine some take longer than the
   // default 60 seconds.

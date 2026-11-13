@@ -2,6 +2,7 @@ import { ArrowDownIcon } from "@phosphor-icons/react/dist/ssr/ArrowDown";
 import { ArrowUpIcon } from "@phosphor-icons/react/dist/ssr/ArrowUp";
 import { TrashIcon } from "@phosphor-icons/react/dist/ssr/Trash";
 import { listStats } from "@/lib/stats";
+import { requireAdmin } from "@/lib/admin/auth";
 import { sentencesFor, targetLanguages } from "@/lib/admin/translate";
 import { getRecordTranslations } from "@/lib/translations";
 import { TranslationPanel } from "@/components/admin/TranslationPanel";
@@ -41,6 +42,7 @@ const done: Record<string, string> = {
 };
 
 export default async function StatsPage({ searchParams }: PageProps<"/admin/stats">) {
+  await requireAdmin();
   const params = await searchParams;
   const error = typeof params.error === "string" ? errors[params.error] : undefined;
   const message = typeof params.done === "string" ? done[params.done] : undefined;
