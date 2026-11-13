@@ -91,9 +91,13 @@ export function ListBrowser({
   const picked = specialities.find((s) => s.slug === speciality);
 
   useEffect(() => {
-    const params = new URLSearchParams();
+    // Start from the address as it is, so utm_source, gclid and any other
+    // tags the visitor arrived with stay; only the filters are changed.
+    const params = new URLSearchParams(window.location.search);
     if (speciality) params.set("speciality", speciality);
+    else params.delete("speciality");
     if (place) params.set(placeParam, place);
+    else params.delete(placeParam);
     const query = params.toString();
     window.history.replaceState(window.history.state, "", query ? `${path}?${query}` : path);
   }, [speciality, place, placeParam, path]);

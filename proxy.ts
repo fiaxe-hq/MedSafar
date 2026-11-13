@@ -16,9 +16,15 @@ const month = 60 * 60 * 24 * 30;
 export function proxy(request: NextRequest) {
   const url = request.nextUrl;
 
-  // One address for search engines: www.medsafar.com goes to medsafar.com.
-  if (request.headers.get("host") === "www.medsafar.com") {
+  // One address: http:// and www. both go to https://medsafar.com, with
+  // the path and everything after "?" (utm_source, gclid...) kept as sent.
+  const host = request.headers.get("host") ?? "";
+  if (host === "www.medsafar.com" || (host === "medsafar.com" && isPlainHttp(request))) {
     return NextResponse.redirect(`https://medsafar.com${url.pathname}${url.search}`, 308);
+  }
+  // The admin panel and the API take no part in the language and country routing.
+  if (url.pathname === "/admin" || url.pathname.startsWith("/admin/") || url.pathname.startsWith("/api/")) {
+    return NextResponse.next();
   }
   const parts = url.pathname.split("/");
   const first = parts[1] ?? "";
@@ -80,8 +86,18 @@ export function proxy(request: NextRequest) {
   return response;
 }
 
+/** Whether the visitor came over plain http (Cloudflare says so in cf-visitor). */
+function isPlainHttp(request: NextRequest): boolean {
+  const visitor = request.headers.get("cf-visitor");
+  if (visitor) return visitor.includes('"scheme":"http"');
+  const proto = request.headers.get("x-forwarded-proto");
+  if (proto) return proto.split(",")[0].trim() === "http";
+  return request.nextUrl.protocol === "http:";
+}
+
 export const config = {
-  // Everything except Next's own files, the admin panel and files with an
-  // extension (images, sitemap.xml, i18n/*.json).
-  matcher: ["/((?!api|_next|admin|.*\\..*).*)"],
+  // Everything except Next's own files and files with an extension (images,
+  // sitemap.xml, i18n/*.json). /admin and /api pass through, for the http and
+  // www redirects only.
+  matcher: ["/((?!_next|.*\\..*).*)"],
 };
