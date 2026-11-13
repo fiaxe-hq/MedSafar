@@ -3,10 +3,17 @@
  * page and in the admin preview, so any value the team types fits its box.
  */
 
-/** Long plain numbers get thousands separators: "45615153" -> "45,615,153". */
+/**
+ * Long plain numbers get Indian-style commas: the last three digits, then
+ * every two ("45615153" -> "4,56,15,153"). Done on the text itself, so a
+ * number of any length keeps every digit exactly as typed.
+ */
 export function formatFigure(value: string): string {
   const v = value.trim();
-  return /^\d{5,}$/.test(v) ? Number(v).toLocaleString("en-US") : v;
+  if (!/^\d{5,}$/.test(v)) return v;
+  const last = v.slice(-3);
+  const rest = v.slice(0, -3).replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+  return `${rest},${last}`;
 }
 
 /**
