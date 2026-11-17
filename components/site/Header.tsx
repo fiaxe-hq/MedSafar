@@ -74,7 +74,7 @@ async function menuLinks(
 }
 
 const topLink =
-  "relative flex h-10 items-center gap-1 px-3 text-[0.9375rem] whitespace-nowrap text-ink-2 transition-colors duration-200 hover:text-ink aria-[current=page]:text-ink";
+  "relative flex h-10 items-center gap-1 px-2 2xl:px-3 text-[0.9375rem] whitespace-nowrap text-ink-2 transition-colors duration-200 hover:text-ink aria-[current=page]:text-ink";
 
 const panelLink =
   "flex min-h-11 items-center rounded-lg px-3 text-[0.9375rem] text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink";
@@ -161,7 +161,7 @@ export async function Header({
                 button instead. Dropdowns open on hover or keyboard focus. */}
             <nav
               aria-label={nav.menuLabel}
-              className="relative hidden flex-1 items-center justify-center gap-1 xl:flex"
+              className="relative hidden min-w-0 flex-1 items-center justify-center gap-1 xl:flex"
             >
               {nav.items.map((entry) => {
                 const links = linksOf(entry);
@@ -267,7 +267,7 @@ export async function Header({
                                     {link.image ? (
                                       <Image
                                         src={link.image} unoptimized={isPlainFile(link.image)}
-                                        alt=""
+                                        alt={link.label}
                                         fill
                                         sizes="200px"
                                         style={link.focus ? { objectPosition: link.focus } : undefined}
@@ -304,7 +304,7 @@ export async function Header({
                                       {link.image ? (
                                         <Image
                                           src={link.image} unoptimized={isPlainFile(link.image)}
-                                          alt=""
+                                          alt={link.label}
                                           fill
                                           sizes="140px"
                                           className="object-cover object-top transition-transform duration-500 ease-(--ease-soft) group-hover/tile:scale-[1.05]"
@@ -359,7 +359,7 @@ export async function Header({
                                     {link.image ? (
                                       <Image
                                         src={link.image} unoptimized={isPlainFile(link.image)}
-                                        alt=""
+                                        alt={link.label}
                                         fill
                                         sizes="56px"
                                         className="object-cover transition-transform duration-500 group-hover/tile:scale-[1.08]"
@@ -386,7 +386,7 @@ export async function Header({
                                     {link.image ? (
                                       <Image
                                         src={link.image} unoptimized={isPlainFile(link.image)}
-                                        alt=""
+                                        alt={link.label}
                                         fill
                                         sizes="56px"
                                         className="object-cover"
@@ -547,7 +547,7 @@ export async function Header({
                                   {link.image ? (
                                     <Image
                                       src={link.image} unoptimized={isPlainFile(link.image)}
-                                      alt=""
+                                      alt={link.label}
                                       fill
                                       sizes="36px"
                                       className="object-cover"

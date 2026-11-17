@@ -92,7 +92,7 @@ export async function Footer({ home = "/" }: { home?: string }) {
           {/* Links, four short columns. */}
           <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:col-span-8">
             {footer.columns.map((column) => (
-              <div key={column.heading}>
+              <div key={column.heading} className="min-w-0">
                 <p className="text-[0.8125rem] font-medium tracking-[0.08em] text-ink-3 uppercase">
                   {column.heading}
                 </p>
@@ -103,7 +103,7 @@ export async function Footer({ home = "/" }: { home?: string }) {
                       <li key={item.label}>
                         <Link
                           href={resolveHref(item.href, home)}
-                          className="flex min-h-9 w-fit items-center text-[0.9375rem] text-ink-2 transition-colors hover:text-accent"
+                          className="flex min-h-9 w-fit max-w-full items-center text-[0.9375rem] text-ink-2 [overflow-wrap:anywhere] hyphens-auto transition-colors hover:text-accent"
                         >
                           {item.label}
                         </Link>

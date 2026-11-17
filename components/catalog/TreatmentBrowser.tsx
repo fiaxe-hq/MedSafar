@@ -163,7 +163,7 @@ export function TreatmentBrowser({
                       <span className="relative size-20 shrink-0 overflow-hidden rounded-xl sm:size-24">
                         <Image
                           src={photo.src}
-                          alt=""
+                          alt={photo.alt}
                           fill
                           sizes="96px"
                           className="object-cover"

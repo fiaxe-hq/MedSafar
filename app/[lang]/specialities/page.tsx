@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageTitle } from "@/lib/seo";
 import Image from "next/image";
 import Link from "@/components/ui/Link";
 import { specialityPhoto } from "@/data/treatmentPhotos";
@@ -20,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { catalog } = await getText();
   const lang = await getLang();
   return {
-    title: catalog.specialities.meta.title,
+    title: pageTitle(catalog.specialities.heading),
     description: catalog.specialities.meta.description,
     alternates: languageAlternates("/specialities", lang.code),
   };

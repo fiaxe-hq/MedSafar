@@ -29,9 +29,8 @@ import { Section, SectionHead } from "@/components/ui/Section";
 import { VideoEmbed } from "@/components/ui/VideoEmbed";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
-import { fill } from "@/content/ui";
 import { JsonLd } from "@/components/ui/JsonLd";
-import { breadcrumbJsonLd, hospitalJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, clip, hospitalHeading, hospitalJsonLd, pageTitle } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -42,15 +41,14 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { site, catalog } = await getText();
   const lang = await getLang();
   const { slug } = await params;
   const hospital = await getHospital(slug);
   if (!hospital) return {};
   return {
-    title: `${fill(catalog.seo.hospitalTitle, { name: hospital.name, city: hospital.city })} | ${site.brand.name} ${site.brand.country}`,
+    title: pageTitle(hospitalHeading(hospital)),
     alternates: languageAlternates(`/hospitals/${hospital.slug}`, lang.code),
-    description: hospital.overview,
+    description: clip(hospital.overview),
   };
 }
 
@@ -114,7 +112,7 @@ export default async function Page({ params }: Props) {
 
           <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="min-w-0">
-              <h1 className="hero-rise display-2 max-w-[26ch] text-balance [animation-delay:60ms]">{hospital.name}</h1>
+              <h1 className="hero-rise display-2 max-w-[26ch] text-balance [animation-delay:60ms]">{hospitalHeading(hospital)}</h1>
               <ul className="hero-rise mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-base text-ink-2 [animation-delay:120ms]">
                 <li className="inline-flex items-center gap-1.5">
                   <MapPinIcon size={18} className="text-accent" aria-hidden />

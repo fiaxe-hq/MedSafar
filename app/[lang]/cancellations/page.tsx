@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageTitle } from "@/lib/seo";
 import { LegalPage } from "@/components/catalog/LegalPage";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
@@ -7,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { cancellations } = await getText();
   const lang = await getLang();
   return {
-    title: cancellations.meta.title,
+    title: pageTitle(cancellations.meta.title),
     description: cancellations.meta.description,
     alternates: languageAlternates("/cancellations", lang.code),
   };

@@ -18,7 +18,7 @@ const links = contactLinks(site.contact);
 
 export const about: AboutContent = {
   meta: {
-    title: "About Med Safar India.",
+    title: "About Med Safar India",
     description:
       "Med Safar connects patients outside India with experienced doctors and multi-speciality hospitals in India, and arranges the travel around their treatment.",
   },
@@ -140,7 +140,7 @@ export const about: AboutContent = {
 
 export const contact: ContactContent = {
   meta: {
-    title: "Contact Med Safar India.",
+    title: "Contact Med Safar India",
     description:
       "Start a free treatment plan, or reach Med Safar on WhatsApp, by phone or by email.",
   },
@@ -240,7 +240,7 @@ const website = "https://medsafar.com";
 
 export const privacy: LegalContent = {
   meta: {
-    title: "Privacy policy. Med Safar India.",
+    title: "Privacy policy",
     description: "How Med Safar India collects, uses and protects personal and medical information.",
   },
   heading: "Privacy policy",
@@ -485,7 +485,7 @@ export const privacy: LegalContent = {
 
 export const terms: LegalContent = {
   meta: {
-    title: "Terms and conditions. Med Safar India.",
+    title: "Terms and conditions",
     description: "The terms and conditions of website use and medical facilitation services of Med Safar India.",
   },
   heading: "Terms and conditions of website use and medical facilitation services",
@@ -821,7 +821,7 @@ export const terms: LegalContent = {
 // blanks in clause 20 are filled in from the Terms.
 export const disclaimer: LegalContent = {
   meta: {
-    title: "Disclaimer. Med Safar India.",
+    title: "Website disclaimer",
     description: "What the information on this website is, and what it is not.",
   },
   heading: "Website disclaimer",
@@ -993,7 +993,7 @@ export const disclaimer: LegalContent = {
 // own page) and the internal checklist.
 export const editorialPolicy: LegalContent = {
   meta: {
-    title: "Editorial policy. Med Safar India.",
+    title: "Editorial policy",
     description: "How Med Safar writes, checks and updates the information on this website.",
   },
   heading: "Editorial policy",
@@ -1225,7 +1225,7 @@ export const editorialPolicy: LegalContent = {
 // earlier is gone.
 export const cancellations: LegalContent = {
   meta: {
-    title: "Cancellations and refunds. Med Safar India.",
+    title: "Cancellations and refunds",
     description: "What happens if you change or cancel your plans.",
   },
   heading: "Cancellations and refunds",

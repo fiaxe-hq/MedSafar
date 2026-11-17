@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageTitle } from "@/lib/seo";
 import { EnvelopeSimpleIcon } from "@phosphor-icons/react/dist/ssr/EnvelopeSimple";
 import { MapPinIcon } from "@phosphor-icons/react/dist/ssr/MapPin";
 import { PhoneIcon } from "@phosphor-icons/react/dist/ssr/Phone";
@@ -23,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { contact } = await getText();
   const lang = await getLang();
   return {
-    title: contact.meta.title,
+    title: pageTitle(contact.meta.title),
     description: contact.meta.description,
     alternates: languageAlternates("/contact", lang.code),
   };

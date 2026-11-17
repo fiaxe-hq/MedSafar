@@ -1,0 +1,85 @@
+/* The journey map's heartbeat trace (components/home/JourneyMap.tsx).
+   Every path has pathLength="1", so a dash of 1 is the whole line.
+
+   The entrance plays once, the first time the map comes into view
+   (PlayOnce sets data-play), and then stays: the line draws itself from
+   left to right in one smooth sweep, and each point and card rises in as
+   the line reaches it. After that, a short glowing pulse keeps running
+   along the line, like a monitor. With no script, or under reduced motion,
+   everything simply shows. */
+
+.journey-map {
+  --jm-draw: 2.8s;
+  --jm-ease: cubic-bezier(0.45, 0.05, 0.25, 1);
+}
+
+.jm-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  filter: drop-shadow(0 0 3px color-mix(in oklab, var(--glow) 55%, transparent));
+}
+
+.jm-pulse {
+  stroke-dasharray: 0.035 1.2;
+  stroke-dashoffset: 0.035;
+  opacity: 0;
+  filter: drop-shadow(0 0 6px var(--glow)) drop-shadow(0 0 2px var(--brand));
+}
+
+/* Waiting to be seen: the line undrawn, the points and cards hidden. */
+.journey-map[data-play="ready"] .jm-line {
+  stroke-dashoffset: 1;
+}
+
+.journey-map[data-play="ready"] :is(.jm-stop, .jm-card) {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+/* Seen: one sweep, then it stays. Keyframes rather than transitions, so the
+   cards' own hover transitions are left alone. */
+.journey-map[data-play="on"] .jm-line {
+  animation: jm-draw var(--jm-draw) var(--jm-ease) both;
+}
+
+.journey-map[data-play="on"] :is(.jm-stop, .jm-card) {
+  /* Each appears as the sweep reaches it. */
+  /* Each starts rising just before the line reaches it (--t, worked out in
+     JourneyMap.tsx from the line's length and this easing). */
+  animation: jm-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--jm-draw) * var(--t) - 0.25s) both;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .journey-map[data-play="on"] .jm-pulse {
+    opacity: 1;
+    animation: jm-run 4.2s cubic-bezier(0.45, 0, 0.2, 1) calc(var(--jm-draw) + 0.6s) infinite both;
+  }
+}
+
+@keyframes jm-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes jm-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* The bright stretch runs from the start of the line to its end, then rests
+   off the end before the next beat. */
+@keyframes jm-run {
+  from {
+    stroke-dashoffset: 0.035;
+  }
+  70%,
+  to {
+    stroke-dashoffset: -1;
+  }
+}

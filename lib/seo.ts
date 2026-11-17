@@ -201,3 +201,34 @@ export const postJsonLd = (lang: string, p: Post) => ({
 export function jsonLd(data: object): string {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
+
+/**
+ * A page's <title>: its H1 with the brand after it, so the two always match.
+ * A title that already names Med Safar (some translations do) is kept as is.
+ */
+export function pageTitle(heading: string): string {
+  const title = heading.trim().replace(/[.。।]+$/u, "");
+  return /med\s?safar/i.test(title) ? title : `${title} | Med Safar`;
+}
+
+/** A meta description cut to about 155 characters, at a word. */
+export function clip(text: string, max = 155): string {
+  const plain = text.replace(/\s+/g, " ").trim();
+  if (plain.length <= max) return plain;
+  const cut = plain.slice(0, max - 1);
+  return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[\s,;:.–-]+$/u, "")}…`;
+}
+
+/** "Mumbai", "Mumbai and Nagpur", "Mumbai, Nagpur and Rajkot": the cities, at most three, joined in the page's language. */
+export function cityList(cities: string[], lang = "en"): string {
+  const list = [...new Set(cities.filter(Boolean))].slice(0, 3);
+  try {
+    return new Intl.ListFormat(lang, { type: "conjunction" }).format(list);
+  } catch {
+    return list.join(", ");
+  }
+}
+
+/** A hospital's H1 and title: its name, with the city when the name lacks it. */
+export const hospitalHeading = (h: Pick<Hospital, "name" | "city">) =>
+  !h.city || h.name.toLowerCase().includes(h.city.toLowerCase()) ? h.name : `${h.name}, ${h.city}`;

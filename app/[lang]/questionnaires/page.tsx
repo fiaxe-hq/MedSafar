@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageTitle } from "@/lib/seo";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHead } from "@/components/catalog/PageHead";
 import { QuestionnaireCallout } from "@/components/questionnaire/QuestionnaireCallout";
@@ -12,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { questionnaireText } = await getText();
   const lang = await getLang();
   return {
-    title: questionnaireText.list.meta.title,
+    title: pageTitle(questionnaireText.list.meta.title),
     description: questionnaireText.list.meta.description,
     alternates: languageAlternates("/questionnaires", lang.code),
   };

@@ -1,7 +1,7 @@
 import type { HomeContent } from "./types";
 
 /**
- * Home page copy, laid out as the patient's journey in nine steps. Every claim
+ * Home page copy, laid out as the patient's journey in six steps. Every claim
  * here repeats one already made on the About and Contact pages.
  */
 export const home: HomeContent = {
@@ -18,7 +18,7 @@ export const home: HomeContent = {
   },
   journey: {
     heading: "Your journey, step by step",
-    intro: "Nine steps, one team with you at every one.",
+    intro: "Six steps, one team with you at every one.",
     strip: "From your first question to your follow-up at home.",
     phases: [
       {
@@ -30,14 +30,9 @@ export const home: HomeContent = {
             href: "#treatment",
           },
           {
-            title: "Find the right specialist",
-            body: "A senior doctor, chosen for your case.",
+            title: "Choose your doctor and hospital",
+            body: "A senior specialist and the right hospital for your case.",
             href: "#specialist",
-          },
-          {
-            title: "Compare suitable hospitals",
-            body: "Hospitals for your condition, side by side.",
-            href: "#hospitals",
           },
         ],
       },
@@ -45,13 +40,8 @@ export const home: HomeContent = {
         name: "Plan",
         steps: [
           {
-            title: "Get a medical opinion",
-            body: "A specialist reads your reports.",
-            href: "#opinion",
-          },
-          {
-            title: "Receive a treatment estimate",
-            body: "The cost in writing, before you decide.",
+            title: "Free opinion and written estimate",
+            body: "A specialist reads your reports, and the cost comes in writing.",
             href: "#opinion",
           },
           {
@@ -65,13 +55,8 @@ export const home: HomeContent = {
         name: "Travel and care",
         steps: [
           {
-            title: "Travel and accommodation",
-            body: "Flights, pickup and a room nearby.",
-            href: "#travel",
-          },
-          {
-            title: "Hospital coordination",
-            body: "A case manager and interpreter with you.",
+            title: "Travel, stay and hospital support",
+            body: "Flights, pickup, a room nearby, and a case manager with you.",
             href: "#travel",
           },
           {

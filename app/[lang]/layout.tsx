@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata, Viewport } from "next";
 import { Figtree, Inter } from "next/font/google";
 import "../globals.css";
-import { jsonLd, organizationJsonLd, siteUrl } from "@/lib/seo";
+import { jsonLd, organizationJsonLd, pageTitle, siteUrl } from "@/lib/seo";
 import { analyticsToken } from "@/lib/analytics";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageCodes } from "@/lib/i18n/languages";
@@ -41,7 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const share = { url: "/opengraph-image.png", width: 1200, height: 630, alt: global.meta.title };
   return {
     metadataBase: new URL(siteUrl),
-    title: global.meta.title,
+    title: pageTitle(global.meta.title),
     description: global.meta.description,
     applicationName: site.brand.name,
     // Bing Webmaster Tools ownership (also public/BingSiteAuth.xml). Keep it.

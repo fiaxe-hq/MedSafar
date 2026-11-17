@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageTitle } from "@/lib/seo";
 import { getSpecialities, getTreatments } from "@/lib/catalog";
 import { PageShell } from "@/components/site/PageShell";
 import { BodyPicker, FinderSearch } from "@/components/catalog/TreatmentFinder";
@@ -19,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { catalog } = await getText();
   const lang = await getLang();
   return {
-    title: catalog.treatments.meta.title,
+    title: pageTitle(catalog.treatments.heading),
     description: catalog.treatments.meta.description,
     alternates: languageAlternates("/treatments", lang.code),
   };

@@ -21,7 +21,7 @@ import { Section } from "@/components/ui/Section";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
 import { JsonLd } from "@/components/ui/JsonLd";
-import { breadcrumbJsonLd, postJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, clip, pageTitle, postJsonLd } from "@/lib/seo";
 import { localPath } from "@/lib/i18n/languages";
 import Link from "@/components/ui/Link";
 
@@ -34,15 +34,14 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { site } = await getText();
   const lang = await getLang();
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) return {};
   return {
-    title: `${post.title} | ${site.brand.name} ${site.brand.country}`,
+    title: pageTitle(post.title),
     alternates: languageAlternates(`/blog/${post.slug}`, lang.code),
-    description: post.summary,
+    description: clip(post.summary),
   };
 }
 

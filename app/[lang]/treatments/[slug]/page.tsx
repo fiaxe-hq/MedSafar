@@ -28,7 +28,7 @@ import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
 import { fill } from "@/content/ui";
 import { JsonLd } from "@/components/ui/JsonLd";
-import { breadcrumbJsonLd, faqJsonLd, treatmentJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, cityList, clip, faqJsonLd, pageTitle, treatmentJsonLd } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -39,14 +39,18 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { site, catalog } = await getText();
+  const { catalog } = await getText();
   const lang = await getLang();
   const { slug } = await params;
   const treatment = await getTreatment(slug);
   if (!treatment) return {};
+  const hospitals = await getHospitalsByTreatment(treatment.slug);
+  // Older translations of the description have no {name}; they follow the summary.
+  const template = catalog.seo.treatmentDescription;
+  const filled = fill(template, { name: treatment.name, cities: cityList(hospitals.map((h) => h.city), lang.code) || "India" });
   return {
-    title: `${fill(catalog.seo.treatmentTitle, { name: treatment.name })} | ${site.brand.name} ${site.brand.country}`,
-    description: `${treatment.summary} ${catalog.seo.treatmentDescription}`,
+    title: pageTitle(fill(catalog.seo.treatmentTitle, { name: treatment.name })),
+    description: clip(template.includes("{name}") ? filled : `${treatment.summary} ${filled}`, 160),
     alternates: languageAlternates(`/treatments/${treatment.slug}`, lang.code),
   };
 }
@@ -82,7 +86,7 @@ export default async function Page({ params }: Props) {
       />
       <PageHead
         back={{ href: "/treatments", label: text.back }}
-        heading={treatment.name}
+        heading={fill(catalog.seo.treatmentTitle, { name: treatment.name })}
         intro={treatment.summary}
         cta
       >

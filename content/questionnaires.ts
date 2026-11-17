@@ -12,7 +12,7 @@ export const questionnaireText: QuestionnaireText = {
   eyebrow: "Questionnaire",
   list: {
     meta: {
-      title: "Surgery questionnaires. Med Safar India.",
+      title: "Surgery questionnaires",
       description:
         "Answer a few questions before a surgeon looks at your case. Free, and it takes about three minutes.",
     },
@@ -45,7 +45,7 @@ export const questionnaires: Questionnaire[] = [
     speciality: "bariatric-surgery",
     treatment: "Weight loss surgery",
     meta: {
-      title: "Weight loss surgery questionnaire. Med Safar India.",
+      title: "Weight loss surgery questionnaire",
       description:
         "Find out whether weight loss surgery may suit you. Answer a few questions and a surgeon in India reads them for free.",
     },
@@ -136,7 +136,7 @@ export const questionnaires: Questionnaire[] = [
     speciality: "cosmetic-plastic-surgery",
     treatment: "Plastic, reconstructive and cosmetic surgery",
     meta: {
-      title: "Cosmetic surgery questionnaire. Med Safar India.",
+      title: "Cosmetic surgery questionnaire",
       description:
         "Tell a plastic surgeon in India what you would like to change. Answer a few questions and get free advice for your case.",
     },

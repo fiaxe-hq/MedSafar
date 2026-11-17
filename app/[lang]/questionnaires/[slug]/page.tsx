@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageTitle } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { questionnaires } from "@/content/questionnaires";
 import { getQuestionnaire } from "@/lib/catalog";
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const questionnaire = await getQuestionnaire(slug);
   if (!questionnaire) return {};
   return {
-    title: questionnaire.meta.title,
+    title: pageTitle(questionnaire.heading),
     description: questionnaire.meta.description,
     alternates: languageAlternates(`/questionnaires/${questionnaire.slug}`, lang.code),
   };

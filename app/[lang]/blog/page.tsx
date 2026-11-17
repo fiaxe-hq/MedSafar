@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageTitle } from "@/lib/seo";
 import { getPostCategories, getPosts, nameOf } from "@/lib/catalog";
 import { first } from "@/lib/query";
 import { PageShell } from "@/components/site/PageShell";
@@ -25,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { catalog } = await getText();
   const lang = await getLang();
   return {
-    title: catalog.blog.meta.title,
+    title: pageTitle(catalog.blog.heading),
     alternates: languageAlternates("/blog", lang.code),
     description: catalog.blog.meta.description,
   };

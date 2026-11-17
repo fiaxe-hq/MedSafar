@@ -136,6 +136,10 @@
   h3 {
     font-family: var(--font-display);
     text-wrap: balance;
+    /* A single long word (Georgian, Russian, German-style compounds) breaks
+       instead of pushing past a narrow phone screen. */
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   ::selection {
@@ -302,9 +306,10 @@
   }
 }
 
-/* The pop-up consultation form. Fades and rises in; the page behind is dimmed
-   and does not scroll. */
-html:has(dialog[open]) {
+/* While a dialog covers the page (the pop-up form, the photo viewer), the
+   page behind does not scroll. Only modal ones: the enquiry form's second
+   step is an open dialog that sits in the page, and must not lock it. */
+html:has(dialog:modal) {
   overflow: hidden;
 }
 
@@ -364,8 +369,27 @@ html:has(dialog[open]) {
 }
 
 /* The enquiry form opened over the whole screen ("Add more details"). */
-.enquiry-sheet {
-  animation: sheet-in 0.25s var(--ease-soft);
+/* The enquiry form opened larger ("Add more details"): a big panel with the
+   page still showing, blurred, around it. EnquiryForm.tsx grows it out of
+   the small form. */
+.enquiry-sheet::backdrop {
+  background-color: rgb(11 61 49 / 0);
+  backdrop-filter: blur(0);
+  transition:
+    background-color 0.3s ease-out,
+    backdrop-filter 0.3s ease-out;
+}
+
+.enquiry-sheet:modal::backdrop {
+  background-color: rgb(11 61 49 / 0.35);
+  backdrop-filter: blur(6px);
+}
+
+@starting-style {
+  .enquiry-sheet:modal::backdrop {
+    background-color: rgb(11 61 49 / 0);
+    backdrop-filter: blur(0);
+  }
 }
 
 @keyframes sheet-in {
@@ -375,11 +399,6 @@ html:has(dialog[open]) {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .enquiry-sheet {
-    animation: none;
-  }
-}
 
 /* The full-screen photo viewer on a hospital page fades in and out. */
 .gallery-dialog {

@@ -7,10 +7,10 @@ import type { CatalogContent } from "./types";
  */
 export const catalog: CatalogContent = {
   seo: {
-    treatmentTitle: "{name} in India: cost, hospitals and doctors",
-    treatmentDescription: "Free treatment plan and a written cost estimate from a partner hospital in India, with visa, travel and stay arranged.",
-    specialityTitle: "{name} treatment in India: hospitals, doctors and costs",
-    hospitalTitle: "{name}, {city}: treatments, doctors and package prices",
+    treatmentTitle: "{name} in India: cost and hospitals",
+    treatmentDescription: "{name} in India: costs at accredited hospitals in {cities}, expert doctors and a free written estimate. Visa and travel arranged.",
+    specialityTitle: "{name} in India",
+    hospitalTitle: "{name}, {city}",
     doctorTitle: "{name}, {role}",
   },
   medicalNote:
@@ -32,12 +32,12 @@ export const catalog: CatalogContent = {
 
   hospitals: {
     meta: {
-      title: "Accredited hospitals in India for international patients: treatments and package prices | Med Safar India",
+      title: "Accredited hospitals in India",
       description:
-        "Hospitals in India that Med Safar works with. Filter by city and speciality, then ask for a free treatment plan.",
+        "Accredited hospitals in Mumbai and across India for international patients. Compare package prices, treatments and doctors, and get a free cost estimate.",
     },
     eyebrow: "Hospitals",
-    heading: "Partner hospitals in India",
+    heading: "Accredited hospitals in India",
     intro:
       "We match the hospital to the case, not the other way round. You see the choice, the doctor and the estimate before you decide.",
     note: "More partner hospitals are being added. Every hospital here is one Med Safar works with directly.",
@@ -85,12 +85,12 @@ export const catalog: CatalogContent = {
 
   doctors: {
     meta: {
-      title: "Experienced doctors and surgeons in India for international patients | Med Safar India",
+      title: "Experienced doctors and surgeons in India",
       description:
-        "Doctors at the hospitals Med Safar works with in India. Filter by speciality and hospital, then ask for a free treatment plan.",
+        "Experienced doctors and surgeons at accredited hospitals in India. Filter by speciality and hospital, then book a free consultation for your treatment.",
     },
     eyebrow: "Doctors",
-    heading: "Doctors at our partner hospitals",
+    heading: "Experienced doctors and surgeons in India",
     intro:
       "Your doctor is chosen for your case once a specialist has read the reports. These are the doctors we work with.",
     note: "Profiles are taken from the hospital's own doctor profiles. Ask us about any doctor who is not listed.",
@@ -125,12 +125,12 @@ export const catalog: CatalogContent = {
 
   treatments: {
     meta: {
-      title: "Affordable medical treatment in India: costs, hospitals and doctors | Med Safar India",
+      title: "Affordable medical treatment in India",
       description:
-        "Treatments Med Safar arranges at partner hospitals in India, grouped by speciality. Ask for a free treatment plan for your case.",
+        "Low-cost surgery, cancer care, transplants and more at accredited hospitals in India. See costs and doctors, then get a free treatment plan and estimate.",
     },
     eyebrow: "Treatments",
-    heading: "Treatments we arrange in India",
+    heading: "Affordable medical treatment in India",
     intro:
       "Find the treatment you have been advised to have, or tell us what is wrong and a doctor will advise.",
     note: "Each description is a general guide, written in plain words. Your doctor will tell you what applies to your case.",
@@ -192,12 +192,12 @@ export const catalog: CatalogContent = {
 
   specialities: {
     meta: {
-      title: "Medical specialities in India: cancer, heart, transplant, orthopaedics and more | Med Safar India",
+      title: "Medical specialities in India",
       description:
-        "The kinds of care Med Safar arranges in India, with the treatments, doctors and hospitals for each.",
+        "Cancer, heart, transplant, orthopaedic, IVF and more: the treatments, doctors and hospitals in India for each speciality, with a free treatment plan.",
     },
     eyebrow: "Specialities",
-    heading: "What we can help you with",
+    heading: "Medical specialities in India",
     intro:
       "Pick a speciality to see its treatments, the doctors who carry them out and the hospitals that offer them.",
     note: "More specialities are being added as Med Safar takes on new partner hospitals.",
@@ -216,12 +216,12 @@ export const catalog: CatalogContent = {
 
   blog: {
     meta: {
-      title: "Medical travel to India: guides for patients | Med Safar India",
+      title: "Medical travel to India: patient guides",
       description:
-        "Guides for patients travelling to India for treatment: what to expect, how to prepare and what happens afterwards.",
+        "Guides for international patients travelling to India for treatment: costs, medical visas, what to expect, how to prepare and recovery back home.",
     },
     eyebrow: "Blogs",
-    heading: "Guides for patients and families",
+    heading: "Medical travel to India: patient guides",
     intro: "What to expect, how to prepare and what happens after you fly home.",
     note: "Every article names its sources.",
     back: "All articles",

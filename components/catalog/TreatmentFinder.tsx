@@ -48,7 +48,7 @@ function Thumb({
     >
       <Image
         src={photo.src}
-        alt=""
+        alt={photo.alt}
         fill
         sizes="80px"
         className="object-cover"
@@ -422,27 +422,33 @@ export function BodyPicker({
         </p>
       </div>
 
-      {/* Problems the figure can't show, and a plain list for anyone who
-          would rather not use the figure. */}
-      <div className="flex flex-wrap items-center gap-2 p-5 sm:px-7">
-        <span className="text-sm font-medium text-ink-3">
-          {text.notOnePlace}
-        </span>
-        {wholeBody.map((a) => (
-          <button
-            key={a.id}
-            onClick={() => pick(a.id)}
-            className="inline-flex min-h-9 cursor-pointer items-center rounded-full border border-hairline bg-surface px-4 text-sm font-medium text-ink-2 transition-colors hover:border-line hover:bg-accent-quiet hover:text-ink"
-          >
-            {a.name}
-          </button>
-        ))}
-        <label className="relative ms-auto">
+      {/* Problems the figure can't show, as an even grid of buttons, and
+          under them a plain list for anyone who would rather not use the
+          figure. */}
+      <div className="space-y-3 p-5 sm:px-7">
+        <p className="text-sm font-medium text-ink-3">{text.notOnePlace}</p>
+        <div className="grid grid-cols-2 gap-2">
+          {wholeBody.map((a) => (
+            <button
+              key={a.id}
+              onClick={() => pick(a.id)}
+              className="group flex min-h-12 cursor-pointer items-center justify-between gap-2 rounded-lg border border-hairline bg-surface px-3.5 text-start text-sm leading-snug font-medium text-ink-2 transition-colors hover:border-accent/40 hover:bg-accent-quiet hover:text-ink"
+            >
+              {a.name}
+              <ArrowRightIcon
+                size={14}
+                className="shrink-0 text-ink-3 transition-[translate,color] duration-300 group-hover:translate-x-0.5 group-hover:text-accent rtl:rotate-180"
+                aria-hidden
+              />
+            </button>
+          ))}
+        </div>
+        <label className="relative block">
           <span className="sr-only">{text.listLabel}</span>
           <select
             value=""
             onChange={(e) => e.target.value && pick(e.target.value)}
-            className="min-h-9 cursor-pointer appearance-none rounded-full border border-hairline bg-surface ps-4 pe-9 text-sm text-ink-2 transition-colors hover:border-line"
+            className="min-h-12 w-full cursor-pointer appearance-none rounded-lg border border-hairline bg-surface-2 ps-3.5 pe-10 text-sm font-medium text-ink-2 transition-colors hover:border-line"
           >
             <option value="">{text.listPlaceholder}</option>
             {bodyAreas.map((a) => (
@@ -453,7 +459,7 @@ export function BodyPicker({
           </select>
           <CaretDownIcon
             size={14}
-            className="pointer-events-none absolute end-3.5 top-1/2 -translate-y-1/2 text-ink-3"
+            className="pointer-events-none absolute end-4 top-1/2 -translate-y-1/2 text-ink-3"
             aria-hidden
           />
         </label>

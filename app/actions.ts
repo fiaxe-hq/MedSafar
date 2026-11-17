@@ -83,29 +83,26 @@ export async function saveNumber(
     const iso = String(formData.get("iso") ?? "").toUpperCase();
     const source = text(formData, "source", 200) || "/";
 
-    const parsed = await readPhone(formData);
-    if (typeof parsed === "string") return { ok: false, error: parsed };
-
     // The tick box on the form: nothing is stored without it.
     if (formData.get("consent") !== "yes") return { ok: false, error: "consent" };
 
     const ip = (await headers()).get("cf-connecting-ip");
-    const ipHash = ip ? await hashIp(ip) : null;
+    const [parsed, ipHash] = await Promise.all([readPhone(formData), ip ? hashIp(ip) : null]);
+    if (typeof parsed === "string") return { ok: false, error: parsed };
     if (await overLeadLimit(parsed.number, ipHash)) return { ok: false, error: "limit" };
 
+    // A problem picked on the treatments page travels with the number, so it
+    // is kept even if step 2 is never sent. One write for all of it.
     const lead = await createLead({
       phone: parsed.number,
       phoneIso: parsed.country ?? iso,
       source,
       ipHash,
       consent: true,
+      treatment: text(formData, "treatment", 200) || undefined,
+      notes: text(formData, "notes", 500) || undefined,
     });
-    // A problem picked on the treatments page travels with the number, so it
-    // is kept even if step 2 is never sent.
-    const treatment = String(formData.get("treatment") ?? "").slice(0, 200);
-    const notes = String(formData.get("notes") ?? "").slice(0, 500);
-    const saved = treatment || notes ? ((await updateLead(lead.id, { treatment, notes })) ?? lead) : lead;
-    after(() => syncLeadToCrm(saved));
+    after(() => syncLeadToCrm(lead));
     return { ok: true, leadId: lead.id };
   } catch {
     return { ok: false, error: "generic" };

@@ -22,7 +22,7 @@ import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
 import { fill } from "@/content/ui";
 import { JsonLd } from "@/components/ui/JsonLd";
-import { breadcrumbJsonLd, specialityJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, clip, pageTitle, specialityJsonLd } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -33,14 +33,14 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { site, catalog } = await getText();
+  const { catalog } = await getText();
   const lang = await getLang();
   const { slug } = await params;
   const speciality = await getSpeciality(slug);
   if (!speciality) return {};
   return {
-    title: `${fill(catalog.seo.specialityTitle, { name: speciality.name })} | ${site.brand.name} ${site.brand.country}`,
-    description: speciality.summary,
+    title: pageTitle(fill(catalog.seo.specialityTitle, { name: speciality.name })),
+    description: clip(speciality.summary),
     alternates: languageAlternates(`/specialities/${speciality.slug}`, lang.code),
   };
 }
@@ -76,7 +76,7 @@ export default async function Page({ params }: Props) {
       />
       <PageHead
         back={{ href: "/specialities", label: text.back }}
-        heading={speciality.name}
+        heading={fill(catalog.seo.specialityTitle, { name: speciality.name })}
         intro={speciality.summary}
         cta
         stats={[

@@ -129,7 +129,7 @@ export function HospitalGallery({
             >
               <Image
                 src={picture.src} unoptimized={isUploaded(picture.src)}
-                alt=""
+                alt={picture.alt}
                 fill
                 priority={i === 0}
                 sizes={i === 0 ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
@@ -232,7 +232,7 @@ export function HospitalGallery({
                     i === current ? "opacity-100 ring-2 ring-white" : "opacity-45 hover:opacity-80"
                   }`}
                 >
-                  <Image src={picture.src!} unoptimized={isUploaded(picture.src)} alt="" fill sizes="80px" loading="eager" className="object-cover" />
+                  <Image src={picture.src!} unoptimized={isUploaded(picture.src)} alt={picture.alt} fill sizes="80px" loading="eager" className="object-cover" />
                 </button>
               ))}
             </div>

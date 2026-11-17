@@ -19,7 +19,7 @@ import { Section, SectionHead } from "@/components/ui/Section";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageAlternates } from "@/lib/i18n/alternates";
 import { JsonLd } from "@/components/ui/JsonLd";
-import { breadcrumbJsonLd, doctorJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, clip, doctorJsonLd, pageTitle } from "@/lib/seo";
 import { fill } from "@/content/ui";
 import { btnPrimary } from "@/components/ui/styles";
 
@@ -32,15 +32,14 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { site, catalog } = await getText();
   const lang = await getLang();
   const { slug } = await params;
   const doctor = await getDoctor(slug);
   if (!doctor) return {};
   return {
-    title: `${fill(catalog.seo.doctorTitle, { name: doctor.name, role: doctor.role })} | ${site.brand.name} ${site.brand.country}`,
+    title: pageTitle(doctor.name),
     alternates: languageAlternates(`/doctors/${doctor.slug}`, lang.code),
-    description: doctor.profile,
+    description: clip(`${doctor.name}, ${doctor.role}. ${doctor.profile}`),
   };
 }
 

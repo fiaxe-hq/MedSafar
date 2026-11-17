@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "@/components/ui/Link";
 import { AirplaneTiltIcon } from "@phosphor-icons/react/dist/ssr/AirplaneTilt";
-import { ArrowBendRightDownIcon } from "@phosphor-icons/react/dist/ssr/ArrowBendRightDown";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
 import { CalendarCheckIcon } from "@phosphor-icons/react/dist/ssr/CalendarCheck";
 import { ChatsCircleIcon } from "@phosphor-icons/react/dist/ssr/ChatsCircle";
@@ -26,7 +25,7 @@ import { BodyPicker, FinderSearch } from "@/components/catalog/TreatmentFinder";
 import { Container } from "@/components/ui/Container";
 import { TrustFigures } from "@/components/home/TrustFigures";
 import { handledIcons } from "@/components/ui/HandledIcon";
-import { btnPrimary, eyebrow } from "@/components/ui/styles";
+import { btnPrimary } from "@/components/ui/styles";
 import { getText } from "@/lib/i18n/text";
 import { finderWords, type Text } from "@/lib/i18n/source";
 import { defaultIso } from "@/content/dial-codes";
@@ -40,6 +39,7 @@ import {
   nameOf,
 } from "@/lib/catalog";
 import { EnquiryForm } from "@/components/form/EnquiryForm";
+import { JourneyMap } from "@/components/home/JourneyMap";
 
 /**
  * Home page: the patient's journey in nine steps.
@@ -111,6 +111,98 @@ function Block({
 /** Two-digit step number, for example "04". */
 const num = (n: number) => String(n).padStart(2, "0");
 
+/** One photo per journey step, in order. */
+const journeyPhotos = [
+  "/photos/journey/find.jpg",
+  "/photos/care/consult.jpg",
+  "/photos/care/mri.jpg",
+  "/photos/journey/visa.jpg",
+  "/photos/journey/flight.jpg",
+  "/photos/journey/followup.jpg",
+];
+
+type JourneyPhase = Text["home"]["journey"]["phases"][number];
+
+/** One heartbeat between two steps, in a box 100 wide and 48 high: level, a
+ * small P wave, the spike, a T wave, and level again. */
+const beatPath =
+  "M0 24 L30 24 Q34 18 38 24 L45 24 L47 27 L50 4 L53 34 L55.5 24 L60 24 C64 16 68 16 72 24 L100 24";
+
+/**
+ * The journey. On wide screens, a map with a heartbeat trace running through
+ * a point for each step (components/home/JourneyMap.tsx). On a phone, tablet
+ * or small laptop, the steps sit in a row that slides sideways, joined by the
+ * same heartbeat.
+ */
+function JourneyRoute({ phases }: { phases: JourneyPhase[] }) {
+  const steps = phases.flatMap((phase) => phase.steps.map((step) => ({ ...step, phase: phase.name })));
+  const count = steps.length;
+
+  return (
+    <>
+      <div className="hidden xl:block">
+        <JourneyMap steps={steps} photos={journeyPhotos} />
+      </div>
+
+      {/* Phone, tablet and small laptop: the stops in a row that slides sideways. */}
+      <div className="-mx-5 snap-x snap-mandatory scroll-px-5 overflow-x-auto px-5 pb-3 [scrollbar-width:thin] sm:-mx-8 sm:scroll-px-8 sm:px-8 lg:-mx-12 lg:scroll-px-12 lg:px-12 xl:hidden">
+        <div className="min-w-[56rem]">
+        {/* Each phase name sits centred over its own steps, under a thin bracket. */}
+        <div aria-hidden className="grid grid-cols-6">
+          {phases.map((phase) => (
+            <div key={phase.name} className="mx-2 text-center" style={{ gridColumn: `span ${phase.steps.length}` }}>
+              <span className="text-xs font-semibold tracking-[0.08em] text-accent uppercase">{phase.name}</span>
+              <span className="mt-1.5 block h-1.5 rounded-t-md border-x border-t border-accent/30" />
+            </div>
+          ))}
+        </div>
+        <ol className="mt-2 grid grid-cols-6">
+          {steps.map((step, n) => (
+            <li key={step.title} className="min-w-0 snap-start">
+              <a href={step.href} className="group flex h-full flex-col items-center text-center">
+                <span className="sr-only">{step.phase}: </span>
+                <span className="relative mx-2 block aspect-[4/3] w-[calc(100%-1rem)] overflow-hidden rounded-lg bg-surface-2">
+                  <Image
+                    src={journeyPhotos[n]}
+                    alt={step.title}
+                    fill
+                    sizes="160px"
+                    className="object-cover transition-transform duration-700 ease-(--ease-soft) group-hover:scale-[1.06]"
+                  />
+                </span>
+                <span className="relative mt-4 flex w-full justify-center">
+                  {/* A heartbeat from this step to the next, behind the numbers. */}
+                  {n === count - 1 ? null : (
+                    <svg
+                      aria-hidden
+                      viewBox="0 0 100 48"
+                      preserveAspectRatio="none"
+                      className="absolute start-1/2 top-1/2 h-12 w-full -translate-y-1/2 overflow-visible rtl:-scale-x-100"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d={beatPath} className="stroke-brand/70" strokeWidth={2} vectorEffect="non-scaling-stroke" />
+                    </svg>
+                  )}
+                  <span className="relative z-10 grid size-10 place-items-center rounded-full bg-accent font-mono text-sm font-medium text-accent-ink shadow-[0_0_0_5px_var(--color-bg)]">
+                    {num(n + 1)}
+                  </span>
+                </span>
+                <span className="mt-3 block px-2 text-[0.9375rem] leading-snug font-medium text-balance transition-colors group-hover:text-accent">
+                  {step.title}
+                </span>
+                <span className="mt-1 block px-2 text-sm leading-snug text-pretty text-ink-3">{step.body}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+        </div>
+      </div>
+    </>
+  );
+}
+
 function More({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link
@@ -131,7 +223,7 @@ function More({ href, children }: { href: string; children: React.ReactNode }) {
 export async function HomeC({ place }: { place: string }) {
   const text = await getText();
   const { home, site, global: content } = text;
-  const { hero, hospitals, countryInfo, faq, enquiry } = content;
+  const { hospitals, countryInfo, faq, enquiry } = content;
   const { journey, treatment, compare, opinion, visa, travel, aftercare } =
     home;
   const picture = (text.places.find((p) => p.slug === place) ?? text.places[0])
@@ -149,7 +241,7 @@ export async function HomeC({ place }: { place: string }) {
           on it alone; the form, the line along its foot and the header then
           come in (see components/site/Intro.tsx). */}
       <section className="relative isolate flex min-h-svh flex-col justify-end overflow-hidden bg-deep text-white">
-        <h1 className="sr-only">{hero.headline}</h1>
+        <h1 className="sr-only">{content.meta.title}</h1>
         {picture.src ? (
           <Image
             src={picture.src}
@@ -257,72 +349,7 @@ export async function HomeC({ place }: { place: string }) {
         intro={journey.intro}
         stacked
       >
-        {/* A dotted line runs through the numbered steps, so the order reads
-            at a glance: down the side on a phone, along the top of each row
-            on a wider screen, turning down at the end of a row. */}
-        <div className="space-y-10 sm:space-y-12">
-          {journey.phases.map((phase, p) => (
-            <div key={phase.name}>
-              <p className={eyebrow}>{phase.name}</p>
-              <ol className="relative mt-4 grid gap-4 before:absolute before:inset-y-6 before:start-[1.0625rem] before:border-s-2 before:border-dotted before:border-accent/60 sm:grid-cols-3 sm:gap-x-4 sm:gap-y-0 sm:before:hidden">
-                {phase.steps.map((step, i) => {
-                  const n = p * 3 + i;
-                  const lastOfAll = p === journey.phases.length - 1 && i === phase.steps.length - 1;
-                  const lastInRow = i === phase.steps.length - 1;
-                  return (
-                    <li key={step.title} className="reveal relative min-w-0 ps-14 sm:ps-0">
-                      {/* The line reaches across the gap to the next number. */}
-                      <div
-                        className={`absolute start-0 top-1/2 -translate-y-1/2 sm:static sm:mb-4 sm:flex sm:translate-y-0 sm:items-center sm:gap-2 ${
-                          lastInRow ? "" : "sm:-me-2"
-                        }`}
-                      >
-                        <span className="relative grid size-9 shrink-0 place-items-center rounded-full bg-accent font-mono text-sm text-accent-ink ring-4 ring-bg">
-                          {num(n + 1)}
-                        </span>
-                        {lastOfAll ? null : (
-                          <span
-                            aria-hidden
-                            className="hidden h-0 flex-1 border-t-2 border-dotted border-accent/60 sm:block"
-                          />
-                        )}
-                        {lastInRow && !lastOfAll ? (
-                          <ArrowBendRightDownIcon
-                            size={20}
-                            className="hidden shrink-0 text-accent sm:block rtl:-scale-x-100"
-                            aria-hidden
-                          />
-                        ) : null}
-                      </div>
-                      <a
-                        href={step.href}
-                        className={`group flex h-full items-center gap-4 overflow-hidden rounded-lg border border-hairline bg-surface p-3 transition-[border-color,box-shadow] duration-300 hover:border-line hover:shadow-lift sm:block sm:h-[calc(100%-3.25rem)] sm:p-0`}
-                      >
-                        <span className="relative block size-20 shrink-0 overflow-hidden rounded-md bg-surface-2 sm:aspect-[3/2] sm:size-auto sm:rounded-none">
-                          <Image
-                            src={stepPhotos[n]}
-                            alt=""
-                            fill
-                            sizes="(min-width: 1280px) 400px, (min-width: 640px) 33vw, 80px"
-                            className="object-cover transition-transform duration-700 ease-(--ease-soft) group-hover:scale-[1.05]"
-                          />
-                        </span>
-                        <span className="block min-w-0 sm:p-4">
-                          <span className="block text-lg leading-snug font-medium tracking-[-0.01em] transition-colors group-hover:text-accent">
-                            {step.title}
-                          </span>
-                          <span className="mt-1 block text-sm text-ink-3">
-                            {step.body}
-                          </span>
-                        </span>
-                      </a>
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
-          ))}
-        </div>
+        <JourneyRoute phases={journey.phases} />
       </Block>
 
       {/* Step 01 */}
@@ -361,7 +388,7 @@ export async function HomeC({ place }: { place: string }) {
                       {photo?.src ? (
                         <Image
                           src={photo.src}
-                          alt=""
+                          alt={photo.alt}
                           fill
                           sizes="(min-width: 1024px) 12vw, (min-width: 640px) 24vw, 48vw"
                           className="object-cover transition-transform duration-700 ease-(--ease-soft) group-hover:scale-[1.06]"
@@ -463,11 +490,11 @@ export async function HomeC({ place }: { place: string }) {
                     // A faded photo along the card's far side, behind the words.
                     <span
                       aria-hidden
-                      className="absolute inset-y-0 end-0 -z-10 hidden w-[62%] sm:block opacity-[0.3] grayscale-[25%] transition-opacity duration-500 ease-(--ease-soft) [mask-image:linear-gradient(to_right,transparent,black_75%)] group-hover:opacity-[0.4] rtl:[mask-image:linear-gradient(to_left,transparent,black_75%)]"
+                      className="absolute inset-y-0 end-0 -z-10 hidden w-[55%] sm:block opacity-95 transition-opacity duration-500 ease-(--ease-soft) [mask-image:linear-gradient(to_right,transparent,rgb(0_0_0/0.25)_18%,rgb(0_0_0/0.7)_40%,black_62%)] group-hover:opacity-100 rtl:[mask-image:linear-gradient(to_left,transparent,rgb(0_0_0/0.25)_18%,rgb(0_0_0/0.7)_40%,black_62%)]"
                     >
                       <Image
                         src={selectionPhotos[i]}
-                        alt=""
+                        alt={item.title}
                         fill
                         sizes="(min-width: 1024px) 20vw, (min-width: 640px) 30vw, 60vw"
                         className="object-cover"
@@ -477,10 +504,11 @@ export async function HomeC({ place }: { place: string }) {
                   <span className="home-pop grid size-11 place-items-center rounded-md bg-accent-soft text-accent">
                     <Glyph size={22} aria-hidden />
                   </span>
-                  <h3 className="mt-5 text-lg font-medium tracking-[-0.01em]">
+                  {/* The words keep to the clear half, beside the photo. */}
+                  <h3 className="mt-5 text-lg font-medium tracking-[-0.01em] sm:max-w-[55%]">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-base text-ink-2">{item.body}</p>
+                  <p className="mt-2 text-base text-ink-2 sm:max-w-[55%]">{item.body}</p>
                 </li>
               );
             })}
@@ -506,7 +534,7 @@ export async function HomeC({ place }: { place: string }) {
                 <div className="relative aspect-[3/2] bg-surface-2">
                   <Image
                     src={stepPhotos[3 + i]}
-                    alt=""
+                    alt={item.title}
                     fill
                     sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 100vw"
                     className="object-cover"
@@ -581,7 +609,7 @@ export async function HomeC({ place }: { place: string }) {
                 <div className="relative aspect-[3/2] bg-surface-2">
                   <Image
                     src={travelPhotos[item.icon]}
-                    alt=""
+                    alt={item.title}
                     fill
                     sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
                     className="object-cover"

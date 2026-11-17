@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageTitle } from "@/lib/seo";
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr/WhatsappLogo";
 import { getHospitals, getSpecialities, getTreatments } from "@/lib/catalog";
 import { contactLinks } from "@/lib/contact";
@@ -18,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { about } = await getText();
   const lang = await getLang();
   return {
-    title: about.meta.title,
+    title: pageTitle(about.meta.title),
     description: about.meta.description,
     alternates: languageAlternates("/about", lang.code),
   };

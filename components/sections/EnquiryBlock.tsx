@@ -37,14 +37,14 @@ export async function EnquiryBlock({
       className="scroll-mt-24 bg-bg py-16 sm:py-24 lg:py-28"
     >
       <Container>
-        <div className="grid gap-10 rounded-xl bg-accent-soft p-5 sm:p-12 lg:grid-cols-12 lg:items-center lg:gap-16 lg:p-16">
-          <div className="min-w-0 lg:col-span-6">
+        <div className="grid gap-10 rounded-xl bg-accent-soft p-3 min-[400px]:p-5 sm:p-12 lg:grid-cols-12 lg:items-center lg:gap-16 lg:p-16">
+          <div className="min-w-0 px-2 pt-2 min-[400px]:px-0 min-[400px]:pt-0 lg:col-span-6">
             <h2 className="display-2 max-w-[16ch]">{enquiry.heading}</h2>
             <p className="mt-6 max-w-[46ch] text-lg text-ink-2">{enquiry.support}</p>
           </div>
 
           {/* Target of the "Upload your reports" buttons; the form reads the address. */}
-          <div id="reports" className="min-w-0 scroll-mt-28 rounded-lg bg-surface p-5 sm:p-7 lg:col-span-6">
+          <div id="reports" className="min-w-0 scroll-mt-28 rounded-lg bg-surface p-4 min-[400px]:p-5 sm:p-7 lg:col-span-6">
             <EnquiryForm
               text={submit ? { ...site.form, step1: { ...site.form.step1, submit } } : site.form}
               dialCodes={await getDialCodes(content.iso ?? null)}

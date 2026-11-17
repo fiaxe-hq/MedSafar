@@ -29,8 +29,9 @@ import {
  * also works before the JavaScript has arrived.
  *
  * The short form (`compact`) asks only for a name and an email at step 2.
- * "Add more details" then opens the whole form over the full screen, in two
- * columns, rather than stretching the small box down the page.
+ * "Add more details" then grows it into a large panel over the page, in two
+ * columns, with the page still showing (blurred) around it, rather than
+ * stretching the small box down the page.
  *
  * It remembers, in this browser, the contact details given before and the
  * problem picked on the treatments page (or passed as ?area=&treatment=), and
@@ -71,7 +72,7 @@ export function EnquiryForm({
   const wantsReports = reports || fromHash;
   /** Step 1: the consent box was left empty when the form was sent. */
   const [unticked, setUnticked] = useState(false);
-  /** Short form, step 2: the whole form is open over the full screen. */
+  /** Short form, step 2: the whole form is open in a large panel over the page. */
   const [full, setFull] = useState(false);
   /** The optional fields stay in the page once opened, so nothing typed is lost. */
   const [opened, setOpened] = useState(false);
@@ -147,9 +148,12 @@ export function EnquiryForm({
     if (!box) return;
     const modal = box.matches(":modal");
     if (full && !modal) {
+      // Where the small form was, so the panel can grow out of it.
+      const from = box.getBoundingClientRect();
       box.close();
       box.showModal();
       if (wantsReports) document.getElementById(`${uid}-report`)?.scrollIntoView({ block: "center" });
+      grow(box, from);
     } else if (!full && modal) {
       box.close();
       box.show();
@@ -269,7 +273,7 @@ export function EnquiryForm({
           </span>
         </label>
 
-        <button type="submit" className={`${btnPrimary} w-full`} disabled={savingNumber}>
+        <button type="submit" className={`${btnPrimary} w-full whitespace-normal! px-4! py-2.5 text-center leading-snug`} disabled={savingNumber}>
           {savingNumber ? `${text.sending}...` : text.step1.submit}
         </button>
 
@@ -426,6 +430,10 @@ export function EnquiryForm({
       // In the page it is only a box; a dialog once it covers the screen.
       role={wide ? undefined : "presentation"}
       aria-labelledby={wide ? `${uid}-step2` : undefined}
+      // A click on the blurred page around the panel goes back to the short form.
+      onClick={(e) => {
+        if (wide && e.target === e.currentTarget) setFull(false);
+      }}
       // Escape goes back to the short form, with everything typed kept.
       onCancel={(e) => {
         e.preventDefault();
@@ -440,11 +448,11 @@ export function EnquiryForm({
       }}
       className={
         wide
-          ? "enquiry-sheet fixed inset-0 m-0 size-full max-h-none max-w-none overflow-y-auto overscroll-contain border-0 bg-surface p-0 text-ink"
+          ? "enquiry-sheet m-auto max-h-[calc(100dvh-1.5rem)] w-[calc(100%-1.5rem)] max-w-5xl overflow-y-auto overscroll-contain rounded-xl border border-hairline bg-surface p-0 text-ink shadow-lift sm:max-h-[calc(100dvh-4rem)] sm:w-[calc(100%-4rem)]"
           : "static m-0 block w-full max-w-none border-0 bg-transparent p-0 text-inherit"
       }
     >
-      <div className={wide ? "mx-auto max-w-5xl px-5 py-8 sm:px-8 sm:py-12" : undefined}>
+      <div className={wide ? "px-5 py-7 sm:px-10 sm:py-10" : undefined}>
         {compact ? null : (
           <div className="rounded-md bg-accent-quiet p-4">
             <p className="text-base font-medium text-accent">{text.saved.heading}</p>
@@ -577,7 +585,7 @@ export function EnquiryForm({
               <span className="text-ink-2">{text.step2.marketing}</span>
             </label>
 
-            <button type="submit" className={`${btnPrimary} w-full`} disabled={savingDetails}>
+            <button type="submit" className={`${btnPrimary} w-full whitespace-normal! px-4! py-2.5 text-center leading-snug`} disabled={savingDetails}>
               {savingDetails ? `${text.sending}...` : text.step2.submit}
             </button>
 
@@ -595,6 +603,26 @@ export function EnquiryForm({
   );
 }
 
+
+/**
+ * The large panel opens out of the small form: it starts clipped to the small
+ * form's outline and widens to its own, so nothing inside is stretched.
+ */
+function grow(box: HTMLElement, from: DOMRect) {
+  if (!matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
+  const to = box.getBoundingClientRect();
+  const inset = (n: number) => `${Math.max(0, Math.round(n))}px`;
+  const start = `inset(${inset(from.top - to.top)} ${inset(to.right - from.right)} ${inset(
+    to.bottom - from.bottom,
+  )} ${inset(from.left - to.left)} round 0.75rem)`;
+  box.animate(
+    [
+      { clipPath: start, opacity: 0.6 },
+      { clipPath: "inset(0px 0px 0px 0px round 0.75rem)", opacity: 1 },
+    ],
+    { duration: 380, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
+  );
+}
 
 /** The problem picked on the treatments page, shown at the top of the form. */
 function IssueBanner({ issue, onClear, text }: { issue: Issue; onClear: () => void; text: FormContent["issue"] }) {

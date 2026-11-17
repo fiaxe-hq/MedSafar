@@ -15,4 +15,4 @@ export const analyticsToken: string | null = null;
  * only after the visitor accepts them (components/site/CookieBanner.tsx).
  * While it is null, nothing is loaded.
  */
-export const gaId: string | null = null;
+export const gaId: string | null = "G-BFGP5YG3W9";
