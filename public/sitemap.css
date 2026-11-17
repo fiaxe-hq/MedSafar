@@ -1,0 +1,68 @@
+/* Makes /sitemap.xml readable when a person opens it. Search engines ignore it. */
+@namespace url("http://www.sitemaps.org/schemas/sitemap/0.9");
+@namespace xhtml url("http://www.w3.org/1999/xhtml");
+
+urlset {
+  display: block;
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+  font: 15px/1.5 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #12332b;
+  background: #fff;
+}
+
+urlset::before {
+  content: "Med Safar India: sitemap";
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #0b3d31;
+}
+
+urlset::after {
+  content: "Every page of medsafar.com, once per language, with the day it last changed and its priority. This file is for search engines.";
+  display: block;
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  color: #5f7a73;
+}
+
+url {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 7rem 3rem;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #e4ece9;
+}
+
+url:first-of-type {
+  margin-top: 1.5rem;
+  border-top: 1px solid #e4ece9;
+}
+
+url:nth-of-type(even) {
+  background: #f6faf8;
+}
+
+loc {
+  overflow-wrap: anywhere;
+  color: #0f6b54;
+}
+
+lastmod,
+priority {
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  color: #5f7a73;
+}
+
+priority {
+  text-align: end;
+}
+
+xhtml|link {
+  display: none;
+}

@@ -1,12 +1,12 @@
 "use client";
 
-import { useActionState, useEffect, useId, useState } from "react";
+import { useActionState, useEffect, useId, useRef, useState } from "react";
+import { ArrowsOutSimpleIcon } from "@phosphor-icons/react/dist/ssr/ArrowsOutSimple";
 import { LockSimpleIcon } from "@phosphor-icons/react/dist/ssr/LockSimple";
 import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
 import { saveDetails, saveNumber } from "@/app/actions";
 import { formError } from "@/components/form/formError";
 import { DialPicker } from "@/components/form/DialPicker";
-import { Turnstile } from "@/components/form/Turnstile";
 import type { DialCode, FormContent } from "@/content/types";
 import { btnPlain, btnPrimary, field, label } from "@/components/ui/styles";
 import { showUpcoming } from "@/lib/preview";
@@ -28,6 +28,10 @@ import {
  * the rest. Both steps post to a Server Action, so the form
  * also works before the JavaScript has arrived.
  *
+ * The short form (`compact`) asks only for a name and an email at step 2.
+ * "Add more details" then opens the whole form over the full screen, in two
+ * columns, rather than stretching the small box down the page.
+ *
  * It remembers, in this browser, the contact details given before and the
  * problem picked on the treatments page (or passed as ?area=&treatment=), and
  * fills them in.
@@ -40,6 +44,7 @@ export function EnquiryForm({
   defaultTreatment = "",
   source,
   compact = false,
+  reports = false,
 }: {
   text: FormContent;
   dialCodes: DialCode[];
@@ -49,6 +54,8 @@ export function EnquiryForm({
   defaultTreatment?: string;
   source: string;
   compact?: boolean;
+  /** Opened from an "Upload your reports" button: lead to the file field. */
+  reports?: boolean;
 }) {
   const uid = useId();
   const [numberState, submitNumber, savingNumber] = useActionState(saveNumber, null);
@@ -60,7 +67,15 @@ export function EnquiryForm({
   const [issue, setIssue] = useState<Issue | null>(null);
   const [known, setKnown] = useState<Contact | null>(null);
   /** Came from an "Upload your reports" button (#reports): lead to the file field. */
-  const [wantsReports, setWantsReports] = useState(false);
+  const [fromHash, setWantsReports] = useState(false);
+  const wantsReports = reports || fromHash;
+  /** Step 1: the consent box was left empty when the form was sent. */
+  const [unticked, setUnticked] = useState(false);
+  /** Short form, step 2: the whole form is open over the full screen. */
+  const [full, setFull] = useState(false);
+  /** The optional fields stay in the page once opened, so nothing typed is lost. */
+  const [opened, setOpened] = useState(false);
+  const sheet = useRef<HTMLDialogElement>(null);
 
   // Read what this browser remembers once it is on screen. Storage is not
   // there during the server render, so this has to wait for the effect.
@@ -107,6 +122,14 @@ export function EnquiryForm({
   // Number saved and the visitor came to send reports: take them to the file field.
   useEffect(() => {
     if (!leadId || !wantsReports) return;
+    if (compact) {
+      // The short form opens in full, on the file field (see the effect below).
+      /* eslint-disable react-hooks/set-state-in-effect */
+      setOpened(true);
+      setFull(true);
+      /* eslint-enable react-hooks/set-state-in-effect */
+      return;
+    }
     // After the step has settled. scrollIntoView does not move the page here
     // (the body clips overflow), so the window is scrolled by hand.
     const timer = setTimeout(() => {
@@ -114,7 +137,24 @@ export function EnquiryForm({
       if (box) window.scrollTo({ top: window.scrollY + box.top - window.innerHeight / 2, behavior: "smooth" });
     }, 300);
     return () => clearTimeout(timer);
-  }, [leadId, wantsReports, uid]);
+  }, [leadId, wantsReports, uid, compact]);
+
+  // One <dialog> holds step 2 either way: in the page it is open as a plain
+  // box, and "Add more details" reopens it as a modal over the whole screen.
+  // The same element, so the name and email already typed stay put.
+  useEffect(() => {
+    const box = sheet.current;
+    if (!box) return;
+    const modal = box.matches(":modal");
+    if (full && !modal) {
+      box.close();
+      box.showModal();
+      if (wantsReports) document.getElementById(`${uid}-report`)?.scrollIntoView({ block: "center" });
+    } else if (!full && modal) {
+      box.close();
+      box.show();
+    }
+  }, [full, wantsReports, uid]);
 
   // Sent: the question is answered, so forget it.
   useEffect(() => {
@@ -152,6 +192,10 @@ export function EnquiryForm({
           const sent = { iso: String(data.get("iso") ?? ""), phone: String(data.get("phone") ?? "") };
           saveContact(sent);
           setTyped(sent);
+          // The box is ticked by the visitor, never for them.
+          const agreed = data.get("consent") === "yes";
+          setUnticked(!agreed);
+          if (!agreed) e.preventDefault();
         }}
         className="space-y-4"
         noValidate
@@ -184,6 +228,7 @@ export function EnquiryForm({
 
           <span aria-hidden className="my-2.5 w-px bg-hairline" />
 
+          {/* The placeholder is a real-looking mobile number of the chosen country. */}
           <input
             key={typed?.phone ?? known?.phone ?? ""}
             id={`${uid}-phone`}
@@ -193,29 +238,40 @@ export function EnquiryForm({
             inputMode="tel"
             autoComplete="tel-national"
             required
-            placeholder="000 000 0000"
+            placeholder={dialCodes.find((c) => c.iso === iso)?.example ?? "81234 56789"}
             className="min-w-0 flex-1 rounded-e-md bg-transparent px-4 text-base text-ink placeholder:text-ink-3 focus:outline-none"
           />
         </div>
 
+        <label className="flex cursor-pointer items-start gap-3 text-sm">
+          <input
+            type="checkbox"
+            name="consent"
+            value="yes"
+            required
+            aria-invalid={unticked || undefined}
+            onChange={(e) => {
+              if (e.target.checked) setUnticked(false);
+            }}
+            className="mt-0.5 size-[1.125rem] shrink-0 accent-accent"
+          />
+          <span className={unticked ? "font-medium text-red-700" : "text-ink-2"}>
+            {text.step1.consent}{" "}
+            {/* A new tab, so the number already typed is not lost. */}
+            <a
+              href="/privacy"
+              target="_blank"
+              rel="noopener"
+              className="font-medium text-accent underline underline-offset-4 transition-colors hover:text-accent-hover"
+            >
+              {text.step1.privacy}
+            </a>
+          </span>
+        </label>
+
         <button type="submit" className={`${btnPrimary} w-full`} disabled={savingNumber}>
           {savingNumber ? `${text.sending}...` : text.step1.submit}
         </button>
-
-        <p className="text-sm text-ink-2">
-          {text.step1.notice}{" "}
-          {/* A new tab, so the number already typed is not lost. */}
-          <a
-            href="/privacy"
-            target="_blank"
-            rel="noopener"
-            className="font-medium text-accent underline underline-offset-4 transition-colors hover:text-accent-hover"
-          >
-            {text.step1.privacy}
-          </a>
-        </p>
-
-        <Turnstile resetKey={numberState} />
 
         {message ? (
           <p role="alert" className="text-sm font-medium text-red-700">
@@ -223,49 +279,42 @@ export function EnquiryForm({
           </p>
         ) : null}
 
-        {/* On a phone the short form keeps only what must be said, so the
-            first screen stays short. */}
-        <p className={`text-sm text-ink-3 ${compact ? "hidden sm:block" : ""}`}>
-          {compact ? text.step1.hint : text.step1.reassurance}
-        </p>
-        <p className="text-sm text-ink-3">{text.step1.emergency}</p>
-        {showUpcoming ? (
-          <div className={compact ? "hidden sm:block" : undefined}>
-            <PrivacyNote text={text.privacyNote} />
-          </div>
-        ) : null}
+        <p className="text-xs text-ink-3">{text.step1.emergency}</p>
       </form>
     );
   }
 
-  const treatBlock = (
-    <div>
-      <label htmlFor={`${uid}-treatment`} className={label}>
-        {text.step2.treatment.label}
-      </label>
-      <select
-        id={`${uid}-treatment`}
-        name="treatment"
-        defaultValue={treatment}
-        className={`${field} mt-2`}
-      >
-        <option value="">{text.step2.treatment.placeholder}</option>
-        {treatment && !text.step2.treatment.options.includes(treatment) ? (
-          <option value={treatment}>{treatment}</option>
-        ) : null}
-        {text.step2.treatment.options.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
+  /** The short form, opened over the whole screen. */
+  const wide = compact && full;
+  /** The optional fields are on show: always in the long form, in the short one only when opened in full. */
+  const showing = !compact || full;
+  const gap = compact && !wide ? "space-y-4" : "space-y-6";
 
-  /** The optional fields: open under a link in the short form, shown in full otherwise. */
-  const extras = (
+  /** The optional fields about the trip, under the name and email. */
+  const tripFields = (
     <>
-      {compact ? treatBlock : null}
+      <div>
+        <label htmlFor={`${uid}-treatment`} className={label}>
+          {text.step2.treatment.label}
+        </label>
+        <select
+          id={`${uid}-treatment`}
+          name="treatment"
+          defaultValue={treatment}
+          className={`${field} mt-2`}
+        >
+          <option value="">{text.step2.treatment.placeholder}</option>
+          {treatment && !text.step2.treatment.options.includes(treatment) ? (
+            <option value={treatment}>{treatment}</option>
+          ) : null}
+          {text.step2.treatment.options.map((o) => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div>
         <label htmlFor={`${uid}-country`} className={label}>
           {text.step2.country.label}
@@ -331,7 +380,12 @@ export function EnquiryForm({
           </div>
         </>
       ) : null}
+    </>
+  );
 
+  /** The optional fields about the case: notes and reports. */
+  const caseFields = (
+    <>
       <div>
         <label htmlFor={`${uid}-notes`} className={label}>
           {text.step2.notes.label}
@@ -339,7 +393,7 @@ export function EnquiryForm({
         <textarea
           id={`${uid}-notes`}
           name="notes"
-          rows={3}
+          rows={wide ? 5 : 3}
           defaultValue={issueNote || undefined}
           placeholder={text.step2.notes.placeholder}
           className={`${field} mt-2 py-3.5`}
@@ -361,126 +415,186 @@ export function EnquiryForm({
         />
         {fileName ? <p className="mt-2 text-sm text-accent">{fileName}</p> : null}
       </div>
-
     </>
   );
 
   // Step 2 - the rest of the details, once the number is safely stored.
   return (
-    <div>
-      {compact ? null : (
-        <div className="rounded-md bg-accent-quiet p-4">
-          <p className="text-base font-medium text-accent">{text.saved.heading}</p>
-          <p className="mt-1 text-sm text-ink-2">{text.saved.body}</p>
-        </div>
-      )}
-
-      <div className={compact ? undefined : "mt-7"}>
-        <h3 className="text-xl font-medium tracking-[-0.02em]">{compact ? text.saved.heading : text.step2.heading}</h3>
-        <p className="mt-2 text-base text-ink-2">{compact ? text.step2.heading : text.step2.intro}</p>
-      </div>
-
-      <form
-        action={submitDetails}
-        onSubmit={(e) => {
-          const data = new FormData(e.currentTarget);
-          saveContact({
-            name: String(data.get("name") ?? "").trim(),
-            email: String(data.get("email") ?? "").trim(),
-            country: String(data.get("country") ?? ""),
-          });
-        }}
-        className={`${compact ? "mt-5 space-y-4" : "mt-7 space-y-6"}`}
-        noValidate
-      >
-        {banner}
-        <input type="hidden" name="leadId" value={leadId} />
-
-        <div>
-          <label htmlFor={`${uid}-name`} className={label}>
-            {text.step2.name.label}
-          </label>
-          <input
-            id={`${uid}-name`}
-            name="name"
-            autoComplete="name"
-            defaultValue={known?.name}
-            required
-            placeholder={text.step2.name.placeholder}
-            className={`${field} mt-2`}
-          />
-        </div>
-
-        <div>
-          <label htmlFor={`${uid}-email`} className={label}>
-            {text.step2.email.label}
-          </label>
-          <input
-            id={`${uid}-email`}
-            name="email"
-            type="email"
-            autoComplete="email"
-            defaultValue={known?.email}
-            required
-            placeholder={text.step2.email.placeholder}
-            className={`${field} mt-2`}
-          />
-          <p className="mt-2 text-sm text-ink-3">{text.step2.email.hint}</p>
-        </div>
-
-        {compact ? null : treatBlock}
-
-        {compact ? (
-          <details className="group rounded-md border border-line" open={wantsReports || undefined}>
-            <summary className="cursor-pointer list-none px-4 py-3.5 text-base font-medium text-accent">{text.step2.more}</summary>
-            <div className="space-y-6 px-4 pb-5">{extras}</div>
-          </details>
-        ) : (
-          extras
+    <dialog
+      ref={sheet}
+      open
+      // In the page it is only a box; a dialog once it covers the screen.
+      role={wide ? undefined : "presentation"}
+      aria-labelledby={wide ? `${uid}-step2` : undefined}
+      // Escape goes back to the short form, with everything typed kept.
+      onCancel={(e) => {
+        e.preventDefault();
+        setFull(false);
+      }}
+      // If the browser closes it all the same (Escape pressed twice), put the
+      // box back in the page rather than leave the form out of sight.
+      onClose={(e) => {
+        if (e.currentTarget.open) return;
+        e.currentTarget.show();
+        setFull(false);
+      }}
+      className={
+        wide
+          ? "enquiry-sheet fixed inset-0 m-0 size-full max-h-none max-w-none overflow-y-auto overscroll-contain border-0 bg-surface p-0 text-ink"
+          : "static m-0 block w-full max-w-none border-0 bg-transparent p-0 text-inherit"
+      }
+    >
+      <div className={wide ? "mx-auto max-w-5xl px-5 py-8 sm:px-8 sm:py-12" : undefined}>
+        {compact ? null : (
+          <div className="rounded-md bg-accent-quiet p-4">
+            <p className="text-base font-medium text-accent">{text.saved.heading}</p>
+            <p className="mt-1 text-sm text-ink-2">{text.saved.body}</p>
+          </div>
         )}
 
-        <label className="flex cursor-pointer items-start gap-3 text-base">
-          <input
-            type="checkbox"
-            name="consent"
-            value="yes"
-            required
-            className="mt-1 size-[1.125rem] shrink-0 accent-accent"
-          />
-          <span className="text-ink-2">
-            {text.step2.consent.label}{" "}
-            {/* A new tab, so the details already typed are not lost. */}
-            <a
-              href="/privacy"
-              target="_blank"
-              rel="noopener"
-              className="font-medium text-accent underline underline-offset-4 transition-colors hover:text-accent-hover"
+        <div className={`flex items-start justify-between gap-4 ${compact ? "" : "mt-7"}`}>
+          <div className="min-w-0">
+            <h3
+              id={`${uid}-step2`}
+              className={wide ? "text-2xl font-semibold tracking-[-0.02em] sm:text-3xl" : "text-xl font-medium tracking-[-0.02em]"}
             >
-              {text.step2.consent.privacy}
-            </a>
-          </span>
-        </label>
+              {compact && !wide ? text.saved.heading : text.step2.heading}
+            </h3>
+            <p className="mt-2 text-base text-ink-2">{compact && !wide ? text.step2.heading : text.step2.intro}</p>
+          </div>
+          {wide ? (
+            <button
+              type="button"
+              onClick={() => setFull(false)}
+              className="-me-2 -mt-1 inline-flex min-h-11 shrink-0 cursor-pointer items-center gap-2 rounded-md px-3 text-sm font-medium text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
+            >
+              <span className="hidden sm:inline">{text.step2.less}</span>
+              <XIcon size={20} aria-hidden />
+              <span className="sr-only sm:hidden">{text.step2.less}</span>
+            </button>
+          ) : null}
+        </div>
 
-        <label className="flex cursor-pointer items-start gap-3 text-base">
-          <input type="checkbox" name="marketing" value="yes" className="mt-1 size-[1.125rem] shrink-0 accent-accent" />
-          <span className="text-ink-2">{text.step2.marketing}</span>
-        </label>
+        <form
+          action={submitDetails}
+          onSubmit={(e) => {
+            const data = new FormData(e.currentTarget);
+            saveContact({
+              name: String(data.get("name") ?? "").trim(),
+              email: String(data.get("email") ?? "").trim(),
+              country: String(data.get("country") ?? ""),
+            });
+          }}
+          className={
+            wide
+              ? "mt-8 grid gap-x-14 gap-y-6 border-t border-hairline pt-8 lg:grid-cols-2 lg:items-start"
+              : `${compact ? "mt-5" : "mt-7"} ${gap}`
+          }
+          noValidate
+        >
+          {/* First column when open in full: who you are, and the trip. */}
+          <div className={gap}>
+            {banner}
+            <input type="hidden" name="leadId" value={leadId} />
 
-        <button type="submit" className={`${btnPrimary} w-full`} disabled={savingDetails}>
-          {savingDetails ? `${text.sending}...` : text.step2.submit}
-        </button>
+            <div>
+              <label htmlFor={`${uid}-name`} className={label}>
+                {text.step2.name.label}
+              </label>
+              <input
+                id={`${uid}-name`}
+                name="name"
+                autoComplete="name"
+                defaultValue={known?.name}
+                required
+                placeholder={text.step2.name.placeholder}
+                className={`${field} mt-2`}
+              />
+            </div>
 
-        {detailsState && !detailsState.ok ? (
-          <p role="alert" className="text-sm font-medium text-red-700">
-            {formError(text, detailsState.error)}
-          </p>
-        ) : null}
+            <div>
+              <label htmlFor={`${uid}-email`} className={label}>
+                {text.step2.email.label}
+              </label>
+              <input
+                id={`${uid}-email`}
+                name="email"
+                type="email"
+                autoComplete="email"
+                defaultValue={known?.email}
+                required
+                placeholder={text.step2.email.placeholder}
+                className={`${field} mt-2`}
+              />
+              <p className="mt-2 text-sm text-ink-3">{text.step2.email.hint}</p>
+            </div>
 
-        {showUpcoming ? <PrivacyNote text={text.privacyNote} /> : null}
-      </form>
-    </div>
+            {!compact || opened ? <div className={showing ? gap : "hidden"}>{tripFields}</div> : null}
+          </div>
+
+          {/* Second column: the case, the consent and the send button. */}
+          <div className={gap}>
+            {compact && !full ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setOpened(true);
+                  setFull(true);
+                }}
+                className="flex min-h-13 w-full cursor-pointer items-center justify-between gap-3 rounded-md border border-line px-4 text-start text-base font-medium text-accent transition-colors hover:border-accent hover:bg-accent-quiet"
+              >
+                {text.step2.more}
+                <ArrowsOutSimpleIcon size={18} className="shrink-0" aria-hidden />
+              </button>
+            ) : null}
+
+            {!compact || opened ? <div className={showing ? gap : "hidden"}>{caseFields}</div> : null}
+
+            <label className="flex cursor-pointer items-start gap-3 text-base">
+              <input
+                type="checkbox"
+                name="consent"
+                value="yes"
+                required
+                className="mt-1 size-[1.125rem] shrink-0 accent-accent"
+              />
+              <span className="text-ink-2">
+                {text.step2.consent.label}{" "}
+                {/* A new tab, so the details already typed are not lost. */}
+                <a
+                  href="/privacy"
+                  target="_blank"
+                  rel="noopener"
+                  className="font-medium text-accent underline underline-offset-4 transition-colors hover:text-accent-hover"
+                >
+                  {text.step2.consent.privacy}
+                </a>
+              </span>
+            </label>
+
+            <label className="flex cursor-pointer items-start gap-3 text-base">
+              <input type="checkbox" name="marketing" value="yes" className="mt-1 size-[1.125rem] shrink-0 accent-accent" />
+              <span className="text-ink-2">{text.step2.marketing}</span>
+            </label>
+
+            <button type="submit" className={`${btnPrimary} w-full`} disabled={savingDetails}>
+              {savingDetails ? `${text.sending}...` : text.step2.submit}
+            </button>
+
+            {detailsState && !detailsState.ok ? (
+              <p role="alert" className="text-sm font-medium text-red-700">
+                {formError(text, detailsState.error)}
+              </p>
+            ) : null}
+
+            {showUpcoming && wide ? <PrivacyNote text={text.privacyNote} /> : null}
+          </div>
+        </form>
+      </div>
+    </dialog>
   );
 }
+
 
 /** The problem picked on the treatments page, shown at the top of the form. */
 function IssueBanner({ issue, onClear, text }: { issue: Issue; onClear: () => void; text: FormContent["issue"] }) {

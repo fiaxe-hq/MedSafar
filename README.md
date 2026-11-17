@@ -152,8 +152,6 @@ the server.
   `/admin/enquiries`.
 - **Spam limit:** one connection or one phone number can start at most 3
   enquiries in 24 hours. The IP address is never stored, only a one-way hash.
-- **Bot check** (`lib/turnstile.ts`): Cloudflare Turnstile on both forms.
-  Secret: `TURNSTILE_SECRET_KEY`; until set, it is skipped.
 - **CRM** (`lib/crm.ts`): every enquiry is sent to crm.fiaxe.com as a lead,
   matched by mobile number. A number alone is "Partial entry"; a full form moves
   it to "Email pending", and a CRM workflow sends the visitor a thank-you email
@@ -272,7 +270,9 @@ domain, so only the team's addresses reach the sign-in page.
 - `lib/seo.ts` holds the site address (`siteUrl`) and the organisation data for
   search engines. Change `siteUrl` on launch day when the site moves to
   `medsafar.com`.
-- `app/sitemap.ts` and `app/robots.ts` build `/sitemap.xml` and `/robots.txt`.
+- `app/sitemap.xml/route.ts` and `app/robots.ts` build `/sitemap.xml` and `/robots.txt`.
+  The sitemap lists every page once per language, with the day it last changed;
+  `public/sitemap.css` makes it readable in a browser.
   `/admin` is blocked.
 - `app/opengraph-image.png` is the preview shown when a link is shared.
 - Cloudflare Web Analytics loads only once a site token is pasted into
@@ -284,7 +284,6 @@ domain, so only the team's addresses reach the sign-in page.
 | --- | --- |
 | `ADMIN_PASSWORD` | Setup key for the first `/admin` account; also signs the sign-in cookies. |
 | `CRM_API_KEY` | Sends enquiries to the CRM. |
-| `TURNSTILE_SECRET_KEY` | The bot check on the forms. |
 
 ## Still open
 

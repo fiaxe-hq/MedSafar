@@ -17,6 +17,7 @@ export const catalog: CatalogContent = {
     "General information only, to give you a rough idea. It is not medical advice, it may contain mistakes, and it may not fit your case. We are not doctors and are not responsible for decisions made from this page. Please confirm everything with your own doctor.",
   legalNote: "This page is a translation, for your convenience. Only the English version is legally binding. If the two differ, the English version applies.",
   legalEnglish: "Read it in English",
+  legalContents: "On this page",
   filters: {
     heading: "Filter",
     all: "All",

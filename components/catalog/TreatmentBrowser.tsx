@@ -59,7 +59,22 @@ export function TreatmentBrowser({
     };
     fromHash();
     window.addEventListener("hashchange", fromHash);
-    return () => window.removeEventListener("hashchange", fromHash);
+    // A menu link to a type on this same page (/treatments#cardiology) is
+    // handled by the router, which changes the address without a hashchange
+    // event. So the click itself opens the type.
+    const onClick = (e: MouseEvent) => {
+      const link = (e.target as Element | null)?.closest?.("a[href]") as HTMLAnchorElement | null;
+      if (!link) return;
+      const to = new URL(link.href, window.location.href);
+      if (to.origin !== window.location.origin || to.pathname !== window.location.pathname) return;
+      const slug = decodeURIComponent(to.hash.slice(1));
+      if (groups.some((g) => g.slug === slug)) choose(slug, true);
+    };
+    document.addEventListener("click", onClick);
+    return () => {
+      window.removeEventListener("hashchange", fromHash);
+      document.removeEventListener("click", onClick);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

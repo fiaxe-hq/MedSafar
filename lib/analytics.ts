@@ -7,3 +7,12 @@
  * lives here rather than in a secret. While it is null, nothing is loaded.
  */
 export const analyticsToken: string | null = null;
+
+/**
+ * Google Analytics 4: the measurement ID of the site's web stream, such as
+ * "G-AB12CD34EF" (Google Analytics → Admin → Data streams → the stream).
+ * It is public, so it lives here. Google Analytics sets cookies, so it loads
+ * only after the visitor accepts them (components/site/CookieBanner.tsx).
+ * While it is null, nothing is loaded.
+ */
+export const gaId: string | null = null;

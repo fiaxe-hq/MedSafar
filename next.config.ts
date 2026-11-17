@@ -31,7 +31,8 @@ const nextConfig: NextConfig = {
   // doctor and hospital); on a busy machine some take longer than the
   // default 60 seconds.
   staticPageGenerationTimeout: 300,
-  env: { PHOTOS_VERSION: photos },
+  // BUILD_DATE: the day of this build, the sitemap's "last changed" for pages built from the files.
+  env: { PHOTOS_VERSION: photos, BUILD_DATE: new Date().toISOString().slice(0, 10) },
   images: {
     ...(dev ? {} : { loader: "custom" as const, loaderFile: "./lib/imageLoader.ts" }),
     // Photos only under their current version; everything else without a query.
@@ -40,7 +41,7 @@ const nextConfig: NextConfig = {
       { pathname: "/**", search: "" },
     ],
   },
-  // Browser security headers on every page. No full CSP: Turnstile, YouTube and
+  // Browser security headers on every page. No full CSP: YouTube and
   // Next's inline scripts would need a long allowlist; frame-ancestors alone
   // stops other sites framing the pages (clickjacking).
   async headers() {

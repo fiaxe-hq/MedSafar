@@ -6,7 +6,6 @@ import { after } from "next/server";
 import { syncLeadToCrm } from "@/lib/crm";
 import { createLead, hashIp, openForDetails, overLeadLimit, saveReport, updateLead, type Lead } from "@/lib/leads";
 import { parsePhone } from "@/lib/phone";
-import { passedTurnstile } from "@/lib/turnstile";
 import { getQuestionnaire } from "@/content/questionnaires";
 import { dialCodes } from "@/content/dial-codes";
 
@@ -87,16 +86,19 @@ export async function saveNumber(
     const parsed = await readPhone(formData);
     if (typeof parsed === "string") return { ok: false, error: parsed };
 
+    // The tick box on the form: nothing is stored without it.
+    if (formData.get("consent") !== "yes") return { ok: false, error: "consent" };
+
     const ip = (await headers()).get("cf-connecting-ip");
     const ipHash = ip ? await hashIp(ip) : null;
     if (await overLeadLimit(parsed.number, ipHash)) return { ok: false, error: "limit" };
-    if (!(await passedTurnstile(formData, ip))) return { ok: false, error: "bot" };
 
     const lead = await createLead({
       phone: parsed.number,
       phoneIso: parsed.country ?? iso,
       source,
       ipHash,
+      consent: true,
     });
     // A problem picked on the treatments page travels with the number, so it
     // is kept even if step 2 is never sent.
@@ -215,7 +217,6 @@ export async function saveQuestionnaire(
     const ip = (await headers()).get("cf-connecting-ip");
     const ipHash = ip ? await hashIp(ip) : null;
     if (await overLeadLimit(parsed.number, ipHash)) return { ok: false, error: "limit" };
-    if (!(await passedTurnstile(formData, ip))) return { ok: false, error: "bot" };
 
     const phoneIso = parsed.country ?? iso;
     const lead = await createLead({

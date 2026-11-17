@@ -5,7 +5,6 @@ import { startTransition, useActionState, useId, useState } from "react";
 import { saveQuestionnaire } from "@/app/actions";
 import { formError } from "@/components/form/formError";
 import { DialPicker } from "@/components/form/DialPicker";
-import { Turnstile } from "@/components/form/Turnstile";
 import type { DialCode, FormContent, Question, Questionnaire, QuestionnaireText } from "@/content/types";
 import { PrivacyNote } from "@/components/form/EnquiryForm";
 import { btnPlain, btnPrimary, field, label } from "@/components/ui/styles";
@@ -194,8 +193,6 @@ export function QuestionnaireForm({
           </label>
         </div>
       </fieldset>
-
-      <Turnstile resetKey={state} />
 
       <button type="submit" className={`${btnPrimary} w-full`} disabled={sending}>
         {sending ? `${form.sending}...` : text.submit}

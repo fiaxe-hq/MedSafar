@@ -457,16 +457,16 @@ export async function Header({
             <div className="ms-auto flex items-center gap-2 xl:ms-0">
               {/* The shorter of the two approved labels. The long one is on the
                   buttons that actually carry the page. */}
+              {/* Opens the pop-up form below; a link to the form on the page
+                  until the JavaScript arrives. */}
               <span className="hidden lg:block">
-                <ConsultationDialog
-                  label={cta.secondary}
+                <a
+                  href="#plan"
+                  aria-haspopup="dialog"
                   className={`${btnPrimary.replace("rounded-md", "rounded-full").replace("min-h-13", "h-10")} px-4.5 text-[0.875rem] sm:px-4.5`}
-                  text={site.consultation}
-                  form={site.form}
-                  dialCodes={dialCodesFor(iso, lang.code)}
-                  defaultIso={iso ?? defaultIso}
-                  defaultCountry={countryName}
-                />
+                >
+                  {cta.secondary}
+                </a>
               </span>
 
               {/* Mobile menu. <details> keeps it working with no JavaScript. */}
@@ -613,6 +613,15 @@ export async function Header({
           </Container>
         </div>
       </header>
+
+      {/* The pop-up form: every "#plan" and "#reports" button on the page opens it. */}
+      <ConsultationDialog
+        text={site.consultation}
+        form={site.form}
+        dialCodes={dialCodesFor(iso, lang.code)}
+        defaultIso={iso ?? defaultIso}
+        defaultCountry={countryName}
+      />
     </>
   );
 }

@@ -16,6 +16,11 @@ import type { Lead } from "./leads";
  * entry" and is moved to "Email pending" by an update, even when the whole
  * form arrives in one go (the questionnaires).
  *
+ * The page the enquiry came from goes in its own CRM field, "page_source"
+ * (PAGE_FIELD below), not in the notes. If the CRM refuses the field (it has
+ * not been added there yet), the lead is sent again without it and the page
+ * goes in the notes as before, so no lead is ever lost over it.
+ *
  * Setting, a Worker secret: CRM_API_KEY. Until it is set, nothing is sent.
  *
  * A failed sync never fails the enquiry: it is already saved in D1.
@@ -27,6 +32,9 @@ const BASE = "https://crm.fiaxe.com/api/records";
  * Pipeline stages this file sets, spelled exactly as the CRM workflow expects.
  * The workflow, not this file, moves a lead from EMAIL_PENDING to "New".
  */
+/** The CRM field that holds the page the enquiry came from. */
+const PAGE_FIELD = "page_source";
+
 const PARTIAL = "Partial entry";
 const EMAIL_PENDING = "Email pending";
 
@@ -40,7 +48,6 @@ const noteRows: [keyof Lead, string][] = [
   ["preference", "City or hospital"],
   ["notes", "Notes"],
   ["reportFile", "Report"],
-  ["source", "Page"],
 ];
 
 export async function syncLeadToCrm(lead: Lead): Promise<void> {
@@ -60,14 +67,17 @@ export async function syncLeadToCrm(lead: Lead): Promise<void> {
 
     const partial = !lead.completedAt;
     const stamp = (lead.completedAt ?? lead.updatedAt ?? lead.createdAt).slice(0, 10);
-    const entry = [
-      `Website enquiry ${stamp}${partial ? " (number only so far)" : ""}`,
-      ...noteRows
-        .map(([k, title]) => [title, String(lead[k] ?? "").trim()] as const)
-        .filter(([, value]) => value)
-        .map(([title, value]) => `${title}: ${value}`),
-      ...(partial ? [] : [`Marketing messages: ${lead.marketing ? "yes" : "no"}`]),
-    ].join("\n");
+    /** The notes for this enquiry; `withPage` only when the page has no field of its own. */
+    const entryText = (withPage: boolean) =>
+      [
+        `Website enquiry ${stamp}${partial ? " (number only so far)" : ""}`,
+        ...noteRows
+          .map(([k, title]) => [title, String(lead[k] ?? "").trim()] as const)
+          .filter(([, value]) => value)
+          .map(([title, value]) => `${title}: ${value}`),
+        ...(withPage && lead.source ? [`Page: ${lead.source}`] : []),
+        ...(partial ? [] : [`Marketing messages: ${lead.marketing ? "yes" : "no"}`]),
+      ].join("\n");
 
     // Only fields that have a value are sent, so a later, thinner form never
     // blanks out what an earlier one filled in.
@@ -75,21 +85,33 @@ export async function syncLeadToCrm(lead: Lead): Promise<void> {
     if (lead.name) fields.name = lead.name;
     if (lead.email) fields.email = lead.email;
 
-    const res = existing
-      ? await fetch(`${BASE}/${existing.id}`, {
-          method: "PATCH",
-          headers,
-          body: JSON.stringify({
-            ...fields,
-            ...(!partial && (!existing.status || existing.status === PARTIAL) ? { status: EMAIL_PENDING } : {}),
-            notes: existing.notes && !existing.notes.includes(entry) ? `${existing.notes}\n\n---\n${entry}` : entry,
-          }),
-        })
-      : await fetch(BASE, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ name: lead.name || lead.phone, ...fields, status: PARTIAL, notes: entry }),
-        });
+    /** Creates or updates the lead, with the page in its own field or in the notes. */
+    const send = (pageField: boolean) => {
+      const entry = entryText(!pageField);
+      const page = pageField && lead.source ? { [PAGE_FIELD]: lead.source } : {};
+      return existing
+        ? fetch(`${BASE}/${existing.id}`, {
+            method: "PATCH",
+            headers,
+            body: JSON.stringify({
+              ...fields,
+              ...page,
+              ...(!partial && (!existing.status || existing.status === PARTIAL) ? { status: EMAIL_PENDING } : {}),
+              notes: existing.notes && !existing.notes.includes(entry) ? `${existing.notes}\n\n---\n${entry}` : entry,
+            }),
+          })
+        : fetch(BASE, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({ name: lead.name || lead.phone, ...fields, ...page, status: PARTIAL, notes: entry }),
+          });
+    };
+
+    let res = await send(true);
+    if (res.status === 400 || res.status === 422) {
+      console.error(`[crm] "${PAGE_FIELD}" refused (${res.status}); sent with the page in the notes`);
+      res = await send(false);
+    }
     if (!res.ok) throw new Error(`${existing ? "update" : "create"} ${res.status}`);
 
     if (!existing && !partial) {

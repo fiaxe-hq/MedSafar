@@ -107,6 +107,8 @@ export type SiteContent = {
   mobileBar: {
     plan: string;
   };
+  /** The cookie notice: what the cookies are for, and its two buttons. */
+  cookies: { text: string; privacy: string; accept: string; decline: string };
   /** Label for the WhatsApp button fixed to the corner on computers. */
   whatsappFloat: string;
   consultation: ConsultationText;
@@ -165,19 +167,20 @@ export type FormContent = {
     countrySearch: string;
     countryNone: string;
     submit: string;
-    reassurance: string;
     /** Above the number when the visitor came to upload reports. */
     reportsFirst: string;
     emergency: string;
-    /** Under the button: the number is saved on send, so the privacy notice comes first. */
-    notice: string;
+    /** The tick box above the button, empty until the visitor ticks it. */
+    consent: string;
     privacy: string;
   };
   step2: {
     heading: string;
     intro: string;
-    /** Opens the optional fields in the short form. */
+    /** Opens the optional fields in the short form, over the full screen. */
     more: string;
+    /** Closes the full-screen form, back to the short one. */
+    less: string;
     name: { label: string; placeholder: string };
     email: { label: string; placeholder: string; hint: string };
     country: { label: string; placeholder: string };
@@ -226,6 +229,8 @@ export type DialCode = {
   name: string;
   /** With leading "+" */
   dial: string;
+  /** A mobile number as written in that country, shown in the empty phone field. */
+  example?: string;
 };
 
 export type Step = { title: string; body: string };
@@ -468,6 +473,8 @@ export type CatalogContent = {
   /** On a translated legal page: only the English text counts, with a link to it. */
   legalNote: string;
   legalEnglish: string;
+  /** Heading of the list of sections beside a legal page's text. */
+  legalContents: string;
   filters: {
     heading: string;
     all: string;

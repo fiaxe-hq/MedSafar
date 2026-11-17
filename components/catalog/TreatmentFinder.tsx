@@ -322,8 +322,21 @@ export function BodyPicker({
   const [hover, setHover] = useState<string | null>(null);
   const [picked, setPicked] = useState<string | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
+  const bubble = useRef<HTMLDivElement>(null);
 
   const area = allAreas.find((a) => a.id === picked) ?? null;
+
+  /** Keeps the name bubble just above the pointer, inside the box. */
+  const follow = (e: React.PointerEvent<HTMLDivElement>) => {
+    const tip = bubble.current;
+    if (!tip || e.pointerType !== "mouse") return;
+    const box = e.currentTarget.getBoundingClientRect();
+    const half = tip.offsetWidth / 2 + 8;
+    const x = Math.min(box.width - half, Math.max(half, e.clientX - box.left));
+    const y = Math.max(tip.offsetHeight + 8, e.clientY - box.top - 14);
+    tip.style.left = `${x}px`;
+    tip.style.top = `${y}px`;
+  };
 
   const pick = (id: string) => {
     setPicked(id);
@@ -376,7 +389,7 @@ export function BodyPicker({
           </button>
         </div>
 
-        <div className="relative h-[380px] w-full shrink-0 grow select-none sm:h-[440px]">
+        <div onPointerMove={follow} className="relative h-[380px] w-full shrink-0 grow select-none sm:h-[440px]">
           <div
             aria-hidden
             className="absolute bottom-4 left-1/2 h-4 w-36 -translate-x-1/2 rounded-[50%] bg-ink/10 blur-[6px]"
@@ -390,11 +403,13 @@ export function BodyPicker({
             onPick={pick}
             onDragging={setDragging}
           />
-          {/* Name of the part under the pointer. */}
+          {/* Name of the part under the pointer, in a bubble that sits just
+              above the pointer and points down at the part. */}
           <div
+            ref={bubble}
             aria-hidden
-            className={`pointer-events-none absolute inset-x-0 bottom-2 mx-auto w-fit rounded-full bg-deep px-3 py-1.5 text-sm font-medium text-white transition-[opacity,translate] duration-300 ${
-              hover && !dragging ? "opacity-100" : "translate-y-1 opacity-0"
+            className={`pointer-events-none absolute top-0 left-1/2 w-max -translate-x-1/2 -translate-y-full rounded-full bg-deep px-3 py-1.5 text-center text-sm leading-tight font-medium whitespace-nowrap text-white shadow-lift transition-opacity duration-200 after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-x-[6px] after:border-t-[6px] after:border-x-transparent after:border-t-deep ${
+              hover && !dragging ? "opacity-100" : "opacity-0"
             }`}
           >
             {allAreas.find((a) => a.id === hover)?.name ?? " "}

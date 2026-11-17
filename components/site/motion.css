@@ -281,8 +281,3 @@
   --spot: 1;
 }
 
-/* Magnetic buttons settle back smoothly when the pointer leaves. */
-.home-magnet {
-  transition: translate 0.45s var(--home-ease), background-color 0.3s, box-shadow 0.3s, scale 0.2s !important;
-}
-

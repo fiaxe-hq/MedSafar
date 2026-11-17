@@ -1,7 +1,8 @@
 import type { CountryContent } from "@/content/types";
 import { Section } from "@/components/ui/Section";
 
-/** Built on <details>, so it opens and closes without any JavaScript. */
+/** Built on <details>, so it opens and closes without any JavaScript. The
+ *  shared name makes the browser close the open one when another opens. */
 /** `note` is a small line under the questions, such as the medical note. */
 export function Faq({ content, note }: { content: Pick<CountryContent, "faq">; note?: string }) {
   const { faq } = content;
@@ -12,7 +13,7 @@ export function Faq({ content, note }: { content: Pick<CountryContent, "faq">; n
 
       <div className="mt-10 rounded-lg border border-hairline bg-surface px-5 sm:px-8 lg:mt-12">
         {faq.items.map((item, i) => (
-          <details key={i} className="group border-b border-hairline last:border-b-0">
+          <details key={i} name="faq" className="group border-b border-hairline last:border-b-0">
             <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 font-display text-lg font-medium tracking-[-0.01em] sm:text-xl transition-colors hover:text-accent">
               <span className="max-w-[40ch]">{item.question}</span>
               <span

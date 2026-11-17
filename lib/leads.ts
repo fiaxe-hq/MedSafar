@@ -151,15 +151,17 @@ export async function createLead(input: {
   phoneIso: string;
   source: string;
   ipHash: string | null;
+  /** The visitor ticked the consent box on the form. */
+  consent?: boolean;
 }): Promise<Lead> {
   const now = new Date().toISOString();
   const { ipHash, ...rest } = input;
   const lead: Lead = { id: crypto.randomUUID(), ...rest, createdAt: now, updatedAt: now };
   await env()
     .LEADS_DB.prepare(
-      "INSERT INTO leads (id, phone, phone_iso, source, created_at, updated_at, ip_hash) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO leads (id, phone, phone_iso, source, created_at, updated_at, ip_hash, consent) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
     )
-    .bind(lead.id, lead.phone, lead.phoneIso, lead.source, now, now, ipHash)
+    .bind(lead.id, lead.phone, lead.phoneIso, lead.source, now, now, ipHash, lead.consent ? 1 : null)
     .run();
   return lead;
 }

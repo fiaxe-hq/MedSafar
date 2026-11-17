@@ -7,6 +7,7 @@ import { analyticsToken } from "@/lib/analytics";
 import { getLang, getText } from "@/lib/i18n/text";
 import { languageCodes } from "@/lib/i18n/languages";
 import { LabelsProvider } from "@/components/site/Labels";
+import { CookieBanner } from "@/components/site/CookieBanner";
 
 /**
  * Inter for reading, Figtree for headings: a clean, legible pair that
@@ -75,6 +76,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
     >
       <body className="flex min-h-full flex-col overflow-x-clip">
         <LabelsProvider value={{ pending: site.pendingLabel, photo: site.photoLabel }}>{children}</LabelsProvider>
+        <CookieBanner text={site.cookies} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLd(organizationJsonLd(site)) }}

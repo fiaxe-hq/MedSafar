@@ -341,14 +341,43 @@ html:has(dialog[open]) {
 }
 
 .consultation-dialog[open]::backdrop {
-  background-color: rgb(11 61 49 / 0.45);
-  backdrop-filter: blur(3px);
+  background-color: rgb(11 61 49 / 0.4);
+  backdrop-filter: blur(6px);
 }
 
 @starting-style {
   .consultation-dialog[open]::backdrop {
     background-color: rgb(11 61 49 / 0);
     backdrop-filter: blur(0);
+  }
+}
+
+/* The cookie notice rises into place. */
+.cookie-in {
+  animation: sheet-in 0.35s var(--ease-soft) 0.6s backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-in {
+    animation: none;
+  }
+}
+
+/* The enquiry form opened over the whole screen ("Add more details"). */
+.enquiry-sheet {
+  animation: sheet-in 0.25s var(--ease-soft);
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enquiry-sheet {
+    animation: none;
   }
 }
 

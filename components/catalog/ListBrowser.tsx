@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "@/components/ui/Link";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
 import { CheckIcon } from "@phosphor-icons/react/dist/ssr/Check";
@@ -89,6 +90,39 @@ export function ListBrowser({
   const pool = items.filter((i) => inPlace(i) && matches(i));
   const shown = pool.filter((i) => !speciality || i.specialities.includes(speciality));
   const picked = specialities.find((s) => s.slug === speciality);
+
+  // A menu link to this same page (/doctors?speciality=cardiology) changes the
+  // address without loading the page again, so the filters follow the address
+  // whenever it changes. Our own change to the address (below) arrives here
+  // too, and then already matches.
+  const params = useSearchParams();
+  const wantSpeciality = params.get("speciality") ?? "";
+  const wantPlace = params.get(placeParam) ?? "";
+  const show = (wantedSpeciality: string, wantedPlace: string) => {
+    setSpeciality(specialities.some((s) => s.slug === wantedSpeciality) ? wantedSpeciality : "");
+    setPlace(places.some((o) => o.value === wantedPlace) ? wantedPlace : "");
+  };
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    show(wantSpeciality, wantPlace);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wantSpeciality, wantPlace]);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  // The router does not always report a link back to an address it has
+  // already seen, so a click on a link to this page sets the filters itself.
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const link = (e.target as Element | null)?.closest?.("a[href]") as HTMLAnchorElement | null;
+      if (!link || link.target === "_blank") return;
+      const to = new URL(link.href, window.location.href);
+      if (to.origin !== window.location.origin || to.pathname !== window.location.pathname || to.hash) return;
+      show(to.searchParams.get("speciality") ?? "", to.searchParams.get(placeParam) ?? "");
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [placeParam]);
 
   useEffect(() => {
     // Start from the address as it is, so utm_source, gclid and any other

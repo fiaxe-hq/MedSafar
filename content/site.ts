@@ -87,6 +87,14 @@ export const site: SiteContent = {
     plan: "Get plan",
   },
 
+  /** The cookie notice (components/site/CookieBanner.tsx). */
+  cookies: {
+    text: "We use cookies to remember your language and country and, if you agree, to see how the site is used.",
+    privacy: "Privacy policy",
+    accept: "Accept",
+    decline: "Only necessary",
+  },
+
   /** The round WhatsApp button fixed to the corner on computers. */
   whatsappFloat: "Chat with us on WhatsApp",
 
@@ -112,16 +120,16 @@ export const site: SiteContent = {
       countrySearch: "Search country",
       countryNone: "No match",
       submit: "Get a free consultation",
-      reassurance: "One number is enough to start. Details can follow.",
       reportsFirst: "Add your number first. Then you can upload your reports.",
       emergency: "Not for emergencies. In a medical emergency, call your local emergency number.",
-      notice: "By sending your number, you agree that Med Safar may store it and contact you about your enquiry.",
+      consent: "I agree that Med Safar may store my number and contact me about my enquiry.",
       privacy: "Read the privacy policy",
     },
     step2: {
       heading: "A few more details",
       intro: "This helps us put the right doctor and cost estimate in front of you.",
       more: "Add more details (optional)",
+      less: "Back to the short form",
       name: { label: "Full name", placeholder: "First and last name" },
       email: {
         label: "Email",

@@ -29,7 +29,13 @@ export async function EnquiryBlock({
   const { enquiry } = content;
 
   return (
-    <section id="plan" className="scroll-mt-24 bg-bg py-16 sm:py-24 lg:py-28">
+    // The data attributes tell the pop-up form which page and treatment this is.
+    <section
+      id="plan"
+      data-source={source}
+      data-treatment={treatment || undefined}
+      className="scroll-mt-24 bg-bg py-16 sm:py-24 lg:py-28"
+    >
       <Container>
         <div className="grid gap-10 rounded-xl bg-accent-soft p-5 sm:p-12 lg:grid-cols-12 lg:items-center lg:gap-16 lg:p-16">
           <div className="min-w-0 lg:col-span-6">

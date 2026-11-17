@@ -43,6 +43,8 @@ export async function PageHead({
   picture?: Picture;
 }) {
   const { site } = await getText();
+  // A count of zero ("0 doctors") is left out rather than shown.
+  stats = stats?.filter((stat) => stat.value > 0);
   const side = Boolean(stats?.length) && !center;
   const photo = picture && !picture.pending && picture.src ? picture : null;
 
@@ -107,7 +109,7 @@ export async function PageHead({
 
         {stats?.length ? (
           <dl
-            className={`hero-rise grid grid-cols-3 divide-x divide-hairline border-y border-hairline [animation-delay:240ms] rtl:divide-x-reverse ${
+            className={`hero-rise grid ${["grid-cols-1", "grid-cols-2", "grid-cols-3"][stats.length - 1] ?? "grid-cols-3"} divide-x divide-hairline border-y border-hairline [animation-delay:240ms] rtl:divide-x-reverse ${
               side ? "lg:col-span-5" : "mx-auto max-w-2xl"
             }`}
           >

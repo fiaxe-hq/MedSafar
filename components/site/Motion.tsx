@@ -3,13 +3,11 @@
 import { useEffect } from "react";
 
 /**
- * Pointer interactions for the home page and the shared pages: card spotlight, magnetic primary
- * buttons. Writes CSS variables and
- * inline translate only, never React state, and does nothing when the visitor
+ * Pointer interactions for the home page and the shared pages: the card
+ * spotlight. Writes CSS variables only, never React state, and does nothing when the visitor
  * prefers reduced motion or has no fine pointer.
  */
 const CARD = "article, figure, details, li, [class*='rounded-[2rem]'], [class*='rounded-lg'][class*='border']";
-const MAGNET = "main a[class*='bg-cta'], main button[class*='bg-cta'], main [class*='bg-cta'][class*='rounded-full']";
 
 export function Motion() {
   useEffect(() => {
@@ -32,10 +30,6 @@ export function Motion() {
     });
     cards.forEach((el) => el.classList.add("home-spot"));
 
-    const magnets = Array.from(document.querySelectorAll<HTMLElement>(MAGNET));
-    magnets.forEach((el) => el.classList.add("home-magnet"));
-
-
     let frame = 0;
     let last: PointerEvent | null = null;
 
@@ -51,39 +45,17 @@ export function Motion() {
         card.style.setProperty("--mx", `${e.clientX - r.left}px`);
         card.style.setProperty("--my", `${e.clientY - r.top}px`);
       }
-
-      const magnet = target?.closest<HTMLElement>(".home-magnet");
-      magnets.forEach((m) => {
-        if (m !== magnet) m.style.translate = "";
-      });
-      if (magnet) {
-        const r = magnet.getBoundingClientRect();
-        const dx = (e.clientX - (r.left + r.width / 2)) * 0.18;
-        const dy = (e.clientY - (r.top + r.height / 2)) * 0.3;
-        magnet.style.translate = `${dx.toFixed(1)}px ${dy.toFixed(1)}px`;
-      }
-
     };
 
     const onMove = (e: PointerEvent) => {
       last = e;
       if (!frame) frame = requestAnimationFrame(apply);
     };
-    const onLeave = () => {
-      magnets.forEach((m) => (m.style.translate = ""));
-    };
-
     document.addEventListener("pointermove", onMove, { passive: true });
-    document.documentElement.addEventListener("pointerleave", onLeave);
     return () => {
       cancelAnimationFrame(frame);
       document.removeEventListener("pointermove", onMove);
-      document.documentElement.removeEventListener("pointerleave", onLeave);
       cards.forEach((el) => el.classList.remove("home-spot"));
-      magnets.forEach((el) => {
-        el.classList.remove("home-magnet");
-        el.style.translate = "";
-      });
     };
   }, []);
 

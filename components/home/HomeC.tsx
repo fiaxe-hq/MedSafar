@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "@/components/ui/Link";
 import { AirplaneTiltIcon } from "@phosphor-icons/react/dist/ssr/AirplaneTilt";
+import { ArrowBendRightDownIcon } from "@phosphor-icons/react/dist/ssr/ArrowBendRightDown";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
 import { CalendarCheckIcon } from "@phosphor-icons/react/dist/ssr/CalendarCheck";
 import { ChatsCircleIcon } from "@phosphor-icons/react/dist/ssr/ChatsCircle";
@@ -256,18 +257,46 @@ export async function HomeC({ place }: { place: string }) {
         intro={journey.intro}
         stacked
       >
-        <div className="space-y-8">
+        {/* A dotted line runs through the numbered steps, so the order reads
+            at a glance: down the side on a phone, along the top of each row
+            on a wider screen, turning down at the end of a row. */}
+        <div className="space-y-10 sm:space-y-12">
           {journey.phases.map((phase, p) => (
             <div key={phase.name}>
               <p className={eyebrow}>{phase.name}</p>
-              <ol className="mt-3 grid gap-3 sm:grid-cols-3 sm:gap-4">
+              <ol className="relative mt-4 grid gap-4 before:absolute before:inset-y-6 before:start-[1.0625rem] before:border-s-2 before:border-dotted before:border-accent/60 sm:grid-cols-3 sm:gap-x-4 sm:gap-y-0 sm:before:hidden">
                 {phase.steps.map((step, i) => {
                   const n = p * 3 + i;
+                  const lastOfAll = p === journey.phases.length - 1 && i === phase.steps.length - 1;
+                  const lastInRow = i === phase.steps.length - 1;
                   return (
-                    <li key={step.title} className="reveal min-w-0">
+                    <li key={step.title} className="reveal relative min-w-0 ps-14 sm:ps-0">
+                      {/* The line reaches across the gap to the next number. */}
+                      <div
+                        className={`absolute start-0 top-1/2 -translate-y-1/2 sm:static sm:mb-4 sm:flex sm:translate-y-0 sm:items-center sm:gap-2 ${
+                          lastInRow ? "" : "sm:-me-2"
+                        }`}
+                      >
+                        <span className="relative grid size-9 shrink-0 place-items-center rounded-full bg-accent font-mono text-sm text-accent-ink ring-4 ring-bg">
+                          {num(n + 1)}
+                        </span>
+                        {lastOfAll ? null : (
+                          <span
+                            aria-hidden
+                            className="hidden h-0 flex-1 border-t-2 border-dotted border-accent/60 sm:block"
+                          />
+                        )}
+                        {lastInRow && !lastOfAll ? (
+                          <ArrowBendRightDownIcon
+                            size={20}
+                            className="hidden shrink-0 text-accent sm:block rtl:-scale-x-100"
+                            aria-hidden
+                          />
+                        ) : null}
+                      </div>
                       <a
                         href={step.href}
-                        className="group flex h-full items-center gap-4 overflow-hidden rounded-lg border border-hairline bg-surface p-3 transition-[border-color,box-shadow] duration-300 hover:border-line hover:shadow-lift sm:block sm:p-0"
+                        className={`group flex h-full items-center gap-4 overflow-hidden rounded-lg border border-hairline bg-surface p-3 transition-[border-color,box-shadow] duration-300 hover:border-line hover:shadow-lift sm:block sm:h-[calc(100%-3.25rem)] sm:p-0`}
                       >
                         <span className="relative block size-20 shrink-0 overflow-hidden rounded-md bg-surface-2 sm:aspect-[3/2] sm:size-auto sm:rounded-none">
                           <Image
@@ -277,9 +306,6 @@ export async function HomeC({ place }: { place: string }) {
                             sizes="(min-width: 1280px) 400px, (min-width: 640px) 33vw, 80px"
                             className="object-cover transition-transform duration-700 ease-(--ease-soft) group-hover:scale-[1.05]"
                           />
-                          <span className="absolute start-2 top-2 grid size-8 place-items-center rounded-full bg-white/90 font-mono text-xs text-accent shadow-sm sm:start-3 sm:top-3 sm:size-9 sm:text-sm">
-                            {num(n + 1)}
-                          </span>
                         </span>
                         <span className="block min-w-0 sm:p-4">
                           <span className="block text-lg leading-snug font-medium tracking-[-0.01em] transition-colors group-hover:text-accent">
@@ -607,7 +633,7 @@ export async function HomeC({ place }: { place: string }) {
       <Block id="faq" heading={faq.heading}>
         <div className="reveal divide-y divide-hairline border-y border-hairline">
           {faq.items.map((item, i) => (
-            <details key={i} className="group accordion">
+            <details key={i} name="faq" className="group accordion">
               <summary className="grid cursor-pointer list-none grid-cols-[1fr_auto] items-center gap-4 py-4 text-base font-medium hover:text-accent sm:grid-cols-[2.5rem_1fr_auto] sm:py-5 sm:text-lg">
                 <span className="hidden font-mono text-sm font-normal text-ink-3 sm:inline">
                   {num(i + 1)}
@@ -631,6 +657,7 @@ export async function HomeC({ place }: { place: string }) {
       {/* Closing form */}
       <section
         id="plan"
+        data-source="/"
         className="band-deep relative isolate scroll-mt-24 overflow-hidden py-14 text-white sm:py-28"
       >
         <Container className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
