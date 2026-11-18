@@ -85,7 +85,9 @@
 
     /* Photos drift slowly inside their frames for as long as they are on
        screen: one steady move, no change of pace. */
-    :is([data-home], [data-page]) main img.object-cover {
+    /* Not the home hero: it fills the first screen, and any zoom crops the
+       faces under the header. */
+    :is([data-home], [data-page]) main img.object-cover:not(.home-still) {
       animation: home-photo linear both;
       animation-timeline: view();
     }

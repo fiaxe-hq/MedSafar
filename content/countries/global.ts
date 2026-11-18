@@ -22,7 +22,7 @@ export const global: CountryContent = {
       "From choosing your treatment to your follow-up at home, one team takes care of every step.",
     // Stock photo, illustration only: Pexels 18870282, World Sikh Organization of Canada. Pexels Licence.
     picture: {
-      src: "/photos/hero-global-doctor.jpg",
+      src: "/photos/hero-global-clinic.jpg",
       alt: "A doctor listening to an elderly patient's heartbeat with a stethoscope",
       pending: false,
     },

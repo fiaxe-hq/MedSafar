@@ -19,8 +19,8 @@ export const places: Place[] = [
   {
     slug: "global",
     iso: null,
-    // Stock photo, illustration only: Pexels 18870282, World Sikh Organization of Canada. Pexels Licence.
-    picture: { src: "/photos/hero-global-doctor.jpg", alt: "A doctor listening to an elderly patient's heartbeat with a stethoscope", pending: false, focus: "45% 25%" },
+    // Stock photo, illustration only: Pexels 18870282, World Sikh Organization of Canada. Pexels Licence. Cropped to leave out the clinic poster on the right.
+    picture: { src: "/photos/hero-global-clinic.jpg", alt: "A doctor listening to an elderly patient's heartbeat with a stethoscope", pending: false, focus: "50% 0%" },
   },
   {
     slug: "bd",
@@ -50,7 +50,7 @@ export const places: Place[] = [
     slug: "ng",
     iso: "NG",
     // Pexels 30677591, Ninthgrid. Pexels Licence.
-    picture: { src: "/photos/hero-ng.jpg", alt: "A doctor checking a man's blood pressure at a clinic in Lagos", pending: false, focus: "50% 30%" },
+    picture: { src: "/photos/hero-ng.jpg", alt: "A doctor checking a man's blood pressure at a clinic in Lagos", pending: false, focus: "50% 0%" },
   },
   {
     slug: "uz",

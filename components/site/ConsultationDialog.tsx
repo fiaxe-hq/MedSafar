@@ -75,9 +75,17 @@ export function ConsultationDialog({
       className="consultation-dialog m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-lg overflow-y-auto overscroll-contain rounded-xl border border-hairline bg-surface p-0 text-ink shadow-lift"
     >
       <div className="relative p-6 sm:p-8">
-        <h2 id={headingId} className="pe-10 text-2xl font-semibold tracking-[-0.02em] sm:text-3xl">
+        {/* A heading for screen readers, but not an <h2> tag: the dialog sits in
+            the header, so a real <h2> would come before each page's <h1> in
+            the outline search engines read. */}
+        <p
+          id={headingId}
+          role="heading"
+          aria-level={2}
+          className="pe-10 text-2xl font-semibold tracking-[-0.02em] sm:text-3xl"
+        >
           {text.heading}
-        </h2>
+        </p>
         <p className="mt-3 text-base text-ink-2">{text.intro}</p>
 
         <ul className="mt-5 space-y-2 rounded-lg bg-surface-2 p-4">

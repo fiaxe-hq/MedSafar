@@ -236,7 +236,6 @@ export async function HomeC({ place }: { place: string }) {
           on it alone; the form, the line along its foot and the header then
           come in (see components/site/Intro.tsx). */}
       <section className="relative isolate flex min-h-svh flex-col justify-end overflow-hidden bg-deep text-white">
-        <h1 className="sr-only">{content.meta.title}</h1>
         {picture.src ? (
           <Image
             src={picture.src}
@@ -244,22 +243,22 @@ export async function HomeC({ place }: { place: string }) {
             fill
             priority
             sizes="100vw"
-            className="-z-10 object-cover"
+            className="home-still -z-10 object-cover"
             style={picture.focus ? { objectPosition: picture.focus } : undefined}
           />
         ) : null}
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 bg-linear-to-t from-deep via-deep/45 to-deep/10 md:bg-linear-to-r md:from-deep/75 md:via-deep/15 md:to-deep/45"
+          className="absolute inset-0 -z-10 bg-linear-to-t from-deep via-deep/55 to-deep/20 md:bg-linear-to-r md:from-deep/85 md:via-deep/35 md:to-deep/10"
         />
 
         {/* Room above for the header; on phones, below for the fixed bar. */}
         <Container className="grid gap-8 pt-28 pb-28 md:grid-cols-[1fr_22rem] md:items-end md:pb-12 lg:grid-cols-[1fr_25rem] lg:pt-36 lg:pb-14">
           <div data-intro-fade className="order-2 min-w-0 md:order-1">
-            <p className="max-w-[34ch] text-xl font-medium tracking-[-0.01em] text-white md:text-2xl">
-              {journey.strip}
-            </p>
-            <ol className="mt-4 flex flex-wrap items-center gap-3">
+            {/* The page's one H1, the same words as its <title>. */}
+            <h1 className="display max-w-[16ch] text-balance text-white">{content.meta.title}</h1>
+            <p className="mt-4 max-w-[38ch] text-lg text-white/85 md:text-xl">{journey.strip}</p>
+            <ol className="mt-6 flex flex-wrap items-center gap-3">
               {journey.phases.map((phase, i) => (
                 <li key={phase.name} className="flex items-center gap-3">
                   <a
