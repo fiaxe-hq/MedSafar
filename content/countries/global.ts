@@ -20,10 +20,10 @@ export const global: CountryContent = {
     headline: "India's Healthcare. Your Journey. One Trusted Partner.",
     support:
       "From choosing your treatment to your follow-up at home, one team takes care of every step.",
-    // Stock photo, illustration only: Pexels 18870282, World Sikh Organization of Canada. Pexels Licence.
+    // Stock photo, illustration only: Pexels 4266931, Cedric Fauntleroy. Pexels Licence.
     picture: {
-      src: "/photos/hero-global-clinic.jpg",
-      alt: "A doctor listening to an elderly patient's heartbeat with a stethoscope",
+      src: "/photos/hero-global-consult.jpg",
+      alt: "A doctor going over a treatment plan on a tablet with a patient",
       pending: false,
     },
   },

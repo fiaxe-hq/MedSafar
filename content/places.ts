@@ -19,8 +19,8 @@ export const places: Place[] = [
   {
     slug: "global",
     iso: null,
-    // Stock photo, illustration only: Pexels 18870282, World Sikh Organization of Canada. Pexels Licence. Cropped to leave out the clinic poster on the right.
-    picture: { src: "/photos/hero-global-clinic.jpg", alt: "A doctor listening to an elderly patient's heartbeat with a stethoscope", pending: false, focus: "50% 0%" },
+    // Stock photo, illustration only: Pexels 4266931, Cedric Fauntleroy. Pexels Licence. Cropped to drop the armchair on the right.
+    picture: { src: "/photos/hero-global-consult.jpg", alt: "A doctor going over a treatment plan on a tablet with a patient", pending: false, focus: "50% 0%" },
   },
   {
     slug: "bd",
