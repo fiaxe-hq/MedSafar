@@ -260,16 +260,22 @@ export function EnquiryForm({
             className="mt-0.5 size-[1.125rem] shrink-0 accent-accent"
           />
           <span className={unticked ? "font-medium text-red-700" : "text-ink-2"}>
-            {text.step1.consent}{" "}
-            {/* A new tab, so the number already typed is not lost. */}
-            <a
-              href="/privacy"
-              target="_blank"
-              rel="noopener"
-              className="font-medium text-accent underline underline-offset-4 transition-colors hover:text-accent-hover"
-            >
-              {text.step1.privacy}
-            </a>
+            {/* New tabs, so the number already typed is not lost. */}
+            {text.step1.consent.split(/(\{terms\}|\{privacy\})/).map((part, i) =>
+              part === "{terms}" || part === "{privacy}" ? (
+                <a
+                  key={i}
+                  href={part === "{terms}" ? "/terms" : "/privacy"}
+                  target="_blank"
+                  rel="noopener"
+                  className="font-medium text-accent underline-offset-4 transition-colors hover:text-accent-hover hover:underline"
+                >
+                  {part === "{terms}" ? text.step1.terms : text.step1.privacy}
+                </a>
+              ) : (
+                part
+              ),
+            )}
           </span>
         </label>
 

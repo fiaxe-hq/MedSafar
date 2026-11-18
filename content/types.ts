@@ -170,8 +170,10 @@ export type FormContent = {
     /** Above the number when the visitor came to upload reports. */
     reportsFirst: string;
     emergency: string;
-    /** The tick box above the button, empty until the visitor ticks it. */
+    /** The tick box above the button, empty until the visitor ticks it.
+        {terms} and {privacy} become links, labelled by the two below. */
     consent: string;
+    terms: string;
     privacy: string;
   };
   step2: {

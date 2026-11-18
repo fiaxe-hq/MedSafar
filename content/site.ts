@@ -122,8 +122,10 @@ export const site: SiteContent = {
       submit: "Get a free consultation",
       reportsFirst: "Add your number first. Then you can upload your reports.",
       emergency: "Not for emergencies. In a medical emergency, call your local emergency number.",
-      consent: "I agree that Med Safar may store my number and contact me about my enquiry.",
-      privacy: "Read the privacy policy",
+      // {terms} and {privacy} become links.
+      consent: "I agree to Med Safar's {terms} and {privacy}. This consent overrides any DNC/NDNC registrations.",
+      terms: "T&C",
+      privacy: "Privacy Policy",
     },
     step2: {
       heading: "A few more details",
