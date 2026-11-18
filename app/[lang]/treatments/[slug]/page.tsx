@@ -142,10 +142,9 @@ export default async function Page({ params }: Props) {
           <div className="mt-20 border-t border-hairline pt-16 lg:mt-24 lg:pt-20">
             <SectionHead heading={cost.heading} intro={cost.intro} />
             <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {cost.factors.map((factor, i) => (
+              {cost.factors.map((factor) => (
                 <li key={factor.title} className="reveal rounded-lg border border-hairline bg-surface p-6 sm:p-7">
-                  <span className="font-mono text-sm text-accent">{String(i + 1).padStart(2, "0")}</span>
-                  <h3 className="mt-3 text-lg font-medium tracking-[-0.01em]">{factor.title}</h3>
+                  <h3 className="text-lg font-medium tracking-[-0.01em]">{factor.title}</h3>
                   <p className="mt-2 text-base text-ink-2">{factor.body}</p>
                 </li>
               ))}

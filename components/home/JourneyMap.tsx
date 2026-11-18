@@ -187,7 +187,7 @@ export function JourneyMap({ steps, photos }: { steps: MapStep[]; photos: string
                 />
               </span>
               <span className="block text-[0.65625rem] font-semibold tracking-[0.06em] whitespace-nowrap text-accent uppercase">
-                {String(n + 1).padStart(2, "0")} · {step.phase}
+                {step.phase}
               </span>
               <span className="mt-1.5 block text-[0.9375rem] leading-snug font-medium tracking-[-0.01em] text-balance transition-colors group-hover:text-accent">
                 {step.title}

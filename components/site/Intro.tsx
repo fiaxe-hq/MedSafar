@@ -216,22 +216,23 @@ function intro(src: string) {
     const wait = (ms: number) => tween(ms, () => {});
     const smooth = (p: number) => p * p * (3 - 2 * p);
 
-    // The sweep: head and tail move along the path, at about 110 beats a
-    // minute until the line lets go, then gathering speed as it leaves.
+    // The sweep: head and tail move along the path, quickly until the line
+    // lets go, then gathering speed as it leaves. The whole intro runs in about
+    // two seconds.
     let clear = () => {};
     const logoClear = new Promise<void>((r) => (clear = r));
     const sweep = () =>
       new Promise<void>((resolve) => {
-        const v0 = S / 2;
+        const v0 = S * 2.4;
         let head = 0;
         let hx = -Infinity;
         let last = 0;
         let freed = 0;
         let cleared = false;
         const tick = (now: number) => {
-          const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
+          const dt = last ? Math.min(0.25, (now - last) / 1000) : 0;
           last = now;
-          const boost = freed ? 1 + 1.3 * smooth(Math.min(1, (now - freed) / 900)) : 1;
+          const boost = freed ? 1 + 5 * smooth(Math.min(1, (now - freed) / 250)) : 1;
           head += v0 * boost * dt;
           if (!freed && head >= S) freed = now;
           const tail = Math.max(0, head - S);
@@ -258,17 +259,16 @@ function intro(src: string) {
     ink.style.strokeDasharray = `0 ${total * 2}`;
 
     const run = async () => {
-      await Promise.all([img.decode().catch(() => {}), wait(200)]);
+      await Promise.all([img.decode().catch(() => {}), wait(50)]);
       const swept = sweep();
       await logoClear;
-      await wait(120);
 
       if (document.readyState === "loading") {
         await new Promise((r) => document.addEventListener("DOMContentLoaded", r, { once: true }));
       }
       const target = document.querySelector("header [data-logo] img")?.getBoundingClientRect();
       if (!target || !target.width) {
-        await root.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, fill: "forwards" }).finished;
+        await root.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: "forwards" }).finished;
         return;
       }
 
@@ -282,7 +282,7 @@ function intro(src: string) {
       const at = (pop: number) =>
         `translate(${dx - ((pop - 1) * target.width) / 2}px, ${dy - ((pop - 1) * target.height) / 2}px) scale(${k * pop})`;
       await img.animate([{ transform: "none" }, { transform: at(1) }], {
-        duration: 950,
+        duration: 420,
         easing: "cubic-bezier(0.65, 0, 0.35, 1)",
         fill: "forwards",
       }).finished;
@@ -293,7 +293,7 @@ function intro(src: string) {
           { transform: at(0.985), offset: 0.75 },
           { transform: at(1) },
         ],
-        { duration: 520, easing: "cubic-bezier(0.33, 1, 0.68, 1)", fill: "forwards" },
+        { duration: 320, easing: "cubic-bezier(0.33, 1, 0.68, 1)", fill: "forwards" },
       );
 
       // As it lands, the header's white bar grows in behind it, just wide
@@ -317,10 +317,10 @@ function intro(src: string) {
             { transform: "scale(0.6)", opacity: 0 },
             { transform: "none", opacity: 1 },
           ],
-          { duration: 380, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "backwards" },
+          { duration: 240, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "backwards" },
         );
       }
-      await wait(180);
+      await wait(50);
 
       // The wave: a circle opens from the logo and the page comes in around
       // it. The page itself is clipped, and the ring only scales and fades,
@@ -331,7 +331,7 @@ function intro(src: string) {
       const cy = target.top + target.height / 2;
       const max = Math.hypot(Math.max(cx, vw - cx), Math.max(cy, vh - cy)) + 8;
       const from = target.width / 2;
-      const wave = { duration: 1000, easing: "cubic-bezier(0.55, 0, 0.2, 1)", fill: "both" as const };
+      const wave = { duration: 450, easing: "cubic-bezier(0.55, 0, 0.2, 1)", fill: "both" as const };
       const opening = page.animate(
         [{ clipPath: `circle(${from}px at ${cx}px ${cy}px)` }, { clipPath: `circle(${max}px at ${cx}px ${cy}px)` }],
         wave,
@@ -350,7 +350,7 @@ function intro(src: string) {
       );
       // The second beat: the logo pulses again and a second ring leaves it,
       // and this one paints the header and brings in the form.
-      await wait(620);
+      await wait(120);
       img.animate(
         [
           { transform: at(1) },
@@ -358,7 +358,7 @@ function intro(src: string) {
           { transform: at(0.98), offset: 0.7 },
           { transform: at(1) },
         ],
-        { duration: 480, easing: "cubic-bezier(0.33, 1, 0.68, 1)", fill: "forwards" },
+        { duration: 320, easing: "cubic-bezier(0.33, 1, 0.68, 1)", fill: "forwards" },
       );
       const ring2 = ring.cloneNode() as HTMLElement;
       root.insertBefore(ring2, ring.nextSibling);
@@ -367,7 +367,7 @@ function intro(src: string) {
           { transform: `scale(${from / max})`, opacity: 0.9 },
           { transform: "scale(1)", opacity: 0 },
         ],
-        { duration: 900, easing: "cubic-bezier(0.3, 0, 0.2, 1)", fill: "both" },
+        { duration: 500, easing: "cubic-bezier(0.3, 0, 0.2, 1)", fill: "both" },
       );
       // The bar stretches out from the logo to the header's full width, and
       // the header takes its place.
@@ -375,7 +375,7 @@ function intro(src: string) {
         chip && notch
           ? chip
               .animate([{ left: `${notch.left}px`, width: `${notch.width}px` }], {
-                duration: 600,
+                duration: 320,
                 easing: "cubic-bezier(0.65, 0, 0.35, 1)",
                 fill: "forwards",
               })
@@ -383,14 +383,14 @@ function intro(src: string) {
                 headHold.remove();
                 logoHold.remove();
                 img.style.visibility = "hidden";
-                chip.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, fill: "forwards" });
+                chip.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 140, fill: "forwards" });
               })
           : Promise.resolve().then(() => {
               headHold.remove();
               logoHold.remove();
               img.style.visibility = "hidden";
             });
-      await wait(60);
+      await wait(20);
       await Promise.all([enter(cx, cy), stretched]);
       await opening.finished;
       opening.cancel();
@@ -413,7 +413,7 @@ function intro(src: string) {
             { clipPath: `circle(0px at ${x}px ${y}px)`, transform: "translateY(-6px)", opacity: 1 },
             { clipPath: `circle(${far}px at ${x}px ${y}px)`, transform: "none", opacity: 1 },
           ],
-          { easing: "cubic-bezier(0.45, 0, 0.2, 1)", fill: "backwards", duration: 750 },
+          { easing: "cubic-bezier(0.45, 0, 0.2, 1)", fill: "backwards", duration: 380 },
         );
       });
       document.querySelectorAll("[data-intro-pop]").forEach((el) =>
@@ -423,14 +423,14 @@ function intro(src: string) {
             { transform: "scale(1.02)", opacity: 1, offset: 0.6 },
             { transform: "none", opacity: 1 },
           ],
-          { ...out, duration: 550 },
+          { ...out, duration: 360 },
         ),
       );
       document.querySelectorAll("[data-intro-fade], .home-progress").forEach((el) =>
         el.animate([{ transform: "translateY(12px)", opacity: 0 }, { transform: "none", opacity: 1 }], {
           ...out,
-          duration: 600,
-          delay: 250,
+          duration: 360,
+          delay: 60,
         }),
       );
       hold.remove();

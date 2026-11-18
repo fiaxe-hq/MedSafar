@@ -83,7 +83,6 @@ export function QuestionnaireForm({
         <fieldset key={section.heading} className="rounded-lg border border-hairline bg-surface p-5 sm:p-8">
           <legend className="sr-only">{section.heading}</legend>
           <p aria-hidden className="flex items-baseline gap-3 text-xl font-semibold tracking-[-0.02em]">
-            <span className="font-mono text-sm font-normal text-accent">{String(s + 1).padStart(2, "0")}</span>
             {section.heading}
           </p>
           <div className="mt-6 space-y-7">

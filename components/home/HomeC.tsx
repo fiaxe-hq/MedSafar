@@ -108,9 +108,6 @@ function Block({
   );
 }
 
-/** Two-digit step number, for example "04". */
-const num = (n: number) => String(n).padStart(2, "0");
-
 /** One photo per journey step, in order. */
 const journeyPhotos = [
   "/photos/journey/find.jpg",
@@ -171,7 +168,7 @@ function JourneyRoute({ phases }: { phases: JourneyPhase[] }) {
                   />
                 </span>
                 <span className="relative mt-4 flex w-full justify-center">
-                  {/* A heartbeat from this step to the next, behind the numbers. */}
+                  {/* A heartbeat from this step to the next, behind the points. */}
                   {n === count - 1 ? null : (
                     <svg
                       aria-hidden
@@ -185,9 +182,7 @@ function JourneyRoute({ phases }: { phases: JourneyPhase[] }) {
                       <path d={beatPath} className="stroke-brand/70" strokeWidth={2} vectorEffect="non-scaling-stroke" />
                     </svg>
                   )}
-                  <span className="relative z-10 grid size-10 place-items-center rounded-full bg-accent font-mono text-sm font-medium text-accent-ink shadow-[0_0_0_5px_var(--color-bg)]">
-                    {num(n + 1)}
-                  </span>
+                  <span className="relative z-10 block size-4 rounded-full border-[3px] border-accent bg-surface shadow-[0_0_0_5px_var(--color-bg)]" />
                 </span>
                 <span className="mt-3 block px-2 text-[0.9375rem] leading-snug font-medium text-balance transition-colors group-hover:text-accent">
                   {step.title}
@@ -542,9 +537,6 @@ export async function HomeC({ place }: { place: string }) {
                   <span className="absolute start-4 bottom-4 grid size-11 place-items-center rounded-md bg-accent text-accent-ink">
                     <Glyph size={22} aria-hidden />
                   </span>
-                  <span className="absolute end-4 top-3 font-mono text-3xl text-white drop-shadow">
-                    {num(4 + i)}
-                  </span>
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-medium tracking-[-0.01em]">
@@ -576,9 +568,7 @@ export async function HomeC({ place }: { place: string }) {
             <ol className="mt-5 space-y-4">
               {countryInfo.visa.steps.map((line, i) => (
                 <li key={i} className="flex gap-3">
-                  <span className="home-pop font-mono text-sm text-accent">
-                    {num(i + 1)}
-                  </span>
+                  <span aria-hidden className="home-pop mt-2.5 size-1.5 shrink-0 rounded-full bg-accent" />
                   <p className="text-base text-ink-2">{line}</p>
                 </li>
               ))}
@@ -662,10 +652,7 @@ export async function HomeC({ place }: { place: string }) {
         <div className="reveal divide-y divide-hairline border-y border-hairline">
           {faq.items.map((item, i) => (
             <details key={i} name="faq" className="group accordion">
-              <summary className="grid cursor-pointer list-none grid-cols-[1fr_auto] items-center gap-4 py-4 text-base font-medium hover:text-accent sm:grid-cols-[2.5rem_1fr_auto] sm:py-5 sm:text-lg">
-                <span className="hidden font-mono text-sm font-normal text-ink-3 sm:inline">
-                  {num(i + 1)}
-                </span>
+              <summary className="grid cursor-pointer list-none grid-cols-[1fr_auto] items-center gap-4 py-4 text-base font-medium hover:text-accent sm:py-5 sm:text-lg">
                 {item.question}
                 <span
                   aria-hidden
@@ -674,7 +661,7 @@ export async function HomeC({ place }: { place: string }) {
                   +
                 </span>
               </summary>
-              <p className="max-w-[64ch] pb-5 text-base text-ink-2 sm:ps-14 sm:pb-6">
+              <p className="max-w-[64ch] pb-5 text-base text-ink-2 sm:pb-6">
                 {item.answer}
               </p>
             </details>

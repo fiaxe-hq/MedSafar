@@ -19,8 +19,8 @@ export const places: Place[] = [
   {
     slug: "global",
     iso: null,
-    // Stock photo, illustration only: Pexels 31499386, Adarsh MP. Pexels Licence.
-    picture: { src: "/photos/hero-global.jpg", alt: "Two nurses talking in a hospital corridor in India", pending: false, focus: "50% 28%" },
+    // Stock photo, illustration only: Pexels 18870282, World Sikh Organization of Canada. Pexels Licence.
+    picture: { src: "/photos/hero-global-doctor.jpg", alt: "A doctor listening to an elderly patient's heartbeat with a stethoscope", pending: false, focus: "45% 25%" },
   },
   {
     slug: "bd",

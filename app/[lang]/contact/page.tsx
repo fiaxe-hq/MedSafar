@@ -135,12 +135,9 @@ export default async function Page() {
       <Section tone="quiet">
         <SectionHead heading={steps.heading} />
         <ol className="mt-10 grid gap-6 md:grid-cols-3 lg:mt-12">
-          {steps.items.map((step, i) => (
+          {steps.items.map((step) => (
             <li key={step.title} className="reveal rounded-lg border border-hairline bg-surface p-6 sm:p-8">
-              <span className="font-display text-4xl leading-none font-semibold tracking-[-0.04em] text-accent tabular-nums">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="mt-5 font-display text-xl font-medium tracking-[-0.01em]">{step.title}</h3>
+              <h3 className="font-display text-xl font-medium tracking-[-0.01em]">{step.title}</h3>
               <p className="mt-2 text-base text-ink-2">{step.body}</p>
             </li>
           ))}

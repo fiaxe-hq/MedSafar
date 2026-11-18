@@ -86,9 +86,6 @@ export async function LegalPage({ content, source }: { content: LegalContent; so
                       href={`#section-${i + 1}`}
                       className="flex gap-3 rounded-md px-2 py-2 text-[0.9375rem] leading-snug text-ink-2 transition-colors hover:bg-surface-2 hover:text-accent"
                     >
-                      <span className="font-mono text-xs leading-[1.6] text-ink-3 tabular-nums">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
                       {section.heading.replace(LEADING_NUMBER, "")}
                     </a>
                   </li>
