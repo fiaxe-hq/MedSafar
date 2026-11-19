@@ -16,7 +16,7 @@ export type BodyArea = {
 export const bodyAreas: BodyArea[] = [
   {
     id: "brain",
-    name: "Brain and head",
+    name: "Brain and Head",
     hint: "Tumours in the brain, seizures, a stroke or a bulging blood vessel, shaking or stiffness from Parkinson's, and other nerve problems.",
     treatments: [
       "brain-tumour-surgery",
@@ -34,7 +34,7 @@ export const bodyAreas: BodyArea[] = [
   },
   {
     id: "face",
-    name: "Face, eyes, mouth and nose",
+    name: "Face, Eyes, Mouth and Nose",
     hint: "Cloudy sight, glasses you want to be free of, glaucoma or a retina problem, a squint or droopy eyelid, missing or damaged teeth, jaw problems, blocked sinuses, cancer of the mouth, tongue or skin, or changing the look of the face or nose.",
     treatments: [
       "cataract-surgery",
@@ -68,7 +68,7 @@ export const bodyAreas: BodyArea[] = [
   },
   {
     id: "scalp",
-    name: "Hair and scalp",
+    name: "Hair and Scalp",
     hint: "Thinning hair or bald patches.",
     treatments: ["hair-transplant"],
   },
@@ -88,7 +88,7 @@ export const bodyAreas: BodyArea[] = [
   },
   {
     id: "chest",
-    name: "Chest, heart and breast",
+    name: "Chest, Heart and Breast",
     hint: "Chest pain, blocked heart arteries, a faulty valve, an irregular heartbeat, heart failure, a child's heart problem, a lung tumour or a breast lump.",
     treatments: [
       "heart-bypass-surgery",
@@ -116,7 +116,7 @@ export const bodyAreas: BodyArea[] = [
   },
   {
     id: "belly",
-    name: "Stomach, liver and gut",
+    name: "Stomach, Liver and Gut",
     hint: "Gallstones, a hernia, appendix pain, fatty liver or cirrhosis, stomach or bowel problems, cancer of the liver, pancreas, stomach or bowel, or weight that puts health at risk.",
     treatments: [
       "liver-transplant",
@@ -187,7 +187,7 @@ export const bodyAreas: BodyArea[] = [
   },
   {
     id: "upper-back",
-    name: "Upper back",
+    name: "Upper Back",
     hint: "Pain between the shoulder blades, a curved or rounded spine, or a problem in the upper spine.",
     treatments: [
       "back-pain-management",
@@ -202,7 +202,7 @@ export const bodyAreas: BodyArea[] = [
   },
   {
     id: "middle-back",
-    name: "Middle back",
+    name: "Middle Back",
     hint: "Pain in the middle of the back, a spine fracture, or pain from the kidneys at the sides.",
     treatments: [
       "back-pain-management",
@@ -216,7 +216,7 @@ export const bodyAreas: BodyArea[] = [
   },
   {
     id: "lower-back",
-    name: "Lower back",
+    name: "Lower Back",
     hint: "Lower back pain, sciatica or leg pain from a slipped disc, or a worn or slipping spine.",
     treatments: [
       "back-pain-management",
@@ -230,7 +230,7 @@ export const bodyAreas: BodyArea[] = [
   },
   {
     id: "pelvis",
-    name: "Womb, bladder, prostate and fertility",
+    name: "Womb, Bladder, Prostate and Fertility",
     hint: "Trouble getting pregnant, fibroids, cysts or heavy bleeding, prostate or bladder problems, or cancer of the womb, ovaries, cervix, bladder, prostate or testis.",
     treatments: [
       "ivf",
@@ -307,7 +307,7 @@ export const bodyAreas: BodyArea[] = [
   },
   {
     id: "feet",
-    name: "Ankles and feet",
+    name: "Ankles and Feet",
     hint: "Ankle or foot pain, a sprain that will not settle, bunions or bent toes, flat feet, foot drop, or a diabetic foot ulcer.",
     treatments: [
       "foot-ankle-surgery",
@@ -321,7 +321,7 @@ export const bodyAreas: BodyArea[] = [
   },
   {
     id: "hands",
-    name: "Arms and hands",
+    name: "Arms and Hands",
     hint: "Shoulder, elbow or wrist pain or stiffness, a torn shoulder tendon, injured or stiff hands, arm weakness after a nerve injury, or a swollen arm.",
     treatments: [
       "hand-transplant",
@@ -346,7 +346,7 @@ export const bodyAreas: BodyArea[] = [
 export const wholeBody: BodyArea[] = [
   {
     id: "cancer",
-    name: "Cancer, anywhere",
+    name: "Cancer, Anywhere",
     hint: "Treatments for cancer wherever it is in the body. Doctors often combine them.",
     treatments: [
       "cancer-surgery",
@@ -369,7 +369,7 @@ export const wholeBody: BodyArea[] = [
   },
   {
     id: "blood",
-    name: "Blood and bone marrow",
+    name: "Blood and Bone Marrow",
     hint: "Blood cancers such as leukaemia, lymphoma and myeloma, blood disorders such as thalassaemia, and cancers in children.",
     treatments: [
       "bone-marrow-transplant",
@@ -382,7 +382,7 @@ export const wholeBody: BodyArea[] = [
   },
   {
     id: "skin",
-    name: "Skin, scars and burns",
+    name: "Skin, Scars and Burns",
     hint: "Skin cancer, acne scars, burns and burn scars, wounds that will not heal, or vitiligo.",
     treatments: [
       "mohs-surgery",
@@ -412,21 +412,21 @@ export const wholeBody: BodyArea[] = [
 
 /** Everyday names for each speciality, used in the browse view. */
 export const plainSpeciality: Record<string, string> = {
-  "organ-transplant": "New organ (transplant)",
+  "organ-transplant": "New Organ (Transplant)",
   oncology: "Cancer",
-  "haematology-bmt": "Blood and bone marrow",
-  "neurology-neurosurgery": "Brain, nerves and spine",
-  "bariatric-surgery": "Weight loss",
-  "fertility-ivf": "Having a baby",
-  orthopaedics: "Bones and joints",
+  "haematology-bmt": "Blood and Bone Marrow",
+  "neurology-neurosurgery": "Brain, Nerves and Spine",
+  "bariatric-surgery": "Weight Loss",
+  "fertility-ivf": "Having a Baby",
+  orthopaedics: "Bones and Joints",
   cardiology: "Heart",
-  "general-surgery": "Common operations",
-  gastroenterology: "Stomach, liver and gut",
-  urology: "Kidney, bladder and prostate",
-  gynaecology: "Women's health",
-  ent: "Ear, nose and throat",
-  "cosmetic-plastic-surgery": "Looks and reshaping",
-  ophthalmology: "Eyes and sight",
+  "general-surgery": "Common Operations",
+  gastroenterology: "Stomach, Liver and Gut",
+  urology: "Kidney, Bladder and Prostate",
+  gynaecology: "Women's Health",
+  ent: "Ear, Nose and Throat",
+  "cosmetic-plastic-surgery": "Looks and Reshaping",
+  ophthalmology: "Eyes and Sight",
   dentistry: "Teeth",
 };
 

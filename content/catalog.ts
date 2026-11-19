@@ -16,17 +16,17 @@ export const catalog: CatalogContent = {
   medicalNote:
     "General information only, to give you a rough idea. It is not medical advice, it may contain mistakes, and it may not fit your case. We are not doctors and are not responsible for decisions made from this page. Please confirm everything with your own doctor.",
   legalNote: "This page is a translation, for your convenience. Only the English version is legally binding. If the two differ, the English version applies.",
-  legalEnglish: "Read it in English",
+  legalEnglish: "Read It in English",
   legalContents: "On this page",
   filters: {
     heading: "Filter",
     all: "All",
-    clear: "Clear filters",
+    clear: "Clear Filters",
     empty: "Nothing matches these filters yet. Clear them to see everything.",
     result: "result",
     results: "results",
     search: "Search",
-    allSpecialities: "All specialities",
+    allSpecialities: "All Specialities",
     specialities: "Specialities",
   },
 
@@ -41,14 +41,14 @@ export const catalog: CatalogContent = {
     intro:
       "We match the hospital to the case, not the other way round. You see the choice, the doctor and the estimate before you decide.",
     note: "More partner hospitals are being added. Every hospital here is one Med Safar works with directly.",
-    back: "All hospitals",
+    back: "All Hospitals",
     filters: { city: "City", speciality: "Speciality" },
     searchPlaceholder: "Search by hospital, city or treatment",
     stats: { specialities: "Specialities", doctors: "Doctors", treatments: "Treatments" },
     browse: {
       heading: "Browse by speciality",
       intro: "Pick what you need treated to see the hospitals that handle it.",
-      all: "All specialities",
+      all: "All Specialities",
       one: "hospital",
       many: "hospitals",
       showing: "Hospitals for",
@@ -62,7 +62,7 @@ export const catalog: CatalogContent = {
       centres: "Centres of excellence",
       services: "Services for international patients",
       photos: "Photos",
-      gallery: { all: "Show all photos", close: "Close", previous: "Previous photo", next: "Next photo" },
+      gallery: { all: "Show All Photos", close: "Close", previous: "Previous photo", next: "Next photo" },
       videos: "Videos",
       doctors: "Doctors at this hospital",
       treatments: "Treatments offered",
@@ -79,7 +79,7 @@ export const catalog: CatalogContent = {
       quoteHeading: "Ask for a price",
       quoteBody:
         "This hospital has not published package prices. Send your reports and we'll come back with a written estimate for your case.",
-      quoteCta: "Request a quote",
+      quoteCta: "Request a Quote",
     },
   },
 
@@ -94,18 +94,18 @@ export const catalog: CatalogContent = {
     intro:
       "Your doctor is chosen for your case once a specialist has read the reports. These are the doctors we work with.",
     note: "Profiles are taken from the hospital's own doctor profiles. Ask us about any doctor who is not listed.",
-    back: "All doctors",
+    back: "All Doctors",
     filters: { speciality: "Speciality", hospital: "Hospital" },
     searchPlaceholder: "Search by doctor, speciality or hospital",
     stats: { doctors: "Doctors", specialities: "Specialities", hospitals: "Partner hospitals" },
-    view: "View profile",
+    view: "View Profile",
     book: {
-      button: "Book a consultation with {name}",
-      short: "Book a consultation",
+      button: "Book a Consultation with {name}",
+      short: "Book a Consultation",
       heading: "Book a consultation with {name}",
       support:
         "Leave your mobile number. We arrange a one-on-one consultation with {name} and confirm the time with you. It costs nothing to ask.",
-      submit: "Book my consultation",
+      submit: "Book My Consultation",
     },
     detail: {
       profile: "Profile",
@@ -134,10 +134,10 @@ export const catalog: CatalogContent = {
     intro:
       "Find the treatment you have been advised to have, or tell us what is wrong and a doctor will advise.",
     note: "Each description is a general guide, written in plain words. Your doctor will tell you what applies to your case.",
-    back: "All treatments",
+    back: "All Treatments",
     stats: { treatments: "Treatments", specialities: "Specialities", doctors: "Doctors" },
     jump: "Jump to a speciality",
-    more: "See doctors and hospitals",
+    more: "See Doctors and Hospitals",
     one: "treatment",
     many: "treatments",
     detail: {
@@ -184,7 +184,7 @@ export const catalog: CatalogContent = {
           },
         ],
         note: "The estimate is not final until the doctor has examined you in India. If anything changes, we explain it before you agree to it.",
-        cta: "Get your written estimate",
+        cta: "Get Your Written Estimate",
       },
       speciality: "More in",
     },
@@ -201,9 +201,9 @@ export const catalog: CatalogContent = {
     intro:
       "Pick a speciality to see its treatments, the doctors who carry them out and the hospitals that offer them.",
     note: "More specialities are being added as Med Safar takes on new partner hospitals.",
-    back: "All specialities",
+    back: "All Specialities",
     stats: { specialities: "Specialities", treatments: "Treatments", doctors: "Doctors" },
-    view: "See treatments",
+    view: "See Treatments",
     detail: {
       treatments: "Treatments",
       doctors: "Doctors",
@@ -224,7 +224,7 @@ export const catalog: CatalogContent = {
     heading: "Medical travel to India: patient guides",
     intro: "What to expect, how to prepare and what happens after you fly home.",
     note: "Every article names its sources.",
-    back: "All articles",
+    back: "All Articles",
     filters: { category: "Category" },
     undated: "Date to be supplied",
     detail: {
@@ -232,7 +232,7 @@ export const catalog: CatalogContent = {
       sources: "Sources",
       disclaimer:
         "This article is general information, not medical advice. Every patient is different, and results vary. Talk to your own doctor before deciding on any treatment.",
-      disclaimerLink: "Read our full disclaimer",
+      disclaimerLink: "Read Our Full Disclaimer",
       treatments: "Treatments in this article",
       hospitals: "Hospitals in this article",
     },

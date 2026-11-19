@@ -21,24 +21,24 @@ export const site: SiteContent = {
         label: "Treatments",
         href: "/treatments",
         menu: "treatments",
-        all: "All treatments",
+        all: "All Treatments",
         finder: {
           title: "Not sure what it is called?",
           text: "Search in your own words, or tap the part of the body that troubles you.",
           href: "/treatments#body",
         },
       },
-      { label: "Hospitals", href: "/hospitals", menu: "hospitals", all: "All hospitals" },
-      { label: "Doctors", href: "/doctors", menu: "doctors", all: "All doctors" },
+      { label: "Hospitals", href: "/hospitals", menu: "hospitals", all: "All Hospitals" },
+      { label: "Doctors", href: "/doctors", menu: "doctors", all: "All Doctors" },
       { label: "Blogs", href: "/blog" },
     ],
     menuLabel: "Menu",
-    bySpeciality: "By speciality",
+    bySpeciality: "By Speciality",
     /** Under the doctors menu, so the order is not read as a ranking. */
     doctorsOrder: "Doctors are listed in alphabetical order.",
-    contact: { label: "Contact us", href: "/contact" },
+    contact: { label: "Contact Us", href: "/contact" },
     top: {
-      call: "Call us",
+      call: "Call Us",
       whatsapp: "WhatsApp",
       email: "Email",
       free: "The medical opinion and the estimate are free",
@@ -49,14 +49,14 @@ export const site: SiteContent = {
     label: "Language",
     country: "Your country",
     countryNote: "Changes the photos on the home page. The language stays as you set it.",
-    global: "Select country",
+    global: "Select Country",
   },
 
   cta: {
-    primary: "Get a free treatment plan",
-    secondary: "Free consultation",
+    primary: "Get a Free Treatment Plan",
+    secondary: "Free Consultation",
     whatsapp: "WhatsApp",
-    reports: "Upload your reports",
+    reports: "Upload Your Reports",
   },
 
   contact: {
@@ -84,23 +84,23 @@ export const site: SiteContent = {
   },
 
   mobileBar: {
-    plan: "Get plan",
+    plan: "Get Plan",
   },
 
   /** The cookie notice (components/site/CookieBanner.tsx). */
   cookies: {
     text: "We use cookies to remember your language and country and, if you agree, to see how the site is used.",
-    privacy: "Privacy policy",
+    privacy: "Privacy Policy",
     accept: "Accept",
-    decline: "Only necessary",
+    decline: "Only Necessary",
   },
 
   /** The round WhatsApp button fixed to the corner on computers. */
-  whatsappFloat: "Chat with us on WhatsApp",
+  whatsappFloat: "Chat with Us on WhatsApp",
 
   consultation: {
-    eyebrow: "Free consultation",
-    heading: "Get a free treatment plan",
+    eyebrow: "Free Consultation",
+    heading: "Get a Free Treatment Plan",
     intro: "Leave your mobile number. A case manager comes back to you on WhatsApp or by call.",
     promises: [
       "No cost and no obligation",
@@ -119,7 +119,7 @@ export const site: SiteContent = {
       countryLabel: "Country code",
       countrySearch: "Search country",
       countryNone: "No match",
-      submit: "Get a free consultation",
+      submit: "Get a Free Consultation",
       reportsFirst: "Add your number first. Then you can upload your reports.",
       emergency: "Not for emergencies. In a medical emergency, call your local emergency number.",
       // {terms} and {privacy} become links.
@@ -130,8 +130,8 @@ export const site: SiteContent = {
     step2: {
       heading: "A few more details",
       intro: "This helps us put the right doctor and cost estimate in front of you.",
-      more: "Add more details (optional)",
-      less: "Back to the short form",
+      more: "Add More Details (Optional)",
+      less: "Back to the Short Form",
       name: { label: "Full name", placeholder: "First and last name" },
       email: {
         label: "Email",
@@ -190,11 +190,11 @@ export const site: SiteContent = {
       consent: {
         label:
           "I agree that Med Safar may share my details and reports with partner hospitals and doctors in India to prepare my treatment plan.",
-        privacy: "Read the privacy policy",
+        privacy: "Read the Privacy Policy",
       },
       // Our wording, not a lawyer's: replace when Med Safar sends its consent text.
       marketing: "Optional: send me news, offers and health information from Med Safar. I can unsubscribe at any time.",
-      submit: "Send my details",
+      submit: "Send My Details",
     },
     privacyNote: "Your medical details stay private. We use them only to plan your care.",
     saved: {
@@ -204,7 +204,7 @@ export const site: SiteContent = {
     done: {
       heading: "Thank you. We have your details.",
       body: "A Med Safar case manager will contact you with a doctor's opinion and a written cost estimate.",
-      again: "Send another enquiry",
+      again: "Send Another Enquiry",
     },
     errors: {
       phone: "Please enter a valid mobile number for the country you selected.",
@@ -230,10 +230,10 @@ export const site: SiteContent = {
     payment: "You pay the hospital directly for treatment, against its written estimate.",
     disclaimer:
       "Everything on this website is general information, not medical advice. Every patient is different, and results vary. Talk to your own doctor before deciding on any treatment.",
-    disclaimerLink: "Read our full disclaimer",
+    disclaimerLink: "Read Our Full Disclaimer",
     columns: [
       {
-        heading: "Find care",
+        heading: "Find Care",
         items: [
           { label: "Specialities", href: "/specialities" },
           { label: "Treatments", href: "/treatments" },
@@ -242,11 +242,11 @@ export const site: SiteContent = {
         ],
       },
       {
-        heading: "How we work",
+        heading: "How We Work",
         items: [
-          { label: "Visa and travel", href: "/#visa" },
+          { label: "Visa and Travel", href: "/#visa" },
           { label: "Questions", href: "#faq" },
-          { label: "Surgery questionnaires", href: "/questionnaires" },
+          { label: "Surgery Questionnaires", href: "/questionnaires" },
         ],
       },
       {
@@ -262,14 +262,14 @@ export const site: SiteContent = {
         items: [
           { label: "Privacy", href: "/privacy" },
           { label: "Terms", href: "/terms" },
-          { label: "Cancellations and refunds", href: "/cancellations" },
-          { label: "Medical disclaimer", href: "/disclaimer" },
-          { label: "Editorial policy", href: "/editorial-policy" },
+          { label: "Cancellations and Refunds", href: "/cancellations" },
+          { label: "Medical Disclaimer", href: "/disclaimer" },
+          { label: "Editorial Policy", href: "/editorial-policy" },
         ],
       },
     ],
     contact: {
-      heading: "Talk to us",
+      heading: "Talk to Us",
       whatsapp: "WhatsApp",
       phone: "Call",
       email: "Email",
@@ -279,7 +279,7 @@ export const site: SiteContent = {
       gstin: "GSTIN",
     },
     parentLogoAlt: "Travgrub Private Limited",
-    follow: "Follow us",
+    follow: "Follow Us",
     copyright: "All rights reserved.",
   },
 

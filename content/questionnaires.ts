@@ -19,19 +19,19 @@ export const questionnaireText: QuestionnaireText = {
     heading: "Answer a few questions first",
     intro:
       "A surgeon reads your answers before the first call, so the advice you get fits your case. It takes about three minutes.",
-    open: "Start the questionnaire",
-    back: "All questionnaires",
+    open: "Start the Questionnaire",
+    back: "All Questionnaires",
   },
   optional: "optional",
   contact: {
     heading: "Where should we send the answer?",
     intro: "A case manager replies on WhatsApp or by call, with what the surgeon thinks.",
   },
-  submit: "Send my answers",
+  submit: "Send My Answers",
   done: {
     heading: "Thank you. We have your answers.",
     body: "A Med Safar case manager will contact you once a surgeon has read them.",
-    again: "Back to the home page",
+    again: "Back to the Home Page",
   },
   errors: {
     required: "Please answer every question that is not marked optional.",

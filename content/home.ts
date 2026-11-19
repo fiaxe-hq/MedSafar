@@ -10,10 +10,10 @@ export const home: HomeContent = {
     /** Tag on the free-opinion option. */
     free: "Free",
     items: [
-      { icon: "treatment", title: "Find a treatment", body: "Search, or tap the body", href: "/treatments" },
-      { icon: "doctor", title: "Find a doctor", body: "Senior specialists", href: "/doctors" },
-      { icon: "hospital", title: "Compare hospitals", body: "Side by side", href: "/hospitals" },
-      { icon: "opinion", title: "Get a free opinion", body: "Send your reports", href: "#reports" },
+      { icon: "treatment", title: "Find a Treatment", body: "Search, or tap the body", href: "/treatments" },
+      { icon: "doctor", title: "Find a Doctor", body: "Senior specialists", href: "/doctors" },
+      { icon: "hospital", title: "Compare Hospitals", body: "Side by side", href: "/hospitals" },
+      { icon: "opinion", title: "Get a Free Opinion", body: "Send your reports", href: "#reports" },
     ],
   },
   journey: {
@@ -25,12 +25,12 @@ export const home: HomeContent = {
         name: "Choose",
         steps: [
           {
-            title: "Find the right treatment",
+            title: "Find the Right Treatment",
             body: "Search in your own words.",
             href: "#treatment",
           },
           {
-            title: "Choose your doctor and hospital",
+            title: "Choose Your Doctor and Hospital",
             body: "A senior specialist and the right hospital for your case.",
             href: "#specialist",
           },
@@ -40,27 +40,27 @@ export const home: HomeContent = {
         name: "Plan",
         steps: [
           {
-            title: "Free opinion and written estimate",
+            title: "Free Opinion and Written Estimate",
             body: "A specialist reads your reports, and the cost comes in writing.",
             href: "#opinion",
           },
           {
-            title: "Visa assistance",
+            title: "Visa Assistance",
             body: "Invitation letter and papers checked.",
             href: "#visa",
           },
         ],
       },
       {
-        name: "Travel and care",
+        name: "Travel and Care",
         steps: [
           {
-            title: "Travel, stay and hospital support",
+            title: "Travel, Stay and Hospital Support",
             body: "Flights, pickup, a room nearby, and a case manager with you.",
             href: "#travel",
           },
           {
-            title: "Post-treatment support",
+            title: "Post-Treatment Support",
             body: "Follow-up with your doctor from home.",
             href: "#aftercare",
           },
@@ -73,7 +73,7 @@ export const home: HomeContent = {
     heading: "Find the right treatment",
     intro: "Search in your own words, tap the body, or pick a type of care.",
     browse: "Or start from a speciality",
-    all: "See all treatments",
+    all: "See All Treatments",
     body: "Point to where it hurts on the body map",
   },
   specialist: { step: "Step 02" },
@@ -81,7 +81,7 @@ export const home: HomeContent = {
     step: "Step 03",
     heading: "Compare suitable hospitals",
     intro: "You see the hospital, the doctor and the cost before you decide.",
-    all: "Compare all hospitals",
+    all: "Compare All Hospitals",
   },
   opinion: {
     step: "Step 04 and 05",
@@ -97,7 +97,7 @@ export const home: HomeContent = {
         body: "The hospital's written cost for your case, before you agree to anything.",
       },
     ],
-    cta: "Send your reports",
+    cta: "Send Your Reports",
     note: "The opinion and the estimate are free.",
   },
   visa: {
@@ -188,8 +188,8 @@ export const home: HomeContent = {
     heading: "Find the right specialist",
     intro: "Senior specialists at our partner hospitals.",
     featured: ["ganesh-nagarajan", "jatin-kothari", "amandeep-gujral", "nilesh-satbhai"],
-    book: "Book a consultation",
-    profile: "View profile",
-    all: "See all doctors",
+    book: "Book a Consultation",
+    profile: "View Profile",
+    all: "See All Doctors",
   },
 };
