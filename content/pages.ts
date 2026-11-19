@@ -23,11 +23,11 @@ export const about: AboutContent = {
       "Med Safar connects patients outside India with experienced doctors and multi-speciality hospitals in India, and arranges the travel around their treatment.",
   },
   eyebrow: "About",
-  heading: "Good treatment in India, without the hassle.",
+  heading: "Good Treatment in India, Without the Hassle.",
   intro:
     "Med Safar is a medical travel facilitator. It is not a hospital and does not provide medical treatment.",
   who: {
-    heading: "Who we are",
+    heading: "Who We Are",
     body: [
       "Med Safar helps people who live outside India get high-quality medical care in India at a fair price. We connect each patient with experienced doctors, surgeons and multi-speciality hospitals, and we take care of everything around the treatment so the patient and their family can focus on getting better.",
       "Med Safar India is a division of Travgrub Private Limited, a travel company based in Mumbai. That is why we handle the travel side ourselves: the visa invitation, flights, airport pickup and a place to stay.",
@@ -39,7 +39,7 @@ export const about: AboutContent = {
     specialities: "Specialities",
   },
   glance: {
-    heading: "At a glance",
+    heading: "At a Glance",
     items: [
       { label: "Based in", value: "Mumbai, India" },
       { label: "Part of", value: "Travgrub Private Limited" },
@@ -47,7 +47,7 @@ export const about: AboutContent = {
     ],
   },
   founder: {
-    eyebrow: "Meet the founder",
+    eyebrow: "Meet the Founder",
     name: "Vicky Prabhu",
     role: "Founder, Med Safar India",
     picture: {
@@ -60,7 +60,7 @@ export const about: AboutContent = {
       text: "Med Safar exists to turn my lifelong desire to serve humanity into action: helping patients find the care they need, and bringing hope to families in their most difficult moments.",
     },
     story: {
-      heading: "Why I started Med Safar",
+      heading: "Why I Started Med Safar",
       body: [
         "I have always wanted to do something meaningful for people. My years with Rotary showed me that even a small act of kindness can make a real difference in someone's life.",
         "Running Travgrub taught me that travel is about people, not tickets. Visa help, an airport pickup, a place to stay, someone to call when you need help: small details that bring real peace of mind in a country you do not know.",
@@ -73,7 +73,7 @@ export const about: AboutContent = {
     },
   },
   mission: {
-    heading: "What we are here for",
+    heading: "What We Are Here For",
     items: [
       {
         title: "Our Mission",
@@ -84,31 +84,31 @@ export const about: AboutContent = {
         body: "To be a trusted name for patients from Africa, the Middle East, the CIS region and South Asia, without losing the personal touch.",
       },
       {
-        title: "Giving back",
+        title: "Giving Back",
         body: "As Med Safar grows, a set part of its income will help patients who cannot afford the treatment they need, with clear rules on who qualifies.",
       },
     ],
   },
   values: {
-    heading: "Our promise to every family",
+    heading: "Our Promise to Every Family",
     intro: "Sending someone you love abroad for treatment is frightening. Here is what you can count on.",
     items: [
       {
-        title: "You are not a case",
+        title: "You Are Not a Case",
         body: "You are a family trusting us at one of the hardest moments of your life. We take that trust seriously.",
       },
       {
-        title: "Honest, always",
+        title: "Honest, Always",
         body: "No one can promise a medical result. We promise honesty, care and clear information, so you can decide with confidence.",
       },
       {
-        title: "You are never alone",
+        title: "You Are Never Alone",
         body: "Hospitals, specialists, travel and a place to stay, arranged for you, with someone to turn to at every step.",
       },
     ],
   },
   does: {
-    heading: "What Med Safar does",
+    heading: "What Med Safar Does",
     items: [
       "Sends your reports to an experienced doctor at a partner hospital",
       "Brings back a treatment plan made for your case, with a written estimate from the hospital",
@@ -120,7 +120,7 @@ export const about: AboutContent = {
     ],
   },
   doesNot: {
-    heading: "What Med Safar does not do",
+    heading: "What Med Safar Does Not Do",
     items: [
       "Give medical treatment or medical advice",
       "Decide your treatment. That is between you and the doctor",
@@ -128,11 +128,11 @@ export const about: AboutContent = {
     ],
   },
   selection: {
-    heading: "How doctors and hospitals are chosen",
+    heading: "How Doctors and Hospitals Are Chosen",
     body: "We work only with doctors and surgeons who have more than 15 years of experience, at multi-speciality hospitals in India. Your case goes to a specialist in your condition, who reads your reports before anything is planned.",
   },
   legal: {
-    heading: "Legal name",
+    heading: "Legal Name",
     name: site.footer.legalName,
     body: `Registered office: ${office}. GSTIN ${gstin}.`,
   },
@@ -145,11 +145,11 @@ export const contact: ContactContent = {
       "Start a free treatment plan, or reach Med Safar on WhatsApp, by phone or by email.",
   },
   eyebrow: "Contact",
-  heading: "Tell us what you need.",
+  heading: "Tell Us What You Need.",
   intro:
     "Send us your details and reports. A case manager replies on WhatsApp or by call, and a specialist in India reviews your case for free.",
   details: {
-    heading: "Talk to us directly",
+    heading: "Talk to Us Directly",
     intro: "Every message reaches a real case manager, not a call centre.",
     items: [
       { label: "WhatsApp", value: site.contact.whatsapp.display, href: links.whatsapp, hint: "Quickest reply" },
@@ -165,45 +165,45 @@ export const contact: ContactContent = {
   },
   follow: "Follow Med Safar",
   form: {
-    heading: "Get your free treatment plan",
+    heading: "Get Your Free Treatment Plan",
     intro: "It takes a minute. No cost and no obligation.",
   },
   steps: {
-    heading: "What happens next",
+    heading: "What Happens Next",
     items: [
       {
-        title: "We call you back",
+        title: "We Call You Back",
         body: "A case manager gets in touch, listens to what you need and asks for any reports you have.",
       },
       {
-        title: "A specialist reviews your case",
+        title: "A Specialist Reviews Your Case",
         body: "An experienced doctor at a partner hospital reads your reports and suggests a plan, with a written cost estimate.",
       },
       {
-        title: "We arrange the trip",
+        title: "We Arrange the Trip",
         body: "Once you decide, we sort out the visa invitation, flights, airport pickup, stay and a coordinator in India.",
       },
     ],
   },
   why: {
-    heading: "Why patients choose Med Safar",
+    heading: "Why Patients Choose Med Safar",
     items: [
       {
-        title: "Senior doctors only",
+        title: "Senior Doctors Only",
         body: "Your case goes to a specialist with more than 15 years of experience, at a multi-speciality hospital.",
       },
       {
-        title: "Clear costs, up front",
+        title: "Clear Costs, Up Front",
         body: "The estimate comes in writing from the hospital. You see every cost before you agree to anything.",
       },
       {
-        title: "One team, start to finish",
+        title: "One Team, Start to Finish",
         body: "From the first message to your follow-up at home, one case manager looks after you and your family.",
       },
     ],
   },
   faq: {
-    heading: "Before you get in touch",
+    heading: "Before You Get in Touch",
     items: [
       {
         question: "Do I pay anything to get a treatment plan?",
@@ -240,10 +240,10 @@ const website = "https://medsafar.com";
 
 export const privacy: LegalContent = {
   meta: {
-    title: "Privacy policy",
+    title: "Privacy Policy",
     description: "How Med Safar India collects, uses and protects personal and medical information.",
   },
-  heading: "Privacy policy",
+  heading: "Privacy Policy",
   intro:
     "This policy explains how Med Safar India collects, uses, stores, shares and protects personal information, including medical information, when you use our website or services.",
   effective: privacyEffective,
@@ -485,10 +485,10 @@ export const privacy: LegalContent = {
 
 export const terms: LegalContent = {
   meta: {
-    title: "Terms and conditions",
+    title: "Terms and Conditions",
     description: "The terms and conditions of website use and medical facilitation services of Med Safar India.",
   },
-  heading: "Terms and conditions of website use and medical facilitation services",
+  heading: "Terms and Conditions of Website Use and Medical Facilitation Services",
   intro:
     "These Terms and Conditions (“Terms”) govern access to and use of the Med Safar India website, digital platforms, communication channels and medical facilitation services.",
   // The client's document, word for word, until a lawyer has reviewed it.
@@ -500,7 +500,7 @@ export const terms: LegalContent = {
   ],
   sections: [
     {
-      heading: "1. Definitions and interpretation",
+      heading: "1. Definitions and Interpretation",
       body: [
         "For the purposes of these Terms:",
         "“Patient” means an individual seeking medical consultation, investigation, treatment, surgery, rehabilitation or other healthcare services in India.",
@@ -531,7 +531,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "3. Nature and limitations of our services",
+      heading: "3. Nature and Limitations of Our Services",
       body: [
         "Med Safar India operates as a medical facilitation and coordination service provider. Our role is to assist Patients in accessing and coordinating services provided by independent Healthcare Providers and other service providers.",
         "Unless expressly agreed otherwise in a separate written agreement, Med Safar India does not itself operate a hospital, clinic, diagnostic laboratory or medical facility and does not provide clinical diagnosis, prescribe medicines, perform medical procedures or undertake surgical treatment.",
@@ -541,7 +541,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "4. Medical information and treatment decisions",
+      heading: "4. Medical Information and Treatment Decisions",
       body: [
         "Information displayed on our Website or communicated through our representatives is intended primarily to explain our services and facilitate access to relevant Healthcare Providers.",
         "Any treatment information, medical opinion, proposed treatment plan or estimate obtained from a Healthcare Provider is subject to that provider's professional assessment and applicable terms.",
@@ -552,7 +552,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "5. No guarantee of treatment outcomes",
+      heading: "5. No Guarantee of Treatment Outcomes",
       body: [
         "Every medical procedure, including surgery, carries potential risks and uncertainties. Treatment outcomes may vary according to the Patient's medical history, existing conditions, age, response to treatment, complications and other factors.",
         "Med Safar India makes no representation or guarantee regarding:",
@@ -565,7 +565,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "6. Patient responsibilities and disclosure",
+      heading: "6. Patient Responsibilities and Disclosure",
       body: [
         "The Patient and, where applicable, their authorized representative are responsible for providing accurate, complete and up-to-date information relevant to the requested services.",
         "This includes, where applicable:",
@@ -581,7 +581,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "7. Medical records, privacy and authorisation",
+      heading: "7. Medical Records, Privacy and Authorisation",
       body: [
         "The Patient authorizes Med Safar India, to the extent necessary for the requested services and subject to applicable law, to coordinate the sharing of relevant medical records and personal information with identified Healthcare Providers and other authorized service partners.",
         "Such information may be used for medical enquiries, preliminary assessments, appointment scheduling, quotations, treatment coordination, administrative support and related services requested by the Patient.",
@@ -592,7 +592,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "8. Healthcare providers and independent service providers",
+      heading: "8. Healthcare Providers and Independent Service Providers",
       body: [
         "Med Safar India may introduce Patients to or coordinate bookings with independent Healthcare Providers and Third-Party Service Providers.",
         "Each provider is responsible for the services it independently delivers, including its professional qualifications, clinical decisions, facilities, personnel, service standards, charges, contractual obligations and applicable regulatory compliance.",
@@ -604,7 +604,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "9. Medical assessments and quotations",
+      heading: "9. Medical Assessments and Quotations",
       body: [
         "Any preliminary assessment, treatment proposal or cost estimate communicated before the Patient's in-person evaluation is indicative unless expressly confirmed otherwise in writing by the relevant provider.",
         "The final treatment plan and charges may change following clinical examination, diagnostic investigations, review of medical history or identification of additional medical requirements.",
@@ -615,7 +615,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "10. Pre-existing conditions and additional medical requirements",
+      heading: "10. Pre-Existing Conditions and Additional Medical Requirements",
       body: [
         "Patients must disclose known pre-existing conditions, allergies, medication and relevant medical history to their treating Healthcare Provider.",
         "Following examination or investigation, a Healthcare Provider may determine that additional tests, specialist assessments, medical supervision or treatment modifications are required.",
@@ -626,7 +626,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "11. Medical complications and extended hospitalisation",
+      heading: "11. Medical Complications and Extended Hospitalisation",
       body: [
         "If complications arise or additional medical intervention becomes necessary, the treating Healthcare Provider will determine the appropriate clinical response.",
         "Additional treatment, investigations, medicines, hospitalization or other services may result in expenses beyond the original estimate.",
@@ -636,7 +636,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "12. Fees, payments and invoicing",
+      heading: "12. Fees, Payments and Invoicing",
       body: [
         "The fees payable for Med Safar India's services will be communicated through a written quotation, service proposal, invoice or other written confirmation.",
         "Healthcare Provider charges and Third-Party Service Provider charges may be separate from Med Safar India's facilitation fees.",
@@ -651,7 +651,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "13. Cancellations, refunds and withdrawal from services",
+      heading: "13. Cancellations, Refunds and Withdrawal from Services",
       body: [
         "Cancellation and refund rights depend on the nature of the service, the stage at which cancellation occurs, the services already performed and the terms applicable to the relevant provider.",
         "Where a cancellation or refund policy applies, Med Safar India will communicate the relevant conditions through the quotation, booking confirmation, invoice or other written document.",
@@ -673,7 +673,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "14. Changes to bookings and itineraries",
+      heading: "14. Changes to Bookings and Itineraries",
       body: [
         "Requests to change consultation dates, treatment schedules, accommodation, transportation or travel arrangements are subject to availability and the applicable provider's policies.",
         "Changes may result in additional charges, revised estimates or cancellation fees.",
@@ -683,7 +683,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "15. Travel, accommodation, visa and immigration matters",
+      heading: "15. Travel, Accommodation, Visa and Immigration Matters",
       body: [
         "Where specifically requested, Med Safar India may assist with coordination of accommodation, transport, flights or other travel-related services through relevant providers.",
         "Unless expressly agreed in writing, Med Safar India does not itself operate airlines, hotels, transport services or immigration authorities.",
@@ -703,7 +703,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "17. Website content and intellectual property",
+      heading: "17. Website Content and Intellectual Property",
       body: [
         "All original content on the Website, including text, graphics, branding, logos, design elements and other materials owned or lawfully used by the Company, is protected by applicable intellectual property laws.",
         "You may access and use Website content for personal, non-commercial informational purposes.",
@@ -713,7 +713,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "18. Website availability and acceptable use",
+      heading: "18. Website Availability and Acceptable Use",
       body: [
         "We aim to maintain a reliable and accessible Website but do not guarantee uninterrupted availability or freedom from every technical error.",
         "The Website may be temporarily unavailable due to maintenance, upgrades, security measures or circumstances beyond our reasonable control.",
@@ -722,7 +722,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "19. Limitation of liability",
+      heading: "19. Limitation of Liability",
       body: [
         "Med Safar India will exercise reasonable care in performing the facilitation services expressly agreed with the Patient.",
         "To the extent permitted by applicable law, the Company will not be responsible for losses arising solely from the independent clinical decisions, acts or omissions of a Healthcare Provider or from the independent performance of another service provider, where such matters are outside the Company's responsibility.",
@@ -741,7 +741,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "21. Confidentiality and communications",
+      heading: "21. Confidentiality and Communications",
       body: [
         "Med Safar India will take reasonable measures to safeguard confidential information received in connection with its services, subject to applicable law and the requirements of providing those services.",
         "Information may be disclosed to relevant Healthcare Providers, service partners or authorised representatives where reasonably necessary to deliver the requested services and where permitted by law.",
@@ -750,7 +750,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "22. Third-party websites and resources",
+      heading: "22. Third-Party Websites and Resources",
       body: [
         "The Website may contain links to external websites, resources or service providers for convenience or informational purposes.",
         "Med Safar India does not control all external websites and is not responsible for their content, security, privacy practices or availability.",
@@ -758,7 +758,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "23. Suspension or termination of services",
+      heading: "23. Suspension or Termination of Services",
       body: [
         "Med Safar India may suspend or discontinue facilitation services where reasonably necessary because of non-payment, materially inaccurate information, unlawful conduct, a provider's unavailability or other legitimate operational or legal reasons.",
         "Where reasonably practicable, the Company will communicate the reason for suspension or termination and any available next steps.",
@@ -767,7 +767,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "24. Changes to these terms",
+      heading: "24. Changes to These Terms",
       body: [
         "Med Safar India may revise these Terms from time to time to reflect changes in its services, operational practices or applicable law.",
         "The revised version will be published on the Website with an updated effective date.",
@@ -776,7 +776,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "25. Governing law and jurisdiction",
+      heading: "25. Governing Law and Jurisdiction",
       body: [
         "These Terms will be governed by the laws of India.",
         "Subject to applicable law, the courts of competent jurisdiction in Mumbai, Maharashtra, India, will have jurisdiction over disputes arising from these Terms.",
@@ -792,7 +792,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "27. Entire agreement and order of precedence",
+      heading: "27. Entire Agreement and Order of Precedence",
       body: [
         "These Terms, together with the applicable quotation, service proposal, booking confirmation, Privacy Policy and any separately executed agreement, constitute the terms governing the relevant services.",
         "If a specific written service agreement expressly varies a provision of these Terms, that agreement will prevail to the extent of the inconsistency for the services it covers.",
@@ -800,7 +800,7 @@ export const terms: LegalContent = {
       ],
     },
     {
-      heading: "28. Contact information",
+      heading: "28. Contact Information",
       body: [
         "For enquiries, clarification of these Terms or assistance concerning Med Safar India's services, please contact:",
         "TravGrub Private Limited",
@@ -821,15 +821,15 @@ export const terms: LegalContent = {
 // blanks in clause 20 are filled in from the Terms.
 export const disclaimer: LegalContent = {
   meta: {
-    title: "Website disclaimer",
+    title: "Website Disclaimer",
     description: "What the information on this website is, and what it is not.",
   },
-  heading: "Website disclaimer",
+  heading: "Website Disclaimer",
   intro: "Medical information, healthcare facilitation and medical travel.",
   updated: { label: "Last updated", value: "12 November 2026" },
   sections: [
     {
-      heading: "1. General disclaimer",
+      heading: "1. General Disclaimer",
       body: [
         "The information provided on this website, including text, articles, images, videos, downloadable material, social media content and other communications issued by Med Safar India (“Med Safar”, “we”, “us” or “our”), is intended for general informational and educational purposes only.",
         "Although we take reasonable care to keep information accurate and current, healthcare information, hospital services, doctor affiliations, prices, availability, travel requirements and regulatory conditions may change. We do not warrant that all information is complete, current, error-free or suitable for every individual circumstance.",
@@ -837,7 +837,7 @@ export const disclaimer: LegalContent = {
       ],
     },
     {
-      heading: "2. Not medical advice, diagnosis or treatment",
+      heading: "2. Not Medical Advice, Diagnosis or Treatment",
       body: [
         "Med Safar India is a healthcare facilitation and medical-travel coordination service. We are not a hospital, clinic, diagnostic laboratory, pharmacy, emergency medical service or medical practitioner. Unless expressly stated otherwise, we do not provide medical diagnosis, prescribe medicines, interpret medical investigations as a treating clinician, or deliver clinical treatment.",
         "Website content must not be relied upon as a substitute for consultation, diagnosis or treatment from a qualified healthcare professional who has assessed your individual medical condition.",
@@ -848,27 +848,27 @@ export const disclaimer: LegalContent = {
       ],
     },
     {
-      heading: "3. Medical emergencies",
+      heading: "3. Medical Emergencies",
       body: [
         "This website and Med Safar India's communication channels are not designed for emergencies and are not monitored as emergency response services. If you believe you or another person may be experiencing a medical emergency, contact your local emergency number or go to the nearest emergency department immediately. Do not wait for a response from Med Safar India.",
       ],
     },
     {
-      heading: "4. Independent clinical decisions and patient responsibility",
+      heading: "4. Independent Clinical Decisions and Patient Responsibility",
       body: [
         "Patients are responsible for making healthcare decisions in consultation with their treating medical professionals. Med Safar India may help coordinate communication, appointments, medical-record sharing, travel and other non-clinical arrangements, but it does not determine whether a treatment is clinically appropriate for a particular patient.",
         "Before proceeding with any treatment, patients should independently discuss and understand the proposed treatment plan, alternatives, expected benefits, material risks, possible complications, recovery requirements, follow-up care and likely costs. Patients should provide complete and accurate medical history and disclose relevant allergies, medicines, prior procedures and other information to their treating clinicians.",
       ],
     },
     {
-      heading: "5. No guarantee of treatment outcomes",
+      heading: "5. No Guarantee of Treatment Outcomes",
       body: [
         "Med Safar India does not guarantee a cure, successful procedure, complication-free treatment, recovery time, clinical outcome, survival rate, improvement in health, or any particular result. Any outcome figures, testimonials, case examples or statements attributed to a healthcare provider must be read in their stated context and are not a promise that another patient will experience the same result.",
         "Medical outcomes depend on multiple factors, including the patient's condition, clinical judgement, treatment choice, individual response, complications and post-treatment care.",
       ],
     },
     {
-      heading: "6. Hospitals, doctors and third-party healthcare providers",
+      heading: "6. Hospitals, Doctors and Third-Party Healthcare Providers",
       body: [
         "Hospitals, doctors, surgeons, diagnostic centres, laboratories, pharmacies and other healthcare providers are independent third parties unless a specific written agreement states otherwise. They are responsible for their own professional services, clinical decisions, facilities, staff, treatment, patient records, consent processes, billing and patient care.",
         "Any hospital or doctor information displayed on our website is provided to help users explore possible options. A listing, profile, introduction, appointment arrangement or referral must not be interpreted as a clinical endorsement, guarantee, certification, ranking or assurance by Med Safar India.",
@@ -879,7 +879,7 @@ export const disclaimer: LegalContent = {
       ],
     },
     {
-      heading: "7. Facilitation role and commercial relationships",
+      heading: "7. Facilitation Role and Commercial Relationships",
       body: [
         "Med Safar India may receive facilitation fees, referral fees, commissions or other commercial consideration from certain healthcare providers or service partners, where permitted by applicable law and contract. Where such a relationship is relevant to a particular listing, placement or communication, it should be disclosed clearly.",
         "A commercial relationship does not constitute a clinical endorsement and must not replace independent assessment of medical suitability. Patients are encouraged to ask questions about any facilitation charges, inclusions, exclusions and payment arrangements before proceeding.",
@@ -887,7 +887,7 @@ export const disclaimer: LegalContent = {
       ],
     },
     {
-      heading: "8. Estimates, fees, packages and payments",
+      heading: "8. Estimates, Fees, Packages and Payments",
       body: [
         "Any treatment cost, package price, travel estimate, accommodation quote, hospital charge, discount, facilitation fee or other amount displayed or communicated by Med Safar India is indicative unless expressly stated as a confirmed written quotation.",
         "Final costs may depend on the treating doctor's assessment, investigations, procedure selected, length of stay, complications, medicines, consumables, room category, taxes, currency movements and other circumstances.",
@@ -898,7 +898,7 @@ export const disclaimer: LegalContent = {
       ],
     },
     {
-      heading: "9. Travel, visa, accommodation and immigration",
+      heading: "9. Travel, Visa, Accommodation and Immigration",
       body: [
         "Travel and medical-travel information is general and may change without notice. Visa issuance, entry permission, immigration clearance, airline schedules, travel restrictions, accommodation availability and local transport are controlled by the relevant government authorities and independent service providers.",
         "Med Safar India does not guarantee visa approval, entry into any country, flight operation, baggage handling, accommodation availability or the performance of third-party travel suppliers. Travellers must verify current requirements with official authorities and relevant providers, obtain appropriate travel documents and insurance, and allow sufficient time for travel arrangements.",
@@ -906,35 +906,35 @@ export const disclaimer: LegalContent = {
       ],
     },
     {
-      heading: "10. International treatment and continuity of care",
+      heading: "10. International Treatment and Continuity of Care",
       body: [
         "Patients travelling across borders should discuss continuity of care with their treating doctor before travel. This may include discharge summaries, prescriptions, medical records, wound care, rehabilitation, follow-up consultations, medication availability and a plan for complications after returning home.",
         "Med Safar India cannot guarantee that a doctor or hospital in the patient's home country will accept, continue or provide follow-up care for treatment undertaken elsewhere. Patients should identify suitable local follow-up arrangements before travelling.",
       ],
     },
     {
-      heading: "11. Testimonials, patient stories and case studies",
+      heading: "11. Testimonials, Patient Stories and Case Studies",
       body: [
         "Patient testimonials and case studies reflect individual experiences and are not typical-result claims or guarantees. Experiences and outcomes vary. Where patient stories, photographs, videos or quotations are published, they should be used only with appropriate permission and in accordance with applicable privacy and advertising requirements.",
         "A testimonial should not be treated as medical evidence or as a substitute for independent clinical advice. Any material connection or incentive associated with a testimonial should be disclosed where required.",
       ],
     },
     {
-      heading: "12. External websites and third-party content",
+      heading: "12. External Websites and Third-Party Content",
       body: [
         "Our website may contain links to third-party websites, social media pages, maps, payment gateways, hospital portals, research sources or other online services. These links are provided for convenience. Med Safar India does not control and is not responsible for the content, availability, security, privacy practices, accuracy or terms of third-party websites.",
         "Accessing a third-party website or using a third-party service is at your discretion and subject to that provider's terms and privacy policy. A link does not necessarily imply endorsement or partnership.",
       ],
     },
     {
-      heading: "13. Website availability, security and technical information",
+      heading: "13. Website Availability, Security and Technical Information",
       body: [
         "We aim to keep the website accessible and secure, but we do not guarantee uninterrupted, error-free or virus-free operation. Access may be suspended, restricted or interrupted for maintenance, updates, security reasons, technical issues or circumstances beyond our control.",
         "Users should take appropriate precautions to protect their devices, accounts and information. Do not send sensitive medical records or identity documents through an unapproved or insecure channel. Please use the contact or submission method specifically designated by Med Safar India for such information.",
       ],
     },
     {
-      heading: "14. Limitation of responsibility",
+      heading: "14. Limitation of Responsibility",
       body: [
         "To the maximum extent permitted by applicable law, Med Safar India will not be responsible for losses arising from a user's reliance on general website information, decisions made without appropriate professional advice, acts or omissions of independent healthcare or travel providers, changes in third-party services, or events outside Med Safar India's reasonable control.",
         "Nothing in this disclaimer excludes or limits any liability that cannot lawfully be excluded or limited under applicable law, including any non-waivable consumer rights, statutory protections, or liability for fraud, wilful misconduct or other liability that the law does not permit us to exclude.",
@@ -942,39 +942,39 @@ export const disclaimer: LegalContent = {
       ],
     },
     {
-      heading: "15. Privacy and personal information",
+      heading: "15. Privacy and Personal Information",
       body: [
         "Personal information and health-related information submitted to Med Safar India will be handled in accordance with our Privacy Policy and applicable data-protection laws. Please read the Privacy Policy to understand what information may be collected, why it is used, when it may be shared and how to contact us about privacy matters.",
         "Do not submit another person's personal or medical information unless you are authorised to do so and any required consent has been obtained.",
       ],
     },
     {
-      heading: "16. Intellectual property",
+      heading: "16. Intellectual Property",
       body: [
         "Unless stated otherwise, website text, design, graphics, logos, videos, photographs and other content owned by Med Safar India are protected by applicable intellectual-property laws. You may view the website for personal, non-commercial use. You must not copy, reproduce, republish, distribute, modify or commercially exploit protected content without prior written permission, except where permitted by law.",
         "Third-party names, logos, trademarks and materials remain the property of their respective owners. Their appearance on the website does not imply ownership by or an endorsement from Med Safar India.",
       ],
     },
     {
-      heading: "17. Children and use by representatives",
+      heading: "17. Children and Use by Representatives",
       body: [
         "The website is not intended to invite children to independently submit personal or medical information or make healthcare arrangements. Where services involve a minor, a parent or lawful guardian must act on the minor's behalf and provide any legally required authorisation and consent. Applicable child-protection and data-protection requirements must be followed.",
       ],
     },
     {
-      heading: "18. Changes to this disclaimer",
+      heading: "18. Changes to This Disclaimer",
       body: [
         "We may update this disclaimer from time to time to reflect changes in our services, website, partner arrangements, technology or applicable law. The revised version will be published on this page with an updated effective or revision date. Your continued use of the website after publication of changes will be subject to the revised disclaimer, to the extent permitted by law.",
       ],
     },
     {
-      heading: "19. Governing law and jurisdiction",
+      heading: "19. Governing Law and Jurisdiction",
       body: [
         "This disclaimer is intended to be interpreted in accordance with the laws of India, subject to any mandatory legal protections and jurisdictional rights available to users under applicable law. Any governing-law or jurisdiction clause in the website's Terms and Conditions or a separately signed agreement should be reviewed by Indian counsel for consistency and enforceability.",
       ],
     },
     {
-      heading: "20. Contact details",
+      heading: "20. Contact Details",
       body: [
         "For questions about this disclaimer or the information on this website, please contact:",
         "Legal entity: TravGrub Private Limited, which operates the Med Safar India brand.",
@@ -993,15 +993,15 @@ export const disclaimer: LegalContent = {
 // own page) and the internal checklist.
 export const editorialPolicy: LegalContent = {
   meta: {
-    title: "Editorial policy",
+    title: "Editorial Policy",
     description: "How Med Safar writes, checks and updates the information on this website.",
   },
-  heading: "Editorial policy",
+  heading: "Editorial Policy",
   intro: "Medical content standards, ethical publishing and public communication.",
   updated: { label: "Last updated", value: "12 November 2026" },
   sections: [
     {
-      heading: "1. Our editorial philosophy",
+      heading: "1. Our Editorial Philosophy",
       body: [
         "Healthcare information is a responsibility. Every patient deserves access to information that is accurate, transparent, understandable and trustworthy.",
         "Med Safar India is committed to helping patients and families understand healthcare options and navigate medical travel with dignity and care. Our editorial content is intended to inform, educate and support informed conversations with qualified healthcare professionals. It must never pressure a person into a treatment, hospital, doctor or travel decision.",
@@ -1009,7 +1009,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "2. Purpose and scope",
+      heading: "2. Purpose and Scope",
       body: [
         "This policy establishes the standards for creating, reviewing, approving, publishing, promoting, updating and correcting content issued by or on behalf of Med Safar India.",
         "It applies to all content and communications under our control, including:",
@@ -1023,7 +1023,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "3. Our role and editorial boundaries",
+      heading: "3. Our Role and Editorial Boundaries",
       body: [
         "Med Safar India operates as a healthcare facilitation and medical-travel coordination service. Unless expressly stated otherwise, it is not a hospital, clinic, diagnostic centre, medical practitioner, emergency service or provider of clinical care.",
         "Our content may explain healthcare processes and facilitate access to information, appointments, records transfer, travel coordination and related non-clinical support. We do not independently diagnose conditions, prescribe medicines, recommend a clinical treatment as a substitute for a doctor, interpret test results as a treating professional, or guarantee medical outcomes.",
@@ -1031,7 +1031,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "4. Accuracy, evidence and responsible claims",
+      heading: "4. Accuracy, Evidence and Responsible Claims",
       body: [
         "All material factual and clinical claims must be accurate, current, capable of verification and presented in context. Content must distinguish established evidence from emerging research, expert opinion, anecdote and promotional statements.",
         "Use reliable primary or authoritative sources wherever reasonably available, such as peer-reviewed research, recognised medical associations, government health authorities and official hospital documentation.",
@@ -1044,7 +1044,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "5. Medical review and clinical content",
+      heading: "5. Medical Review and Clinical Content",
       body: [
         "Content that discusses symptoms, diseases, diagnosis, treatment options, procedures, medicines, recovery, complications, clinical outcomes or medical research must receive review by a suitably qualified medical professional before publication.",
         "The reviewer should have relevant expertise for the subject matter. Their name, qualification, specialty and review date may be displayed where appropriate and with their permission. A reviewer must not be described as an independent medical reviewer if they have a material commercial relationship that has not been disclosed.",
@@ -1053,7 +1053,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "6. Doctors, hospitals and healthcare partner information",
+      heading: "6. Doctors, Hospitals and Healthcare Partner Information",
       body: [
         "Profiles and listings must be factual, fair, current and supported by reliable records or confirmation from the relevant institution or professional.",
         "Verify a doctor's name, qualifications, specialty, registration details and current professional affiliation using appropriate official or institutional sources, where available.",
@@ -1066,7 +1066,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "7. Commercial transparency, referral relationships and conflicts",
+      heading: "7. Commercial Transparency, Referral Relationships and Conflicts",
       body: [
         "Med Safar India may have commercial arrangements, facilitation agreements, referral arrangements, sponsorships or other business relationships with hospitals, doctors, accommodation providers, transport providers or other service partners. These relationships must not be concealed where they could reasonably affect how a reader understands a recommendation, listing, comparison or endorsement.",
         "Disclose paid placements, sponsorships, commissions, referral arrangements or other material commercial relationships in clear, prominent language close to the relevant content.",
@@ -1079,7 +1079,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "8. Patient stories, testimonials, photographs and case studies",
+      heading: "8. Patient Stories, Testimonials, Photographs and Case Studies",
       body: [
         "Patient experiences are sensitive and must be handled with particular care. A testimonial is an individual's account, not proof that another patient will have the same experience or outcome.",
         "Obtain prior, specific, informed and documented consent before using a patient's name, image, voice, video, medical history, diagnosis, treatment details or identifiable story.",
@@ -1094,7 +1094,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "9. Privacy, confidentiality and sensitive health information",
+      heading: "9. Privacy, Confidentiality and Sensitive Health Information",
       body: [
         "We will treat patient and prospective-patient information with strict confidentiality. Medical information, identity documents, contact details, travel documents, photographs and patient communications must be accessed and used only for authorised purposes.",
         "Do not include identifiable patient details in editorial drafts, screenshots, presentations or public posts unless the required consent and approvals are in place.",
@@ -1107,7 +1107,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "10. Advertising, promotions and public communications",
+      heading: "10. Advertising, Promotions and Public Communications",
       body: [
         "All promotional content must be truthful, substantiated, transparent and distinguishable from independent editorial or educational material. The overall impression of a communication matters, including its headline, images, disclaimers, layout and omissions.",
         "Clearly label advertisements, sponsored content, paid partnerships and promotional placements.",
@@ -1120,7 +1120,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "11. Indian legal and regulatory framework",
+      heading: "11. Indian Legal and Regulatory Framework",
       body: [
         "This policy is intended to support responsible publishing in India. It is not an exhaustive statement of law and does not replace legal advice. The laws and rules that apply depend on the content, service, audience, contractual role and actual processing activity.",
         "Consumer Protection Act, 2019 and CCPA guidelines — Avoid misleading advertisements, unfair trade practices, false claims, deceptive endorsements and material omissions. Review the CCPA Guidelines for Prevention of Misleading Advertisements and Endorsements for Misleading Advertisements, 2022, as amended or supplemented.",
@@ -1134,7 +1134,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "12. International patients and cross-border content",
+      heading: "12. International Patients and Cross-Border Content",
       body: [
         "Because Med Safar India may communicate with patients and families outside India, content and data practices must be assessed for the laws of the countries or regions being targeted and the places where individuals are located.",
         "Depending on the circumstances, this may include privacy, consumer-protection, advertising, medical-professional, electronic-commerce and health-information requirements in countries such as the United Kingdom, European Union member states, Kenya, Nigeria, Bangladesh, Gulf countries and CIS markets. Applicability is fact-specific; this policy does not assert that every foreign law applies to every interaction.",
@@ -1142,7 +1142,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "13. Copyright, sources, images and permissions",
+      heading: "13. Copyright, Sources, Images and Permissions",
       body: [
         "Use original material, properly licensed material, public-domain material or material used under a clearly applicable legal exception.",
         "Maintain a record of source URLs, publication details, licences, permissions and attribution requirements.",
@@ -1153,7 +1153,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "14. Artificial intelligence and automated tools",
+      heading: "14. Artificial Intelligence and Automated Tools",
       body: [
         "AI tools may be used to assist with drafting, language improvement, translation, formatting, summarisation or ideation. They must not be treated as authoritative medical, legal or regulatory sources.",
         "A human editor must verify factual claims, references, names, credentials, statistics, translations and links before publication.",
@@ -1164,7 +1164,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "15. Editorial workflow and approval",
+      heading: "15. Editorial Workflow and Approval",
       body: [
         "The following workflow should be followed before publication. The organisation must assign named individuals to each role and must not claim a review process exists until it is operational.",
         "Brief and classification — identify the audience, purpose, content type, clinical risk, commercial interest, privacy impact and target countries.",
@@ -1179,7 +1179,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "16. Corrections, updates and complaints",
+      heading: "16. Corrections, Updates and Complaints",
       body: [
         "We will take reasonable steps to correct material errors promptly and transparently.",
         "Readers, patients, healthcare professionals and partners may report suspected errors, outdated information, privacy concerns or misleading content through the contact channel published on our website.",
@@ -1191,14 +1191,14 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "17. Accessibility, language and respectful communication",
+      heading: "17. Accessibility, Language and Respectful Communication",
       body: [
         "Content should be written in plain, respectful language and designed to be understandable to patients and families from different backgrounds. Explain medical terms where they are necessary. Avoid stigma, discrimination, stereotypes, shame-based messaging and assumptions about a person's age, disability, nationality, income, religion or health status.",
         "Translations must preserve the meaning, qualifications and safety information of the original. Important patient-facing translations should be checked by a competent human reviewer.",
       ],
     },
     {
-      heading: "18. Accountability and policy review",
+      heading: "18. Accountability and Policy Review",
       body: [
         "The management of Med Safar India is responsible for implementing this policy, assigning editorial and review responsibilities, maintaining approval records and ensuring that contractors and agencies working on its behalf are informed of the standards.",
         "All employees, contributors and agencies must promptly escalate content that may be inaccurate, misleading, unlawful, privacy-invasive or inconsistent with patient-first principles.",
@@ -1206,7 +1206,7 @@ export const editorialPolicy: LegalContent = {
       ],
     },
     {
-      heading: "20. Policy administration",
+      heading: "20. Policy Administration",
       body: [
         "Legal entity and registered office: TravGrub Private Limited, which operates the Med Safar India brand. Neo Corporate Plaza, Office no.222, 2nd Floor, Ramchandra lane Extn., Kanchpada, Malad-West, Mumbai-400064, Maharashtra, India.",
         "Editorial contact email: vickyprabhu@medsafar.com",
@@ -1225,10 +1225,10 @@ export const editorialPolicy: LegalContent = {
 // earlier is gone.
 export const cancellations: LegalContent = {
   meta: {
-    title: "Cancellations and refunds",
+    title: "Cancellations and Refunds",
     description: "What happens if you change or cancel your plans.",
   },
-  heading: "Cancellations and refunds",
+  heading: "Cancellations and Refunds",
   intro: "Clauses 13 and 14 of our Terms and conditions.",
   updated: terms.updated,
   sections: terms.sections.slice(12, 14),

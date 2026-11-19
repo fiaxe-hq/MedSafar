@@ -10,7 +10,7 @@ import type { Post, PostCategory } from "@/content/types";
  */
 
 export const postCategories: PostCategory[] = [
-  { slug: "cases", name: "Patient cases" },
+  { slug: "cases", name: "Patient Cases" },
   { slug: "guides", name: "Guides" },
   { slug: "treatments", name: "Treatments" },
   { slug: "travel", name: "Travel" },

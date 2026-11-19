@@ -12,11 +12,11 @@ export const questionnaireText: QuestionnaireText = {
   eyebrow: "Questionnaire",
   list: {
     meta: {
-      title: "Surgery questionnaires",
+      title: "Surgery Questionnaires",
       description:
         "Answer a few questions before a surgeon looks at your case. Free, and it takes about three minutes.",
     },
-    heading: "Answer a few questions first",
+    heading: "Answer a Few Questions First",
     intro:
       "A surgeon reads your answers before the first call, so the advice you get fits your case. It takes about three minutes.",
     open: "Start the Questionnaire",
@@ -24,12 +24,12 @@ export const questionnaireText: QuestionnaireText = {
   },
   optional: "optional",
   contact: {
-    heading: "Where should we send the answer?",
+    heading: "Where Should We Send the Answer?",
     intro: "A case manager replies on WhatsApp or by call, with what the surgeon thinks.",
   },
   submit: "Send My Answers",
   done: {
-    heading: "Thank you. We have your answers.",
+    heading: "Thank You. We Have Your Answers.",
     body: "A Med Safar case manager will contact you once a surgeon has read them.",
     again: "Back to the Home Page",
   },
@@ -45,15 +45,15 @@ export const questionnaires: Questionnaire[] = [
     speciality: "bariatric-surgery",
     treatment: "Weight loss surgery",
     meta: {
-      title: "Weight loss surgery questionnaire",
+      title: "Weight Loss Surgery Questionnaire",
       description:
         "Find out whether weight loss surgery may suit you. Answer a few questions and a surgeon in India reads them for free.",
     },
     card: {
-      title: "Weight loss surgery questionnaire",
+      title: "Weight Loss Surgery Questionnaire",
       body: "Your height, weight and health in a few questions, so the surgeon can tell you whether surgery may suit you.",
     },
-    heading: "Weight loss surgery questionnaire",
+    heading: "Weight Loss Surgery Questionnaire",
     intro:
       "Tell us about your weight and health. A bariatric surgeon at a partner hospital reads your answers and tells you whether surgery may suit you.",
     bmi: {
@@ -64,7 +64,7 @@ export const questionnaires: Questionnaire[] = [
     },
     sections: [
       {
-        heading: "About you",
+        heading: "About You",
         questions: [
           { id: "height", kind: "number", label: "Height", unit: "cm", min: 120, max: 230 },
           { id: "weight", kind: "number", label: "Weight", unit: "kg", min: 40, max: 350 },
@@ -73,7 +73,7 @@ export const questionnaires: Questionnaire[] = [
         ],
       },
       {
-        heading: "Your health",
+        heading: "Your Health",
         questions: [
           {
             id: "conditions",
@@ -112,7 +112,7 @@ export const questionnaires: Questionnaire[] = [
         ],
       },
       {
-        heading: "What you are looking for",
+        heading: "What You Are Looking For",
         questions: [
           {
             id: "interest",
@@ -136,20 +136,20 @@ export const questionnaires: Questionnaire[] = [
     speciality: "cosmetic-plastic-surgery",
     treatment: "Plastic, reconstructive and cosmetic surgery",
     meta: {
-      title: "Cosmetic surgery questionnaire",
+      title: "Cosmetic Surgery Questionnaire",
       description:
         "Tell a plastic surgeon in India what you would like to change. Answer a few questions and get free advice for your case.",
     },
     card: {
-      title: "Cosmetic surgery questionnaire",
+      title: "Cosmetic Surgery Questionnaire",
       body: "What you would like to change and a little about your health, so the surgeon can advise before you travel.",
     },
-    heading: "Cosmetic surgery questionnaire",
+    heading: "Cosmetic Surgery Questionnaire",
     intro:
       "Tell us what you would like to change and a little about your health. A plastic surgeon at a partner hospital reads your answers and advises on what is possible.",
     sections: [
       {
-        heading: "What you would like",
+        heading: "What You Would Like",
         questions: [
           {
             id: "area",
@@ -180,7 +180,7 @@ export const questionnaires: Questionnaire[] = [
         ],
       },
       {
-        heading: "Your health",
+        heading: "Your Health",
         questions: [
           { id: "age", kind: "number", label: "Age", unit: "years", min: 18, max: 85 },
           { id: "height", kind: "number", label: "Height", unit: "cm", min: 120, max: 230 },
@@ -214,7 +214,7 @@ export const questionnaires: Questionnaire[] = [
         ],
       },
       {
-        heading: "Your trip",
+        heading: "Your Trip",
         questions: [
           {
             id: "stay",

@@ -10,7 +10,7 @@ export const global: CountryContent = {
   countryName: null,
 
   meta: {
-    title: "Medical tourism in India: affordable treatment",
+    title: "Medical Tourism in India: Affordable Treatment",
     description:
       "Affordable treatment in India for patients abroad, at accredited hospitals. Free treatment plan and cost estimate; we arrange the doctor, visa, travel and stay.",
   },
@@ -79,7 +79,7 @@ export const global: CountryContent = {
   },
 
   hospitals: {
-    heading: "Partner hospitals",
+    heading: "Partner Hospitals",
     intro:
       "We match the hospital to the case, not the other way round. You see the choice, the doctor and the estimate before you decide.",
     featured: ["nanavati-max", "wockhardt-mumbai-central", "kenia-eye", "kenia-dental"],
@@ -97,12 +97,12 @@ export const global: CountryContent = {
       },
       {
         icon: "pickup",
-        title: "Airport pickup",
+        title: "Airport Pickup",
         body: "Someone from Med Safar meets you at the airport and takes you to the hospital or to your room.",
       },
       {
         icon: "stay",
-        title: "Where you stay",
+        title: "Where You Stay",
         body: "A room for you and the person travelling with you, close to the hospital and chosen to fit your budget.",
       },
       {
@@ -157,7 +157,7 @@ export const global: CountryContent = {
     heading: "Travelling to India for treatment",
     intro: "What the journey looks like, wherever you are starting from.",
     visa: {
-      heading: "Medical visa",
+      heading: "Medical Visa",
       steps: [
         "We send the hospital's invitation letter.",
         "You apply with it, your passport and reports.",
@@ -178,7 +178,7 @@ export const global: CountryContent = {
   },
 
   faq: {
-    heading: "Questions patients ask",
+    heading: "Questions Patients Ask",
     items: [
       {
         question: "What does Med Safar charge me?",
@@ -234,7 +234,7 @@ export const global: CountryContent = {
   },
 
   enquiry: {
-    heading: "Start with a free treatment plan.",
+    heading: "Start with a Free Treatment Plan.",
     support:
       "Leave your mobile number. A case manager will come back to you, and you can add your reports whenever you are ready.",
   },

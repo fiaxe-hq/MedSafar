@@ -6,7 +6,7 @@ import type { HomeContent } from "./types";
  */
 export const home: HomeContent = {
   quick: {
-    heading: "What would you like to do?",
+    heading: "What Would You Like to Do?",
     /** Tag on the free-opinion option. */
     free: "Free",
     items: [
@@ -17,7 +17,7 @@ export const home: HomeContent = {
     ],
   },
   journey: {
-    heading: "Your journey, step by step",
+    heading: "Your Journey, Step by Step",
     intro: "Six steps, one team with you at every one.",
     strip: "From your first question to your follow-up at home.",
     phases: [
@@ -70,30 +70,30 @@ export const home: HomeContent = {
   },
   treatment: {
     step: "Step 01",
-    heading: "Find the right treatment",
+    heading: "Find the Right Treatment",
     intro: "Search in your own words, tap the body, or pick a type of care.",
-    browse: "Or start from a speciality",
+    browse: "Or Start from a Speciality",
     all: "See All Treatments",
     body: "Point to where it hurts on the body map",
   },
   specialist: { step: "Step 02" },
   compare: {
     step: "Step 03",
-    heading: "Compare suitable hospitals",
+    heading: "Compare Suitable Hospitals",
     intro: "You see the hospital, the doctor and the cost before you decide.",
     all: "Compare All Hospitals",
   },
   opinion: {
     step: "Step 04 and 05",
-    heading: "A medical opinion and a written estimate",
+    heading: "A Medical Opinion and a Written Estimate",
     intro: "Send your reports. Nothing costs you anything until you agree to travel.",
     items: [
       {
-        title: "Medical opinion",
+        title: "Medical Opinion",
         body: "A specialist reads your reports and recommends a treatment. A phone photo of a report is enough.",
       },
       {
-        title: "Treatment estimate",
+        title: "Treatment Estimate",
         body: "The hospital's written cost for your case, before you agree to anything.",
       },
     ],
@@ -102,13 +102,13 @@ export const home: HomeContent = {
   },
   visa: {
     step: "Step 06",
-    heading: "Visa assistance",
+    heading: "Visa Assistance",
     intro: "The hospital's invitation letter, and a check of every paper you need.",
     papers: { passport: "Passport", letter: "Invitation letter for medical treatment", stamp: "Visa ready" },
   },
   travel: {
     step: "Step 07 and 08",
-    heading: "Travel, stay and the hospital, arranged",
+    heading: "Travel, Stay and the Hospital, Arranged",
     intro: "Everything outside the operating theatre, arranged.",
     items: [
       {
@@ -118,17 +118,17 @@ export const home: HomeContent = {
       },
       {
         icon: "pickup",
-        title: "Airport pickup",
+        title: "Airport Pickup",
         body: "We meet you at the airport.",
       },
       {
         icon: "stay",
-        title: "Where you stay",
+        title: "Where You Stay",
         body: "A room near the hospital for you and your companion.",
       },
       {
         icon: "manager",
-        title: "One case manager",
+        title: "One Case Manager",
         body: "One person, from first message to flight home.",
       },
       {
@@ -138,14 +138,14 @@ export const home: HomeContent = {
       },
       {
         icon: "dates",
-        title: "Hospital dates",
+        title: "Hospital Dates",
         body: "Admission dates agreed before you fly.",
       },
     ],
   },
   aftercare: {
     step: "Step 09",
-    heading: "Support after treatment",
+    heading: "Support After Treatment",
     intro: "We keep the link with your doctor open after you fly home.",
     items: [
       "Discharge papers and a summary of your treatment",
@@ -155,37 +155,37 @@ export const home: HomeContent = {
     ],
   },
   selection: {
-    heading: "How we choose doctors and hospitals",
+    heading: "How We Choose Doctors and Hospitals",
     intro: "The checks behind every name we show you.",
     items: [
       {
-        title: "Senior doctors only",
+        title: "Senior Doctors Only",
         body: "Specialists with more than 15 years of experience.",
       },
       {
-        title: "Multi-speciality hospitals",
+        title: "Multi-Speciality Hospitals",
         body: "Intensive care and every department under one roof.",
       },
       {
-        title: "Certificates checked",
+        title: "Certificates Checked",
         body: "Accreditations and training checked first.",
       },
       {
-        title: "Ready for patients from abroad",
+        title: "Ready for Patients from Abroad",
         body: "International patient teams and interpreters.",
       },
       {
-        title: "Costs in writing",
+        title: "Costs in Writing",
         body: "Every cost in writing before you travel.",
       },
       {
-        title: "With you before and after",
+        title: "With You Before and After",
         body: "One case manager, and follow-up once you are home.",
       },
     ],
   },
   doctors: {
-    heading: "Find the right specialist",
+    heading: "Find the Right Specialist",
     intro: "Senior specialists at our partner hospitals.",
     featured: ["ganesh-nagarajan", "jatin-kothari", "amandeep-gujral", "nilesh-satbhai"],
     book: "Book a Consultation",

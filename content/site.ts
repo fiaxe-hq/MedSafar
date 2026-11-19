@@ -23,7 +23,7 @@ export const site: SiteContent = {
         menu: "treatments",
         all: "All Treatments",
         finder: {
-          title: "Not sure what it is called?",
+          title: "Not Sure What It Is Called?",
           text: "Search in your own words, or tap the part of the body that troubles you.",
           href: "/treatments#body",
         },
@@ -128,7 +128,7 @@ export const site: SiteContent = {
       privacy: "Privacy Policy",
     },
     step2: {
-      heading: "A few more details",
+      heading: "A Few More Details",
       intro: "This helps us put the right doctor and cost estimate in front of you.",
       more: "Add More Details (Optional)",
       less: "Back to the Short Form",
@@ -198,11 +198,11 @@ export const site: SiteContent = {
     },
     privacyNote: "Your medical details stay private. We use them only to plan your care.",
     saved: {
-      heading: "Number saved",
+      heading: "Number Saved",
       body: "We can already reach you. A few details make the plan faster and more exact.",
     },
     done: {
-      heading: "Thank you. We have your details.",
+      heading: "Thank You. We Have Your Details.",
       body: "A Med Safar case manager will contact you with a doctor's opinion and a written cost estimate.",
       again: "Send Another Enquiry",
     },
@@ -284,7 +284,7 @@ export const site: SiteContent = {
   },
 
   notFound: {
-    heading: "Page not found",
+    heading: "Page Not Found",
     body: "The page you were looking for is not here. You can still start a free treatment plan from the home page.",
   },
 
